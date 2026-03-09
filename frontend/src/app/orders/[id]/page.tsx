@@ -40,6 +40,8 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
         );
     }
 
+    if (!user) return null;
+
     if (!order) {
         return (
             <div className="max-w-4xl mx-auto px-4 py-16 text-center">
@@ -225,12 +227,12 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                             <h2 className="text-xl font-bold mb-6 border-b border-blue-500 pb-4">Shipping Information</h2>
                             <div className="mb-6">
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Delivery Address</h4>
-                                <p className="font-medium">{user.name}</p>
+                                <p className="font-medium">{user?.name}</p>
                                 <p className="text-blue-100 mt-1 opacity-90">123 Textile Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
                             </div>
                             <div>
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Contact Details</h4>
-                                <p className="font-medium">{user.email}</p>
+                                <p className="font-medium">{user?.email}</p>
                                 <p className="text-blue-100 mt-1 opacity-90">+91 98765 43210</p>
                             </div>
                         </div>
