@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-// Use relative URL in browser (rewrites handle proxying), full URL on server
-const API_URL = typeof window !== 'undefined' 
-  ? '/api' 
-  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api');
+// Always use full API URL - required for separate frontend/backend deployments
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_URL,
