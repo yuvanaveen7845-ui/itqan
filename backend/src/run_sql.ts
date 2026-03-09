@@ -2,10 +2,6 @@ import pkg from 'pg';
 const { Client } = pkg;
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const connectionString = 'postgresql://postgres:ssmenswear@123@db.hdssfxtoveybsatydbyt.supabase.co:5432/postgres';
 

@@ -1,7 +1,6 @@
 {
   "name": "textile-ecommerce-backend",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "dev": "nodemon --exec node --import tsx src/server.ts",
     "build": "tsc",
