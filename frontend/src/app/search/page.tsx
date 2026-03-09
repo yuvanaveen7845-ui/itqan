@@ -55,7 +55,7 @@ export default function SearchPage() {
         <div className="max-w-4xl mx-auto px-4 py-16 min-h-[70vh]">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold mb-4">What are you looking for?</h1>
-                <p className="text-gray-600">Search through our premium collection of fabrics and textiles</p>
+                <p className="text-gray-600">Search through our premium perfume collection for every occasion.</p>
             </div>
 
             <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12 border border-blue-50">

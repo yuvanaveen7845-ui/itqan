@@ -1,7 +1,7 @@
 {
-  "name": "textile-ecommerce",
+  "name": "iqtanperfumes",
   "version": "1.0.0",
-  "description": "Production-level textile e-commerce platform",
+  "description": "Production-level perfume e-commerce platform",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",

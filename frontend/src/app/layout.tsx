@@ -4,8 +4,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Textile Store - Premium Fabrics',
-  description: 'Shop premium textile collection online',
+  title: 'iqtanperfumes - Premium Perfumes',
+  description: 'Shop premium perfume collection online',
+  verification: {
+    google: 'msK-ZYzBvG3sbbtEkAYo4NtN4LLTZwZ7BC4-HQG37UA',
+  },
 };
 
 export default function RootLayout({

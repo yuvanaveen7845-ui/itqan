@@ -40,7 +40,7 @@ export default function WishlistPage() {
                     <FiHeart size={40} />
                 </div>
                 <h1 className="text-3xl font-black text-gray-900 mb-4">Your Wishlist awaits</h1>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">Login to see your saved textile treasures and pick up where you left off.</p>
+                <p className="text-gray-600 mb-8 max-w-md mx-auto">Login to see your saved perfume treasures and pick up where you left off.</p>
                 <Link href="/login" className="btn btn-primary px-10 py-4 bg-blue-600 hover:bg-blue-700">Login Now</Link>
             </div>
         );

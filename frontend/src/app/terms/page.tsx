@@ -18,14 +18,14 @@ export default function TermsOfService() {
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Agreement to Terms</h2>
                         <p>
-                            By accessing or using the Perfecta Textile Store website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
+                            By accessing or using the iqtanperfumes website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Use License</h2>
                         <p>
-                            Permission is granted to temporarily download one copy of the materials (information or software) on Perfecta Textile Store's website for personal, non-commercial transitory viewing only.
+                            Permission is granted to temporarily download one copy of the materials (information or software) on iqtanperfumes's website for personal, non-commercial transitory viewing only.
                         </p>
                         <p>
                             This is the grant of a license, not a transfer of title, and under this license you may not:
@@ -41,21 +41,21 @@ export default function TermsOfService() {
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Disclaimer</h2>
                         <p>
-                            The materials on Perfecta Textile Store's website are provided on an 'as is' basis. Perfecta Textile Store makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                            The materials on iqtanperfumes's website are provided on an 'as is' basis. iqtanperfumes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Limitations</h2>
                         <p>
-                            In no event shall Perfecta Textile Store or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Perfecta Textile Store's website.
+                            In no event shall iqtanperfumes or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on iqtanperfumes's website.
                         </p>
                     </section>
 
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Accuracy of Materials</h2>
                         <p>
-                            The materials appearing on Perfecta Textile Store's website could include technical, typographical, or photographic errors. Perfecta Textile Store does not warrant that any of the materials on its website are accurate, complete or current. Perfecta Textile Store may make changes to the materials contained on its website at any time without notice.
+                            The materials appearing on iqtanperfumes's website could include technical, typographical, or photographic errors. iqtanperfumes does not warrant that any of the materials on its website are accurate, complete or current. iqtanperfumes may make changes to the materials contained on its website at any time without notice.
                         </p>
                     </section>
 
@@ -68,7 +68,7 @@ export default function TermsOfService() {
 
                     <section className="bg-gray-50 p-6 rounded-2xl border border-gray-100 italic">
                         <p className="mb-0">
-                            Perfecta Textile Store reserves the right to revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.
+                            iqtanperfumes reserves the right to revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.
                         </p>
                     </section>
                 </div>

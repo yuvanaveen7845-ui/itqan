@@ -17,7 +17,7 @@ export default function Header() {
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-[100]">
       <nav className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
         <Link href="/" className="text-2xl font-black text-blue-600 tracking-tighter hover:opacity-90 transition-opacity">
-          TEXTILE<span className="text-gray-900">PRO</span>
+          IQTAN<span className="text-gray-900">PERFUMES</span>
         </Link>
 
         {/* Desktop Navigation */}

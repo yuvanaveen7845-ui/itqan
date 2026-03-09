@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="font-bold mb-4">About Us</h3>
-            <p className="text-gray-400">Premium textile collection for every occasion.</p>
+            <p className="text-gray-400">Premium perfume collection for every occasion.</p>
           </div>
           <div>
             <h3 className="font-bold mb-4">Quick Links</h3>
@@ -31,12 +31,12 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="font-bold mb-4">Contact</h3>
-            <p className="text-gray-400">Email: info@textilestore.com</p>
+            <p className="text-gray-400">Email: info@iqtanperfumes.com</p>
             <p className="text-gray-400">Phone: +91 XXXX XXXX XX</p>
           </div>
         </div>
         <div className="border-t border-gray-700 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Textile Store. All rights reserved.</p>
+          <p>&copy; 2024 iqtanperfumes. All rights reserved.</p>
         </div>
       </div>
     </footer>

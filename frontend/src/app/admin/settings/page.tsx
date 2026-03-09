@@ -117,7 +117,7 @@ export default function AdminSettingsPage() {
                                 <input
                                     type="email"
                                     className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                                    placeholder="admin@textile.com"
+                                    placeholder="admin@iqtanperfumes.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     required

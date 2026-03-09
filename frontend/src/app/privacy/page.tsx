@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
                         <p>
-                            Welcome to Perfecta Textile Store. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+                            Welcome to iqtanperfumes. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
                         </p>
                     </section>
 
@@ -66,7 +66,7 @@ export default function PrivacyPolicy() {
                         <h2 className="text-xl font-bold text-gray-900 mb-3">Contact Us</h2>
                         <p className="mb-0">
                             If you have any questions about this privacy policy or our privacy practices, please contact us at: <br />
-                            <a href="mailto:privacy@perfectatextiles.com" className="text-blue-600 font-bold hover:underline">privacy@perfectatextiles.com</a>
+                            <a href="mailto:privacy@iqtanperfumes.com" className="text-blue-600 font-bold hover:underline">privacy@iqtanperfumes.com</a>
                         </p>
                     </section>
                 </div>
