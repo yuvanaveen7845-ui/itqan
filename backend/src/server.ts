@@ -25,6 +25,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// CORS debug - log all requests
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
