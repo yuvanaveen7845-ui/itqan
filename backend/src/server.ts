@@ -35,6 +35,15 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
+// Fallback routes without /api prefix (for backwards compatibility)
+app.use('/auth', authRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
+app.use('/admin', adminRoutes);
+app.use('/wishlist', wishlistRoutes);
+app.use('/cart', cartRoutes);
+app.use('/webhooks', webhookRoutes);
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
