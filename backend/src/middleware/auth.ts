@@ -38,6 +38,6 @@ export const generateToken = (userId: string, email: string, role: string) => {
   return jwt.sign(
     { id: userId, email, role },
     process.env.JWT_SECRET || '',
-    { expiresIn: process.env.JWT_EXPIRE || '7d' }
+    { expiresIn: process.env.JWT_EXPIRE || '7d' } as jwt.SignOptions
   );
 };
