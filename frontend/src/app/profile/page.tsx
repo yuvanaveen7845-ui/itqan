@@ -263,7 +263,7 @@ export default function ProfilePage() {
                             </div>
                             <div className="hidden sm:block">
                               <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Order #</p>
-                              <p className="font-mono text-sm text-gray-900">{order.id.slice(0, 8)}</p>
+                              <p className="font-mono text-sm text-gray-900">{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}</p>
                             </div>
                           </div>
                           <div>

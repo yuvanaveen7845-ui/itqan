@@ -93,7 +93,7 @@ export default function AdminOrdersPage() {
               {filteredOrders.map((order: any) => (
                 <tr key={order.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-8 py-4 font-bold text-gray-900 leading-tight">
-                    #{order.id.slice(0, 8)}
+                    #{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}
                     <div className="text-[10px] text-gray-400 mt-1">{new Date(order.created_at).toLocaleString()}</div>
                   </td>
                   <td className="px-8 py-4 font-semibold text-gray-600">{order.user_id}</td>
