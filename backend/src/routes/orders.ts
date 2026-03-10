@@ -300,7 +300,7 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       .from('addresses')
       .select('*')
       .eq('id', order.address_id)
-      .single();
+      .maybeSingle();
 
     const automationData = {
       customer_email: order.users?.email || user?.email,

@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { FiMapPin, FiClock, FiPhone, FiMail, FiNavigation } from 'react-icons/fi';
+import { FiMapPin, FiClock, FiPhone, FiNavigation } from 'react-icons/fi';
 
 export default function ShopDetailsPage() {
     return (

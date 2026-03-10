@@ -36,6 +36,30 @@ export default function CheckoutPage() {
     }
   }, [formData.zipcode]);
 
+  const sendToWebhook = async () => {
+    try {
+      const response = await fetch(
+        "https://workflow-praveen.xyz/webhook-test/5c4ddd6d-fa9f-4bdf-acf6-6b0e286ea903",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: "Payment successful for order.",
+            user: "Praveen",
+            source: "NextJS Website"
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log("Webhook Response:", data);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
   useEffect(() => {
     if (!user) {
       router.push('/login');
@@ -82,6 +106,7 @@ export default function CheckoutPage() {
               paymentId: 'pay_mock_' + Math.random().toString(36).substr(2, 9),
               signature: 'sig_mock_' + Math.random().toString(36).substr(2, 9),
             });
+            await sendToWebhook();
             clearCart();
             router.push(`/order-confirmation/${orderData.order.id}`);
           } catch (error) {
@@ -113,7 +138,9 @@ export default function CheckoutPage() {
                 razorpayOrderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
                 signature: response.razorpay_signature,
+
               });
+              await sendToWebhook();
               clearCart();
               router.push(`/order-confirmation/${orderData.order.id}`);
             } catch (error) {
