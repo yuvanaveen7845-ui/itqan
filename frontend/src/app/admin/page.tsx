@@ -84,7 +84,7 @@ export default function AdminDashboard() {
             </select>
           </div>
           <div className="w-full h-[350px] min-h-[300px]">
-            <ResponsiveContainer width="100%" height="100%" minHeight={300}>
+            <ResponsiveContainer width="100%" height="100%" minHeight={300} minWidth={0}>
               <LineChart data={stats.salesData || []}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                 <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-black text-gray-900 mb-8">Order Volume</h3>
           <div className="w-full h-[250px] min-h-[200px]">
-            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
+            <ResponsiveContainer width="100%" height="100%" minHeight={200} minWidth={0}>
               <BarChart data={stats.salesData || []}>
                 <XAxis dataKey="date" hide />
                 <Tooltip

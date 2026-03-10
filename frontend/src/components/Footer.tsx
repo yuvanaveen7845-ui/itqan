@@ -15,16 +15,16 @@ export default function Footer() {
             <h3 className="font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
               <li><Link href="/products">Products</Link></li>
-              <li><Link href="/about">About</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="#">About</Link></li>
+              <li><Link href="#">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-bold mb-4">Support</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link href="/faq">FAQ</Link></li>
-              <li><Link href="/shipping">Shipping</Link></li>
-              <li><Link href="/returns">Returns</Link></li>
+              <li><Link href="#">FAQ</Link></li>
+              <li><Link href="#">Shipping</Link></li>
+              <li><Link href="#">Returns</Link></li>
               <li><Link href="/privacy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-blue-400 transition-colors">Terms of Service</Link></li>
             </ul>
