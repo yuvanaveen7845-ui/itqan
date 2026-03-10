@@ -15,34 +15,36 @@ import webhookRoutes from './routes/webhooks';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Request Logger for debugging
+// Manual CORS and Logger Middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.get('origin')}`);
+  const origin = req.get('origin') || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, origin');
+
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${origin}`);
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
   next();
 });
 
-// Robust CORS Configuration
-app.use(cors({
-  origin: (origin, callback) => {
-    // Dynamically reflect any origin for debugging
-    // You can restrict this later to specific domains
-    callback(null, true);
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'origin'],
-  exposedHeaders: ['Access-Control-Allow-Origin'],
-  optionsSuccessStatus: 200
-}));
-
-// Explicitly handle all preflight requests
-app.options('*', cors());
-
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: false // Disable CSP for debugging to rule it out
+  contentSecurityPolicy: false
 }));
 app.use(express.json());
+
+// Root test route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Itqan Backend API is running!',
+    environment: process.env.NODE_ENV,
+    database: process.env.SUPABASE_URL ? 'Configured' : 'Missing'
+  });
+});
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
