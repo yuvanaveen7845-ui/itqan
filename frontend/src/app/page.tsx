@@ -42,123 +42,140 @@ export default function HomePage() {
   return (
     <div className="bg-white min-h-screen font-inter">
 
-      {/* Ultra-Premium Parallax Hero */}
-      <section className="relative h-[90vh] overflow-hidden group">
-        <div className="absolute inset-0 z-0">
+      {/* Ultra-Premium Cinematic Hero */}
+      <section className="relative h-[95vh] overflow-hidden bg-premium-black">
+        {/* Ambient Background with slow zoom */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src={activeBanner.image_url}
-            alt="Hero Scent"
-            className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-[10s] ease-out"
+            alt="The Scent"
+            className="w-full h-full object-cover opacity-60 scale-110 animate-[ken-burns_20s_ease-out_infinite]"
           />
-          <div className="absolute inset-0 bg-premium-black/20 backdrop-brightness-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-premium-black via-transparent to-premium-black/40"></div>
+          <div className="absolute inset-0 backdrop-blur-[2px]"></div>
         </div>
 
-        <div className="relative z-10 h-full max-w-[1800px] mx-auto px-8 md:px-12 flex flex-col justify-center items-start">
-          <div className="space-y-6 max-w-4xl">
-            <Editable id="hero_subtitle" fallback="Private Collection">
-              <p className="text-premium-gold text-xs font-black uppercase tracking-[0.6em] animate-fade-in-up">
-                {activeBanner.subtitle || 'Private Collection'}
-              </p>
+        <div className="relative z-10 h-full container mx-auto px-6 flex flex-col justify-center">
+          <div className="max-w-5xl">
+            {/* Subtitle with gold accent */}
+            <Editable id="hero_subtitle" fallback="Maison de Parfum">
+              <div className="flex items-center gap-4 mb-8 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
+                <div className="w-12 h-px bg-premium-gold"></div>
+                <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8em] font-inter">
+                  {activeBanner.subtitle || 'Maison de Parfum'}
+                </span>
+              </div>
             </Editable>
-            <Editable id="hero_title" fallback="The Essence of Elegance">
-              <h1 className="text-6xl md:text-8xl font-playfair font-black text-white leading-tight animate-fade-in-up delay-100">
-                {activeBanner.title || 'The Essence of Elegance'}
+
+            {/* Title with split font personality */}
+            <Editable id="hero_title" fallback="The Art of Invisible Elegance">
+              <h1 className="text-7xl md:text-[120px] imperial-serif text-white leading-[0.9] mb-12 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_0.2s_forwards]">
+                The Art of <br />
+                <span className="gold-luxury-text italic lowercase font-normal">Invisible</span> Elegance
               </h1>
             </Editable>
-            <div className="h-0.5 w-32 bg-premium-gold animate-fade-in-up delay-200"></div>
-            <Editable id="hero_description" fallback="Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.">
-              <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl animate-fade-in-up delay-300">
-                Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.
+
+            <Editable id="hero_description" fallback="Discover a world of olfactive perfection, where heritage meets the avant-garde.">
+              <p className="text-white/60 text-lg md:text-xl imperial-body max-w-2xl mb-16 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_0.4s_forwards]">
+                Curating the world's most rare essences into a signature of prestige.
+                Experience a legacy of olfactive perfection.
               </p>
             </Editable>
-            <div className="flex flex-col sm:flex-row gap-6 pt-8 animate-fade-in-up delay-400">
-              <Editable id="hero_cta_explore" fallback="Explore the Collection">
+
+            <div className="flex flex-col sm:flex-row gap-8 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_0.6s_forwards]">
+              <Editable id="hero_cta_explore" fallback="Enter the Boutique">
                 <Link
                   href="/products"
-                  className="px-10 py-5 bg-white text-premium-black text-[11px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-all duration-500 shadow-2xl"
+                  className="group relative px-12 py-6 bg-premium-gold text-white text-[11px] font-black uppercase tracking-[0.4em] overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95"
                 >
-                  Explore the Collection
+                  <span className="relative z-10">Enter the Boutique</span>
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500"></div>
                 </Link>
               </Editable>
-              <Editable id="hero_cta_philosophy" fallback="Our Philosophy">
+
+              <Editable id="hero_cta_philosophy" fallback="Our Heritage">
                 <Link
                   href="/about"
-                  className="px-10 py-5 border border-white/30 text-white text-[11px] font-black uppercase tracking-widest hover:border-premium-gold hover:text-premium-gold transition-all duration-500 flex items-center gap-2"
+                  className="group px-12 py-6 border border-white/20 text-white text-[11px] font-black uppercase tracking-[0.4em] hover:border-premium-gold hover:text-premium-gold transition-all duration-500 flex items-center gap-4"
                 >
-                  Our Philosophy <FiArrowRight />
+                  Our Heritage
+                  <FiArrowRight className="group-hover:translate-x-3 transition-transform duration-500" />
                 </Link>
               </Editable>
             </div>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40">
-          <span className="text-[9px] font-black uppercase tracking-widest">Scroll to discover</span>
-          <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent"></div>
+        {/* Cinematic Scroll Indicator */}
+        <div className="absolute bottom-10 right-10 flex items-center gap-6 rotate-90 origin-right translate-y-[-50%]">
+          <span className="text-white/30 text-[9px] font-black uppercase tracking-[0.5em]">Scroll to Discover</span>
+          <div className="w-20 h-px bg-gradient-to-r from-premium-gold to-transparent"></div>
         </div>
       </section>
 
-      {/* The Storytelling Section */}
-      <section className="py-32 bg-premium-cream">
-        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+      {/* The Storytelling Section - High Contrast */}
+      <section className="py-40 bg-[#FAF9F6] parchment-texture">
+        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           <div className="relative group">
-            <div className="absolute -inset-4 border border-premium-gold/20 group-hover:inset-0 transition-all duration-700"></div>
-            <img
-              src="https://images.unsplash.com/photo-1594035910387-fea477a4268f?auto=format&fit=crop&q=80&w=1000"
-              alt="Perfume Craft"
-              className="relative z-10 w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
-            />
-            <div className="absolute bottom-8 right-8 z-20 bg-white p-8 border border-premium-gold/10 shadow-2xl translate-y-12 group-hover:translate-y-0 transition-transform duration-700">
-              <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">Since 2012</span>
-              <p className="text-xl font-playfair font-black text-premium-black mt-2 italic">Artisanal Mastery</p>
+            <div className="absolute -inset-8 border border-premium-gold/10 group-hover:inset-0 transition-all duration-1000"></div>
+            <div className="relative overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000"
+                alt="Perfume Craft"
+                className="relative z-10 w-full aspect-[4/5] object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]"
+              />
+            </div>
+            <div className="absolute -bottom-12 -right-12 z-20 bg-premium-black p-12 border border-premium-gold/20 shadow-2xl translate-y-8 group-hover:translate-y-0 transition-transform duration-1000">
+              <span className="text-[10px] font-black text-premium-gold tracking-[0.8em] uppercase">Est. 2012</span>
+              <p className="text-2xl imperial-serif text-white mt-4 italic lowercase">Artisanal Mastery</p>
             </div>
           </div>
-          <div className="space-y-10">
-            <div className="space-y-4">
+          <div className="space-y-12">
+            <div className="space-y-6">
               <Editable id="story_label" fallback="Our Legacy">
-                <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Our Legacy</p>
+                <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.6em]">Heritage & Soul</p>
               </Editable>
               <Editable id="story_title" fallback="Crafting Memories Through Scent">
-                <h2 className="text-4xl md:text-5xl font-playfair font-black text-premium-black leading-tight">Crafting Memories Through Scent</h2>
+                <h2 className="text-5xl md:text-7xl imperial-serif text-premium-black leading-[1.1]">The Spirit of <br /> <span className="italic font-normal lowercase">Creation</span></h2>
               </Editable>
             </div>
             <Editable id="story_philosophy" fallback={`"Scent is the most intense form of memory. At ${branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."`}>
-              <p className="text-premium-charcoal/70 text-lg leading-relaxed font-light italic">
-                "Scent is the most intense form of memory. At {branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."
+              <p className="text-premium-charcoal/80 text-xl imperial-body italic leading-relaxed">
+                "Fragrance is the invisible bridge between reality and the divine. We do not simply blend notes; we compose symphonies that linger in the halls of memory."
               </p>
             </Editable>
-            <div className="grid grid-cols-2 gap-8 py-8 border-y border-premium-gold/10">
+            <div className="grid grid-cols-2 gap-12 py-12 border-y border-premium-gold/20">
               <div>
-                <span className="text-3xl font-playfair font-black text-premium-black">100%</span>
-                <p className="text-[10px] font-black text-premium-gold uppercase tracking-widest mt-1">Natural Origins</p>
+                <span className="text-4xl imperial-serif text-premium-black">100%</span>
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-2">Organic Essence</p>
               </div>
               <div>
-                <span className="text-3xl font-playfair font-black text-premium-black">Private</span>
-                <p className="text-[10px] font-black text-premium-gold uppercase tracking-widest mt-1">Global Reserve</p>
+                <span className="text-4xl imperial-serif text-premium-black">Global</span>
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-2">Reserve Status</p>
               </div>
             </div>
-            <Link href="/about" className="group inline-flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.3em] text-premium-black hover:text-premium-gold transition-colors">
-              Meet our master perfumers <FiArrowRight className="group-hover:translate-x-2 transition-transform" />
+            <Link href="/about" className="group inline-flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] text-premium-black hover:text-premium-gold transition-all">
+              Discover the Alchemy <FiArrowRight className="group-hover:translate-x-4 transition-transform duration-500" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Collection: Horizontal Gallery */}
-      <section className="py-32 bg-white overflow-hidden">
-        <div className="max-w-[1800px] mx-auto px-8 mb-20 flex flex-col md:flex-row justify-between items-end gap-8">
-          <div className="space-y-4">
+      {/* Featured Collection - Artistic Grid */}
+      <section className="py-40 bg-white">
+        <div className="max-w-[1800px] mx-auto px-8 mb-32 flex flex-col md:flex-row justify-between items-end gap-12">
+          <div className="space-y-6">
             <Editable id="signature_edit_label" fallback="Privileged Selection">
-              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Privileged Selection</p>
+              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.6em]">Les Exclusifs</p>
             </Editable>
             <Editable id="signature_edit_title" fallback="The Signature Edit">
-              <h2 className="text-4xl md:text-6xl font-playfair font-black text-premium-black">The Signature Edit</h2>
+              <h2 className="text-5xl md:text-8xl imperial-serif text-premium-black">The Signature Edit</h2>
             </Editable>
           </div>
-          <Editable id="discovery_cta" fallback="Discovery Full Collection">
-            <Link href="/products" className="px-8 py-4 border border-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-premium-black hover:text-premium-gold transition-all duration-500">
-              Discovery Full Collection
+          <Editable id="discovery_cta" fallback="View All Artifacts">
+            <Link href="/products" className="group relative px-12 py-6 border border-premium-black text-[11px] font-black uppercase tracking-[0.4em] hover:text-white transition-colors duration-500">
+              <span className="relative z-10">View All Artifacts</span>
+              <div className="absolute inset-0 bg-premium-black scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
             </Link>
           </Editable>
         </div>
@@ -176,69 +193,76 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* The Olfactive Experience - Interactive Grid */}
-      <section className="py-32 bg-premium-black text-white">
-        <div className="max-w-7xl mx-auto px-8 text-center mb-24">
+      {/* The Olfactive Experience - Dramatic High-Contrast Grid */}
+      <section className="py-40 bg-premium-black text-white relative">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
+
+        <div className="max-w-7xl mx-auto px-8 text-center mb-32">
           <Editable id="gallery_label" fallback="The Gallery">
-            <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4">The Gallery</p>
+            <p className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8em] mb-6">The Gallery</p>
           </Editable>
           <Editable id="gallery_title" fallback="Elevate Your Senses">
-            <h2 className="text-4xl md:text-6xl font-playfair font-black mb-8">Elevate Your Senses</h2>
+            <h2 className="text-6xl md:text-8xl imperial-serif mb-12">The <span className="gold-luxury-text italic lowercase font-normal">Symphony</span> of Scents</h2>
           </Editable>
-          <div className="w-24 h-0.5 bg-premium-gold mx-auto"></div>
+          <div className="w-40 h-px bg-premium-gold mx-auto opacity-30"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 h-[800px] border-y border-white/5">
-          <Link href="/products?category=Oud" className="relative group overflow-hidden border-r border-white/5 flex items-center justify-center p-12 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 h-[900px]">
+          <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
+              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
             </div>
-            <div className="relative z-10 transition-all duration-700">
-              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Purest Origins</span>
-              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Sacred Oud</h3>
-              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
-            </div>
-          </Link>
-
-          <Link href="/products?category=Floral" className="relative group overflow-hidden border-r border-white/5 flex items-center justify-center p-12 text-center bg-premium-cream/5">
-            <div className="absolute inset-0 z-0 text-center">
-              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
-            </div>
-            <div className="relative z-10 transition-all duration-700">
-              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Eternal Bloom</span>
-              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Royal Floral</h3>
-              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
+            <div className="relative z-10">
+              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Sacred Earth</span>
+              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Majestic Oud</h3>
+              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Origins</p>
             </div>
           </Link>
 
-          <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-12 text-center">
-            <div className="absolute inset-0 z-0 text-center">
-              <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
+          <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5">
+            <div className="absolute inset-0 z-0">
+              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
+              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
             </div>
-            <div className="relative z-10 transition-all duration-700">
-              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Exotic Night</span>
-              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Golden Spice</h3>
-              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
+            <div className="relative z-10">
+              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Royal Garden</span>
+              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Velvet Rose</h3>
+              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Garden</p>
+            </div>
+          </Link>
+
+          <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-16 text-center">
+            <div className="absolute inset-0 z-0">
+              <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
+              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
+            </div>
+            <div className="relative z-10">
+              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Midnight Dune</span>
+              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Amber Spice</h3>
+              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Night</p>
             </div>
           </Link>
         </div>
       </section>
 
-      {/* Trust & Services */}
-      <section className="py-32 bg-white">
-        <div className="max-w-[1800px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
+      {/* Trust & Services - Minimal Excellence */}
+      <section className="py-40 bg-white">
+        <div className="max-w-[1800px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-20">
           {[
-            { icon: FiStar, title: 'Authenticity Guaranteed', desc: 'Sourced directly from the oldest distilleries in the world.' },
-            { icon: FiTruck, title: 'Concierge Delivery', desc: 'Complimentary shipping in climate-controlled packaging.' },
-            { icon: FiShield, title: 'Secure Privilege', desc: 'End-to-end encrypted transactions for your privacy.' },
-            { icon: FiShoppingBag, title: 'Signature Wrapping', desc: 'Every scent arrives in our iconic golden-embossed gift box.' },
+            { icon: FiStar, title: 'Authenticity', desc: 'Crafted with rare essences from royal reserves.' },
+            { icon: FiTruck, title: 'White Glove', desc: 'Global climate-controlled concierge delivery.' },
+            { icon: FiShield, title: 'Secure Vault', desc: 'Protected by high-tier encrypted privilege.' },
+            { icon: FiShoppingBag, title: 'Atelier Gift', desc: 'Unveiled in our signature gold-sealed box.' },
           ].map((item, idx) => (
-            <div key={idx} className="space-y-6">
-              <div className="w-16 h-16 bg-premium-cream rounded-full flex items-center justify-center mx-auto transition-transform hover:rotate-[360deg] duration-1000">
-                <item.icon className="text-premium-gold w-6 h-6" />
+            <div key={idx} className="group text-center space-y-8">
+              <div className="w-20 h-20 bg-[#FAF9F6] rounded-full flex items-center justify-center mx-auto border border-premium-gold/5 group-hover:border-premium-gold/30 group-hover:shadow-xl transition-all duration-700">
+                <item.icon className="text-premium-gold w-7 h-7" />
               </div>
-              <h4 className="text-[11px] font-black uppercase tracking-[0.2em]">{item.title}</h4>
-              <p className="text-[11px] text-premium-charcoal/60 leading-relaxed max-w-[200px] mx-auto">{item.desc}</p>
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-black">{item.title}</h4>
+                <p className="text-[11px] imperial-body text-premium-charcoal/60 leading-relaxed max-w-[220px] mx-auto">{item.desc}</p>
+              </div>
             </div>
           ))}
         </div>

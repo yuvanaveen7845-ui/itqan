@@ -45,17 +45,17 @@ export default function Header() {
       )}
 
       <header
-        className={`sticky top-0 z-[100] transition-all duration-500 border-b ${isScrolled
-          ? 'bg-white/95 backdrop-blur-md py-2 border-premium-gold/10 shadow-sm'
-          : 'bg-white py-6 border-transparent'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${isScrolled
+          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-4 sm:mx-8 px-4 rounded-xl'
+          : 'bg-transparent py-8'
           }`}
       >
-        <nav className="max-w-[1800px] mx-auto px-8 grid grid-cols-3 items-center">
+        <nav className="max-w-[1800px] mx-auto px-6 grid grid-cols-3 items-center">
 
-          {/* Left: Desktop Nav / Mobile Menu */}
-          <div className="flex items-center gap-8">
+          {/* Left: Desktop Nav - High Tracking */}
+          <div className="flex items-center gap-10">
             <button
-              className="p-2 -ml-2 text-premium-black hover:text-premium-gold transition-all duration-300 transform hover:scale-110"
+              className={`p-2 -ml-2 transition-all duration-500 transform hover:scale-110 ${isScrolled ? 'text-premium-black' : 'text-white'}`}
               onClick={() => setIsSidebarOpen(true)}
               title="Open Menu"
             >
@@ -63,27 +63,27 @@ export default function Header() {
             </button>
             <div className="hidden lg:flex items-center gap-10">
               <Editable id="nav_collections" fallback="Collections">
-                <Link href="/products" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Collections</Link>
+                <Link href="/products" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Collections</Link>
               </Editable>
               <Editable id="nav_oud" fallback="Oud">
-                <Link href="/products?category=Oud" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Oud</Link>
+                <Link href="/products?category=Oud" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Oud</Link>
               </Editable>
               <Editable id="nav_floral" fallback="Floral">
-                <Link href="/products?category=Floral" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Floral</Link>
+                <Link href="/products?category=Floral" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Floral</Link>
               </Editable>
             </div>
           </div>
 
-          {/* Center: Centered Logo */}
+          {/* Center: Imperial Logo */}
           <div className="flex justify-center flex-col items-center">
             <Link href="/" className="group flex flex-col items-center text-center">
               <Editable id="header_logo_main" fallback="iqtan">
-                <span className="text-3xl md:text-4xl font-playfair font-black text-premium-black tracking-[0.1em] lowercase group-hover:text-premium-gold transition-colors duration-500">
+                <span className={`text-3xl md:text-5xl imperial-serif lowercase tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-700 ${isScrolled ? 'text-premium-black' : 'text-white'}`}>
                   {branding.name?.split(' ')[0] || 'iqtan'}
                 </span>
               </Editable>
               <Editable id="header_logo_sub" fallback="perfumes">
-                <span className="text-[10px] font-inter font-black text-premium-gold tracking-[0.5em] uppercase -mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                <span className="text-[9px] font-black text-premium-gold tracking-[0.8em] uppercase -mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
                   {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
                 </span>
               </Editable>
@@ -91,59 +91,51 @@ export default function Header() {
           </div>
 
           {/* Right: Icons & Profile */}
-          <div className="flex justify-end items-center gap-2 sm:gap-6">
-            <Link href="/search" className="hidden sm:block p-2 text-premium-charcoal hover:text-premium-gold transition-all" title="Search">
+          <div className="flex justify-end items-center gap-2 sm:gap-8">
+            <Link href="/search" className={`hidden sm:block p-2 transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
               <FiSearch size={20} />
             </Link>
 
-            <Link href="/wishlist" className="p-2 text-premium-charcoal hover:text-premium-gold transition-all relative group" title="Wishlist">
+            <Link href="/wishlist" className={`p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Wishlist">
               <FiHeart size={20} className={wishlistItems.length > 0 ? 'fill-premium-gold text-premium-gold' : ''} />
               {wishlistItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
+                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[7px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
                   {wishlistItems.length}
                 </span>
               )}
             </Link>
 
-            <Link href="/cart" className="p-2 text-premium-charcoal hover:text-premium-gold transition-all relative group" title="Cart">
+            <Link href="/cart" className={`p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Cart">
               <FiShoppingCart size={20} />
               {items.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
+                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[7px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
                   {items.reduce((sum, i) => sum + i.quantity, 0)}
                 </span>
               )}
             </Link>
 
-            <div className="h-4 w-px bg-premium-gold/20 mx-2 hidden md:block"></div>
+            <div className="h-6 w-px bg-premium-gold/20 mx-2 hidden md:block"></div>
 
             {user ? (
               <div className="flex items-center gap-4">
-                <Link href="/profile" className="group flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full border border-premium-gold/30 bg-premium-white overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-colors">
+                <Link href="/profile" className="group flex items-center gap-4">
+                  <div className="w-9 h-9 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-500">
                     <span className="text-xs font-black text-premium-gold">{user.name.charAt(0)}</span>
                   </div>
-                  <span className="hidden md:inline text-[10px] font-black uppercase tracking-widest text-premium-charcoal group-hover:text-premium-gold transition-colors font-inter">{user.name.split(' ')[0]}</span>
                 </Link>
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="hidden lg:flex items-center gap-2 text-[9px] font-black tracking-widest text-premium-gold border border-premium-gold/30 px-3 py-1.5 rounded-full hover:bg-premium-gold hover:text-premium-white transition-all font-inter"
+                    className="hidden lg:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] text-premium-gold/60 border border-premium-gold/20 px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white hover:border-premium-gold transition-all duration-700"
                   >
-                    <Editable id="header_surveillance_label" fallback="SURVEILLANCE">
-                      <span>SURVEILLANCE</span>
+                    <Editable id="header_surveillance_label" fallback="ATELIER">
+                      <span>ATELIER</span>
                     </Editable>
                   </Link>
                 )}
-                <button
-                  onClick={() => logout()}
-                  className="p-2 text-premium-charcoal/40 hover:text-rose-600 transition-colors"
-                  title="Logout"
-                >
-                  <FiLogOut size={16} />
-                </button>
               </div>
             ) : (
-              <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.2em] text-premium-black border border-premium-black px-6 py-2.5 hover:bg-premium-black hover:text-premium-gold transition-all duration-500 font-inter">
+              <Link href="/login" className={`text-[9px] font-black uppercase tracking-[0.4em] border px-7 py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black hover:bg-premium-black hover:text-premium-gold' : 'border-white/30 text-white hover:border-premium-gold hover:text-premium-gold'}`}>
                 Sign In
               </Link>
             )}

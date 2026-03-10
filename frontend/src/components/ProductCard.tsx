@@ -92,11 +92,11 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
                 {/* Content Section */}
                 <div className="p-8 text-center bg-white relative">
-                    <div className="space-y-2">
-                        <p className="text-premium-gold text-[9px] font-black uppercase tracking-[0.5em] font-inter">
+                    <div className="space-y-3">
+                        <p className="text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] font-inter">
                             {product.Fragrance_type || 'Private Label'}
                         </p>
-                        <h3 className="text-xl font-playfair font-black text-premium-black group-hover:text-premium-gold transition-colors duration-500 truncate">
+                        <h3 className="text-2xl imperial-serif text-premium-black group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
                             {product.name}
                         </h3>
                     </div>
