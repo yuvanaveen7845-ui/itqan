@@ -13,6 +13,7 @@ import cartRoutes from './routes/cart';
 import webhookRoutes from './routes/webhooks';
 import categoryRoutes from './routes/categories';
 import couponRoutes from './routes/coupons';
+import cmsRoutes from './routes/cms';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -64,6 +65,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/coupons', couponRoutes);
+app.use('/api/cms', cmsRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

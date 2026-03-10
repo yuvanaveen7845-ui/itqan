@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { supabase } from '../config/database';
 import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
 import { validate, schemas } from '../middleware/validation';
+import { auditLogger } from '../middleware/audit';
 
 const router = Router();
 
@@ -123,7 +124,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create product (admin only)
-router.post('/', verifyToken, requireRole(['admin', 'super_admin']), validate(schemas.product), async (req: AuthRequest, res) => {
+router.post('/', verifyToken, requireRole(['admin', 'super_admin']), auditLogger('CREATE_PRODUCT', 'PRODUCT'), validate(schemas.product), async (req: AuthRequest, res) => {
   try {
     if (process.env.SUPABASE_URL?.includes('placeholder')) {
       return res.status(201).json({ id: 'dev-' + Math.random().toString(36).substr(2, 9), ...req.body });

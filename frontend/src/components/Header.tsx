@@ -1,17 +1,31 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiSettings } from 'react-icons/fi';
+import { cmsAPI } from '@/lib/api';
 
 export default function Header() {
   const { user, logout } = useAuthStore();
   const { items } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [branding, setBranding] = useState<any>({ name: 'IQTAN PERFUMES' });
+
+  useEffect(() => {
+    const fetchBranding = async () => {
+      try {
+        const { data } = await cmsAPI.getSettings();
+        if (data.branding) setBranding(data.branding);
+      } catch (error) {
+        console.error('Failed to fetch header branding:', error);
+      }
+    };
+    fetchBranding();
+  }, []);
 
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
 
@@ -26,8 +40,8 @@ export default function Header() {
           >
             <FiMenu size={24} />
           </button>
-          <Link href="/" className="text-2xl font-black text-blue-600 tracking-tighter hover:opacity-90 transition-opacity">
-            IQTAN<span className="text-gray-900">PERFUMES</span>
+          <Link href="/" className="text-2xl font-black text-blue-600 tracking-tighter hover:opacity-90 transition-opacity uppercase">
+            {branding.name?.split(' ')[0] || 'IQTAN'}<span className="text-gray-900">{branding.name?.split(' ').slice(1).join(' ') || 'PERFUMES'}</span>
           </Link>
         </div>
 

@@ -47,6 +47,7 @@ export const adminAPI = {
   getCustomerById: (id: string) => api.get(`/admin/customers/${id}`),
   getInventory: () => api.get('/admin/inventory'),
   getAdmins: () => api.get('/admin/admins'),
+  getAuditLogs: () => api.get('/admin/audit-logs'),
   createAdmin: (data: any) => api.post('/admin/create-admin', data),
   getSettings: () => api.get('/admin/settings'),
   updateSettings: (data: any) => api.post('/admin/settings', data),
@@ -77,6 +78,18 @@ export const couponAPI = {
   create: (data: any) => api.post('/coupons', data),
   validate: (code: string, amount: number) => api.post('/coupons/validate', { code, amount }),
   delete: (id: string) => api.delete(`/coupons/${id}`),
+};
+
+export const cmsAPI = {
+  getSettings: () => api.get('/cms/settings'),
+  updateSetting: (key: string, value: any) => api.post('/cms/settings', { key, value }),
+  getBanners: () => api.get('/cms/banners'),
+  getAllBanners: () => api.get('/cms/banners/all'),
+  saveBanner: (data: any) => api.post('/cms/banners', data),
+  deleteBanner: (id: string) => api.delete(`/cms/banners/${id}`),
+  getPages: () => api.get('/cms/pages'),
+  getPage: (slug: string) => api.get(`/cms/pages/${slug}`),
+  savePage: (data: any) => api.post('/cms/pages', data),
 };
 
 export default api;

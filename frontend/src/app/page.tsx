@@ -2,44 +2,80 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { productAPI } from '@/lib/api';
+import { productAPI, cmsAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [banners, setBanners] = useState<any[]>([]);
+  const [branding, setBranding] = useState<any>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await productAPI.getAll({ limit: 6 });
-        setProducts(data.products);
+        const [prodRes, bannerRes, settingsRes] = await Promise.all([
+          productAPI.getAll({ limit: 6 }),
+          cmsAPI.getBanners(),
+          cmsAPI.getSettings()
+        ]);
+        setProducts(prodRes.data.products);
+        setBanners(bannerRes.data);
+        setBranding(settingsRes.data.branding || {});
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error('Failed to fetch home data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
-      {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg p-12 mb-8 shadow-xl relative overflow-hidden">
-        <div className="relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Premium Perfume Collection</h1>
-          <p className="text-xl mb-6">Discover the finest Fragrances for every occasion. Quality guaranteed.</p>
-          <Link href="/products" className="bg-white text-blue-600 px-6 py-3 rounded font-bold hover:bg-gray-100 transition-colors shadow-md">
-            Shop Now
-          </Link>
-        </div>
-        <div className="absolute right-0 top-0 opacity-10 blur-sm transform scale-150">
-          {/* Abstract pattern placeholder */}
-          <div className="w-96 h-96 bg-white rounded-full"></div>
-        </div>
-      </section>
+      {/* Dynamic Hero Banner */}
+      {banners.length > 0 ? (
+        <section className="relative h-[500px] rounded-3xl overflow-hidden mb-12 shadow-2xl">
+          <img
+            src={banners[0].image_url}
+            className="absolute inset-0 w-full h-full object-cover"
+            alt={banners[0].title}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-12">
+            <div className="max-w-2xl text-white space-y-6 animate-in slide-in-from-left duration-1000">
+              <h1 className="text-5xl md:text-6xl font-black leading-tight">
+                {banners[0].title || 'Premium Fragrance Collection'}
+              </h1>
+              <p className="text-xl text-gray-200 font-medium leading-relaxed">
+                {banners[0].subtitle || 'Discover the finest scents crafted for elegance and longevity.'}
+              </p>
+              {banners[0].cta_text && (
+                <Link
+                  href={banners[0].cta_link || '/products'}
+                  className="inline-block bg-white text-gray-900 px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-xl shadow-black/20"
+                >
+                  {banners[0].cta_text}
+                </Link>
+              )}
+            </div>
+          </div>
+        </section>
+      ) : (
+        /* Fallback Static Hero */
+        <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-[2.5rem] p-16 mb-12 shadow-xl relative overflow-hidden">
+          <div className="relative z-10">
+            <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight max-w-2xl">{branding.name || 'Premium Perfume Collection'}</h1>
+            <p className="text-xl mb-10 opacity-90 font-medium max-w-xl">Discover your signature scent from our curated collection of world-class perfumes.</p>
+            <Link href="/products" className="bg-white text-blue-600 px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest hover:bg-gray-100 transition-all shadow-lg">
+              Explore Collection
+            </Link>
+          </div>
+          <div className="absolute right-0 top-0 opacity-10 blur-3xl transform scale-150">
+            <div className="w-96 h-96 bg-white rounded-full"></div>
+          </div>
+        </section>
+      )}
 
       {/* Promotional Discount Banner */}
       <section className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-6 mb-12 flex justify-between items-center shadow-sm">

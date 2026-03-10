@@ -15,7 +15,9 @@ import {
     FiBarChart2,
     FiMessageSquare,
     FiGrid,
-    FiTag
+    FiTag,
+    FiLayout,
+    FiActivity
 } from 'react-icons/fi';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,6 +51,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'Categories', icon: <FiGrid />, path: '/admin/categories', roles: ['admin', 'super_admin'] },
         { name: 'Inventory', icon: <FiBox />, path: '/admin/inventory', roles: ['admin', 'super_admin'] },
         { name: 'Coupons', icon: <FiTag />, path: '/admin/coupons', roles: ['admin', 'super_admin'] },
+        { name: 'Content Management', icon: <FiLayout />, path: '/admin/cms', roles: ['super_admin'] },
+        { name: 'Audit Logs', icon: <FiActivity />, path: '/admin/audit', roles: ['super_admin'] },
         { name: 'Customers', icon: <FiUsers />, path: '/admin/customers', roles: ['admin', 'super_admin'] },
         { name: 'Reviews', icon: <FiMessageSquare />, path: '/admin/reviews', roles: ['admin', 'super_admin'] },
         { name: 'Settings', icon: <FiSettings />, path: '/admin/settings', roles: ['super_admin'] },

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { supabase } from '../config/database';
 import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
+import { auditLogger } from '../middleware/audit';
 
 const router = Router();
 
@@ -344,6 +345,34 @@ router.post('/create-admin', verifyToken, requireRole(['admin', 'super_admin']),
   } catch (error) {
     console.error('Create Admin Error:', error);
     res.status(500).json({ error: 'Failed to create admin' });
+  }
+});
+
+// Admin: Delete administrative account (Super Admin only)
+router.delete('/delete-admin/:id', verifyToken, requireRole(['super_admin']), auditLogger('DELETE_ADMIN', 'USER'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { error } = await supabase.from('users').delete().eq('id', id);
+    if (error) throw error;
+    res.json({ message: 'Administrative account revoked' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to revoke account' });
+  }
+});
+
+// Admin: Get Audit Logs (Super Admin only)
+router.get('/audit-logs', verifyToken, requireRole(['super_admin']), async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('audit_logs')
+      .select('*, users(name, email)')
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch audit logs' });
   }
 });
 
