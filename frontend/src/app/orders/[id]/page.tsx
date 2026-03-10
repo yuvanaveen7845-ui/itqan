@@ -60,6 +60,9 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
     if (order.status === 'cancelled') currentStatusIndex = 0;
     if (currentStatusIndex === -1) currentStatusIndex = 0;
 
+    const subtotal = order.items?.reduce((sum: number, item: any) => sum + (Number(item.price) * Number(item.quantity)), 0) || 0;
+    const shippingCost = Number(order.total_amount) - subtotal;
+
     return (
         <div className="bg-gray-50 min-h-screen py-12">
             <div className="max-w-5xl mx-auto px-4">
@@ -165,10 +168,11 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                                         </div>
                                         <div className="flex-grow flex flex-col justify-center">
                                             <div className="flex justify-between items-start mb-1">
-                                                <h4 className="font-bold text-gray-900">{item.product_id} (Product Ref)</h4>
+                                                <h4 className="font-bold text-gray-900">{item.products?.name || item.product_id}</h4>
                                                 <span className="font-bold text-gray-900">₹{item.price}</span>
                                             </div>
                                             <p className="text-gray-500 text-sm mb-2">Quantity: {item.quantity}</p>
+                                            {item.products?.description && <p className="text-gray-400 text-xs mb-2 line-clamp-1">{item.products.description}</p>}
                                             <div className="flex gap-4 text-sm mt-auto">
                                                 <Link href={`/products/${item.product_id}`} className="text-blue-600 font-medium hover:underline">View Product</Link>
                                                 {currentStatusIndex >= 2 && <span className="text-gray-300">|</span>}
@@ -191,16 +195,14 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                             <h2 className="text-xl font-bold mb-6">Payment Summary</h2>
                             <div className="space-y-4 mb-6">
                                 <div className="flex justify-between text-gray-600">
-                                    <span>Subtotal</span>
-                                    <span>₹{order.total_amount}</span>
+                                    <span>Items Subtotal</span>
+                                    <span>₹{subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-gray-600">
                                     <span>Shipping</span>
-                                    <span className="text-green-600 font-bold">Free</span>
-                                </div>
-                                <div className="flex justify-between text-gray-600">
-                                    <span>Estimated Tax</span>
-                                    <span>₹0</span>
+                                    <span className={shippingCost === 0 ? "text-green-600 font-bold" : "text-gray-900 font-medium"}>
+                                        {shippingCost === 0 ? 'Free' : `₹${shippingCost.toFixed(2)}`}
+                                    </span>
                                 </div>
                             </div>
                             <div className="border-t border-gray-200 pt-4 flex justify-between items-center mb-6">
@@ -227,13 +229,20 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                             <h2 className="text-xl font-bold mb-6 border-b border-blue-500 pb-4">Shipping Information</h2>
                             <div className="mb-6">
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Delivery Address</h4>
-                                <p className="font-medium">{user?.name}</p>
-                                <p className="text-blue-100 mt-1 opacity-90">123 Perfume Hub, Fragrance Road<br />Luxury District<br />Mumbai, Maharashtra 400001<br />India</p>
+                                <p className="font-medium">{order.user?.name || user?.name || 'Customer'}</p>
+                                {order.address ? (
+                                    <p className="text-blue-100 mt-1 opacity-90">
+                                        {order.address.address_line1}<br />
+                                        {order.address.address_line2 && <>{order.address.address_line2}<br /></>}
+                                        {order.address.city}, {order.address.state} {order.address.zipcode}
+                                    </p>
+                                ) : (
+                                    <p className="text-blue-100 mt-1 opacity-90">Address details not available.</p>
+                                )}
                             </div>
                             <div>
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Contact Details</h4>
-                                <p className="font-medium">{user?.email}</p>
-                                <p className="text-blue-100 mt-1 opacity-90">+91 98765 43210</p>
+                                <p className="font-medium">{order.user?.email || user?.email}</p>
                             </div>
                         </div>
                     </div>

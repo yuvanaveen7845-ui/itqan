@@ -24,6 +24,17 @@ export default function CheckoutPage() {
     zipcode: '',
   });
   const [error, setError] = useState('');
+  const [shippingCost, setShippingCost] = useState(0);
+
+  useEffect(() => {
+    if (formData.zipcode.length === 6) {
+      orderAPI.estimateDelivery(formData.zipcode)
+        .then(({ data }) => setShippingCost(data.shippingCost || 0))
+        .catch(() => setShippingCost(200)); // Default fallback
+    } else {
+      setShippingCost(0);
+    }
+  }, [formData.zipcode]);
 
   useEffect(() => {
     if (!user) {
@@ -87,9 +98,10 @@ export default function CheckoutPage() {
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
       script.onload = () => {
+        const finalAmount = getTotal() + shippingCost;
         const options = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-          amount: Math.round(getTotal() * 100),
+          amount: Math.round(finalAmount * 100),
           currency: 'INR',
           name: 'Perfume Store',
           description: 'Order Payment',
@@ -215,13 +227,15 @@ export default function CheckoutPage() {
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>Free</span>
+                <span className={shippingCost === 0 ? 'text-gray-400' : 'text-gray-900 font-medium'}>
+                  {formData.zipcode.length === 6 ? `₹${shippingCost.toFixed(2)}` : 'Enter zipcode'}
+                </span>
               </div>
             </div>
 
-            <div className="flex justify-between text-lg font-bold">
+            <div className="flex justify-between text-2xl font-black text-gray-900">
               <span>Total</span>
-              <span>₹{getTotal().toFixed(2)}</span>
+              <span>₹{(getTotal() + shippingCost).toFixed(2)}</span>
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ export const orderAPI = {
   getAll: () => api.get('/orders'),
   getById: (id: string) => api.get(`/orders/${id}`),
   updateStatus: (id: string, status: string) => api.patch(`/orders/${id}/status`, { status }),
+  estimateDelivery: (pincode: string) => api.post('/orders/estimate-delivery', { pincode }),
 };
 
 export const adminAPI = {

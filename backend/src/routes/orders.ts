@@ -9,6 +9,64 @@ const OPAL_AUTOMATION_URL = 'https://opal.google/app/1VyMrnma3KQcM91M0CPdrlbZXf2
 
 const router = Router();
 
+// Estimate delivery
+router.post('/estimate-delivery', async (req, res) => {
+  try {
+    const { pincode } = req.body;
+
+    // Validate Indian Pincode
+    if (!pincode || !/^\d{6}$/.test(pincode)) {
+      return res.status(400).json({ error: 'Please enter a valid 6-digit pincode' });
+    }
+
+    // Coimbatore Warehouse mock logic (pincode starts with 64)
+    let minDays = 0;
+    let maxDays = 0;
+    let zone = '';
+    let shippingCost = 0;
+
+    const prefix2 = pincode.substring(0, 2);
+    const prefix1 = pincode.substring(0, 1);
+
+    if (prefix2 === '64') {
+      zone = 'Zone A (Coimbatore Region)';
+      minDays = 1;
+      maxDays = 2;
+      shippingCost = 50;
+    } else if (prefix1 === '6') {
+      zone = 'Zone B (Tamil Nadu & Kerala)';
+      minDays = 2;
+      maxDays = 3;
+      shippingCost = 100;
+    } else if (['4', '5', '7'].includes(prefix1)) {
+      zone = 'Zone C (Neighboring States)';
+      minDays = 3;
+      maxDays = 5;
+      shippingCost = 150;
+    } else {
+      zone = 'Zone D (Rest of India)';
+      minDays = 5;
+      maxDays = 7;
+      shippingCost = 200;
+    }
+
+    // Add 1 day warehouse processing time
+    minDays += 1;
+    maxDays += 1;
+
+    res.json({
+      pincode,
+      zone,
+      minDays,
+      maxDays,
+      shippingCost,
+      message: `Delivery in ${minDays}-${maxDays} days for ₹${shippingCost}`
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to estimate delivery' });
+  }
+});
+
 // Create order
 router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
@@ -75,6 +133,35 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
         .single();
       if (product) total += product.price * item.quantity;
     }
+
+    // Calculate dynamic shipping cost if real address is provided
+    let shippingCost = 0;
+    if (address && address.zipcode) {
+      const prefix2 = address.zipcode.substring(0, 2);
+      const prefix1 = address.zipcode.substring(0, 1);
+      if (prefix2 === '64') shippingCost = 50;
+      else if (prefix1 === '6') shippingCost = 100;
+      else if (['4', '5', '7'].includes(prefix1)) shippingCost = 150;
+      else shippingCost = 200;
+    } else if (finalAddressId !== null) {
+      // If using an existing ID, fetch the zipcode
+      const { data: savedAddr } = await supabase
+        .from('addresses')
+        .select('zipcode')
+        .eq('id', finalAddressId)
+        .single();
+
+      if (savedAddr?.zipcode) {
+        const prefix2 = savedAddr.zipcode.substring(0, 2);
+        const prefix1 = savedAddr.zipcode.substring(0, 1);
+        if (prefix2 === '64') shippingCost = 50;
+        else if (prefix1 === '6') shippingCost = 100;
+        else if (['4', '5', '7'].includes(prefix1)) shippingCost = 150;
+        else shippingCost = 200;
+      }
+    }
+
+    total += shippingCost;
 
     // Generate Display ID (e.g., ORD-20260310-A1B2)
     const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -302,10 +389,26 @@ router.get('/:id', verifyToken, async (req: AuthRequest, res) => {
 
     const { data: items } = await supabase
       .from('order_items')
-      .select('*')
+      .select('*, products(name, description, image_url)')
       .eq('order_id', req.params.id);
 
-    res.json({ ...order, items });
+    let address = null;
+    if (order.address_id) {
+      const { data: addrData } = await supabase
+        .from('addresses')
+        .select('*')
+        .eq('id', order.address_id)
+        .single();
+      address = addrData;
+    }
+
+    const { data: userData } = await supabase
+      .from('users')
+      .select('name, email')
+      .eq('id', order.user_id)
+      .single();
+
+    res.json({ ...order, items, address, user: userData });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch order' });
   }

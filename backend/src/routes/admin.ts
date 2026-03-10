@@ -66,18 +66,40 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
       .from('products')
       .select('id');
 
-    const totalRevenue = orders?.reduce((sum: number, o: any) => sum + o.total_amount, 0) || 0;
+    const totalRevenue = orders?.reduce((sum: number, o: any) => sum + Number(o.total_amount), 0) || 0;
     const totalOrders = orders?.length || 0;
     const totalCustomers = customers?.length || 0;
     const totalProducts = products?.length || 0;
+
+    // Generate salesData for the last 7 days
+    const salesDataMap = new Map();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      salesDataMap.set(dateStr, { date: dateStr, revenue: 0, orders: 0 });
+    }
+
+    if (orders) {
+      orders.forEach((o: any) => {
+        const dateStr = new Date(o.created_at).toISOString().split('T')[0];
+        if (salesDataMap.has(dateStr)) {
+          const existing = salesDataMap.get(dateStr);
+          existing.revenue += Number(o.total_amount);
+          existing.orders += 1;
+        }
+      });
+    }
+
+    const salesData = Array.from(salesDataMap.values());
 
     res.json({
       totalRevenue,
       totalOrders,
       totalCustomers,
       totalProducts,
-      salesData: [], // Default empty or fetch actual sales trend
-      recentOrders: orders?.slice(0, 10) || [],
+      salesData,
+      recentOrders: (orders || []).sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 10),
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch dashboard data' });

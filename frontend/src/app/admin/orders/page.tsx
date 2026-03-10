@@ -86,6 +86,7 @@ export default function AdminOrdersPage() {
                 <th className="px-8 py-4">Customer ID</th>
                 <th className="px-8 py-4">Status</th>
                 <th className="px-8 py-4">Total</th>
+                <th className="px-8 py-4">Date & Time</th>
                 <th className="px-8 py-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -94,7 +95,6 @@ export default function AdminOrdersPage() {
                 <tr key={order.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-8 py-4 font-bold text-gray-900 leading-tight">
                     #{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}
-                    <div className="text-[10px] text-gray-400 mt-1">{new Date(order.created_at).toLocaleString()}</div>
                   </td>
                   <td className="px-8 py-4 font-semibold text-gray-600">{order.user_id}</td>
                   <td className="px-8 py-4">
@@ -108,6 +108,10 @@ export default function AdminOrdersPage() {
                     </span>
                   </td>
                   <td className="px-8 py-4 font-black">₹{order.total_amount.toLocaleString()}</td>
+                  <td className="px-8 py-4 text-sm font-medium text-gray-600">
+                    {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}<br />
+                    <span className="text-gray-400 text-xs">{new Date(order.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
+                  </td>
                   <td className="px-8 py-4">
                     <div className="flex justify-end gap-2">
                       {order.status === 'confirmed' && (
