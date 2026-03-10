@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cmsAPI } from '@/lib/api';
+import { useCMSStore } from '@/store/cms';
 import { FiLayout, FiImage, FiEdit3, FiGlobe, FiInstagram, FiFacebook, FiTwitter, FiPlus, FiTrash2, FiSave, FiCheckCircle } from 'react-icons/fi';
 
 export default function CMSPage() {
@@ -40,6 +41,10 @@ export default function CMSPage() {
             setSaveStatus('Saving...');
             await cmsAPI.updateSetting('branding', settings.branding);
             await cmsAPI.updateSetting('social_links', settings.social_links);
+
+            // Update global store
+            useCMSStore.getState().fetchCMS();
+
             setSaveStatus('Changes saved successfully!');
             setTimeout(() => setSaveStatus(null), 3000);
         } catch (error) {

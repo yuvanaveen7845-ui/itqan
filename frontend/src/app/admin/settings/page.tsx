@@ -58,6 +58,18 @@ export default function AdminSettingsPage() {
         }
     };
 
+    const handleDeleteAdmin = async (adminId: string) => {
+        if (!confirm('Are you sure you want to delete this administrative account? This action cannot be undone.')) {
+            return;
+        }
+        try {
+            await adminAPI.deleteAdmin(adminId);
+            fetchData();
+        } catch (error) {
+            alert('Failed to delete administrative account');
+        }
+    };
+
     const toggleMaintenance = async () => {
         try {
             const newStatus = !systemSettings.maintenanceMode;

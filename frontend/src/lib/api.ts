@@ -49,6 +49,7 @@ export const adminAPI = {
   getAdmins: () => api.get('/admin/admins'),
   getAuditLogs: () => api.get('/admin/audit-logs'),
   createAdmin: (data: any) => api.post('/admin/create-admin', data),
+  deleteAdmin: (id: string) => api.delete(`/admin/delete-admin/${id}`),
   getSettings: () => api.get('/admin/settings'),
   updateSettings: (data: any) => api.post('/admin/settings', data),
 };

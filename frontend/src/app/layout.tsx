@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CMSInitializer from '@/components/CMSInitializer';
 
 export const metadata: Metadata = {
   title: 'iqtanperfumes - Premium Perfumes',
@@ -22,6 +23,7 @@ export default function RootLayout({
         <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
       <body className="antialiased" suppressHydrationWarning={true}>
+        <CMSInitializer />
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

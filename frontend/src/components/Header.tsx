@@ -5,27 +5,16 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
+import { useCMSStore } from '@/store/cms';
 import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiSettings } from 'react-icons/fi';
-import { cmsAPI } from '@/lib/api';
 
 export default function Header() {
   const { user, logout } = useAuthStore();
   const { items } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [branding, setBranding] = useState<any>({ name: 'IQTAN PERFUMES' });
 
-  useEffect(() => {
-    const fetchBranding = async () => {
-      try {
-        const { data } = await cmsAPI.getSettings();
-        if (data.branding) setBranding(data.branding);
-      } catch (error) {
-        console.error('Failed to fetch header branding:', error);
-      }
-    };
-    fetchBranding();
-  }, []);
+  const branding = useCMSStore((state) => state.branding);
 
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
 

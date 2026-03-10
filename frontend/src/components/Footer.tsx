@@ -2,25 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { cmsAPI } from '@/lib/api';
+import { useCMSStore } from '@/store/cms';
 import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone } from 'react-icons/fi';
 
 export default function Footer() {
-  const [branding, setBranding] = useState<any>({ name: 'IQTAN PERFUMES' });
-  const [socials, setSocials] = useState<any>({});
-
-  useEffect(() => {
-    const fetchCMS = async () => {
-      try {
-        const { data } = await cmsAPI.getSettings();
-        if (data.branding) setBranding(data.branding);
-        if (data.social_links) setSocials(data.social_links);
-      } catch (error) {
-        console.error('Failed to fetch footer data:', error);
-      }
-    };
-    fetchCMS();
-  }, []);
+  const branding = useCMSStore((state) => state.branding);
+  const socials = useCMSStore((state) => state.socials);
 
   return (
     <footer className="bg-gray-900 text-white mt-12">
