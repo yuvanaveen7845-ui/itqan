@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { productAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
+import { FiSliders, FiX, FiCheck } from 'react-icons/fi';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     Fragrance_type: '',
     price_min: '',
@@ -33,143 +35,133 @@ export default function ProductsPage() {
 
   const [sortBy, setSortBy] = useState('latest');
 
-  // Client-side sorting and additional filtering for mock data
   const filteredAndSortedProducts = [...products]
     .sort((a: any, b: any) => {
       if (sortBy === 'price_asc') return a.price - b.price;
       if (sortBy === 'price_desc') return b.price - a.price;
       if (sortBy === 'name_asc') return a.name.localeCompare(b.name);
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime(); // 'latest'
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Products</h1>
-
-        {/* Sort Options */}
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-700">Sort By:</label>
-          <select
-            className="input py-2 bg-white border-gray-300"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-          >
-            <option value="latest">Latest Arrivals</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name_asc">Name: A to Z</option>
-          </select>
-        </div>
+    <div className="min-h-screen bg-white">
+      {/* Premium Sub-Header */}
+      <div className="bg-premium-cream border-b border-premium-gold/10 py-16 text-center">
+        <h1 className="text-5xl md:text-7xl font-playfair font-black text-premium-black mb-4">The Collection</h1>
+        <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.5em] font-inter">Private Reserve & Signature Blends</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Filters Sidebar */}
-        <div className="col-span-1">
-          <div className="card sticky top-4">
-            <h3 className="font-bold text-lg mb-4 border-b pb-2">Filters</h3>
+      <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-12">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 border-b border-gray-100 pb-8">
+          <div className="flex items-center gap-8">
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-premium-black hover:text-premium-gold transition-colors"
+            >
+              <FiSliders size={16} />
+              {isFilterOpen ? 'Close Filters' : 'Filter Selection'}
+            </button>
+            <span className="text-[10px] text-premium-charcoal/40 font-black uppercase tracking-widest">{filteredAndSortedProducts.length} SIGNATURES</span>
+          </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Search</label>
-              <input
-                type="text"
-                className="input"
-                placeholder="Search products..."
-                value={filters.search}
-                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Category / Fragrance</label>
-              <select
-                className="input"
-                value={filters.Fragrance_type}
-                onChange={(e) => setFilters({ ...filters, Fragrance_type: e.target.value })}
-              >
-                <option value="">All Categories</option>
-                <option value="Cotton">Cotton</option>
-                <option value="Silk">Silk</option>
-                <option value="Linen">Linen</option>
-                <option value="Wool">Wool</option>
-                <option value="Perfume">Perfume</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Price Range (₹)</label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  className="input w-1/2"
-                  placeholder="Min"
-                  value={filters.price_min}
-                  onChange={(e) => setFilters({ ...filters, price_min: e.target.value })}
-                />
-                <input
-                  type="number"
-                  className="input w-1/2"
-                  placeholder="Max"
-                  value={filters.price_max}
-                  onChange={(e) => setFilters({ ...filters, price_max: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Brand</label>
-              <select className="input text-gray-500" disabled title="Will be enabled when connected to real DB">
-                <option value="">All Brands</option>
-                <option value="zara">Premium Mills</option>
-                <option value="h&m">Artisan Loom</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Minimum Rating</label>
-              <div className="flex gap-2">
-                {[4, 3, 2, 1].map(rating => (
-                  <button key={rating} className="flex-1 py-1 border rounded text-sm hover:bg-gray-50 flex items-center justify-center gap-1 text-gray-400 cursor-not-allowed" title="Will be enabled when connected to real DB">
-                    {rating}★+
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="flex items-center gap-6">
+            <label className="text-[10px] font-black text-premium-charcoal/60 uppercase tracking-widest font-inter">Sort By</label>
+            <select
+              className="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-premium-black focus:ring-0 cursor-pointer hover:text-premium-gold transition-colors"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="latest">Newest Arrivals</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="name_asc">Alphabetical</option>
+            </select>
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="col-span-1 lg:col-span-3">
-          {loading ? (
-            <div className="text-center py-20 text-gray-500">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-              <p className="mt-4">Loading amazing products...</p>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          {/* Filters Overlay/Sidebar */}
+          <div className={`${isFilterOpen ? 'block' : 'hidden'} lg:col-span-1 border-r border-gray-50 pr-8`}>
+            <div className="space-y-12 sticky top-32">
+              <div>
+                <h3 className="text-[11px] font-black text-premium-black uppercase tracking-[0.3em] mb-6 border-b border-premium-gold/20 pb-2 font-inter">Search</h3>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Look for a scent..."
+                    className="w-full bg-premium-cream border-none p-4 text-xs font-bold focus:ring-1 focus:ring-premium-gold"
+                    value={filters.search}
+                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-[11px] font-black text-premium-black uppercase tracking-[0.3em] mb-6 border-b border-premium-gold/20 pb-2 font-inter">Olfactive Family</h3>
+                <div className="flex flex-col gap-3">
+                  {['Oud', 'Floral', 'Spicy', 'Oriental', 'Fresh'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setFilters({ ...filters, Fragrance_type: filters.Fragrance_type === cat ? '' : cat })}
+                      className={`flex items-center justify-between text-[11px] font-bold uppercase tracking-widest py-2 transition-all ${filters.Fragrance_type === cat ? 'text-premium-gold translate-x-2' : 'text-premium-charcoal/60 hover:text-premium-black hover:translate-x-1'
+                        }`}
+                    >
+                      {cat}
+                      {filters.Fragrance_type === cat && <FiCheck size={12} />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-[11px] font-black text-premium-black uppercase tracking-[0.3em] mb-6 border-b border-premium-gold/20 pb-2 font-inter">Price Privilege (₹)</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    className="bg-premium-cream border-none p-3 text-xs font-black placeholder:text-premium-charcoal/30"
+                    value={filters.price_min}
+                    onChange={(e) => setFilters({ ...filters, price_min: e.target.value })}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    className="bg-premium-cream border-none p-3 text-xs font-black placeholder:text-premium-charcoal/30"
+                    value={filters.price_max}
+                    onChange={(e) => setFilters({ ...filters, price_max: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })}
+                className="w-full py-4 border border-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-premium-black hover:text-premium-gold transition-all"
+              >
+                Reset Selection
+              </button>
             </div>
-          ) : filteredAndSortedProducts.length === 0 ? (
-            <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-              <h3 className="text-xl font-bold text-gray-700 mb-2">No products found</h3>
-              <p className="text-gray-500">Try adjusting your filters or search criteria.</p>
-              <button onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })} className="mt-4 btn btn-secondary">Clear Filters</button>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          </div>
+
+          {/* Products Grid */}
+          <div className={`${isFilterOpen ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-40 gap-4">
+                <div className="w-12 h-12 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em]">Curating Senses...</p>
+              </div>
+            ) : filteredAndSortedProducts.length === 0 ? (
+              <div className="text-center py-40 border border-dashed border-premium-gold/20 bg-premium-cream/30">
+                <h3 className="text-2xl font-playfair italic text-premium-black mb-4">No matching signatures found</h3>
+                <p className="text-[10px] font-black text-premium-charcoal/40 uppercase tracking-widest">Adjust your search to discover our collection</p>
+              </div>
+            ) : (
+              <div className={`grid grid-cols-1 md:grid-cols-2 ${isFilterOpen ? 'xl:grid-cols-3' : 'xl:grid-cols-4'} gap-12`}>
                 {filteredAndSortedProducts.map((product: any) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
-
-              {/* Pagination UI - Placeholder for enterprise look */}
-              <div className="mt-12 flex justify-center items-center gap-2">
-                <button className="px-4 py-2 border rounded-md text-gray-400 cursor-not-allowed">Previous</button>
-                <button className="px-4 py-2 border rounded-md bg-blue-600 text-white font-medium">1</button>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600">2</button>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600">3</button>
-                <span className="text-gray-400">...</span>
-                <button className="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600">Next</button>
-              </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -8,8 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#2563eb',
-        secondary: '#64748b',
+        premium: {
+          white: '#FFFFFF',
+          gold: '#C5A059',
+          black: '#111111',
+          cream: '#FAF9F6',
+          charcoal: '#333333',
+        },
+      },
+      fontFamily: {
+        playfair: ['var(--font-playfair)', 'serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+      },
+      letterSpacing: {
+        elite: '0.2em',
+        luxury: '0.1em',
       },
     },
   },

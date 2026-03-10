@@ -1,77 +1,110 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useCMSStore } from '@/store/cms';
-import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone } from 'react-icons/fi';
+import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone, FiArrowUp } from 'react-icons/fi';
 
 export default function Footer() {
   const branding = useCMSStore((state) => state.branding);
   const socials = useCMSStore((state) => state.socials);
+  const footer = useCMSStore((state) => state.footer);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <footer className="bg-gray-900 text-white mt-12">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-4 gap-8 mb-8">
-          <div>
-            <h3 className="font-bold mb-4">About Us</h3>
-            <p className="text-gray-400">Premium perfume collection for every occasion.</p>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li><Link href="/products">Products</Link></li>
-              <li><Link href="#">About</Link></li>
-              <li><Link href="#">Contact</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4">Support</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li><Link href="#">FAQ</Link></li>
-              <li><Link href="#">Shipping</Link></li>
-              <li><Link href="#">Returns</Link></li>
-              <li><Link href="/privacy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-blue-400 transition-colors">Terms of Service</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-4 uppercase text-xs tracking-widest text-gray-500">Connect With Us</h3>
-            <div className="flex gap-4">
+    <footer className="bg-white border-t border-premium-gold/10">
+      <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
+
+          {/* Brand Info */}
+          <div className="lg:col-span-2 space-y-8">
+            <Link href="/" className="group flex flex-col">
+              <span className="text-3xl font-playfair font-black text-premium-black tracking-[0.1em] lowercase group-hover:text-premium-gold transition-colors">
+                {branding.name?.split(' ')[0] || 'iqtan'}
+              </span>
+              <span className="text-[10px] font-inter font-black text-premium-gold tracking-[0.5em] uppercase -mt-1">
+                {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
+              </span>
+            </Link>
+            <p className="text-premium-charcoal/60 text-sm leading-relaxed max-w-sm italic">
+              {footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}
+            </p>
+            <div className="flex gap-10">
               {socials.instagram && (
-                <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-indigo-600 transition-colors">
-                  <FiInstagram size={18} />
+                <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="text-premium-charcoal/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
+                  <FiInstagram size={20} />
                 </a>
               )}
               {socials.facebook && (
-                <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-blue-600 transition-colors">
-                  <FiFacebook size={18} />
+                <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="text-premium-charcoal/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
+                  <FiFacebook size={20} />
                 </a>
               )}
               {socials.twitter && (
-                <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl hover:bg-sky-500 transition-colors">
-                  <FiTwitter size={18} />
+                <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="text-premium-charcoal/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
+                  <FiTwitter size={20} />
                 </a>
               )}
             </div>
-            {!socials.instagram && !socials.facebook && !socials.twitter && (
-              <p className="text-gray-500 text-xs italic">Follow us on social media for updates.</p>
-            )}
           </div>
+
+          {/* Navigation Groups */}
           <div>
-            <h3 className="font-bold mb-4 uppercase text-xs tracking-widest text-gray-500">Contact</h3>
-            <div className="space-y-4">
-              <p className="text-gray-400 flex items-center gap-3 text-sm">
-                <FiMail className="text-indigo-500" /> info@iqtanperfumes.com
-              </p>
-              <p className="text-gray-400 flex items-center gap-3 text-sm">
-                <FiPhone className="text-indigo-500" /> +91 XXXX XXXX XX
-              </p>
-            </div>
+            <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.3em] mb-8 font-inter">Collections</h3>
+            <ul className="space-y-4">
+              {['Private Reserve', 'Oud Masters', 'Floral Bloom', 'The Classics'].map(item => (
+                <li key={item}>
+                  <Link href="/products" className="text-[11px] font-bold text-premium-charcoal/60 hover:text-premium-gold transition-colors uppercase tracking-widest font-inter">{item}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
+
+          <div>
+            <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.3em] mb-8 font-inter">Maison</h3>
+            <ul className="space-y-4">
+              {['Our Heritage', 'Scent Discovery', 'Private Atelier', 'Legal Notice'].map(item => (
+                <li key={item}>
+                  <Link href="/about" className="text-[11px] font-bold text-premium-charcoal/60 hover:text-premium-gold transition-colors uppercase tracking-widest font-inter">{item}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact & Support */}
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.3em] mb-8 font-inter">Experience</h3>
+              <div className="space-y-4">
+                <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
+                  <FiMail className="text-premium-gold" /> {footer.contact_email || 'concierge@iqtan.com'}
+                </p>
+                <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
+                  <FiPhone className="text-premium-gold" /> {footer.contact_phone || '+91 XXXX XXXX XX'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={scrollToTop}
+              className="group flex items-center gap-3 text-[9px] font-black text-premium-gold uppercase tracking-[0.4em] font-inter"
+            >
+              Back to Apex <FiArrowUp className="group-hover:-translate-y-1 transition-transform" />
+            </button>
+          </div>
+
         </div>
-        <div className="border-t border-gray-800/50 pt-8 text-center text-gray-500">
-          <p className="text-xs font-bold uppercase tracking-widest">&copy; {new Date().getFullYear()} {branding.name}. All rights reserved.</p>
+
+        <div className="mt-24 pt-12 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-[9px] font-black text-premium-charcoal/30 uppercase tracking-[0.3em] font-inter">
+            &copy; {new Date().getFullYear()} {branding.name}. {footer.copyright_text || 'All rights reserved.'}
+          </p>
+          <div className="flex gap-1">
+            {[1, 2, 3, 4].map(idx => (
+              <div key={idx} className="w-8 h-5 bg-premium-cream rounded-sm border border-premium-gold/5"></div>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

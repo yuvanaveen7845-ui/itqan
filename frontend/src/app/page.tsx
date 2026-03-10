@@ -1,243 +1,238 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { FiShoppingBag, FiStar, FiGift, FiTruck } from 'react-icons/fi';
-import { productAPI } from '@/lib/api';
+import { FiArrowRight, FiPlay, FiStar, FiShield, FiTruck, FiShoppingBag } from 'react-icons/fi';
+import { productAPI, cmsAPI } from '@/lib/api';
+import ProductCard from '@/components/ProductCard';
+import { useCMSStore } from '@/store/cms';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [banners, setBanners] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const branding = useCMSStore((state) => state.branding);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await productAPI.getAll({ limit: 6 });
-        setFeaturedProducts(data.products || []);
+        setLoading(true);
+        const [productsRes, bannersRes] = await Promise.all([
+          productAPI.getAll({ limit: 4 }),
+          cmsAPI.getBanners()
+        ]);
+        setFeaturedProducts(productsRes.data.products || []);
+        setBanners(bannersRes.data || []);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
+        console.error('Failed to fetch homepage data:', error);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchData();
   }, []);
 
+  const activeBanner = banners.find(b => b.is_active) || {
+    title: 'Exquisite Fragrance',
+    subtitle: 'THE ART OF SCENT',
+    image_url: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=2000'
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-      {/* Premium Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 z-10" />
-        
-        {/* Gold accents */}
-        <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent" />
-        <div className="absolute top-0 right-0 w-32 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-1 h-32 bg-gradient-to-b from-transparent via-yellow-500 to-transparent" />
-        <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-b from-transparent via-yellow-500 to-transparent" />
-        
-        <div className="relative z-20 text-center px-4 max-w-7xl mx-auto">
-          <div className="mb-8">
-            <span className="inline-block px-8 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black text-xs font-bold tracking-widest uppercase rounded-full">
-              The Royal Collection
-            </span>
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-black text-white mb-6 leading-tight">
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500">
-              iqtan
-            </span>
-            <span className="block text-white/90 text-4xl md:text-5xl mt-2">
-              PERFUMES
-            </span>
-          </h1>
-          
-          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Discover the essence of luxury with our ultra-premium fragrance collection
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
-              href="/products" 
-              className="group relative px-12 py-5 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-black text-lg tracking-widest uppercase hover:from-yellow-400 hover:to-yellow-500 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25"
-            >
-              <span className="relative z-10 flex items-center gap-3">
-                <FiShoppingBag className="w-5 h-5" />
-                Explore Collection
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-600 to-yellow-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded" />
-            </Link>
-            
-            <Link 
-              href="/products?collection=royal" 
-              className="px-12 py-5 border-2 border-yellow-500 text-yellow-400 font-black text-lg tracking-widest uppercase hover:bg-yellow-500 hover:text-black transition-all duration-300"
-            >
-              <span className="flex items-center gap-3">
-                <FiStar className="w-5 h-5" />
-                Royal Exclusive
-              </span>
-            </Link>
-          </div>
-        </div>
-        
-        {/* Floating elements for premium feel */}
-        <div className="absolute top-20 left-10 w-2 h-2 bg-yellow-500/30 animate-pulse" />
-        <div className="absolute top-40 right-20 w-1 h-1 bg-yellow-500/20 animate-pulse" />
-        <div className="absolute bottom-40 left-32 w-3 h-3 bg-yellow-500/25 rounded-full animate-ping" />
-      </section>
+    <div className="bg-white min-h-screen font-inter">
 
-      {/* Premium Features */}
-      <section className="py-24 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent" />
-              <FiStar className="w-8 h-8 text-yellow-500" />
-              <div className="w-12 h-px bg-gradient-to-r from-yellow-500 via-transparent to-transparent" />
-            </div>
-            <h2 className="text-4xl font-black text-white mb-6">
-              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500">iqtan</span>
-            </h2>
-            <p className="text-white/60 text-lg max-w-3xl mx-auto">
-              Experience the pinnacle of fragrance craftsmanship with our exclusive collections
+      {/* Ultra-Premium Parallax Hero */}
+      <section className="relative h-[90vh] overflow-hidden group">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={activeBanner.image_url}
+            alt="Hero Scent"
+            className="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-[10s] ease-out"
+          />
+          <div className="absolute inset-0 bg-premium-black/20 backdrop-brightness-90"></div>
+        </div>
+
+        <div className="relative z-10 h-full max-w-[1800px] mx-auto px-8 md:px-12 flex flex-col justify-center items-start">
+          <div className="space-y-6 max-w-4xl">
+            <p className="text-premium-gold text-xs font-black uppercase tracking-[0.6em] animate-fade-in-up">
+              {activeBanner.subtitle || 'Private Collection'}
             </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-8 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/25">
-                  <FiStar className="w-8 h-8 text-black" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-black text-white mb-4">Premium Quality</h3>
-              <p className="text-white/60 leading-relaxed">
-                Crafted with the finest ingredients from around the world
-              </p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-8 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/25">
-                  <FiTruck className="w-8 h-8 text-black" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-black text-white mb-4">Luxury Delivery</h3>
-              <p className="text-white/60 leading-relaxed">
-                Complimentary white glove delivery on all orders
-              </p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-8 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/25">
-                  <FiGift className="w-8 h-8 text-black" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-black text-white mb-4">Exclusive Gifts</h3>
-              <p className="text-white/60 leading-relaxed">
-                Complimentary samples and premium packaging with every order
-              </p>
+            <h1 className="text-6xl md:text-8xl font-playfair font-black text-white leading-tight animate-fade-in-up delay-100">
+              {activeBanner.title || 'The Essence of Elegance'}
+            </h1>
+            <div className="h-0.5 w-32 bg-premium-gold animate-fade-in-up delay-200"></div>
+            <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl animate-fade-in-up delay-300">
+              Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 pt-8 animate-fade-in-up delay-400">
+              <Link
+                href="/products"
+                className="px-10 py-5 bg-white text-premium-black text-[11px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-all duration-500 shadow-2xl"
+              >
+                Explore the Collection
+              </Link>
+              <Link
+                href="/about"
+                className="px-10 py-5 border border-white/30 text-white text-[11px] font-black uppercase tracking-widest hover:border-premium-gold hover:text-premium-gold transition-all duration-500 flex items-center gap-2"
+              >
+                Our Philosophy <FiArrowRight />
+              </Link>
             </div>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/40">
+          <span className="text-[9px] font-black uppercase tracking-widest">Scroll to discover</span>
+          <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent"></div>
+        </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-24 px-4 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-white mb-6">
-              Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500">Fragrances</span>
-            </h2>
-            <p className="text-white/60 text-lg">
-              Discover our most coveted scents
-            </p>
+      {/* The Storytelling Section */}
+      <section className="py-32 bg-premium-cream">
+        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="relative group">
+            <div className="absolute -inset-4 border border-premium-gold/20 group-hover:inset-0 transition-all duration-700"></div>
+            <img
+              src="https://images.unsplash.com/photo-1594035910387-fea477a4268f?auto=format&fit=crop&q=80&w=1000"
+              alt="Perfume Craft"
+              className="relative z-10 w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+            />
+            <div className="absolute bottom-8 right-8 z-20 bg-white p-8 border border-premium-gold/10 shadow-2xl translate-y-12 group-hover:translate-y-0 transition-transform duration-700">
+              <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">Since 2012</span>
+              <p className="text-xl font-playfair font-black text-premium-black mt-2 italic">Artisanal Mastery</p>
+            </div>
           </div>
-          
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500" />
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Our Legacy</p>
+              <h2 className="text-4xl md:text-5xl font-playfair font-black text-premium-black leading-tight">Crafting Memories Through Scent</h2>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map((product) => (
-                <div key={product.id} className="group relative">
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300">
-                    {product.image_url && (
-                      <div className="aspect-square overflow-hidden">
-                        <img 
-                          src={product.image_url} 
-                          alt={product.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                    )}
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <div className="p-6">
-                      <h3 className="text-xl font-black text-white mb-3">{product.name}</h3>
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="text-2xl font-black text-yellow-400">₹{product.price}</span>
-                        <div className="flex gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <FiStar key={i} className={`w-4 h-4 ${i < 4 ? 'text-yellow-500 fill-current' : 'text-gray-600'}`} />
-                          ))}
-                        </div>
-                      </div>
-                      <Link 
-                        href={`/products/${product.id}`}
-                        className="block w-full py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-black text-center tracking-widest uppercase hover:from-yellow-400 hover:to-yellow-500 transition-all duration-300"
-                      >
-                        Discover Scent
-                      </Link>
-                    </div>
-                    
-                    {/* Premium badge */}
-                    {product.stock < 10 && (
-                      <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black text-xs font-black tracking-widest uppercase rounded-full">
-                        Rare
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+            <p className="text-premium-charcoal/70 text-lg leading-relaxed font-light italic">
+              "Scent is the most intense form of memory. At {branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."
+            </p>
+            <div className="grid grid-cols-2 gap-8 py-8 border-y border-premium-gold/10">
+              <div>
+                <span className="text-3xl font-playfair font-black text-premium-black">100%</span>
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-widest mt-1">Natural Origins</p>
+              </div>
+              <div>
+                <span className="text-3xl font-playfair font-black text-premium-black">Private</span>
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-widest mt-1">Global Reserve</p>
+              </div>
             </div>
-          )}
-          
-          <div className="text-center mt-12">
-            <Link 
-              href="/products"
-              className="inline-flex items-center gap-3 px-8 py-4 border-2 border-yellow-500 text-yellow-400 font-black text-lg tracking-widest uppercase hover:bg-yellow-500 hover:text-black transition-all duration-300"
-            >
-              View Complete Collection
-              <FiShoppingBag className="w-5 h-5" />
+            <Link href="/about" className="group inline-flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.3em] text-premium-black hover:text-premium-gold transition-colors">
+              Meet our master perfumers <FiArrowRight className="group-hover:translate-x-2 transition-transform" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Premium Footer CTA */}
-      <section className="py-24 px-4 bg-gradient-to-t from-black via-gray-900 to-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-12">
-            <FiStar className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
+      {/* Featured Collection: Horizontal Gallery */}
+      <section className="py-32 bg-white overflow-hidden">
+        <div className="max-w-[1800px] mx-auto px-8 mb-20 flex flex-col md:flex-row justify-between items-end gap-8">
+          <div className="space-y-4">
+            <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Privileged Selection</p>
+            <h2 className="text-4xl md:text-6xl font-playfair font-black text-premium-black">The Signature Edit</h2>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-            Begin Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500">Royal Journey</span>
-          </h2>
-          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">
-            Join the exclusive circle of connoisseurs who appreciate the finest fragrances
-          </p>
-          <Link 
-            href="/products"
-            className="group relative inline-flex items-center gap-4 px-12 py-6 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-black text-lg tracking-widest uppercase hover:from-yellow-400 hover:to-yellow-500 transition-all duration-300 shadow-2xl hover:shadow-yellow-500/25"
-          >
-            <span className="relative z-10">
-              Start Your Collection
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-600 to-yellow-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded" />
+          <Link href="/products" className="px-8 py-4 border border-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-premium-black hover:text-premium-gold transition-all duration-500">
+            Discovery Full Collection
           </Link>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-40">
+            <div className="w-12 h-12 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* The Olfactive Experience - Interactive Grid */}
+      <section className="py-32 bg-premium-black text-white">
+        <div className="max-w-7xl mx-auto px-8 text-center mb-24">
+          <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4">The Gallery</p>
+          <h2 className="text-4xl md:text-6xl font-playfair font-black mb-8">Elevate Your Senses</h2>
+          <div className="w-24 h-0.5 bg-premium-gold mx-auto"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 h-[800px] border-y border-white/5">
+          <Link href="/products?category=Oud" className="relative group overflow-hidden border-r border-white/5 flex items-center justify-center p-12 text-center">
+            <div className="absolute inset-0 z-0">
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
+            </div>
+            <div className="relative z-10 transition-all duration-700">
+              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Purest Origins</span>
+              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Sacred Oud</h3>
+              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
+            </div>
+          </Link>
+
+          <Link href="/products?category=Floral" className="relative group overflow-hidden border-r border-white/5 flex items-center justify-center p-12 text-center bg-premium-cream/5">
+            <div className="absolute inset-0 z-0 text-center">
+              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
+            </div>
+            <div className="relative z-10 transition-all duration-700">
+              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Eternal Bloom</span>
+              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Royal Floral</h3>
+              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
+            </div>
+          </Link>
+
+          <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-12 text-center">
+            <div className="absolute inset-0 z-0 text-center">
+              <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 opacity-40 group-hover:opacity-60" />
+            </div>
+            <div className="relative z-10 transition-all duration-700">
+              <span className="text-[10px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-4">Exotic Night</span>
+              <h3 className="text-4xl font-playfair font-black mb-4 group-hover:italic transition-all">Golden Spice</h3>
+              <div className="h-0.5 w-0 bg-premium-gold group-hover:w-full transition-all duration-700 mx-auto"></div>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Trust & Services */}
+      <section className="py-32 bg-white">
+        <div className="max-w-[1800px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
+          {[
+            { icon: FiStar, title: 'Authenticity Guaranteed', desc: 'Sourced directly from the oldest distilleries in the world.' },
+            { icon: FiTruck, title: 'Concierge Delivery', desc: 'Complimentary shipping in climate-controlled packaging.' },
+            { icon: FiShield, title: 'Secure Privilege', desc: 'End-to-end encrypted transactions for your privacy.' },
+            { icon: FiShoppingBag, title: 'Signature Wrapping', desc: 'Every scent arrives in our iconic golden-embossed gift box.' },
+          ].map((item, idx) => (
+            <div key={idx} className="space-y-6">
+              <div className="w-16 h-16 bg-premium-cream rounded-full flex items-center justify-center mx-auto transition-transform hover:rotate-[360deg] duration-1000">
+                <item.icon className="text-premium-gold w-6 h-6" />
+              </div>
+              <h4 className="text-[11px] font-black uppercase tracking-[0.2em]">{item.title}</h4>
+              <p className="text-[11px] text-premium-charcoal/60 leading-relaxed max-w-[200px] mx-auto">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Luxury Footer Newsletter CTA */}
+      <section className="py-40 bg-premium-cream text-center relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
+        <div className="max-w-4xl mx-auto px-8 space-y-12">
+          <h2 className="text-5xl md:text-7xl font-playfair font-black text-premium-black italic">Join the Inner Circle</h2>
+          <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.6em]">Receive Invitations to Private Collections & Elite Experiences</p>
+          <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+            <input
+              type="email"
+              placeholder="Your elegant email adress..."
+              className="flex-1 bg-white border border-premium-gold/10 p-5 text-xs font-bold outline-none focus:border-premium-gold transition-colors"
+            />
+            <button className="bg-premium-black text-premium-gold px-12 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all">
+              Subscribe
+            </button>
+          </div>
         </div>
       </section>
     </div>
