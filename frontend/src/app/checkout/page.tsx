@@ -91,7 +91,7 @@ export default function CheckoutPage() {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
           amount: Math.round(getTotal() * 100),
           currency: 'INR',
-          name: 'Textile Store',
+          name: 'Perfume Store',
           description: 'Order Payment',
           order_id: orderData.razorpayOrder.id,
           handler: async (response: any) => {

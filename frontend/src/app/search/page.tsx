@@ -96,7 +96,7 @@ export default function SearchPage() {
                                             )}
                                             <div>
                                                 <h4 className="font-bold text-gray-800 group-hover:text-blue-600">{product.name}</h4>
-                                                <p className="text-sm text-gray-500">{product.fabric_type} • ₹{product.price}</p>
+                                                <p className="text-sm text-gray-500">{product.Fragrance_type} • ₹{product.price}</p>
                                             </div>
                                         </Link>
                                     </li>
@@ -144,7 +144,7 @@ export default function SearchPage() {
                             {categorySuggestions.map(term => (
                                 <button
                                     key={term}
-                                    onClick={() => router.push(`/products?fabric_type=${term}`)}
+                                    onClick={() => router.push(`/products?Fragrance_type=${term}`)}
                                     className="border border-blue-200 text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-full text-sm transition"
                                 >
                                     {term}

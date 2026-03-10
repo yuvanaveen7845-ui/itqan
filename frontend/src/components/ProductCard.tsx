@@ -15,7 +15,7 @@ interface ProductCardProps {
         image_url: string;
         images?: string[];
         description: string;
-        fabric_type: string;
+        Fragrance_type: string;
         stock: number;
     };
     badge?: string;
@@ -88,7 +88,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
                 <div className="p-5 flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-2">
-                        <p className="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">{product.fabric_type}</p>
+                        <p className="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em]">{product.Fragrance_type}</p>
                         {product.stock <= 5 && product.stock > 0 && (
                             <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">Low Stock</span>
                         )}

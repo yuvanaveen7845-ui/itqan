@@ -9,7 +9,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    fabric_type: '',
+    Fragrance_type: '',
     price_min: '',
     price_max: '',
     search: '',
@@ -81,11 +81,11 @@ export default function ProductsPage() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">Category / Fabric</label>
+              <label className="block text-sm font-medium mb-2">Category / Fragrance</label>
               <select
                 className="input"
-                value={filters.fabric_type}
-                onChange={(e) => setFilters({ ...filters, fabric_type: e.target.value })}
+                value={filters.Fragrance_type}
+                onChange={(e) => setFilters({ ...filters, Fragrance_type: e.target.value })}
               >
                 <option value="">All Categories</option>
                 <option value="Cotton">Cotton</option>
@@ -149,7 +149,7 @@ export default function ProductsPage() {
             <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-300">
               <h3 className="text-xl font-bold text-gray-700 mb-2">No products found</h3>
               <p className="text-gray-500">Try adjusting your filters or search criteria.</p>
-              <button onClick={() => setFilters({ fabric_type: '', price_min: '', price_max: '', search: '' })} className="mt-4 btn btn-secondary">Clear Filters</button>
+              <button onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })} className="mt-4 btn btn-secondary">Clear Filters</button>
             </div>
           ) : (
             <>

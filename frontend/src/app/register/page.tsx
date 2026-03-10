@@ -98,7 +98,7 @@ export default function RegisterPage() {
       <div className="card shadow-2xl border-0 p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black text-gray-900 mb-2">Create an Account</h1>
-          <p className="text-gray-500">Join us to access premium textile collections</p>
+          <p className="text-gray-500">Join us to access premium Perfume collections</p>
         </div>
 
         {error && (

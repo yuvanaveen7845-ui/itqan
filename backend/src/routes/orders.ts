@@ -73,6 +73,11 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       if (product) total += product.price * item.quantity;
     }
 
+    // Generate Display ID (e.g., ORD-20260310-A1B2)
+    const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const randomChars = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const displayId = `ORD-${dateStr}-${randomChars}`;
+
     // Create order
     const { data: order, error: orderError } = await supabase
       .from('orders')
@@ -82,6 +87,7 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
           address_id: finalAddressId,
           total_amount: total,
           status: 'pending',
+          display_id: displayId,
         },
       ])
       .select()

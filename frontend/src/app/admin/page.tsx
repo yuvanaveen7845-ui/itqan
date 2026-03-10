@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-black text-gray-900 mb-2">Platform Overview</h1>
-          <p className="text-gray-500 font-medium">Detailed analytics and performance metrics for your textile enterprise.</p>
+          <p className="text-gray-500 font-medium">Detailed analytics and performance metrics for your Perfume enterprise.</p>
         </div>
         <button className="bg-white border border-gray-200 px-4 py-2 rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition shadow-sm flex items-center gap-2">
           Download Report

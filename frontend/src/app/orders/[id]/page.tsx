@@ -114,7 +114,7 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                                             </div>
                                             <div className="pt-4">
                                                 <h4 className={`text-lg font-bold ${currentStatusIndex >= 0 ? 'text-gray-900' : 'text-gray-400'}`}>Order Processing</h4>
-                                                <p className={`mt-1 ${currentStatusIndex >= 0 ? 'text-gray-600' : 'text-gray-400'}`}>We're preparing your fabrics for shipment.</p>
+                                                <p className={`mt-1 ${currentStatusIndex >= 0 ? 'text-gray-600' : 'text-gray-400'}`}>We're preparing your perfumes for shipment.</p>
                                                 {currentStatusIndex >= 0 && <p className="text-sm text-gray-500 mt-2">{new Date(order.created_at).toLocaleString()}</p>}
                                             </div>
                                         </li>
@@ -228,7 +228,7 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                             <div className="mb-6">
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Delivery Address</h4>
                                 <p className="font-medium">{user?.name}</p>
-                                <p className="text-blue-100 mt-1 opacity-90">123 Textile Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
+                                <p className="text-blue-100 mt-1 opacity-90">123 Perfume Hub, Fragrance Road<br />Luxury District<br />Mumbai, Maharashtra 400001<br />India</p>
                             </div>
                             <div>
                                 <h4 className="font-bold text-blue-100 uppercase text-xs tracking-wider mb-2">Contact Details</h4>

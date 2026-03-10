@@ -11,7 +11,7 @@ interface WishlistItem {
         name: string;
         price: number;
         image_url: string;
-        fabric_type: string;
+        Fragrance_type: string;
     };
 }
 

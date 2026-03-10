@@ -17,7 +17,7 @@ export default function AdminProductsPage() {
     name: '',
     description: '',
     price: '',
-    fabric_type: '',
+    Fragrance_type: '',
     stock: '',
     image_url: '',
   });
@@ -63,7 +63,7 @@ export default function AdminProductsPage() {
       name: product.name,
       description: product.description,
       price: product.price.toString(),
-      fabric_type: product.fabric_type,
+      Fragrance_type: product.Fragrance_type,
       stock: product.stock.toString(),
       image_url: product.image_url || '',
     });
@@ -72,7 +72,7 @@ export default function AdminProductsPage() {
 
   const resetForm = () => {
     setEditingId(null);
-    setFormData({ name: '', description: '', price: '', fabric_type: '', stock: '', image_url: '' });
+    setFormData({ name: '', description: '', price: '', Fragrance_type: '', stock: '', image_url: '' });
     setShowForm(false);
   };
 
@@ -137,8 +137,8 @@ export default function AdminProductsPage() {
             />
             <select
               className="input"
-              value={formData.fabric_type}
-              onChange={(e) => setFormData({ ...formData, fabric_type: e.target.value })}
+              value={formData.Fragrance_type}
+              onChange={(e) => setFormData({ ...formData, Fragrance_type: e.target.value })}
               required
             >
               <option value="">Select Category</option>
@@ -182,7 +182,7 @@ export default function AdminProductsPage() {
           <thead>
             <tr className="border-b">
               <th className="text-left py-3">Name</th>
-              <th className="text-left py-3">Fabric Type</th>
+              <th className="text-left py-3">Fragrance Type</th>
               <th className="text-left py-3">Price</th>
               <th className="text-left py-3">Stock</th>
               <th className="text-left py-3">Actions</th>
@@ -192,7 +192,7 @@ export default function AdminProductsPage() {
             {products.map((product: any) => (
               <tr key={product.id} className="border-b hover:bg-gray-50">
                 <td className="py-3">{product.name}</td>
-                <td className="py-3">{product.fabric_type}</td>
+                <td className="py-3">{product.Fragrance_type}</td>
                 <td className="py-3">₹{product.price}</td>
                 <td className="py-3">{product.stock}</td>
                 <td className="py-3 flex gap-2">

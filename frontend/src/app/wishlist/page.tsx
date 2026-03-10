@@ -83,8 +83,8 @@ export default function WishlistPage() {
                                     name: item.products.name,
                                     price: item.products.price,
                                     image_url: item.products.image_url,
-                                    description: "Premium fabric from your wishlist",
-                                    fabric_type: item.products.fabric_type,
+                                    description: "Premium Fragrance from your wishlist",
+                                    Fragrance_type: item.products.Fragrance_type,
                                     stock: 10 // Placeholder
                                 }} />
 

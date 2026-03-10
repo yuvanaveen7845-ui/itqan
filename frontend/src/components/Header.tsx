@@ -23,8 +23,8 @@ export default function Header() {
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
           <Link href="/products" className="text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors uppercase tracking-widest">Collections</Link>
-          <Link href="/products?fabric_type=Silk" className="text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors uppercase tracking-widest">Silk</Link>
-          <Link href="/products?fabric_type=Cotton" className="text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors uppercase tracking-widest">Cotton</Link>
+          <Link href="/products?Fragrance_type=Silk" className="text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors uppercase tracking-widest">Silk</Link>
+          <Link href="/products?Fragrance_type=Cotton" className="text-sm font-bold text-gray-600 hover:text-blue-600 transition-colors uppercase tracking-widest">Cotton</Link>
         </div>
 
         <div className="flex gap-4 sm:gap-6 items-center">

@@ -16,7 +16,7 @@ export default function AdminInventoryPage() {
     price: '',
     original_price: '',
     discount: '',
-    fabric_type: 'Cotton',
+    Fragrance_type: 'Cotton',
     stock: '',
     image_url: '',
     images: [''],
@@ -48,7 +48,7 @@ export default function AdminInventoryPage() {
         price: product.price.toString(),
         original_price: (product.original_price || '').toString(),
         discount: (product.discount || '').toString(),
-        fabric_type: product.fabric_type || 'Cotton',
+        Fragrance_type: product.Fragrance_type || 'Cotton',
         stock: product.stock.toString(),
         image_url: product.image_url || '',
         images: product.images && product.images.length > 0 ? product.images : [''],
@@ -62,7 +62,7 @@ export default function AdminInventoryPage() {
         price: '',
         original_price: '',
         discount: '',
-        fabric_type: 'Cotton',
+        Fragrance_type: 'Cotton',
         stock: '',
         image_url: '',
         images: [''],
@@ -232,7 +232,7 @@ export default function AdminInventoryPage() {
                   <input
                     type="text"
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
-                    placeholder="e.g. Premium Cotton Fabric"
+                    placeholder="e.g. Premium Cotton Fragrance"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
@@ -244,7 +244,7 @@ export default function AdminInventoryPage() {
                   <textarea
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
                     rows={3}
-                    placeholder="Describe the textile quality, feel, and use case..."
+                    placeholder="Describe the Perfume quality, feel, and use case..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required
@@ -298,11 +298,11 @@ export default function AdminInventoryPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Fabric Type</label>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Fragrance Type</label>
                   <select
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
-                    value={formData.fabric_type}
-                    onChange={(e) => setFormData({ ...formData, fabric_type: e.target.value })}
+                    value={formData.Fragrance_type}
+                    onChange={(e) => setFormData({ ...formData, Fragrance_type: e.target.value })}
                   >
                     <option value="Cotton">Cotton</option>
                     <option value="Silk">Silk</option>

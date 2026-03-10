@@ -314,7 +314,7 @@ export default function ProfilePage() {
                 <div className="border-2 border-blue-500 rounded-xl p-5 relative bg-blue-50">
                   <span className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">Default</span>
                   <h4 className="font-bold text-gray-900 mb-1">{user.name}</h4>
-                  <p className="text-sm text-gray-600 mb-4">123 Textile Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
+                  <p className="text-sm text-gray-600 mb-4">123 Perfume Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
                   <p className="text-sm text-gray-600 mb-4">Phone: +91 98765 43210</p>
                   <div className="flex gap-3 text-sm font-medium">
                     <button className="text-blue-600 hover:underline">Edit</button>

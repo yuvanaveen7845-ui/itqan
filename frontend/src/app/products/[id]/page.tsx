@@ -145,14 +145,14 @@ export default function ProductDetailPage() {
 
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <h3 className="font-bold text-gray-900 text-sm uppercase tracking-widest">Fabric Option</h3>
+                <h3 className="font-bold text-gray-900 text-sm uppercase tracking-widest">Bottle Size</h3>
                 <button onClick={() => setShowSizeChart(true)} className="text-xs text-blue-600 hover:underline font-bold">Size Guide</button>
               </div>
               <select className="w-full bg-white shadow-sm border border-gray-100 rounded-xl px-4 py-4 font-bold text-gray-700 focus:ring-2 focus:ring-blue-600 outline-none transition-all">
-                <option>Standard (1 Meter)</option>
-                <option>2 Meters (+₹500)</option>
-                <option>3 Meters (+₹900)</option>
-                <option>Custom Cut (Contact us)</option>
+                <option>Standard (50ml)</option>
+                <option>100ml (+₹500)</option>
+                <option>Attar (12ml)</option>
+                <option>Gift Set (Contact us)</option>
               </select>
             </div>
           </div>
@@ -180,8 +180,8 @@ export default function ProductDetailPage() {
             </h3>
             <div className="grid grid-cols-2 gap-y-6 gap-x-8">
               <div className="space-y-1">
-                <p className="text-[10px] uppercase tracking-[0.2em] font-black text-gray-400">Fabric</p>
-                <p className="font-bold text-lg">{product.fabric_type}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-black text-gray-400">Fragrance Family</p>
+                <p className="font-bold text-lg">{product.fabric_type || 'Signature'}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] uppercase tracking-[0.2em] font-black text-gray-400">Inventory</p>
@@ -231,31 +231,31 @@ export default function ProductDetailPage() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <div className="bg-white rounded-[32px] shadow-2xl p-10 max-w-2xl w-full relative animate-in fade-in zoom-in duration-300">
             <button onClick={() => setShowSizeChart(false)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 font-bold text-2xl transition-colors">✕</button>
-            <h2 className="text-3xl font-black mb-8 text-gray-900">Textile Dimensions</h2>
+            <h2 className="text-3xl font-black mb-8 text-gray-900">Bottle Sizes</h2>
             <div className="overflow-hidden rounded-2xl border border-gray-100">
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-gray-50">
                     <th className="p-5 font-black text-xs uppercase tracking-widest text-gray-500">Unit Option</th>
-                    <th className="p-5 font-black text-xs uppercase tracking-widest text-gray-500">Dimensions</th>
+                    <th className="p-5 font-black text-xs uppercase tracking-widest text-gray-500">Volume</th>
                     <th className="p-5 font-black text-xs uppercase tracking-widest text-gray-500">Ideal For</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   <tr>
-                    <td className="p-5 font-bold">1 Meter</td>
-                    <td className="p-5 text-gray-600 font-medium">39" x 44"</td>
-                    <td className="p-5 text-gray-600 font-medium">Blouses, Masks</td>
+                    <td className="p-5 font-bold">Standard</td>
+                    <td className="p-5 text-gray-600 font-medium">50ml</td>
+                    <td className="p-5 text-gray-600 font-medium">Daily Wear</td>
                   </tr>
                   <tr>
-                    <td className="p-5 font-bold">2 Meters</td>
-                    <td className="p-5 text-gray-600 font-medium">78" x 44"</td>
-                    <td className="p-5 text-gray-600 font-medium">Dresses, Skirts</td>
+                    <td className="p-5 font-bold">Large</td>
+                    <td className="p-5 text-gray-600 font-medium">100ml</td>
+                    <td className="p-5 text-gray-600 font-medium">Signature Scent</td>
                   </tr>
                   <tr>
-                    <td className="p-5 font-bold">3 Meters</td>
-                    <td className="p-5 text-gray-600 font-medium">118" x 44"</td>
-                    <td className="p-5 text-gray-600 font-medium">Suits, Saree</td>
+                    <td className="p-5 font-bold">Attar</td>
+                    <td className="p-5 text-gray-600 font-medium">12ml</td>
+                    <td className="p-5 text-gray-600 font-medium">Travel, Occasions</td>
                   </tr>
                 </tbody>
               </table>

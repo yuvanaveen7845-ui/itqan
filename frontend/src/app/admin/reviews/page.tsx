@@ -6,9 +6,9 @@ import { FiCheck, FiX, FiStar, FiMessageSquare, FiUser, FiBox } from 'react-icon
 export default function AdminReviewsPage() {
     // Mock reviews for moderation
     const [reviews, setReviews] = useState([
-        { id: '1', product: 'Premium Cotton', user: 'Sarah J.', rating: 5, comment: 'Absolutely brilliant fabric, highly recommended!', date: '2026-03-08', status: 'pending' },
+        { id: '1', product: 'Premium Cotton', user: 'Sarah J.', rating: 5, comment: 'Absolutely brilliant Fragrance, highly recommended!', date: '2026-03-08', status: 'pending' },
         { id: '2', product: 'Silk Blend', user: 'Mike R.', rating: 2, comment: 'Color was slightly different than the photo.', date: '2026-03-07', status: 'pending' },
-        { id: '3', product: 'Linen Fabric', user: 'Emma W.', rating: 4, comment: 'Great quality for the price. Will buy again.', date: '2026-03-06', status: 'pending' },
+        { id: '3', product: 'Linen Fragrance', user: 'Emma W.', rating: 4, comment: 'Great quality for the price. Will buy again.', date: '2026-03-06', status: 'pending' },
     ]);
 
     const handleAction = (id: string, newStatus: string) => {

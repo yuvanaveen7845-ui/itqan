@@ -110,18 +110,25 @@ export default function AdminOrdersPage() {
                   <td className="px-8 py-4 font-black">₹{order.total_amount.toLocaleString()}</td>
                   <td className="px-8 py-4">
                     <div className="flex justify-end gap-2">
-                      {order.status === 'pending' && (
-                        <button
-                          onClick={() => handleUpdateStatus(order.id, 'confirmed')}
-                          className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-600 hover:text-white transition" title="Confirm Order">
-                          <FiCheck />
-                        </button>
-                      )}
-                      {['confirmed', 'pending'].includes(order.status) && (
+                      {order.status === 'confirmed' && (
                         <button
                           onClick={() => handleUpdateStatus(order.id, 'shipped')}
                           className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition" title="Mark Shipped">
                           <FiBox />
+                        </button>
+                      )}
+                      {order.status === 'shipped' && (
+                        <button
+                          onClick={() => handleUpdateStatus(order.id, 'delivered')}
+                          className="p-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition" title="Mark Delivered">
+                          <FiCheck />
+                        </button>
+                      )}
+                      {['pending', 'confirmed'].includes(order.status) && (
+                        <button
+                          onClick={() => handleUpdateStatus(order.id, 'cancelled')}
+                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition" title="Cancel Order">
+                          <FiX />
                         </button>
                       )}
                       <button className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-200 transition" title="Print Invoice">
