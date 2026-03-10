@@ -87,9 +87,9 @@ const startServer = async () => {
     console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
     // Start listening immediately so Railway/Load Balancer sees us as healthy
-    const server = app.listen(PORT, () => {
-      console.log(`✓ [PROCESS UP] Server is listening on port ${PORT}`);
-      console.log(`✓ Health Check: http://localhost:${PORT}/health`);
+    const server = app.listen(Number(PORT), '0.0.0.0', () => {
+      console.log(`✓ [PROCESS UP] Server is listening on 0.0.0.0:${PORT}`);
+      console.log(`✓ Health Check: /health`);
     });
 
     // Try to init DB in background
