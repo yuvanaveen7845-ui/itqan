@@ -3,6 +3,9 @@ import { supabase } from '../config/database';
 import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
 import { createRazorpayOrder, verifyPaymentSignature } from '../config/payment';
 import { sendEmail, emailTemplates } from '../config/email';
+import axios from 'axios';
+
+const OPAL_AUTOMATION_URL = 'https://opal.google/app/1VyMrnma3KQcM91M0CPdrlbZXf2ZGdu_e';
 
 const router = Router();
 
@@ -141,7 +144,16 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       .from('orders')
       .update({ status: 'confirmed', payment_id: paymentId })
       .eq('id', orderId)
-      .select()
+      .select(`
+        *,
+        users (email, name),
+        order_items (
+          quantity,
+          price,
+          product_id,
+          products (name, description)
+        )
+      `)
       .single();
 
     if (error) throw error;
@@ -171,7 +183,59 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       );
     }
 
-    res.json({ message: 'Payment verified', order });
+    // --- DECREMENT STOCK FOR EACH ITEM ---
+    if (order.order_items) {
+      console.log('Starting stock deduction process for order:', orderId);
+      for (const item of order.order_items) {
+        // Fetch current stock
+        const { data: currentProduct, error: fetchErr } = await supabase
+          .from('products')
+          .select('stock')
+          .eq('id', item.product_id)
+          .single();
+
+        if (!fetchErr && currentProduct && currentProduct.stock >= item.quantity) {
+          const newStock = currentProduct.stock - item.quantity;
+          await supabase
+            .from('products')
+            .update({ stock: newStock })
+            .eq('id', item.product_id);
+          console.log(`Decremented stock for product ${item.product_id} to ${newStock}`);
+        } else {
+          console.error(`Insufficient stock or fetch error for product ${item.product_id}`);
+        }
+      }
+    }
+
+    // --- TRIGGER OPAL AUTOMATION ---
+    const { data: address } = await supabase
+      .from('addresses')
+      .select('*')
+      .eq('id', order.address_id)
+      .single();
+
+    const automationData = {
+      customer_email: order.users?.email || user?.email,
+      order_id: order.id,
+      total_amount: order.total_amount,
+      shipping_address: address ?
+        `${address.address_line1}, ${address.city}, ${address.state} - ${address.zipcode}` :
+        'Not provided',
+      order_details: order.order_items?.map((item: any) => ({
+        name: item.products?.name,
+        quantity: item.quantity,
+        price: item.price,
+        description: item.products?.description
+      }))
+    };
+
+    console.log('Triggering Opal Automation with data:', JSON.stringify(automationData, null, 2));
+
+    await axios.post(OPAL_AUTOMATION_URL, automationData).catch(err => {
+      console.error('✗ Opal automation trigger failed:', err.message);
+    });
+
+    res.json({ message: 'Payment verified successfully and automations triggered', order });
   } catch (error) {
     console.error('Payment verification error:', error);
     res.status(500).json({ error: 'Payment verification failed' });
