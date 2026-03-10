@@ -97,7 +97,7 @@ export default function ProductDetailPage() {
           <div className="mb-2 flex items-center gap-2 text-sm text-gray-500">
             <Link href="/" className="hover:text-blue-600">Home</Link> /
             <Link href="/products" className="hover:text-blue-600 font-medium">Shop</Link> /
-            <span className="text-gray-800 font-bold">{product.fabric_type}</span>
+            <span className="text-gray-800 font-bold">{product.fabric_type || 'Perfume'}</span>
           </div>
           <h1 className="text-4xl lg:text-5xl font-black mb-4 text-gray-900 leading-tight">{product.name}</h1>
 
@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
             <div className="flex text-yellow-500 font-bold text-lg">
               ★★★★☆ <span className="text-gray-400 text-sm ml-2 font-medium">(128 Reviews)</span>
             </div>
-            <p className="text-blue-600 font-black bg-blue-50 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest">{product.fabric_type}</p>
+            <p className="text-blue-600 font-black bg-blue-50 px-4 py-1.5 rounded-full text-xs uppercase tracking-widest">{product.fabric_type || 'Fragrance'}</p>
           </div>
 
           <div className="mb-8 flex items-baseline gap-4">
@@ -213,7 +213,7 @@ export default function ProductDetailPage() {
                 <div className="aspect-square relative overflow-hidden bg-gray-50">
                   <img src={p.images?.[0] || p.image_url} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-[10px] font-black uppercase text-blue-600">{p.fabric_type}</span>
+                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-[10px] font-black uppercase text-blue-600">{p.fabric_type || 'Perfume'}</span>
                   </div>
                 </div>
                 <div className="p-6">

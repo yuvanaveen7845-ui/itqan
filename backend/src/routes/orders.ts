@@ -178,8 +178,9 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
     if (user) {
       await sendEmail(
         user.email,
-        'Order Confirmation',
-        emailTemplates.orderConfirmation(orderId, order.total_amount)
+        'Order Confirmation - Itqan Perfumes',
+        emailTemplates.orderConfirmation(orderId, order.total_amount),
+        process.env.SMTP_FROM || 'itqanperfumes@gmail.com'
       );
     }
 

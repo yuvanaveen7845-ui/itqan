@@ -10,11 +10,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = async (to: string, subject: string, html: string) => {
+export const sendEmail = async (to: string, subject: string, html: string, cc?: string) => {
   try {
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
       to,
+      cc,
       subject,
       html,
     });
@@ -27,9 +28,9 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
 
 export const emailTemplates = {
   welcome: (name: string) => `
-    <h2>Welcome to Textile Store!</h2>
+    <h2>Welcome to Itqan Perfumes!</h2>
     <p>Hi ${name},</p>
-    <p>Thank you for registering. Start exploring our premium textile collection.</p>
+    <p>Thank you for registering. Start exploring our premium fragrance collection.</p>
   `,
   orderConfirmation: (orderId: string, total: number) => `
     <h2>Order Confirmed</h2>
