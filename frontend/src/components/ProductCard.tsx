@@ -66,8 +66,8 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 <button
                     onClick={toggleWishlist}
                     className={`absolute top-4 right-4 p-3 rounded-full z-20 transition-all duration-500 transform ${isWishlisted
-                            ? 'bg-premium-gold text-premium-white scale-110 shadow-lg'
-                            : 'bg-white/80 text-premium-charcoal/40 hover:text-premium-gold hover:bg-white scale-100'
+                        ? 'bg-premium-gold text-premium-white scale-110 shadow-lg'
+                        : 'bg-white/80 text-premium-charcoal/40 hover:text-premium-gold hover:bg-white scale-100'
                         } group-hover:scale-110`}
                 >
                     <FiHeart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
@@ -76,7 +76,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 {/* Primary Image with Ken Burns Effect on hover */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
                     <img
-                        src={primaryImage || '/placeholder-perfume.jpg'}
+                        src={primaryImage || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800'}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-[2s] cubic-bezier(0.25, 0.46, 0.45, 0.94) group-hover:scale-110"
                     />
