@@ -7,8 +7,10 @@ export default function CustomCursor() {
     const ringRef = useRef<HTMLDivElement>(null);
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const onMouseMove = (e: MouseEvent) => {
             if (!isVisible) setIsVisible(true);
 
@@ -56,7 +58,7 @@ export default function CustomCursor() {
         };
     }, [isVisible]);
 
-    if (typeof window === 'undefined') return null;
+    if (!mounted) return null;
 
     return (
         <div

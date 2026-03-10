@@ -34,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
       <body className="antialiased lg:cursor-none" suppressHydrationWarning={true}>

@@ -15,6 +15,7 @@ export default function Header() {
   const { items: wishlistItems } = useWishlistStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const branding = useCMSStore((state) => state.branding);
   const announcement = useCMSStore((state) => state.announcement);
@@ -22,6 +23,7 @@ export default function Header() {
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -209,7 +211,7 @@ export default function Header() {
 
         <div className="p-12 border-t border-gray-50 flex justify-between items-center bg-gray-50/50">
           <div className="text-[9px] font-black text-premium-charcoal tracking-widest uppercase font-inter">
-            © {new Date().getFullYear()} {branding.name || 'IQTAN'}
+            © {mounted ? new Date().getFullYear() : '2024'} {branding.name || 'IQTAN'}
           </div>
           <div className="flex gap-4">
             <div className="w-6 h-6 rounded-full bg-premium-black/5"></div>

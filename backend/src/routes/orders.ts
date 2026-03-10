@@ -162,7 +162,14 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       .select()
       .single();
 
-    if (orderError) throw orderError;
+    if (orderError) {
+      console.error('✗ Supabase Order Insert Error:', orderError);
+      return res.status(500).json({
+        error: 'Failed to create order record',
+        details: orderError.message,
+        hint: orderError.hint
+      });
+    }
 
     // Add order items
     const orderItems = items.map((item: any) => ({
@@ -171,19 +178,30 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       quantity: item.quantity,
     }));
 
-    await supabase.from('order_items').insert(orderItems);
+    const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
+    if (itemsError) {
+      console.error('✗ Supabase Order Items Insert Error:', itemsError);
+      throw itemsError;
+    }
 
     // Create Razorpay order
-    const razorpayOrder = await createRazorpayOrder(total, order.id);
-
-    res.status(201).json({
-      order,
-      razorpayOrder,
-      key: process.env.RAZORPAY_KEY_ID,
-    });
-  } catch (error) {
-    console.error('Order creation error:', error);
-    res.status(500).json({ error: 'Failed to create order' });
+    try {
+      const razorpayOrder = await createRazorpayOrder(total, order.id);
+      res.status(201).json({
+        order,
+        razorpayOrder,
+        key: process.env.RAZORPAY_KEY_ID,
+      });
+    } catch (rzpError: any) {
+      console.error('✗ Razorpay Order Creation Error:', rzpError);
+      res.status(500).json({
+        error: 'Payment gateway initialization failed',
+        details: rzpError.message
+      });
+    }
+  } catch (error: any) {
+    console.error('Order creation general failure:', error);
+    res.status(500).json({ error: 'Internal Server Error during checkout', details: error.message });
   }
 });
 
