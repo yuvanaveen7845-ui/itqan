@@ -50,7 +50,8 @@ We use Vercel for the frontend because it has native Next.js support and handles
 ---
 
 ## 🛠️ Post-Deployment Steps
-1. **CORS Fix**: The backend is configured to reflect the origin. Ensure `FRONTEND_URL` is set in Railway without a trailing slash.
-2. **Google OAuth**: Add your Vercel URL to "Authorized JavaScript Origins" in the Google Cloud Console.
-3. **Database**: Run `DATABASE_SCHEMA.sql` in your Supabase SQL editor.
+1. **Database Initialization**: Run `npm run init-deployment` to set up all tables and create initial Super Admin accounts.
+2. **CORS Fix**: The backend is configured to reflect the origin. Ensure `FRONTEND_URL` is set in Railway without a trailing slash.
+3. **Google OAuth**: Add your Vercel URL to "Authorized JavaScript Origins" in the Google Cloud Console.
+4. **Manual Schema**: Alternatively, run `DATABASE_SCHEMA.sql` in your Supabase SQL editor.
 
