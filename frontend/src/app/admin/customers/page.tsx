@@ -72,7 +72,7 @@ export default function AdminCustomersPage() {
                       </div>
                       <div>
                         <p className="font-bold text-gray-900">{customer.name}</p>
-                        <p className="text-xs text-gray-400 font-medium">ID: #{customer.id.slice(0, 8)}</p>
+                        <p className="text-xs text-gray-400 font-medium">ID: #{customer.id?.slice(0, 8)}</p>
                       </div>
                     </div>
                   </td>

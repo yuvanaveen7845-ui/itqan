@@ -149,7 +149,7 @@ export default function AdminDashboard() {
             <tbody className="divide-y divide-gray-100">
               {stats.recentOrders.map((order: any) => (
                 <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-8 py-5 font-bold text-gray-900">#{order.id.slice(0, 8)}</td>
+                  <td className="px-8 py-5 font-bold text-gray-900">#{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}</td>
                   <td className="px-8 py-5 font-semibold text-gray-600">{order.user_id}</td>
                   <td className="px-8 py-5">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide ${order.status === 'confirmed' ? 'bg-green-100 text-green-700' :

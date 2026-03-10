@@ -55,7 +55,7 @@ export default function OrderConfirmationPage() {
         <div className="space-y-3 pb-4 border-b">
           <div className="flex justify-between">
             <span className="text-gray-600">Order ID</span>
-            <span className="font-mono font-bold">{order.id.slice(0, 12)}</span>
+            <span className="font-mono font-bold">{(order.display_id || order.id)?.slice(0, 12) || 'N/A'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Order Date</span>
@@ -91,9 +91,8 @@ export default function OrderConfirmationPage() {
 
             return (
               <div key={step.status} className="flex items-center gap-4">
-                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
-                  isCompleted ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'
-                }`}>
+                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isCompleted ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
                   <Icon size={20} />
                 </div>
                 <div className="flex-1">
