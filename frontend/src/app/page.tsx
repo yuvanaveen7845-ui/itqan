@@ -113,8 +113,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* The Storytelling Section - High Contrast */}
-      <section className="py-40 bg-[#FAF9F6] parchment-texture">
+      {/* The Storytelling Section - High Contrast with Vertical Decor */}
+      <section className="py-40 bg-[#FAF9F6] parchment-texture relative">
+        {/* Vertical Decorative Label */}
+        <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden xl:block">
+          <span className="vogue-text">The Scent of Heritage — Since 2012</span>
+        </div>
+
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           <div className="relative group">
             <div className="absolute -inset-8 border border-premium-gold/10 group-hover:inset-0 transition-all duration-1000"></div>
@@ -161,9 +166,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Collection - Artistic Grid */}
-      <section className="py-40 bg-white">
-        <div className="max-w-[1800px] mx-auto px-8 mb-32 flex flex-col md:flex-row justify-between items-end gap-12">
+      {/* Featured Collection - Artistic Grid with Shine */}
+      <section className="py-40 bg-white relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.03] scale-150 rotate-12 pointer-events-none">
+          <h2 className="text-[300px] imperial-serif leading-none">PARFUM</h2>
+        </div>
+
+        <div className="max-w-[1800px] mx-auto px-8 mb-32 flex flex-col md:flex-row justify-between items-end gap-12 relative z-10">
           <div className="space-y-6">
             <Editable id="signature_edit_label" fallback="Privileged Selection">
               <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.6em]">Les Exclusifs</p>

@@ -73,19 +73,19 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                     <FiHeart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
                 </button>
 
-                {/* Primary Image with Ken Burns Effect on hover */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+                {/* Primary Image with Ken Burns & Shine Effect */}
+                <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 shine-effect">
                     <img
                         src={primaryImage || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800'}
                         alt={product.name}
                         className="w-full h-full object-cover transition-transform duration-[2s] cubic-bezier(0.25, 0.46, 0.45, 0.94) group-hover:scale-110"
                     />
 
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-premium-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center p-8 text-center pointer-events-none">
-                        <div className="border border-premium-gold/40 w-full h-full flex flex-col items-center justify-center translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                            <span className="text-white text-[10px] font-black tracking-[0.4em] uppercase mb-2 font-inter">View Signature</span>
-                            <div className="w-12 h-px bg-premium-gold"></div>
+                    {/* Hover Overlay - Light Leak Style */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/10 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center p-8 text-center pointer-events-none">
+                        <div className="border border-premium-gold/20 w-full h-full flex flex-col items-center justify-center translate-y-4 group-hover:translate-y-0 transition-transform duration-1000 backdrop-brightness-110">
+                            <span className="text-white text-[9px] font-black tracking-[0.6em] uppercase mb-2 font-inter">View Masterpiece</span>
+                            <div className="w-8 h-px bg-premium-gold"></div>
                         </div>
                     </div>
                 </div>
@@ -101,18 +101,18 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                         </h3>
                     </div>
 
-                    <div className="mt-6 flex flex-col items-center gap-1">
-                        <div className="flex items-baseline gap-3">
-                            <span className="text-lg font-playfair italic text-premium-black uppercase tracking-widest">
+                    <div className="mt-8 flex flex-col items-center gap-1">
+                        <div className="flex items-baseline gap-4">
+                            <span className="text-xl imperial-serif text-premium-black tracking-[0.2em]">
                                 ₹{product.price.toLocaleString()}
                             </span>
                             {product.original_price && product.original_price > product.price && (
-                                <span className="text-[10px] text-premium-charcoal/40 line-through tracking-tighter decoration-premium-gold/30">
+                                <span className="text-[10px] text-premium-charcoal/30 font-light line-through tracking-[0.3em]">
                                     ₹{product.original_price.toLocaleString()}
                                 </span>
                             )}
                         </div>
-                        <div className="h-0.5 w-0 bg-premium-gold group-hover:w-16 transition-all duration-700 mx-auto"></div>
+                        <div className="h-px w-0 bg-premium-gold/30 group-hover:w-20 transition-all duration-1000 mx-auto mt-2"></div>
                     </div>
 
                     {/* Quick Info / Stock */}

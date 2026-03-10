@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   },
 };
 
+import CustomCursor from '@/components/CustomCursor';
+
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +36,8 @@ export default function RootLayout({
       <head>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
-      <body className="antialiased" suppressHydrationWarning={true}>
+      <body className="antialiased lg:cursor-none" suppressHydrationWarning={true}>
+        <CustomCursor />
         <CMSInitializer />
         <Header />
         <main className="min-h-screen">{children}</main>
