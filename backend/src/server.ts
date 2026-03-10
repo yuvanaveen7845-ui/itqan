@@ -15,15 +15,15 @@ import webhookRoutes from './routes/webhooks';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Manual CORS and Logger Middleware
+// Manual CORS and Logger Middleware (First in chain)
 app.use((req, res, next) => {
-  const origin = req.get('origin') || '*';
+  const origin = req.headers.origin || '*';
   res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, origin');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, Accept, Origin');
 
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${origin}`);
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${origin}`);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -37,12 +37,12 @@ app.use(helmet({
 }));
 app.use(express.json());
 
-// Root test route
+// Root test route - No CORS issues here when accessed via browser
 app.get('/', (req, res) => {
   res.json({
     message: 'Itqan Backend API is running!',
-    environment: process.env.NODE_ENV,
-    database: process.env.SUPABASE_URL ? 'Configured' : 'Missing'
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV
   });
 });
 
@@ -66,15 +66,29 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Global Error Handler (Ensures CORS headers even on crash)
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error('SERVER ERROR:', err);
+  const origin = req.headers.origin || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.status(err.status || 500).json({
+    error: 'Internal Server Error',
+    message: err.message
+  });
+});
+
 // Initialize and start
 const startServer = async () => {
   try {
+    console.log('--- Starting Server Initialization ---');
     await initializeDatabase();
     app.listen(PORT, () => {
       console.log(`✓ Server running on port ${PORT}`);
+      console.log(`✓ Local: http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error('✗ Failed to start server:', error);
+    console.error('✗ CRITICAL: Failed to start server:', error);
     process.exit(1);
   }
 };
