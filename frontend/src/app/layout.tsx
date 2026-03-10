@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CMSInitializer from '@/components/CMSInitializer';
+import DevModeToggle from '@/components/DevModeToggle';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -38,6 +39,7 @@ export default function RootLayout({
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <DevModeToggle />
       </body>
     </html>
   );

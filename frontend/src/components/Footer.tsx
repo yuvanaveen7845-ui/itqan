@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useCMSStore } from '@/store/cms';
+import Editable from '@/components/Editable';
 import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone, FiArrowUp } from 'react-icons/fi';
 
 export default function Footer() {
@@ -28,9 +29,11 @@ export default function Footer() {
                 {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
               </span>
             </Link>
-            <p className="text-premium-charcoal/60 text-sm leading-relaxed max-w-sm italic">
-              {footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}
-            </p>
+            <Editable id="footer_about" fallback="Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.">
+              <p className="text-premium-charcoal/60 text-sm leading-relaxed max-w-sm italic">
+                {footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}
+              </p>
+            </Editable>
             <div className="flex gap-10">
               {socials.instagram && (
                 <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="text-premium-charcoal/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
@@ -78,12 +81,16 @@ export default function Footer() {
             <div>
               <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.3em] mb-8 font-inter">Experience</h3>
               <div className="space-y-4">
-                <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
-                  <FiMail className="text-premium-gold" /> {footer.contact_email || 'concierge@iqtan.com'}
-                </p>
-                <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
-                  <FiPhone className="text-premium-gold" /> {footer.contact_phone || '+91 XXXX XXXX XX'}
-                </p>
+                <Editable id="footer_contact_email" fallback="concierge@iqtan.com">
+                  <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
+                    <FiMail className="text-premium-gold" /> {footer.contact_email || 'concierge@iqtan.com'}
+                  </p>
+                </Editable>
+                <Editable id="footer_contact_phone" fallback="+91 XXXX XXXX XX">
+                  <p className="text-[11px] text-premium-charcoal/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
+                    <FiPhone className="text-premium-gold" /> {footer.contact_phone || '+91 XXXX XXXX XX'}
+                  </p>
+                </Editable>
               </div>
             </div>
             <button
@@ -97,9 +104,11 @@ export default function Footer() {
         </div>
 
         <div className="mt-24 pt-12 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-8">
-          <p className="text-[9px] font-black text-premium-charcoal/30 uppercase tracking-[0.3em] font-inter">
-            &copy; {new Date().getFullYear()} {branding.name}. {footer.copyright_text || 'All rights reserved.'}
-          </p>
+          <Editable id="footer_copyright" fallback="All rights reserved.">
+            <p className="text-[9px] font-black text-premium-charcoal/30 uppercase tracking-[0.3em] font-inter">
+              &copy; {new Date().getFullYear()} {branding.name}. {footer.copyright_text || 'All rights reserved.'}
+            </p>
+          </Editable>
           <div className="flex gap-1">
             {[1, 2, 3, 4].map(idx => (
               <div key={idx} className="w-8 h-5 bg-premium-cream rounded-sm border border-premium-gold/5"></div>

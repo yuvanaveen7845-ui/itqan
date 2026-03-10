@@ -61,7 +61,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
         <div className="flex min-h-screen bg-gray-50 pt-20">
             {/* Admin Sidebar */}
-            <aside className="w-72 bg-white border-r border-gray-200 hidden md:flex flex-col sticky top-20 h-[calc(100vh-80px)] z-40">
+            <aside className="w-72 bg-white border-r border-gray-200 hidden md:flex flex-col sticky top-20 h-[calc(100vh-80px)] z-40 overflow-y-auto">
+
                 <div className="p-8 border-b border-gray-100">
                     <Link href="/" className="text-2xl font-black text-blue-600 flex items-center gap-2">
                         <FiBarChart2 className="text-blue-600" />

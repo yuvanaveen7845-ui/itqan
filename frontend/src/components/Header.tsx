@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { useCMSStore } from '@/store/cms';
+import Editable from '@/components/Editable';
 import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight } from 'react-icons/fi';
 
 export default function Header() {
@@ -61,21 +62,31 @@ export default function Header() {
               <FiMenu size={20} />
             </button>
             <div className="hidden lg:flex items-center gap-10">
-              <Link href="/products" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Collections</Link>
-              <Link href="/products?category=Oud" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Oud</Link>
-              <Link href="/products?category=Floral" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Floral</Link>
+              <Editable id="nav_collections" fallback="Collections">
+                <Link href="/products" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Collections</Link>
+              </Editable>
+              <Editable id="nav_oud" fallback="Oud">
+                <Link href="/products?category=Oud" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Oud</Link>
+              </Editable>
+              <Editable id="nav_floral" fallback="Floral">
+                <Link href="/products?category=Floral" className="text-[11px] font-bold text-premium-charcoal hover:text-premium-gold transition-colors uppercase tracking-[0.2em] font-inter">Floral</Link>
+              </Editable>
             </div>
           </div>
 
           {/* Center: Centered Logo */}
           <div className="flex justify-center flex-col items-center">
             <Link href="/" className="group flex flex-col items-center text-center">
-              <span className="text-3xl md:text-4xl font-playfair font-black text-premium-black tracking-[0.1em] lowercase group-hover:text-premium-gold transition-colors duration-500">
-                {branding.name?.split(' ')[0] || 'iqtan'}
-              </span>
-              <span className="text-[10px] font-inter font-black text-premium-gold tracking-[0.5em] uppercase -mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
-                {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
-              </span>
+              <Editable id="header_logo_main" fallback="iqtan">
+                <span className="text-3xl md:text-4xl font-playfair font-black text-premium-black tracking-[0.1em] lowercase group-hover:text-premium-gold transition-colors duration-500">
+                  {branding.name?.split(' ')[0] || 'iqtan'}
+                </span>
+              </Editable>
+              <Editable id="header_logo_sub" fallback="perfumes">
+                <span className="text-[10px] font-inter font-black text-premium-gold tracking-[0.5em] uppercase -mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                  {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
+                </span>
+              </Editable>
             </Link>
           </div>
 
@@ -118,7 +129,9 @@ export default function Header() {
                     href="/admin"
                     className="hidden lg:flex items-center gap-2 text-[9px] font-black tracking-widest text-premium-gold border border-premium-gold/30 px-3 py-1.5 rounded-full hover:bg-premium-gold hover:text-premium-white transition-all font-inter"
                   >
-                    SURVEILLANCE
+                    <Editable id="header_surveillance_label" fallback="SURVEILLANCE">
+                      <span>SURVEILLANCE</span>
+                    </Editable>
                   </Link>
                 )}
                 <button

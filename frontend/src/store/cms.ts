@@ -1,5 +1,3 @@
-'use create';
-
 import { create } from 'zustand';
 import { cmsAPI } from '@/lib/api';
 
@@ -35,11 +33,13 @@ interface CMSStore {
     socials: SocialLinks;
     announcement: Announcement;
     footer: FooterSettings;
+    inlineContent: Record<string, string>;
     isInitialized: boolean;
     fetchCMS: () => Promise<void>;
+    updateInlineContent: (key: string, value: string) => Promise<void>;
 }
 
-export const useCMSStore = create<CMSStore>((set) => ({
+export const useCMSStore = create<CMSStore>((set, get) => ({
     branding: { name: 'IQTAN PERFUMES', primary_color: '#C5A059' },
     socials: {},
     announcement: { text: 'Complimentary Signature Discovery Set on orders above $150', link: '', is_active: true },
@@ -49,6 +49,7 @@ export const useCMSStore = create<CMSStore>((set) => ({
         contact_email: 'info@iqtan.com',
         contact_phone: '+91 XXXX XXXX XX'
     },
+    inlineContent: {},
     isInitialized: false,
     fetchCMS: async () => {
         try {
@@ -64,6 +65,7 @@ export const useCMSStore = create<CMSStore>((set) => ({
                         contact_email: 'info@iqtan.com',
                         contact_phone: '+91 XXXX XXXX XX'
                     },
+                    inlineContent: data.inline_content || {},
                     isInitialized: true
                 });
             }
@@ -72,4 +74,13 @@ export const useCMSStore = create<CMSStore>((set) => ({
             set({ isInitialized: true });
         }
     },
+    updateInlineContent: async (key, value) => {
+        const currentContent = { ...get().inlineContent, [key]: value };
+        set({ inlineContent: currentContent });
+        try {
+            await cmsAPI.updateSetting('inline_content', currentContent);
+        } catch (error) {
+            console.error('Failed to persist inline content:', error);
+        }
+    }
 }));

@@ -6,6 +6,7 @@ import { FiArrowRight, FiPlay, FiStar, FiShield, FiTruck, FiShoppingBag } from '
 import { productAPI, cmsAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 import { useCMSStore } from '@/store/cms';
+import Editable from '@/components/Editable';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
@@ -54,29 +55,39 @@ export default function HomePage() {
 
         <div className="relative z-10 h-full max-w-[1800px] mx-auto px-8 md:px-12 flex flex-col justify-center items-start">
           <div className="space-y-6 max-w-4xl">
-            <p className="text-premium-gold text-xs font-black uppercase tracking-[0.6em] animate-fade-in-up">
-              {activeBanner.subtitle || 'Private Collection'}
-            </p>
-            <h1 className="text-6xl md:text-8xl font-playfair font-black text-white leading-tight animate-fade-in-up delay-100">
-              {activeBanner.title || 'The Essence of Elegance'}
-            </h1>
+            <Editable id="hero_subtitle" fallback="Private Collection">
+              <p className="text-premium-gold text-xs font-black uppercase tracking-[0.6em] animate-fade-in-up">
+                {activeBanner.subtitle || 'Private Collection'}
+              </p>
+            </Editable>
+            <Editable id="hero_title" fallback="The Essence of Elegance">
+              <h1 className="text-6xl md:text-8xl font-playfair font-black text-white leading-tight animate-fade-in-up delay-100">
+                {activeBanner.title || 'The Essence of Elegance'}
+              </h1>
+            </Editable>
             <div className="h-0.5 w-32 bg-premium-gold animate-fade-in-up delay-200"></div>
-            <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl animate-fade-in-up delay-300">
-              Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.
-            </p>
+            <Editable id="hero_description" fallback="Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.">
+              <p className="text-white/80 text-lg md:text-xl font-medium max-w-xl animate-fade-in-up delay-300">
+                Discover a world of olfactive perfection, where every note tells a story of heritage and luxury.
+              </p>
+            </Editable>
             <div className="flex flex-col sm:flex-row gap-6 pt-8 animate-fade-in-up delay-400">
-              <Link
-                href="/products"
-                className="px-10 py-5 bg-white text-premium-black text-[11px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-all duration-500 shadow-2xl"
-              >
-                Explore the Collection
-              </Link>
-              <Link
-                href="/about"
-                className="px-10 py-5 border border-white/30 text-white text-[11px] font-black uppercase tracking-widest hover:border-premium-gold hover:text-premium-gold transition-all duration-500 flex items-center gap-2"
-              >
-                Our Philosophy <FiArrowRight />
-              </Link>
+              <Editable id="hero_cta_explore" fallback="Explore the Collection">
+                <Link
+                  href="/products"
+                  className="px-10 py-5 bg-white text-premium-black text-[11px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-all duration-500 shadow-2xl"
+                >
+                  Explore the Collection
+                </Link>
+              </Editable>
+              <Editable id="hero_cta_philosophy" fallback="Our Philosophy">
+                <Link
+                  href="/about"
+                  className="px-10 py-5 border border-white/30 text-white text-[11px] font-black uppercase tracking-widest hover:border-premium-gold hover:text-premium-gold transition-all duration-500 flex items-center gap-2"
+                >
+                  Our Philosophy <FiArrowRight />
+                </Link>
+              </Editable>
             </div>
           </div>
         </div>
@@ -105,12 +116,18 @@ export default function HomePage() {
           </div>
           <div className="space-y-10">
             <div className="space-y-4">
-              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Our Legacy</p>
-              <h2 className="text-4xl md:text-5xl font-playfair font-black text-premium-black leading-tight">Crafting Memories Through Scent</h2>
+              <Editable id="story_label" fallback="Our Legacy">
+                <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Our Legacy</p>
+              </Editable>
+              <Editable id="story_title" fallback="Crafting Memories Through Scent">
+                <h2 className="text-4xl md:text-5xl font-playfair font-black text-premium-black leading-tight">Crafting Memories Through Scent</h2>
+              </Editable>
             </div>
-            <p className="text-premium-charcoal/70 text-lg leading-relaxed font-light italic">
-              "Scent is the most intense form of memory. At {branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."
-            </p>
+            <Editable id="story_philosophy" fallback={`"Scent is the most intense form of memory. At ${branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."`}>
+              <p className="text-premium-charcoal/70 text-lg leading-relaxed font-light italic">
+                "Scent is the most intense form of memory. At {branding.name || 'IQTAN'}, we don't just create perfumes; we capture moments, emotions, and dreams into exquisite glass artifacts."
+              </p>
+            </Editable>
             <div className="grid grid-cols-2 gap-8 py-8 border-y border-premium-gold/10">
               <div>
                 <span className="text-3xl font-playfair font-black text-premium-black">100%</span>
@@ -132,12 +149,18 @@ export default function HomePage() {
       <section className="py-32 bg-white overflow-hidden">
         <div className="max-w-[1800px] mx-auto px-8 mb-20 flex flex-col md:flex-row justify-between items-end gap-8">
           <div className="space-y-4">
-            <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Privileged Selection</p>
-            <h2 className="text-4xl md:text-6xl font-playfair font-black text-premium-black">The Signature Edit</h2>
+            <Editable id="signature_edit_label" fallback="Privileged Selection">
+              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em]">Privileged Selection</p>
+            </Editable>
+            <Editable id="signature_edit_title" fallback="The Signature Edit">
+              <h2 className="text-4xl md:text-6xl font-playfair font-black text-premium-black">The Signature Edit</h2>
+            </Editable>
           </div>
-          <Link href="/products" className="px-8 py-4 border border-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-premium-black hover:text-premium-gold transition-all duration-500">
-            Discovery Full Collection
-          </Link>
+          <Editable id="discovery_cta" fallback="Discovery Full Collection">
+            <Link href="/products" className="px-8 py-4 border border-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-premium-black hover:text-premium-gold transition-all duration-500">
+              Discovery Full Collection
+            </Link>
+          </Editable>
         </div>
 
         {loading ? (
@@ -156,8 +179,12 @@ export default function HomePage() {
       {/* The Olfactive Experience - Interactive Grid */}
       <section className="py-32 bg-premium-black text-white">
         <div className="max-w-7xl mx-auto px-8 text-center mb-24">
-          <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4">The Gallery</p>
-          <h2 className="text-4xl md:text-6xl font-playfair font-black mb-8">Elevate Your Senses</h2>
+          <Editable id="gallery_label" fallback="The Gallery">
+            <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.4em] mb-4">The Gallery</p>
+          </Editable>
+          <Editable id="gallery_title" fallback="Elevate Your Senses">
+            <h2 className="text-4xl md:text-6xl font-playfair font-black mb-8">Elevate Your Senses</h2>
+          </Editable>
           <div className="w-24 h-0.5 bg-premium-gold mx-auto"></div>
         </div>
 
