@@ -81,14 +81,25 @@ app.use((err: any, req: any, res: any, next: any) => {
 // Initialize and start
 const startServer = async () => {
   try {
-    console.log('--- Starting Server Initialization ---');
-    await initializeDatabase();
-    app.listen(PORT, () => {
-      console.log(`✓ Server running on port ${PORT}`);
-      console.log(`✓ Local: http://localhost:${PORT}`);
+    console.log('--- EXECUTING DEPLOYMENT DEBUG STARTUP ---');
+    console.log(`TIME: ${new Date().toISOString()}`);
+    console.log(`PORT: ${PORT}`);
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+    // Start listening immediately so Railway/Load Balancer sees us as healthy
+    const server = app.listen(PORT, () => {
+      console.log(`✓ [PROCESS UP] Server is listening on port ${PORT}`);
+      console.log(`✓ Health Check: http://localhost:${PORT}/health`);
     });
+
+    // Try to init DB in background
+    console.log('Attempting Database Connection...');
+    initializeDatabase()
+      .then(() => console.log('✓ Database initialization finished'))
+      .catch((err) => console.error('✗ Database initialization failed:', err));
+
   } catch (error) {
-    console.error('✗ CRITICAL: Failed to start server:', error);
+    console.error('✗ FAIL: Unexpected error during startServer:', error);
     process.exit(1);
   }
 };
