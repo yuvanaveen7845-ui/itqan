@@ -15,16 +15,32 @@ import webhookRoutes from './routes/webhooks';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Request Logger for debugging
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.get('origin')}`);
+  next();
+});
+
+// Robust CORS Configuration
 app.use(cors({
-  origin: true, // Dynamically reflect the origin
+  origin: (origin, callback) => {
+    // Dynamically reflect any origin for debugging
+    // You can restrict this later to specific domains
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'origin'],
+  exposedHeaders: ['Access-Control-Allow-Origin'],
   optionsSuccessStatus: 200
 }));
+
+// Explicitly handle all preflight requests
+app.options('*', cors());
+
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  contentSecurityPolicy: false // Disable CSP for debugging to rule it out
 }));
 app.use(express.json());
 
