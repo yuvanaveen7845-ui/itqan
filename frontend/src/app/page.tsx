@@ -62,7 +62,7 @@ export default function Home() {
           <div className="text-center py-12">Loading collection...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.slice(0, 4).map((product: any) => (
+            {products?.slice(0, 4).map((product: any) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -76,7 +76,7 @@ export default function Home() {
           <div className="text-center py-12">Loading trends...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {products.slice(0, 3).map((product: any) => (
+            {products?.slice(0, 3).map((product: any) => (
               <ProductCard key={`trending-${product.id}`} product={product} />
             ))}
           </div>
@@ -90,7 +90,7 @@ export default function Home() {
           <div className="text-center py-12">Loading arrivals...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.slice(0, 4).reverse().map((product: any) => (
+            {products?.slice(0, 4).reverse().map((product: any) => (
               <ProductCard key={`new-${product.id}`} product={product} badge="New" />
             ))}
           </div>
