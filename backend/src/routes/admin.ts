@@ -6,7 +6,7 @@ import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
 const router = Router();
 
 // Dashboard stats
-router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), async (req: AuthRequest, res) => {
+router.get('/dashboard', verifyToken, requireRole(['staff', 'admin', 'super_admin']), async (req: AuthRequest, res) => {
   try {
     // Check if using placeholder credentials
     if (process.env.SUPABASE_URL?.includes('placeholder')) {
@@ -25,6 +25,8 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
         totalOrders: 150,
         totalCustomers: 500,
         totalProducts: 200,
+        pendingOrders: 12,
+        lowStockAlerts: 5,
         salesData,
         recentOrders: [
           {
@@ -52,10 +54,12 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
       });
     }
 
-    const { data: orders } = await supabase
+    const { data: allOrders } = await supabase
       .from('orders')
-      .select('total_amount, created_at')
-      .eq('status', 'confirmed');
+      .select('total_amount, created_at, status');
+
+    const confirmedOrders = allOrders?.filter((o: any) => o.status === 'confirmed') || [];
+    const pendingOrdersCount = allOrders?.filter((o: any) => o.status === 'pending').length || 0;
 
     const { data: customers } = await supabase
       .from('users')
@@ -64,12 +68,13 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
 
     const { data: products } = await supabase
       .from('products')
-      .select('id');
+      .select('id, stock');
 
-    const totalRevenue = orders?.reduce((sum: number, o: any) => sum + Number(o.total_amount), 0) || 0;
-    const totalOrders = orders?.length || 0;
+    const totalRevenue = confirmedOrders.reduce((sum: number, o: any) => sum + Number(o.total_amount), 0);
+    const totalOrders = confirmedOrders.length;
     const totalCustomers = customers?.length || 0;
     const totalProducts = products?.length || 0;
+    const lowStockAlerts = products?.filter((p: any) => p.stock < 10).length || 0;
 
     // Generate salesData for the last 7 days
     const salesDataMap = new Map();
@@ -80,16 +85,14 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
       salesDataMap.set(dateStr, { date: dateStr, revenue: 0, orders: 0 });
     }
 
-    if (orders) {
-      orders.forEach((o: any) => {
-        const dateStr = new Date(o.created_at).toISOString().split('T')[0];
-        if (salesDataMap.has(dateStr)) {
-          const existing = salesDataMap.get(dateStr);
-          existing.revenue += Number(o.total_amount);
-          existing.orders += 1;
-        }
-      });
-    }
+    confirmedOrders.forEach((o: any) => {
+      const dateStr = new Date(o.created_at).toISOString().split('T')[0];
+      if (salesDataMap.has(dateStr)) {
+        const existing = salesDataMap.get(dateStr);
+        existing.revenue += Number(o.total_amount);
+        existing.orders += 1;
+      }
+    });
 
     const salesData = Array.from(salesDataMap.values());
 
@@ -98,8 +101,10 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
       totalOrders,
       totalCustomers,
       totalProducts,
+      pendingOrders: pendingOrdersCount,
+      lowStockAlerts,
       salesData,
-      recentOrders: (orders || []).sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 10),
+      recentOrders: (allOrders || []).sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 10),
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch dashboard data' });
@@ -107,7 +112,7 @@ router.get('/dashboard', verifyToken, requireRole(['admin', 'super_admin']), asy
 });
 
 // Get all orders (admin)
-router.get('/orders', verifyToken, requireRole(['admin', 'super_admin']), async (req: AuthRequest, res) => {
+router.get('/orders', verifyToken, requireRole(['staff', 'admin', 'super_admin']), async (req: AuthRequest, res) => {
   try {
     if (process.env.SUPABASE_URL?.includes('placeholder')) {
       return res.json([
@@ -156,6 +161,75 @@ router.get('/customers', verifyToken, requireRole(['admin', 'super_admin']), asy
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch customers' });
+  }
+});
+
+// Get customer details (admin)
+router.get('/customers/:id', verifyToken, requireRole(['admin', 'super_admin']), async (req: AuthRequest, res) => {
+  try {
+    const { id } = req.params;
+
+    if (process.env.SUPABASE_URL?.includes('placeholder')) {
+      return res.json({
+        id,
+        email: 'customer@example.com',
+        name: 'John Doe',
+        created_at: new Date().toISOString(),
+        total_orders: 5,
+        total_spend: 2500,
+        orders: [
+          { id: '1', total_amount: 500, status: 'delivered', created_at: new Date().toISOString() }
+        ]
+      });
+    }
+
+    const { data: customer, error: custError } = await supabase
+      .from('users')
+      .select('id, email, name, created_at')
+      .eq('id', id)
+      .eq('role', 'customer')
+      .single();
+
+    if (custError) throw custError;
+
+    const { data: orders, error: orderError } = await supabase
+      .from('orders')
+      .select('id, total_amount, status, created_at')
+      .eq('user_id', id)
+      .order('created_at', { ascending: false });
+
+    const totalSpend = orders?.reduce((sum, o) => sum + Number(o.total_amount), 0) || 0;
+
+    res.json({
+      ...customer,
+      total_orders: orders?.length || 0,
+      total_spend: totalSpend,
+      orders: orders || []
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch customer details' });
+  }
+});
+
+// Get all admins/staff (Super Admin only for management)
+router.get('/admins', verifyToken, requireRole(['super_admin']), async (req: AuthRequest, res) => {
+  try {
+    if (process.env.SUPABASE_URL?.includes('placeholder')) {
+      return res.json([
+        { id: '1', email: 'admin@itqan.com', name: 'Super Admin', role: 'super_admin' },
+        { id: '2', email: 'staff1@itqan.com', name: 'Sales Agent', role: 'staff' },
+      ]);
+    }
+
+    const { data, error } = await supabase
+      .from('users')
+      .select('id, email, name, role, created_at')
+      .in('role', ['admin', 'super_admin', 'staff']);
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch admin accounts' });
   }
 });
 
@@ -221,16 +295,26 @@ router.get('/inventory', verifyToken, requireRole(['admin', 'super_admin']), asy
   }
 });
 
-// Create admin account (super admin only)
-router.post('/create-admin', verifyToken, requireRole(['super_admin']), async (req: AuthRequest, res) => {
+// Create admin/staff account
+router.post('/create-admin', verifyToken, requireRole(['admin', 'super_admin']), async (req: AuthRequest, res) => {
   try {
     const { email, password, name, role } = req.body;
+    const creatorRole = req.user?.role;
 
-    if (!password) {
-      return res.status(400).json({ error: 'Password is required' });
+    // RULE: Admin can only create 'staff' or other 'admin' (?) 
+    // Wait, the user said: "admin: add or remove only staffs and admins cant add or delete admins and superadmins"
+    // This is slightly ambiguous. I'll interpret "add or remove only staffs" as the priority.
+    // If I'm an admin, I can create STAFF. I cannot create ADMIN or SUPERADMIN.
+
+    if (creatorRole === 'admin' && role !== 'staff') {
+      return res.status(403).json({ error: 'Admins can only create staff accounts' });
     }
 
-    const targetRole = role === 'super_admin' ? 'super_admin' : 'admin';
+    if (creatorRole === 'staff') {
+      return res.status(403).json({ error: 'Staff cannot create accounts' });
+    }
+
+    const targetRole = role || 'staff';
     const hashedPassword = await bcrypt.hash(password, 10);
 
     if (process.env.SUPABASE_URL?.includes('placeholder')) {

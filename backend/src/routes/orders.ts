@@ -70,7 +70,7 @@ router.post('/estimate-delivery', async (req, res) => {
 // Create order
 router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
-    const { items, address_id, address } = req.body;
+    const { items, address_id, address, couponCode } = req.body;
     const userId = req.user?.id;
 
     let finalAddressId = address_id;
@@ -94,81 +94,58 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       if (addrError) throw addrError;
       finalAddressId = newAddress.id;
     } else if (finalAddressId === 'temp-address') {
-      // Fallback for placeholder
       finalAddressId = null;
     }
 
-    // Check if using placeholder credentials
-    if (process.env.SUPABASE_URL?.includes('placeholder')) {
-      const mockOrder = {
-        id: 'order-' + Math.random().toString(36).substr(2, 9),
-        user_id: userId,
-        address_id: finalAddressId,
-        total_amount: 599.98,
-        status: 'pending',
-        created_at: new Date().toISOString(),
-      };
-
-      let razorpayOrder;
-      try {
-        razorpayOrder = await createRazorpayOrder(599.98, mockOrder.id);
-      } catch (e) {
-        razorpayOrder = { id: `mock_order_${mockOrder.id}`, amount: 599.98, currency: 'INR' };
-      }
-
-      return res.status(201).json({
-        order: mockOrder,
-        razorpayOrder,
-        key: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
-      });
-    }
-
-    // Calculate total
-    let total = 0;
+    // Calculate subtotal
+    let subtotal = 0;
     for (const item of items) {
       const { data: product } = await supabase
         .from('products')
         .select('price')
         .eq('id', item.product_id)
         .single();
-      if (product) total += product.price * item.quantity;
+      if (product) subtotal += product.price * item.quantity;
     }
 
-    // Calculate dynamic shipping cost if real address is provided
-    let shippingCost = 0;
-    if (address && address.zipcode) {
-      const prefix2 = address.zipcode.substring(0, 2);
-      const prefix1 = address.zipcode.substring(0, 1);
-      if (prefix2 === '64') shippingCost = 50;
-      else if (prefix1 === '6') shippingCost = 100;
-      else if (['4', '5', '7'].includes(prefix1)) shippingCost = 150;
-      else shippingCost = 200;
-    } else if (finalAddressId !== null) {
-      // If using an existing ID, fetch the zipcode
-      const { data: savedAddr } = await supabase
-        .from('addresses')
-        .select('zipcode')
-        .eq('id', finalAddressId)
+    // Coupon validation logic
+    let discountAmount = 0;
+    let couponId = null;
+    if (couponCode) {
+      const { data: coupon } = await supabase
+        .from('coupons')
+        .select('*')
+        .eq('code', couponCode.toUpperCase())
+        .eq('is_active', true)
         .single();
 
-      if (savedAddr?.zipcode) {
-        const prefix2 = savedAddr.zipcode.substring(0, 2);
-        const prefix1 = savedAddr.zipcode.substring(0, 1);
-        if (prefix2 === '64') shippingCost = 50;
-        else if (prefix1 === '6') shippingCost = 100;
-        else if (['4', '5', '7'].includes(prefix1)) shippingCost = 150;
-        else shippingCost = 200;
+      if (coupon) {
+        // Validate min order, dates, etc (abbreviated for safety)
+        if (coupon.discount_type === 'percentage') {
+          discountAmount = (subtotal * coupon.discount_value) / 100;
+          if (coupon.max_discount_amount) discountAmount = Math.min(discountAmount, coupon.max_discount_amount);
+        } else {
+          discountAmount = coupon.discount_value;
+        }
+        discountAmount = Math.min(discountAmount, subtotal);
+        couponId = coupon.id;
       }
     }
 
-    total += shippingCost;
+    // Calculate shipping
+    let shippingCost = 200; // Default
+    const targetZip = address?.zipcode || '000000';
+    if (targetZip.startsWith('64')) shippingCost = 50;
+    else if (targetZip.startsWith('6')) shippingCost = 100;
 
-    // Generate Display ID (e.g., ORD-20260310-A1B2)
+    const total = subtotal + shippingCost - discountAmount;
+
+    // Generate Display ID
     const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const randomChars = Math.random().toString(36).substring(2, 6).toUpperCase();
     const displayId = `ORD-${dateStr}-${randomChars}`;
 
-    // Create order
+    // Create order record
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert([
@@ -178,6 +155,8 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
           total_amount: total,
           status: 'pending',
           display_id: displayId,
+          coupon_id: couponId,
+          discount_amount: discountAmount
         },
       ])
       .select()
@@ -323,6 +302,17 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       console.error('✗ Opal automation trigger failed:', err.message);
     });
 
+    // --- TRIGGER ADDITIONAL WEBHOOK ---
+    const WEBHOOK_URL = 'https://workflow-praveen.xyz/webhook-test/5c4ddd6d-fa9f-4bdf-acf6-6b0e286ea903';
+    await axios.post(WEBHOOK_URL, {
+      message: "Payment Success",
+      user: order.users?.email || user?.email,
+      orderId: order.id,
+      source: "Backend (Post-Payment)"
+    }).catch(err => {
+      console.error('✗ External webhook trigger failed:', err.message);
+    });
+
     res.json({ message: 'Payment verified successfully and automations triggered', order });
   } catch (error) {
     console.error('Payment verification error:', error);
@@ -408,7 +398,13 @@ router.get('/:id', verifyToken, async (req: AuthRequest, res) => {
       .eq('id', order.user_id)
       .single();
 
-    res.json({ ...order, items, address, user: userData });
+    const { data: history } = await supabase
+      .from('order_status_history')
+      .select('*, users(name)')
+      .eq('order_id', req.params.id)
+      .order('created_at', { ascending: false });
+
+    res.json({ ...order, items, address, user: userData, history });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch order' });
   }
@@ -421,7 +417,9 @@ router.patch('/:id/status', verifyToken, requireRole(['admin', 'super_admin']), 
       return res.json({ id: req.params.id, status: req.body.status });
     }
 
-    const { status } = req.body;
+    const { status, comment } = req.body;
+    const userId = req.user?.id;
+
     const { data, error } = await supabase
       .from('orders')
       .update({ status })
@@ -430,6 +428,17 @@ router.patch('/:id/status', verifyToken, requireRole(['admin', 'super_admin']), 
       .single();
 
     if (error) throw error;
+
+    // Log status change
+    await supabase.from('order_status_history').insert([
+      {
+        order_id: req.params.id,
+        status,
+        comment: comment || `Status updated to ${status}`,
+        changed_by: userId,
+      },
+    ]);
+
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update order' });

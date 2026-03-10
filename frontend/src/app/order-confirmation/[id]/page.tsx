@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useAuthStore } from '@/store/auth';
 import { orderAPI } from '@/lib/api';
 import { FiCheckCircle, FiTruck, FiPackage } from 'react-icons/fi';
 
@@ -11,12 +12,16 @@ export default function OrderConfirmationPage() {
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const { isInitialized, token } = useAuthStore();
+
   useEffect(() => {
     const fetchOrder = async () => {
+      if (!isInitialized || !params.id) return;
+
       try {
         const { data } = await orderAPI.getById(params.id as string);
         setOrder(data);
-      } catch (error) {
+      } catch (error: any) {
         console.error('Failed to fetch order:', error);
       } finally {
         setLoading(false);
@@ -24,7 +29,7 @@ export default function OrderConfirmationPage() {
     };
 
     fetchOrder();
-  }, [params.id]);
+  }, [params.id, isInitialized, token]);
 
   if (loading) return <div className="text-center py-12">Loading...</div>;
   if (!order) return <div className="text-center py-12">Order not found</div>;

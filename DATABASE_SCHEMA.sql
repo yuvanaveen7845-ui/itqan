@@ -21,6 +21,12 @@ CREATE TABLE IF NOT EXISTS products (
   pattern VARCHAR(100),
   stock INTEGER DEFAULT 0,
   discount DECIMAL(5, 2) DEFAULT 0,
+  sku VARCHAR(100) UNIQUE,
+  weight DECIMAL(10, 2),
+  dimensions VARCHAR(100),
+  is_visible BOOLEAN DEFAULT TRUE,
+  meta_title VARCHAR(255),
+  meta_description TEXT,
   created_by UUID REFERENCES users(id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -40,6 +46,10 @@ CREATE TABLE IF NOT EXISTS categories (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR(100) NOT NULL,
   description TEXT,
+  parent_id UUID REFERENCES categories(id),
+  banner_url VARCHAR(500),
+  meta_title VARCHAR(255),
+  meta_description TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -60,8 +70,20 @@ CREATE TABLE IF NOT EXISTS orders (
   total_amount DECIMAL(10, 2) NOT NULL,
   status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'processing', 'packed', 'shipped', 'delivered', 'cancelled')),
   payment_id VARCHAR(255),
+  coupon_id UUID REFERENCES coupons(id),
+  discount_amount DECIMAL(10, 2) DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Order Status History Table
+CREATE TABLE IF NOT EXISTS order_status_history (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+  status VARCHAR(50) NOT NULL,
+  comment TEXT,
+  changed_by UUID REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Order items table
@@ -160,6 +182,22 @@ CREATE TABLE IF NOT EXISTS analytics (
   user_id UUID REFERENCES users(id),
   product_id UUID REFERENCES products(id),
   data JSONB,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Coupons table
+CREATE TABLE IF NOT EXISTS coupons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  code VARCHAR(50) UNIQUE NOT NULL,
+  discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percentage', 'fixed')),
+  discount_value DECIMAL(10, 2) NOT NULL,
+  min_order_amount DECIMAL(10, 2) DEFAULT 0,
+  max_discount_amount DECIMAL(10, 2),
+  start_date TIMESTAMP,
+  end_date TIMESTAMP,
+  is_active BOOLEAN DEFAULT TRUE,
+  usage_limit INTEGER,
+  usage_count INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -4,7 +4,7 @@ interface User {
   id: string;
   email: string;
   name: string;
-  role: 'customer' | 'admin' | 'super_admin';
+  role: 'customer' | 'staff' | 'admin' | 'super_admin';
 }
 
 interface AuthStore {

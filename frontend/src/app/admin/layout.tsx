@@ -13,7 +13,9 @@ import {
     FiLogOut,
     FiChevronRight,
     FiBarChart2,
-    FiMessageSquare
+    FiMessageSquare,
+    FiGrid,
+    FiTag
 } from 'react-icons/fi';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname();
 
     useEffect(() => {
-        if (isInitialized && (!user || (user.role !== 'admin' && user.role !== 'super_admin'))) {
+        if (isInitialized && (!user || (user.role !== 'admin' && user.role !== 'super_admin' && user.role !== 'staff'))) {
             router.push('/');
         }
     }, [user, router, isInitialized]);
@@ -35,18 +37,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         );
     }
 
-    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin' && user.role !== 'staff')) {
         return null;
     }
 
+    // Role-based Menu Items
     const menuItems = [
-        { name: 'Analytics', icon: <FiPieChart />, path: '/admin' },
-        { name: 'Orders', icon: <FiShoppingBag />, path: '/admin/orders' },
-        { name: 'Inventory', icon: <FiBox />, path: '/admin/inventory' },
-        { name: 'Customers', icon: <FiUsers />, path: '/admin/customers' },
-        { name: 'Reviews', icon: <FiMessageSquare />, path: '/admin/reviews' },
-        { name: 'Settings', icon: <FiSettings />, path: '/admin/settings' },
-    ];
+        { name: 'Analytics', icon: <FiPieChart />, path: '/admin', roles: ['staff', 'admin', 'super_admin'] },
+        { name: 'Orders', icon: <FiShoppingBag />, path: '/admin/orders', roles: ['staff', 'admin', 'super_admin'] },
+        { name: 'Products', icon: <FiBox />, path: '/admin/products', roles: ['admin', 'super_admin'] },
+        { name: 'Categories', icon: <FiGrid />, path: '/admin/categories', roles: ['admin', 'super_admin'] },
+        { name: 'Inventory', icon: <FiBox />, path: '/admin/inventory', roles: ['admin', 'super_admin'] },
+        { name: 'Coupons', icon: <FiTag />, path: '/admin/coupons', roles: ['admin', 'super_admin'] },
+        { name: 'Customers', icon: <FiUsers />, path: '/admin/customers', roles: ['admin', 'super_admin'] },
+        { name: 'Reviews', icon: <FiMessageSquare />, path: '/admin/reviews', roles: ['admin', 'super_admin'] },
+        { name: 'Settings', icon: <FiSettings />, path: '/admin/settings', roles: ['super_admin'] },
+    ].filter(item => item.roles.includes(user.role));
 
     return (
         <div className="flex min-h-screen bg-gray-50 pt-20">

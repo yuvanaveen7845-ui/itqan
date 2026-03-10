@@ -38,8 +38,8 @@ export default function AdminDashboard() {
   const statCards = [
     { title: 'Total Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, icon: <FiTrendingUp />, color: 'bg-blue-600', trend: '+12.5%', trendUp: true },
     { title: 'Total Orders', value: stats.totalOrders, icon: <FiShoppingBag />, color: 'bg-indigo-600', trend: '+8.2%', trendUp: true },
-    { title: 'Customers', value: stats.totalCustomers, icon: <FiUsers />, color: 'bg-purple-600', trend: '+5.4%', trendUp: true },
-    { title: 'Stock Items', value: stats.totalProducts, icon: <FiBox />, color: 'bg-pink-600', trend: '-2.1%', trendUp: false },
+    { title: 'Pending Orders', value: stats.pendingOrders, icon: <FiShoppingBag />, color: 'bg-yellow-600', trend: 'Live', trendUp: true },
+    { title: 'Low Stock', value: stats.lowStockAlerts, icon: <FiBox />, color: 'bg-red-600', trend: 'Critical', trendUp: false },
   ];
 
   return (

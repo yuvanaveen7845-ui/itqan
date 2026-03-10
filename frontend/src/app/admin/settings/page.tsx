@@ -1,224 +1,284 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { adminAPI } from '@/lib/api';
-import { FiUserPlus, FiLock, FiMail, FiShield, FiAlertTriangle, FiCheckCircle, FiUser, FiRefreshCw } from 'react-icons/fi';
+import { FiShield, FiUserPlus, FiTrash2, FiKey, FiCpu, FiActivity, FiUserCheck } from 'react-icons/fi';
+import { useAuthStore } from '@/store/auth';
 
 export default function AdminSettingsPage() {
-    const [loading, setLoading] = useState(false);
-    const [settingsLoading, setSettingsLoading] = useState(true);
-    const [success, setSuccess] = useState('');
-    const [error, setError] = useState('');
-    const [sysSettings, setSysSettings] = useState<any>(null);
+    const { user: currentUser } = useAuthStore();
+    const [admins, setAdmins] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [formLoading, setFormLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        role: 'admin',
+        role: 'staff'
     });
+    const [systemSettings, setSystemSettings] = useState<any>(null);
 
     useEffect(() => {
-        fetchSettings();
+        fetchData();
     }, []);
 
-    const fetchSettings = async () => {
+    const fetchData = async () => {
         try {
-            const { data } = await adminAPI.getSettings();
-            setSysSettings(data);
-        } catch (err) {
-            console.error('Failed to fetch settings');
-        } finally {
-            setSettingsLoading(false);
-        }
-    };
-
-    const handleToggleMaintenance = async () => {
-        if (!sysSettings) return;
-        const newValue = !sysSettings.maintenanceMode;
-        try {
-            setSettingsLoading(true);
-            await adminAPI.updateSettings({ maintenanceMode: newValue });
-            setSysSettings({ ...sysSettings, maintenanceMode: newValue });
-            setSuccess(`Maintenance mode ${newValue ? 'enabled' : 'disabled'} successfully`);
-        } catch (err) {
-            setError('Failed to update system status');
-        } finally {
-            setSettingsLoading(false);
-        }
-    };
-
-    const handleCreateAdmin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        setSuccess('');
-        setError('');
-
-        try {
-            await adminAPI.createAdmin(formData);
-            setSuccess(`Admin account for ${formData.name} created successfully!`);
-            setFormData({ name: '', email: '', password: '', role: 'admin' });
-        } catch (err: any) {
-            setError(err.response?.data?.error || 'Failed to create admin account');
+            setLoading(true);
+            const [adminsRes, settingsRes] = await Promise.all([
+                adminAPI.getAdmins(),
+                adminAPI.getSettings()
+            ]);
+            setAdmins(adminsRes.data);
+            setSystemSettings(settingsRes.data);
+        } catch (error) {
+            console.error('Failed to fetch settings data:', error);
         } finally {
             setLoading(false);
         }
     };
 
+    const handleAddAdmin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setFormLoading(true);
+        try {
+            if (currentUser?.role === 'admin' && formData.role !== 'staff') {
+                alert('Admins can only create Staff accounts.');
+                return;
+            }
+            await adminAPI.createAdmin(formData);
+            setShowAddModal(false);
+            fetchData();
+            setFormData({ name: '', email: '', password: '', role: 'staff' });
+        } catch (error) {
+            alert('Failed to create account');
+        } finally {
+            setFormLoading(false);
+        }
+    };
+
+    const toggleMaintenance = async () => {
+        try {
+            const newStatus = !systemSettings.maintenanceMode;
+            await adminAPI.updateSettings({ maintenanceMode: newStatus });
+            setSystemSettings({ ...systemSettings, maintenanceMode: newStatus });
+        } catch (error) {
+            alert('Failed to update maintenance mode');
+        }
+    };
+
+    if (loading) {
+        return <div className="p-20 text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div></div>;
+    }
+
     return (
-        <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-black text-gray-900 mb-2">System Settings</h1>
-                <p className="text-gray-500 font-medium">Configure platform-wide settings and manage administrative access.</p>
+        <div className="space-y-10">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-3xl font-black text-gray-900 border-l-8 border-indigo-600 pl-4">System Sovereignty</h1>
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 ml-4">Global Security & Administrative Control</p>
+                </div>
+                <button
+                    onClick={() => setShowAddModal(true)}
+                    className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black flex items-center gap-2 hover:bg-indigo-700 transition shadow-xl shadow-indigo-100"
+                >
+                    <FiUserPlus /> Provision New Actor
+                </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-sm">
-                {/* Create Admin Form */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="bg-blue-50 text-blue-600 p-2 rounded-lg">
-                            <FiUserPlus size={20} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* System Vitals */}
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm">
+                        <h2 className="text-xl font-black text-gray-900 mb-8 flex items-center gap-3">
+                            <FiShield className="text-indigo-600" />
+                            Administrative Hierarchy
+                        </h2>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="text-gray-400 text-[10px] font-black uppercase tracking-widest border-b border-gray-50">
+                                        <th className="pb-4">Actor</th>
+                                        <th className="pb-4">Privilege Level</th>
+                                        <th className="pb-4">Access Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-50">
+                                    {admins.map((admin) => (
+                                        <tr key={admin.id} className="group">
+                                            <td className="py-6">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-black">
+                                                        {admin.name.charAt(0)}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-black text-gray-900 uppercase text-sm tracking-tight">{admin.name}</p>
+                                                        <p className="text-xs text-gray-400 font-bold">{admin.email}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="py-6">
+                                                <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${admin.role === 'super_admin' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' :
+                                                        admin.role === 'admin' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                                            'bg-gray-50 text-gray-600 border-gray-100'
+                                                    }`}>
+                                                    {admin.role.replace('_', ' ')}
+                                                </span>
+                                            </td>
+                                            <td className="py-6">
+                                                <div className="flex items-center gap-2 text-green-500 font-black text-[10px] uppercase">
+                                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                                                    Active
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                        <h3 className="text-xl font-black text-gray-900">Create New Administrator</h3>
+                    </div>
+                </div>
+
+                {/* Global Overrides */}
+                <div className="space-y-8">
+                    <div className="bg-gray-900 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-gray-200">
+                        <h2 className="text-xl font-black mb-8 flex items-center gap-3">
+                            <FiCpu className="text-indigo-400" />
+                            Global Overrides
+                        </h2>
+
+                        <div className="space-y-6">
+                            <div className="p-6 bg-white/5 rounded-3xl border border-white/10 flex justify-between items-center">
+                                <div>
+                                    <p className="font-black text-sm uppercase tracking-tight">Maintenance Mode</p>
+                                    <p className="text-[10px] text-gray-400 font-bold">Locks frontend for all users</p>
+                                </div>
+                                <button
+                                    onClick={toggleMaintenance}
+                                    className={`w-14 h-8 rounded-full transition-all relative ${systemSettings?.maintenanceMode ? 'bg-rose-600' : 'bg-gray-700'}`}
+                                >
+                                    <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all ${systemSettings?.maintenanceMode ? 'right-1' : 'left-1'}`}></div>
+                                </button>
+                            </div>
+
+                            <div className="p-6 bg-white/5 rounded-3xl border border-white/10">
+                                <div className="flex justify-between items-center mb-4">
+                                    <p className="font-black text-sm uppercase tracking-tight">API Rate Limits</p>
+                                    <FiActivity className="text-gray-500" />
+                                </div>
+                                <div className="flex gap-2">
+                                    <button className="flex-1 py-2 bg-indigo-600 rounded-xl text-[10px] font-black uppercase">Normal</button>
+                                    <button className="flex-1 py-2 bg-white/5 rounded-xl text-[10px] font-black uppercase">Strict</button>
+                                </div>
+                            </div>
+
+                            <div className="p-6 bg-indigo-600/20 rounded-3xl border border-indigo-400/20 flex items-center gap-4">
+                                <FiKey className="text-indigo-400 text-xl" />
+                                <div>
+                                    <p className="font-black text-sm uppercase">Last Security Audit</p>
+                                    <p className="text-[10px] text-indigo-300 font-bold">{new Date(systemSettings?.lastBackup).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    {success && (
-                        <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-xl mb-6 flex items-center gap-3">
-                            <FiCheckCircle className="flex-shrink-0" />
-                            <p className="font-bold">{success}</p>
-                        </div>
-                    )}
+                    <div className="bg-indigo-50 p-8 rounded-[2.5rem] border border-indigo-100">
+                        <FiUserCheck className="text-indigo-600 text-3xl mb-4" />
+                        <h3 className="font-black text-indigo-900 uppercase text-sm mb-2">Role Permissions Heuristic</h3>
+                        <p className="text-xs text-indigo-600/70 font-medium leading-relaxed">
+                            Super Admins possess root authority. Admins can manage catalog and staff. Staff are restricted to order operations and analytics observation.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-                    {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl mb-6 flex items-center gap-3">
-                            <FiAlertTriangle className="flex-shrink-0" />
-                            <p className="font-bold">{error}</p>
+            {/* Provisioning Modal */}
+            {showAddModal && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-[3rem] w-full max-w-xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
+                        <div className="p-10 border-b border-gray-50 flex justify-between items-center">
+                            <h2 className="text-2xl font-black text-gray-900">Provision New Actor</h2>
+                            <button onClick={() => setShowAddModal(false)} className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-900 transition-colors font-bold">✕</button>
                         </div>
-                    )}
 
-                    <form onSubmit={handleCreateAdmin} className="space-y-5">
-                        <div>
-                            <label className="block text-gray-700 font-bold mb-2">Full Name</label>
-                            <div className="relative">
-                                <FiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <form onSubmit={handleAddAdmin} className="p-10 space-y-6">
+                            <div>
+                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Identity Name</label>
                                 <input
                                     type="text"
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                                    placeholder="e.g. Jane Smith"
+                                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-indigo-50 transition outline-none font-bold"
+                                    placeholder="Full Legal Name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     required
                                 />
                             </div>
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 font-bold mb-2">Email Address</label>
-                            <div className="relative">
-                                <FiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+
+                            <div>
+                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Access Email</label>
                                 <input
                                     type="email"
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                                    placeholder="admin@iqtanperfumes.com"
+                                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-indigo-50 transition outline-none font-bold"
+                                    placeholder="corporate@itqan.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     required
                                 />
                             </div>
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 font-bold mb-2">Password</label>
-                            <div className="relative">
-                                <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+
+                            <div>
+                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Secure Credentials</label>
                                 <input
                                     type="password"
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                                    placeholder="••••••••"
+                                    className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-indigo-50 transition outline-none font-bold"
+                                    placeholder="Min 12 Characters"
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                     required
                                 />
                             </div>
-                        </div>
 
-                        <div>
-                            <label className="block text-gray-700 font-bold mb-2">Access Level (Role)</label>
-                            <div className="relative">
-                                <FiShield className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                                <select
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none transition appearance-none font-bold bg-white"
-                                    value={formData.role}
-                                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                    required
-                                >
-                                    <option value="admin">Administrator</option>
-                                    <option value="super_admin">Super Administrator</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="bg-blue-50 p-4 rounded-xl mb-6">
-                            <div className="flex gap-3 text-blue-700">
-                                <FiShield className="flex-shrink-0 mt-1" />
-                                <p className="text-xs font-medium leading-relaxed">
-                                    New administrators will have full access to order management, inventory control, and customer analytics.
-                                    Only <strong>Super Admins</strong> can create or revoke administrative privileges.
-                                </p>
-                            </div>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className={`w-full py-4 rounded-xl font-black text-white transition shadow-lg ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-200'}`}
-                        >
-                            {loading ? 'Creating Account...' : 'Add Administrator'}
-                        </button>
-                    </form>
-                </div>
-
-                {/* System Info / placeholder cards */}
-                <div className="space-y-6">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                        <h3 className="text-xl font-black text-gray-900 mb-6">Security & Logs</h3>
-                        <div className="space-y-4">
-                            {[
-                                { label: 'Login Protection', status: 'Enabled', color: 'text-green-600' },
-                                { label: 'Database Backup', status: 'Every 24h', color: 'text-blue-600' },
-                                { label: 'SSL Certificate', status: 'Valid', color: 'text-green-600' },
-                                { label: 'API Access', status: 'Restricted', color: 'text-orange-600' },
-                            ].map((item, idx) => (
-                                <div key={idx} className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
-                                    <span className="font-bold text-gray-600">{item.label}</span>
-                                    <span className={`font-black ${item.color}`}>{item.status}</span>
+                            <div>
+                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Target Privilege Level</label>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, role: 'staff' })}
+                                        className={`py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition border ${formData.role === 'staff' ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg shadow-indigo-100' : 'bg-white text-gray-400 border-gray-100 hover:border-indigo-100'}`}
+                                    >
+                                        Sales Staff
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, role: 'admin' })}
+                                        className={`py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition border ${formData.role === 'admin' ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100' : 'bg-white text-gray-400 border-gray-100 hover:border-blue-100'}`}
+                                    >
+                                        Inventory Admin
+                                    </button>
+                                    {currentUser?.role === 'super_admin' && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData({ ...formData, role: 'super_admin' })}
+                                            className={`py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition border col-span-2 ${formData.role === 'super_admin' ? 'bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-200' : 'bg-white text-gray-400 border-gray-100 hover:border-gray-900'}`}
+                                        >
+                                            Super Admin (Root)
+                                        </button>
+                                    )}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="bg-gray-900 text-white rounded-2xl p-8 shadow-xl relative overflow-hidden">
-                        {settingsLoading && (
-                            <div className="absolute inset-0 bg-white/10 flex items-center justify-center z-10 cursor-wait">
-                                <FiRefreshCw className="animate-spin text-blue-400" size={24} />
                             </div>
-                        )}
-                        <h3 className="text-xl font-black mb-4">Maintenance Mode</h3>
-                        <p className="text-gray-400 mb-6 leading-relaxed">Toggle maintenance mode to prevent customers from placing orders during system upgrades.</p>
-                        <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">
-                            <span className="font-bold">
-                                System Status: {sysSettings?.maintenanceMode ?
-                                    <span className="text-yellow-500">In Maintenance</span> :
-                                    <span className="text-green-500">Active</span>
-                                }
-                            </span>
+
                             <button
-                                onClick={handleToggleMaintenance}
-                                className={`w-12 h-6 rounded-full relative transition-colors duration-200 ${sysSettings?.maintenanceMode ? 'bg-yellow-500' : 'bg-green-500'}`}
+                                type="submit"
+                                disabled={formLoading}
+                                className="w-full py-5 bg-indigo-600 text-white rounded-[2rem] font-black uppercase tracking-widest hover:bg-indigo-700 transition shadow-2xl shadow-indigo-200 disabled:opacity-50"
                             >
-                                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-200 ${sysSettings?.maintenanceMode ? 'left-7' : 'left-1'}`}></div>
+                                {formLoading ? 'Executing Genesis...' : 'Initialize Actor'}
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

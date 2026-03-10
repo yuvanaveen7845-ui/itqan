@@ -39,6 +39,53 @@ export default function AdminInventoryPage() {
     }
   };
 
+  const exportToCSV = () => {
+    const headers = ['ID', 'Name', 'SKU', 'Price', 'Stock', 'Status'];
+    const rows = products.map(p => [
+      p.id,
+      p.name,
+      p.sku || 'N/A',
+      p.price,
+      p.stock,
+      p.stock <= 5 ? 'Critical' : p.stock <= 10 ? 'Low' : 'Healthy'
+    ]);
+
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `inventory_report_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const bulkReplenish = async () => {
+    const amount = prompt("Enter amount to add to ALL low stock items (Stock <= 10):");
+    if (!amount || isNaN(parseInt(amount))) return;
+
+    const lowStockItems = products.filter(p => p.stock <= 10);
+    if (lowStockItems.length === 0) {
+      alert("No low stock items detected.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await Promise.all(lowStockItems.map(p =>
+        productAPI.update(p.id, { stock: p.stock + parseInt(amount) })
+      ));
+      alert(`Successfully replenished ${lowStockItems.length} items.`);
+      fetchInventory();
+    } catch (error) {
+      alert("Failed to perform bulk replenish.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleOpenModal = (product: any = null) => {
     if (product) {
       setEditingProduct(product);
@@ -88,16 +135,13 @@ export default function AdminInventoryPage() {
       if (editingProduct) {
         await productAPI.update(editingProduct.id, payload);
       } else {
-        console.log('Submitting Product Payload:', payload);
         await productAPI.create(payload);
       }
       fetchInventory();
       setShowModal(false);
     } catch (error: any) {
       console.error('Save error details:', error.response?.data);
-      const errorData = error.response?.data;
-      const message = errorData?.details || errorData?.error || error.message || 'Failed to save product';
-      alert(`Backend Error: ${message}`);
+      alert('Failed to save product');
     } finally {
       setFormLoading(false);
     }
@@ -114,42 +158,57 @@ export default function AdminInventoryPage() {
     }
   };
 
+  const lowStockCount = products.filter(p => p.stock <= 10).length;
+
   return (
     <>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-black text-gray-900">Inventory Control</h1>
-          <button
-            onClick={() => handleOpenModal()}
-            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-lg shadow-blue-200"
-          >
-            <FiPlus /> Add New Product
-          </button>
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 border-l-8 border-blue-600 pl-4">Inventory Engine</h1>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 ml-4">Real-time Logistics & Supply Control</p>
+          </div>
+          <div className="flex gap-4">
+            <button
+              onClick={exportToCSV}
+              className="bg-white text-gray-700 border border-gray-200 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 transition shadow-sm"
+            >
+              Export CSV
+            </button>
+            <button
+              onClick={() => handleOpenModal()}
+              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+            >
+              <FiPlus /> New Entry
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Utility Cards */}
-          <div className="bg-orange-50 border border-orange-100 p-6 rounded-2xl flex items-center gap-4">
-            <div className="bg-orange-500 text-white p-3 rounded-xl shadow-lg shadow-orange-200">
-              <FiAlertCircle size={24} />
+          <div className={`p-6 rounded-[2rem] flex items-center gap-6 transition-all border ${lowStockCount > 0 ? 'bg-rose-50 border-rose-100 shadow-lg shadow-rose-100' : 'bg-gray-50 border-gray-100'}`}>
+            <div className={`p-4 rounded-2xl shadow-xl ${lowStockCount > 0 ? 'bg-rose-600 text-white shadow-rose-200' : 'bg-gray-200 text-gray-400'}`}>
+              <FiAlertCircle size={28} />
             </div>
             <div>
-              <p className="text-sm font-bold text-orange-800 uppercase tracking-widest mb-1">Low Stock Alerts</p>
-              <h3 className="text-2xl font-black text-orange-900">4 Items</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Stock Alerts</p>
+              <h3 className={`text-3xl font-black ${lowStockCount > 0 ? 'text-rose-900' : 'text-gray-900'}`}>{lowStockCount} Items</h3>
+              {lowStockCount > 0 && (
+                <button onClick={bulkReplenish} className="text-[10px] font-black uppercase text-rose-600 underline mt-2">Quick Replenish All</button>
+              )}
             </div>
           </div>
-          <div className="bg-blue-50 border border-blue-100 p-6 rounded-2xl flex items-center gap-4">
-            <div className="bg-blue-500 text-white p-3 rounded-xl shadow-lg shadow-blue-200">
-              <FiPackage size={24} />
+          <div className="bg-white border border-gray-100 p-6 rounded-[2rem] shadow-sm flex items-center gap-6">
+            <div className="bg-blue-100 text-blue-600 p-4 rounded-2xl">
+              <FiPackage size={28} />
             </div>
             <div>
-              <p className="text-sm font-bold text-blue-800 uppercase tracking-widest mb-1">Total SKU</p>
-              <h3 className="text-2xl font-black text-blue-900">{products.length} Products</h3>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Active SKUs</p>
+              <h3 className="text-3xl font-black text-gray-900">{products.length} Units</h3>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
           {loading ? (
             <div className="p-20 text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -157,54 +216,65 @@ export default function AdminInventoryPage() {
           ) : (
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-gray-50 text-gray-400 text-xs font-black uppercase tracking-widest border-b border-gray-100">
-                  <th className="px-8 py-4">Product</th>
-                  <th className="px-8 py-4">Price</th>
-                  <th className="px-8 py-4">Stock</th>
-                  <th className="px-8 py-4">Status</th>
-                  <th className="px-8 py-4 text-right">Actions</th>
+                <tr className="bg-gray-50/50 text-gray-400 text-[10px] font-black uppercase tracking-widest border-b border-gray-100">
+                  <th className="px-10 py-5">Intel Asset</th>
+                  <th className="px-10 py-5 text-center">Incentive</th>
+                  <th className="px-10 py-5">Stock Reserve</th>
+                  <th className="px-10 py-5">Lifecycle</th>
+                  <th className="px-10 py-5 text-right">Sequence</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-50 font-medium">
                 {products.map((product: any) => (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-8 py-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400">
-                          <FiPackage />
+                  <tr key={product.id} className="group hover:bg-gray-50/80 transition-all duration-300">
+                    <td className="px-10 py-6">
+                      <div className="flex items-center gap-6">
+                        <div className="relative">
+                          <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-100 flex-shrink-0 flex items-center justify-center text-gray-300 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 overflow-hidden">
+                            {product.image_url ? <img src={product.image_url} alt="" className="w-full h-full object-cover" /> : <FiPackage size={24} />}
+                          </div>
+                          {product.stock <= 5 && <div className="absolute -top-1 -right-1 w-4 h-4 bg-rose-600 rounded-full border-2 border-white animate-bounce"></div>}
                         </div>
                         <div>
-                          <p className="font-bold text-gray-900">{product.name}</p>
-                          <p className="text-xs text-gray-500">ID: #{product.id}</p>
+                          <p className="font-black text-gray-900 group-hover:text-blue-700 transition-colors uppercase tracking-tight">{product.name}</p>
+                          <p className="text-[10px] text-gray-400 font-bold">SKU: {product.sku || product.id?.slice(0, 8)}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-8 py-4 font-bold">₹{product.price.toLocaleString()}</td>
-                    <td className="px-8 py-4 font-black">
-                      <span className={product.stock <= 5 ? 'text-red-600' : 'text-gray-900'}>
-                        {product.stock} units
-                      </span>
+                    <td className="px-10 py-6 text-center">
+                      <span className="font-black text-gray-900 text-lg">₹{product.price.toLocaleString()}</span>
+                      {product.discount > 0 && <span className="block text-[10px] font-black text-rose-500 uppercase">-{product.discount}% OFF</span>}
                     </td>
-                    <td className="px-8 py-4">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide border ${product.stock > 10 ? 'bg-green-50 text-green-700 border-green-200' :
-                        product.stock > 0 ? 'bg-orange-50 text-orange-700 border-orange-200' :
-                          'bg-red-50 text-red-700 border-red-200'
+                    <td className="px-10 py-6">
+                      <div className="flex flex-col gap-2">
+                        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className={`h-full transition-all duration-1000 ${product.stock > 50 ? 'bg-green-500' : product.stock > 10 ? 'bg-orange-400' : 'bg-rose-500'}`} style={{ width: `${Math.min(product.stock, 100)}%` }}></div>
+                        </div>
+                        <span className={`text-xs font-black ${product.stock <= 10 ? 'text-rose-600' : 'text-gray-500'}`}>
+                          {product.stock} UNITS
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-10 py-6">
+                      <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${product.stock > 10 ? 'bg-green-50 text-green-700 border-green-100' :
+                        product.stock > 0 ? 'bg-orange-50 text-orange-700 border-orange-100 shadow-sm shadow-orange-50' :
+                          'bg-rose-50 text-rose-700 border-rose-100 animate-pulse'
                         }`}>
-                        {product.stock > 10 ? 'Healthy' : product.stock > 0 ? 'Low Stock' : 'Out of Stock'}
+                        {product.stock > 10 ? 'Prime' : product.stock > 0 ? 'Depleted' : 'Sold Out'}
                       </span>
                     </td>
-                    <td className="px-8 py-4">
-                      <div className="flex justify-end gap-2">
+                    <td className="px-10 py-6">
+                      <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => handleOpenModal(product)}
-                          className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-blue-600 hover:text-white transition"
+                          className="p-3 bg-white text-gray-600 rounded-xl hover:bg-blue-600 hover:text-white transition shadow-sm border border-gray-100"
                         >
-                          <FiEdit2 />
+                          <FiEdit2 size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="p-2 bg-gray-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition">
-                          <FiTrash2 />
+                          className="p-3 bg-white text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition shadow-sm border border-gray-100">
+                          <FiTrash2 size={16} />
                         </button>
                       </div>
                     </td>

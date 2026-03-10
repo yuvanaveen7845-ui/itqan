@@ -11,6 +11,8 @@ import adminRoutes from './routes/admin';
 import wishlistRoutes from './routes/wishlist';
 import cartRoutes from './routes/cart';
 import webhookRoutes from './routes/webhooks';
+import categoryRoutes from './routes/categories';
+import couponRoutes from './routes/coupons';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -60,6 +62,8 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/webhooks', webhookRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/coupons', couponRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

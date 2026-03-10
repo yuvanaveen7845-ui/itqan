@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { adminAPI, orderAPI } from '@/lib/api';
 import { FiSearch, FiFilter, FiEye, FiCheck, FiX, FiPrinter, FiBox } from 'react-icons/fi';
 
 export default function AdminOrdersPage() {
+  const router = useRouter();
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -138,7 +140,10 @@ export default function AdminOrdersPage() {
                       <button className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-200 transition" title="Print Invoice">
                         <FiPrinter />
                       </button>
-                      <button className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-blue-600 hover:text-white transition" title="View Details">
+                      <button
+                        onClick={() => router.push(`/admin/orders/${order.id}`)}
+                        className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-blue-600 hover:text-white transition" title="View Details"
+                      >
                         <FiEye />
                       </button>
                     </div>

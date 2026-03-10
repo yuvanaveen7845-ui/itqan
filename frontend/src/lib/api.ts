@@ -44,7 +44,9 @@ export const adminAPI = {
   getDashboard: () => api.get('/admin/dashboard'),
   getOrders: () => api.get('/admin/orders'),
   getCustomers: () => api.get('/admin/customers'),
+  getCustomerById: (id: string) => api.get(`/admin/customers/${id}`),
   getInventory: () => api.get('/admin/inventory'),
+  getAdmins: () => api.get('/admin/admins'),
   createAdmin: (data: any) => api.post('/admin/create-admin', data),
   getSettings: () => api.get('/admin/settings'),
   updateSettings: (data: any) => api.post('/admin/settings', data),
@@ -61,6 +63,20 @@ export const cartAPI = {
   sync: (items: any[]) => api.post('/cart/sync', { items }),
   updateQuantity: (productId: string, quantity: number) => api.patch(`/cart/${productId}`, { quantity }),
   remove: (productId: string) => api.delete(`/cart/${productId}`),
+};
+
+export const categoryAPI = {
+  getAll: () => api.get('/categories'),
+  create: (data: any) => api.post('/categories', data),
+  update: (id: string, data: any) => api.put(`/categories/${id}`, data),
+  delete: (id: string) => api.delete(`/categories/${id}`),
+};
+
+export const couponAPI = {
+  getAll: () => api.get('/coupons'),
+  create: (data: any) => api.post('/coupons', data),
+  validate: (code: string, amount: number) => api.post('/coupons/validate', { code, amount }),
+  delete: (id: string) => api.delete(`/coupons/${id}`),
 };
 
 export default api;

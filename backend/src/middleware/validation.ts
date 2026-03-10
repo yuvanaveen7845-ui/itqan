@@ -33,6 +33,12 @@ export const schemas = {
     fabric_type: Joi.string().required(),
     color: Joi.string().allow(null, ''),
     stock: Joi.number().integer().min(0).required(),
+    sku: Joi.string().allow(null, ''),
+    weight: Joi.number().min(0).allow(null),
+    dimensions: Joi.string().allow(null, ''),
+    is_visible: Joi.boolean().default(true),
+    meta_title: Joi.string().allow(null, ''),
+    meta_description: Joi.string().allow(null, ''),
   }),
   order: Joi.object({
     items: Joi.array().items(

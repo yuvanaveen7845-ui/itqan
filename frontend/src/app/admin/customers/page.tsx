@@ -1,10 +1,10 @@
-'use client';
-
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { adminAPI } from '@/lib/api';
-import { FiUser, FiMail, FiCalendar, FiShoppingBag, FiSearch, FiMoreVertical } from 'react-icons/fi';
+import { FiUser, FiMail, FiCalendar, FiShoppingBag, FiSearch, FiMoreVertical, FiExternalLink } from 'react-icons/fi';
 
 export default function AdminCustomersPage() {
+  const router = useRouter();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -94,8 +94,11 @@ export default function AdminCustomersPage() {
                     </span>
                   </td>
                   <td className="px-8 py-4 text-right">
-                    <button className="p-2 hover:bg-gray-100 rounded-lg transition text-gray-400 hover:text-gray-600">
-                      <FiMoreVertical />
+                    <button
+                      onClick={() => router.push(`/admin/customers/${customer.id}`)}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-black text-xs hover:bg-blue-600 hover:text-white transition shadow-sm"
+                    >
+                      View Profile <FiExternalLink />
                     </button>
                   </td>
                 </tr>
