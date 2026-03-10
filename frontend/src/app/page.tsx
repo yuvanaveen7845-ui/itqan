@@ -1,3 +1,4 @@
+// Imperial Scent UI Deploy: Phase 12-13
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
