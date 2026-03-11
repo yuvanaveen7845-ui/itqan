@@ -105,9 +105,22 @@ export default function Editable({ id, children, type = 'text', className = '', 
 
             {/* Content Display */}
             {type === 'image' ? (
-                <img src={savedValue || (typeof children === 'string' ? children : '')} alt="Editable" className={`${className} ${isEditing ? 'opacity-50' : ''}`} />
+                <div className="relative overflow-hidden group/img">
+                    <img
+                        src={savedValue || fallback || (typeof children === 'string' ? children : '')}
+                        alt="Editable"
+                        className={`${className} ${isEditing ? 'opacity-50 scale-105 blur-sm' : ''} transition-all duration-700`}
+                    />
+                    {isEditing && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <FiImage size={40} className="text-premium-gold animate-pulse" />
+                        </div>
+                    )}
+                </div>
             ) : (
-                <div className={className}>{savedValue || children}</div>
+                <div className={`${className} ${!savedVisible && isDevMode ? 'line-through decoration-red-500/50' : ''}`}>
+                    {savedValue || children}
+                </div>
             )}
 
             {/* Edit Modal / Overlay */}
@@ -176,8 +189,8 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                                 key={preset.name}
                                                 onClick={() => setTempStyle(preset.class)}
                                                 className={`px-2 py-1 text-[7px] font-black uppercase border transition-all ${tempStyle === preset.class
-                                                        ? 'bg-premium-gold text-premium-black border-premium-gold'
-                                                        : 'border-white/10 text-white/40 hover:border-premium-gold/30'
+                                                    ? 'bg-premium-gold text-premium-black border-premium-gold'
+                                                    : 'border-white/10 text-white/40 hover:border-premium-gold/30'
                                                     }`}
                                             >
                                                 {preset.name}

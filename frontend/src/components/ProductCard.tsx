@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useWishlistStore } from '@/store/wishlist';
 import { useAuthStore } from '@/store/auth';
-import { FiHeart, FiArrowRight } from 'react-icons/fi';
+import { useDevStore } from '@/store/dev';
+import { FiHeart, FiArrowRight, FiEdit3 } from 'react-icons/fi';
 
 interface ProductCardProps {
     product: {
@@ -24,6 +25,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, badge }: ProductCardProps) {
     const { user } = useAuthStore();
     const { isInWishlist, addItem, removeItem } = useWishlistStore();
+    const isDevMode = useDevStore((state) => state.isDevMode);
 
     const isWishlisted = isInWishlist(product.id);
     const primaryImage = product.images && product.images.length > 0 ? product.images[0] : product.image_url;
@@ -72,6 +74,19 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 >
                     <FiHeart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
                 </button>
+
+                {/* Dev Mode Overlay */}
+                {isDevMode && (
+                    <div className="absolute inset-0 z-30 bg-premium-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                        <Link
+                            href={`/admin/products/${product.id}`}
+                            className="pointer-events-auto bg-premium-gold text-premium-black px-6 py-3 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <FiEdit3 size={14} /> Edit Attributes
+                        </Link>
+                    </div>
+                )}
 
                 {/* Primary Image with Ken Burns & Shine Effect */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 shine-effect">

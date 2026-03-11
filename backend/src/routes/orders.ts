@@ -72,7 +72,7 @@ router.post('/estimate-delivery', async (req, res) => {
 router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
     const { items, address_id, address, couponCode } = req.body;
-    const userId = req.user?.id;
+    const userId = req.user?.id || null;
 
     let finalAddressId = address_id;
 
