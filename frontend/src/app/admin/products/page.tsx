@@ -146,21 +146,21 @@ export default function AdminProductsPage() {
   );
 
   return (
-    <div className="space-y-8 pb-20">
-      <div className="flex justify-between items-center">
+    <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 mb-2">Product Catalog</h1>
-          <p className="text-gray-500 font-medium">Manage your boutique inventory and SEO metadata.</p>
+          <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Product Catalog</h1>
+          <p className="text-gray-500 font-medium">Manage your premium boutique inventory and SEO metadata with precision.</p>
         </div>
         <button
           onClick={() => {
             if (showForm) resetForm();
             else setShowForm(true);
           }}
-          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition shadow-lg ${showForm ? 'bg-gray-100 text-gray-700' : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
+          className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black transition-all duration-300 shadow-xl ${showForm ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95'
             }`}
         >
-          {showForm ? <><FiX /> Cancel</> : <><FiPlus /> New Product</>}
+          {showForm ? <><FiX size={20} /> Close Editor</> : <><FiPlus size={20} /> Create New Product</>}
         </button>
       </div>
 

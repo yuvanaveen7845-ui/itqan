@@ -59,9 +59,9 @@ export default function AdminDashboard() {
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat, i) => (
-          <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+          <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <div className="flex justify-between items-start mb-4">
-              <div className={`${stat.color} p-3 rounded-xl text-white shadow-lg shadow-opacity-20`}>
+              <div className={`${stat.color} p-3 rounded-xl text-white shadow-lg shadow-blue-200`}>
                 {stat.icon}
               </div>
               <div className={`flex items-center gap-1 text-sm font-bold ${stat.trendUp ? 'text-green-600' : 'text-red-600'}`}>
@@ -69,8 +69,8 @@ export default function AdminDashboard() {
                 {stat.trend}
               </div>
             </div>
-            <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.title}</p>
-            <h3 className="text-3xl font-black text-gray-900">{stat.value}</h3>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">{stat.title}</p>
+            <h3 className="text-3xl font-black text-gray-900 tracking-tight">{stat.value}</h3>
           </div>
         ))}
       </div>
@@ -85,9 +85,9 @@ export default function AdminDashboard() {
               <option>Last 30 Days</option>
             </select>
           </div>
-          <div className="w-full h-[350px]">
+          <div className="w-full h-[350px] min-w-0">
             {mounted ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="99%" height="100%" minWidth={0}>
                 <LineChart data={stats.salesData || []}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                   <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
@@ -115,9 +115,9 @@ export default function AdminDashboard() {
         {/* Orders Bar Chart */}
         <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-black text-gray-900 mb-8">Order Volume</h3>
-          <div className="w-full h-[250px]">
+          <div className="w-full h-[250px] min-w-0">
             {mounted ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="99%" height="100%" minWidth={0}>
                 <BarChart data={stats.salesData || []}>
                   <XAxis dataKey="date" hide />
                   <Tooltip

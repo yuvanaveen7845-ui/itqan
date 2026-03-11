@@ -14,7 +14,7 @@ router.get('/', verifyToken, async (req: AuthRequest, res) => {
         }
 
         const { data, error } = await supabase
-            .from('cart_items')
+            .from('cart')
             .select('*, products(*)')
             .eq('user_id', userId);
 
@@ -36,7 +36,7 @@ router.post('/sync', verifyToken, async (req: AuthRequest, res) => {
         }
 
         // Clear existing cart and insert new items
-        await supabase.from('cart_items').delete().eq('user_id', userId);
+        await supabase.from('cart').delete().eq('user_id', userId);
 
         if (items.length > 0) {
             const cartItems = items.map((item: any) => ({
@@ -44,7 +44,7 @@ router.post('/sync', verifyToken, async (req: AuthRequest, res) => {
                 product_id: item.product_id,
                 quantity: item.quantity,
             }));
-            const { error } = await supabase.from('cart_items').insert(cartItems);
+            const { error } = await supabase.from('cart').insert(cartItems);
             if (error) throw error;
         }
 
@@ -66,7 +66,7 @@ router.patch('/:productId', verifyToken, async (req: AuthRequest, res) => {
         }
 
         const { error } = await supabase
-            .from('cart_items')
+            .from('cart')
             .update({ quantity })
             .eq('user_id', userId)
             .eq('product_id', productId);
@@ -89,7 +89,7 @@ router.delete('/:productId', verifyToken, async (req: AuthRequest, res) => {
         }
 
         const { error } = await supabase
-            .from('cart_items')
+            .from('cart')
             .delete()
             .eq('user_id', userId)
             .eq('product_id', productId);

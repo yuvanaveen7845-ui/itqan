@@ -154,17 +154,36 @@ router.put('/:id', verifyToken, requireRole(['admin', 'super_admin']), async (re
       return res.json({ id: req.params.id, ...req.body });
     }
 
+    const validColumns = [
+      'name', 'description', 'price', 'fabric_type', 'color', 'size',
+      'pattern', 'stock', 'discount', 'sku', 'weight', 'dimensions',
+      'is_visible', 'image_url', 'meta_title', 'meta_description', 'original_price'
+    ];
+
+    const updateData = Object.keys(req.body)
+      .filter(key => validColumns.includes(key))
+      .reduce((obj: any, key) => {
+        obj[key] = req.body[key];
+        return obj;
+      }, {});
+
     const { data, error } = await supabase
       .from('products')
-      .update(req.body)
+      .update(updateData)
       .eq('id', req.params.id)
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Update Product Error:', error);
+      throw error;
+    }
     res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update product' });
+  } catch (error: any) {
+    res.status(500).json({
+      error: 'Failed to update product',
+      details: error.message || error
+    });
   }
 });
 
