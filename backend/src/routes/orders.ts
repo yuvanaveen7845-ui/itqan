@@ -10,6 +10,13 @@ const OPAL_AUTOMATION_URL = 'https://opal.google/app/1VyMrnma3KQcM91M0CPdrlbZXf2
 
 const router = Router();
 
+// Robust UUID Validation Helper
+const isUUID = (str: string | null | undefined): boolean => {
+  if (!str) return false;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str);
+};
+
 // Estimate delivery
 router.post('/estimate-delivery', async (req, res) => {
   try {
@@ -72,7 +79,25 @@ router.post('/estimate-delivery', async (req, res) => {
 router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
     const { items, address_id, address, couponCode } = req.body;
-    const userId = req.user?.id || null;
+    let userId = req.user?.id || null;
+
+    // Fix: Resolve non-UUID developer IDs (like email addresses) to actual UUIDs
+    if (userId && !isUUID(userId)) {
+      console.log(`--- Order Creation: Resolving non-UUID ID (${userId}) ---`);
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', userId)
+        .maybeSingle();
+
+      if (userData) {
+        userId = userData.id;
+        console.log(`✓ Resolved to UUID: ${userId}`);
+      } else {
+        console.warn(`⚠️  Could not resolve ID ${userId} to UUID. Setting to null.`);
+        userId = null;
+      }
+    }
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Order must contain at least one item' });
@@ -103,7 +128,8 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       }
       finalAddressId = newAddress.id;
       console.log('✓ Address created:', finalAddressId);
-    } else if (finalAddressId === 'temp-address') {
+    } else if (finalAddressId === 'temp-address' || !isUUID(finalAddressId)) {
+      // Ensure address_id is a valid UUID or null
       finalAddressId = null;
     }
 
@@ -113,6 +139,11 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     let subtotal = 0;
     const itemPrices: Record<string, number> = {};
     for (const item of items) {
+      if (!isUUID(item.product_id)) {
+        console.warn(`⚠️  Skipping item with invalid Product UUID: ${item.product_id}`);
+        continue;
+      }
+
       const { data: product } = await supabase
         .from('products')
         .select('price')
@@ -245,6 +276,10 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
     const isValid = verifyPaymentSignature(razorpayOrderId, paymentId, signature);
     if (!isValid) {
       return res.status(400).json({ error: 'Invalid payment signature' });
+    }
+
+    if (!isUUID(orderId)) {
+      return res.status(400).json({ error: 'Invalid Order ID format' });
     }
 
     // Update order status
@@ -411,6 +446,10 @@ router.get('/:id', verifyToken, async (req: AuthRequest, res) => {
       });
     }
 
+    if (!isUUID(req.params.id)) {
+      return res.status(404).json({ error: 'Order not found (Invalid ID format)' });
+    }
+
     const { data: order, error } = await supabase
       .from('orders')
       .select('*')
@@ -461,6 +500,10 @@ router.patch('/:id/status', verifyToken, requireRole(['admin', 'super_admin']), 
 
     const { status, comment } = req.body;
     const userId = req.user?.id;
+
+    if (!isUUID(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid Order ID format' });
+    }
 
     const { data, error } = await supabase
       .from('orders')
