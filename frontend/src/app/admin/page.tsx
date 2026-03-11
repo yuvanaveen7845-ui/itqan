@@ -80,34 +80,34 @@ export default function AdminDashboard() {
         <div className="lg:col-span-2 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm relative overflow-hidden">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-xl font-black text-gray-900">Revenue Analysis</h3>
-            <select className="bg-gray-50 text-sm font-bold px-3 py-1.5 rounded-lg border-none outline-none">
+            <select className="bg-gray-50 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-none border border-gray-100 outline-none">
               <option>Last 7 Days</option>
               <option>Last 30 Days</option>
             </select>
           </div>
-          <div className="w-full h-[350px] min-w-0">
+          <div className="w-full min-h-[350px]">
             {mounted ? (
-              <ResponsiveContainer width="99%" height="100%" minWidth={0}>
+              <ResponsiveContainer width="100%" aspect={2.5}>
                 <LineChart data={stats.salesData || []}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val / 1000}k`} />
+                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val / 1000}k`} />
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
-                    itemStyle={{ color: '#fff' }}
+                    contentStyle={{ backgroundColor: '#000', border: '1px solid #C5A059', borderRadius: '0px', color: '#fff' }}
+                    itemStyle={{ color: '#C5A059', fontSize: '10px', fontWeight: 'bold' }}
                   />
                   <Line
                     type="monotone"
                     dataKey="revenue"
-                    stroke="#2563eb"
-                    strokeWidth={4}
-                    dot={{ r: 6, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
-                    activeDot={{ r: 8 }}
+                    stroke="#C5A059"
+                    strokeWidth={3}
+                    dot={{ r: 4, fill: '#C5A059', strokeWidth: 0 }}
+                    activeDot={{ r: 6, fill: '#000', stroke: '#C5A059', strokeWidth: 2 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full bg-gray-50 animate-pulse rounded-xl"></div>
+              <div className="w-full h-[350px] bg-gray-50 animate-pulse rounded-xl"></div>
             )}
           </div>
         </div>
@@ -115,27 +115,28 @@ export default function AdminDashboard() {
         {/* Orders Bar Chart */}
         <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-black text-gray-900 mb-8">Order Volume</h3>
-          <div className="w-full h-[250px] min-w-0">
+          <div className="w-full min-h-[250px]">
             {mounted ? (
-              <ResponsiveContainer width="99%" height="100%" minWidth={0}>
+              <ResponsiveContainer width="100%" aspect={1.5}>
                 <BarChart data={stats.salesData || []}>
                   <XAxis dataKey="date" hide />
                   <Tooltip
                     cursor={{ fill: '#f8fafc' }}
-                    contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
+                    contentStyle={{ backgroundColor: '#000', border: '1px solid #C5A059', borderRadius: '0px', color: '#fff' }}
+                    itemStyle={{ color: '#C5A059', fontSize: '10px', fontWeight: 'bold' }}
                   />
-                  <Bar dataKey="orders" radius={[6, 6, 0, 0]}>
+                  <Bar dataKey="orders" radius={[0, 0, 0, 0]}>
                     {stats.salesData?.map((entry: any, index: number) => (
-                      <Cell key={`cell-${index}`} fill={index === (stats.salesData?.length - 1) ? '#2563eb' : '#cbd5e1'} />
+                      <Cell key={`cell-${index}`} fill={index === (stats.salesData?.length - 1) ? '#C5A059' : '#1a1a1a'} />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="w-full h-full bg-gray-50 animate-pulse rounded-xl"></div>
+              <div className="w-full h-[250px] bg-gray-50 animate-pulse rounded-xl"></div>
             )}
           </div>
-          <p className="text-center text-sm text-gray-500 font-medium mt-4 italic">Peak order volume on weekend</p>
+          <p className="text-center text-[9px] font-black uppercase tracking-[0.2em] text-premium-gold/60 mt-8">Peak Acquisition Window Detected</p>
         </div>
       </div>
 

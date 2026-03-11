@@ -78,25 +78,32 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
 
     // Create address if object provided
     if (address && !finalAddressId) {
+      console.log('--- Order Creation: Creating new address record ---');
       const { data: newAddress, error: addrError } = await supabase
         .from('addresses')
         .insert([
           {
             user_id: userId,
-            address_line1: address.address,
-            city: address.city,
-            state: address.state,
-            zipcode: address.zipcode,
+            address_line1: address.address || 'Not Provided',
+            city: address.city || 'Not Provided',
+            state: address.state || 'Not Provided',
+            zipcode: address.zipcode || '000000',
           },
         ])
         .select()
         .single();
 
-      if (addrError) throw addrError;
+      if (addrError) {
+        console.error('✗ Supabase Address Insert Error:', addrError);
+        return res.status(500).json({ error: 'Failed to create shipping record', details: addrError.message });
+      }
       finalAddressId = newAddress.id;
+      console.log('✓ Address created:', finalAddressId);
     } else if (finalAddressId === 'temp-address') {
       finalAddressId = null;
     }
+
+    console.log('--- Order Creation: Calculating subtotals ---');
 
     // Calculate subtotal and store prices
     let subtotal = 0;
@@ -150,6 +157,7 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     const displayId = `ORD-${dateStr}-${randomChars}`;
 
     // Create order record
+    console.log('--- Order Creation: Inserting order record ---');
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert([
