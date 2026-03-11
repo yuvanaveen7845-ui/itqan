@@ -33,12 +33,12 @@ router.post('/estimate-delivery', async (req, res) => {
       zone = 'Zone A (Coimbatore Region)';
       minDays = 1;
       maxDays = 2;
-      shippingCost = 50;
+      shippingCost = 150;
     } else if (prefix1 === '6') {
       zone = 'Zone B (Tamil Nadu & Kerala)';
       minDays = 2;
       maxDays = 3;
-      shippingCost = 100;
+      shippingCost = 150;
     } else if (['4', '5', '7'].includes(prefix1)) {
       zone = 'Zone C (Neighboring States)';
       minDays = 3;
@@ -73,6 +73,10 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
     const { items, address_id, address, couponCode } = req.body;
     const userId = req.user?.id || null;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Order must contain at least one item' });
+    }
 
     let finalAddressId = address_id;
 
@@ -140,6 +144,8 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
         }
         discountAmount = Math.min(discountAmount, subtotal);
         couponId = coupon.id;
+      } else if (couponCode) {
+        console.warn(`⚠️  Invalid or inactive coupon code attempted: ${couponCode}`);
       }
     }
 
@@ -175,11 +181,12 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       .single();
 
     if (orderError) {
-      console.error('✗ Supabase Order Insert Error:', orderError);
+      console.error('✗ Supabase Order Insert Error:', JSON.stringify(orderError, null, 2));
       return res.status(500).json({
         error: 'Failed to create order record',
         details: orderError.message,
-        hint: orderError.hint
+        hint: orderError.hint,
+        code: orderError.code
       });
     }
 
@@ -214,7 +221,11 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     }
   } catch (error: any) {
     console.error('Order creation general failure:', error);
-    res.status(500).json({ error: 'Internal Server Error during checkout', details: error.message });
+    res.status(500).json({
+      error: 'Internal Server Error during checkout',
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 
