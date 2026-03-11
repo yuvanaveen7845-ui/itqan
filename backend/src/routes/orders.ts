@@ -98,15 +98,19 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       finalAddressId = null;
     }
 
-    // Calculate subtotal
+    // Calculate subtotal and store prices
     let subtotal = 0;
+    const itemPrices: Record<string, number> = {};
     for (const item of items) {
       const { data: product } = await supabase
         .from('products')
         .select('price')
         .eq('id', item.product_id)
         .single();
-      if (product) subtotal += product.price * item.quantity;
+      if (product) {
+        subtotal += product.price * item.quantity;
+        itemPrices[item.product_id] = product.price;
+      }
     }
 
     // Coupon validation logic
@@ -121,7 +125,6 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
         .single();
 
       if (coupon) {
-        // Validate min order, dates, etc (abbreviated for safety)
         if (coupon.discount_type === 'percentage') {
           discountAmount = (subtotal * coupon.discount_value) / 100;
           if (coupon.max_discount_amount) discountAmount = Math.min(discountAmount, coupon.max_discount_amount);
@@ -172,11 +175,12 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       });
     }
 
-    // Add order items
+    // Add order items with prices
     const orderItems = items.map((item: any) => ({
       order_id: order.id,
       product_id: item.product_id,
       quantity: item.quantity,
+      price: itemPrices[item.product_id] || 0
     }));
 
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems);

@@ -12,8 +12,10 @@ import { FiTrendingUp, FiShoppingBag, FiUsers, FiBox, FiArrowUpRight, FiArrowDow
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const fetchStats = async () => {
       try {
         const { data } = await adminAPI.getDashboard();
@@ -83,47 +85,55 @@ export default function AdminDashboard() {
               <option>Last 30 Days</option>
             </select>
           </div>
-          <div className="w-full h-[350px] min-h-[300px]">
-            <ResponsiveContainer width="100%" height="100%" minHeight={300} minWidth={0}>
-              <LineChart data={stats.salesData || []}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val / 1000}k`} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
-                  itemStyle={{ color: '#fff' }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#2563eb"
-                  strokeWidth={4}
-                  dot={{ r: 6, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+          <div className="w-full h-[350px]">
+            {mounted ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={stats.salesData || []}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `₹${val / 1000}k`} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
+                    itemStyle={{ color: '#fff' }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#2563eb"
+                    strokeWidth={4}
+                    dot={{ r: 6, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
+                    activeDot={{ r: 8 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full bg-gray-50 animate-pulse rounded-xl"></div>
+            )}
           </div>
         </div>
 
         {/* Orders Bar Chart */}
         <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
           <h3 className="text-xl font-black text-gray-900 mb-8">Order Volume</h3>
-          <div className="w-full h-[250px] min-h-[200px]">
-            <ResponsiveContainer width="100%" height="100%" minHeight={200} minWidth={0}>
-              <BarChart data={stats.salesData || []}>
-                <XAxis dataKey="date" hide />
-                <Tooltip
-                  cursor={{ fill: '#f8fafc' }}
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
-                />
-                <Bar dataKey="orders" radius={[6, 6, 0, 0]}>
-                  {stats.salesData?.map((entry: any, index: number) => (
-                    <Cell key={`cell-${index}`} fill={index === (stats.salesData?.length - 1) ? '#2563eb' : '#cbd5e1'} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="w-full h-[250px]">
+            {mounted ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={stats.salesData || []}>
+                  <XAxis dataKey="date" hide />
+                  <Tooltip
+                    cursor={{ fill: '#f8fafc' }}
+                    contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
+                  />
+                  <Bar dataKey="orders" radius={[6, 6, 0, 0]}>
+                    {stats.salesData?.map((entry: any, index: number) => (
+                      <Cell key={`cell-${index}`} fill={index === (stats.salesData?.length - 1) ? '#2563eb' : '#cbd5e1'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="w-full h-full bg-gray-50 animate-pulse rounded-xl"></div>
+            )}
           </div>
           <p className="text-center text-sm text-gray-500 font-medium mt-4 italic">Peak order volume on weekend</p>
         </div>
