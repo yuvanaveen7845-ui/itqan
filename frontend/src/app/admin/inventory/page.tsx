@@ -165,7 +165,7 @@ export default function AdminInventoryPage() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-black text-gray-900 border-l-8 border-blue-600 pl-4">Inventory Engine</h1>
+            <h1 className="text-3xl font-black text-gray-900 border-l-8 border-premium-gold pl-4">Inventory Engine</h1>
             <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 ml-4">Real-time Logistics & Supply Control</p>
           </div>
           <div className="flex gap-4">
@@ -177,7 +177,7 @@ export default function AdminInventoryPage() {
             </button>
             <button
               onClick={() => handleOpenModal()}
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+              className="bg-premium-gold text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-premium-black transition shadow-lg shadow-blue-200"
             >
               <FiPlus /> New Entry
             </button>
@@ -198,7 +198,7 @@ export default function AdminInventoryPage() {
             </div>
           </div>
           <div className="bg-white border border-gray-100 p-6 rounded-[2rem] shadow-sm flex items-center gap-6">
-            <div className="bg-blue-100 text-blue-600 p-4 rounded-2xl">
+            <div className="bg-blue-100 text-premium-gold p-4 rounded-2xl">
               <FiPackage size={28} />
             </div>
             <div>
@@ -211,7 +211,7 @@ export default function AdminInventoryPage() {
         <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
           {loading ? (
             <div className="p-20 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto"></div>
             </div>
           ) : (
             <table className="w-full text-left">
@@ -230,13 +230,13 @@ export default function AdminInventoryPage() {
                     <td className="px-10 py-6">
                       <div className="flex items-center gap-6">
                         <div className="relative">
-                          <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-100 flex-shrink-0 flex items-center justify-center text-gray-300 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 overflow-hidden">
+                          <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-100 flex-shrink-0 flex items-center justify-center text-gray-300 group-hover:bg-premium-gold group-hover:text-white transition-all duration-500 overflow-hidden">
                             {product.image_url ? <img src={product.image_url} alt="" className="w-full h-full object-cover" /> : <FiPackage size={24} />}
                           </div>
                           {product.stock <= 5 && <div className="absolute -top-1 -right-1 w-4 h-4 bg-rose-600 rounded-full border-2 border-white animate-bounce"></div>}
                         </div>
                         <div>
-                          <p className="font-black text-gray-900 group-hover:text-blue-700 transition-colors uppercase tracking-tight">{product.name}</p>
+                          <p className="font-black text-gray-900 group-hover:text-premium-black transition-colors uppercase tracking-tight">{product.name}</p>
                           <p className="text-[10px] text-gray-400 font-bold">SKU: {product.sku || product.id?.slice(0, 8)}</p>
                         </div>
                       </div>
@@ -267,7 +267,7 @@ export default function AdminInventoryPage() {
                       <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => handleOpenModal(product)}
-                          className="p-3 bg-white text-gray-600 rounded-xl hover:bg-blue-600 hover:text-white transition shadow-sm border border-gray-100"
+                          className="p-3 bg-white text-gray-600 rounded-xl hover:bg-premium-gold hover:text-white transition shadow-sm border border-gray-100"
                         >
                           <FiEdit2 size={16} />
                         </button>
@@ -301,7 +301,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Product Name</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="e.g. Premium Cotton Fragrance"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -312,7 +312,7 @@ export default function AdminInventoryPage() {
                 <div className="md:col-span-2">
                   <label className="block text-sm font-bold text-gray-700 mb-2">Description</label>
                   <textarea
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     rows={3}
                     placeholder="Describe the Perfume quality, feel, and use case..."
                     value={formData.description}
@@ -325,7 +325,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Offer Price (₹)</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="Current selling price"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -337,7 +337,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Original Price (₹)</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="Price before discount"
                     value={formData.original_price}
                     onChange={(e) => setFormData({ ...formData, original_price: e.target.value })}
@@ -348,7 +348,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Discount (%)</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="e.g. 20"
                     value={formData.discount}
                     onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
@@ -359,7 +359,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Stock Units</label>
                   <input
                     type="number"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="Initial inventory"
                     value={formData.stock}
                     onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
@@ -370,7 +370,7 @@ export default function AdminInventoryPage() {
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Fragrance Type</label>
                   <select
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     value={formData.Fragrance_type}
                     onChange={(e) => setFormData({ ...formData, Fragrance_type: e.target.value })}
                   >
@@ -386,7 +386,7 @@ export default function AdminInventoryPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Color</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                     placeholder="e.g. Royal Blue"
                     value={formData.color}
                     onChange={(e) => setFormData({ ...formData, color: e.target.value })}
@@ -399,7 +399,7 @@ export default function AdminInventoryPage() {
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, images: [...formData.images, ''] })}
-                      className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                      className="text-xs font-bold text-premium-gold hover:text-premium-black flex items-center gap-1"
                     >
                       <FiPlus /> Add Image URL
                     </button>
@@ -408,7 +408,7 @@ export default function AdminInventoryPage() {
                     <div key={index} className="flex gap-2">
                       <input
                         type="url"
-                        className="flex-grow px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none"
+                        className="flex-grow px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-premium-gold outline-none"
                         placeholder="Paste Unsplash or external image URL"
                         value={url}
                         onChange={(e) => {
@@ -446,7 +446,7 @@ export default function AdminInventoryPage() {
                 <button
                   type="submit"
                   disabled={formLoading}
-                  className="flex-1 py-4 rounded-xl bg-blue-600 text-white font-black hover:bg-blue-700 transition shadow-lg shadow-blue-200 disabled:bg-blue-400"
+                  className="flex-1 py-4 rounded-xl bg-premium-gold text-white font-black hover:bg-premium-black transition shadow-lg shadow-blue-200 disabled:bg-blue-400"
                 >
                   {formLoading ? 'Saving...' : editingProduct ? 'Update Product' : 'Add Product'}
                 </button>

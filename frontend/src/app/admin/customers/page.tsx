@@ -41,7 +41,7 @@ export default function AdminCustomersPage() {
           <input
             type="text"
             placeholder="Search customers..."
-            className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600 transition min-w-[300px]"
+            className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-premium-gold transition min-w-[300px]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -51,7 +51,7 @@ export default function AdminCustomersPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="p-20 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto"></div>
           </div>
         ) : (
           <table className="w-full text-left">
@@ -69,7 +69,7 @@ export default function AdminCustomersPage() {
                 <tr key={customer.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-8 py-4">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center font-black">
+                      <div className="w-10 h-10 bg-premium-cream text-premium-gold rounded-full flex items-center justify-center font-black">
                         {customer.name.charAt(0)}
                       </div>
                       <div>
@@ -98,7 +98,7 @@ export default function AdminCustomersPage() {
                   <td className="px-8 py-4 text-right">
                     <button
                       onClick={() => router.push(`/admin/customers/${customer.id}`)}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-black text-xs hover:bg-blue-600 hover:text-white transition shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-premium-cream text-premium-gold rounded-xl font-black text-xs hover:bg-premium-gold hover:text-white transition shadow-sm"
                     >
                       View Profile <FiExternalLink />
                     </button>

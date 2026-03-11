@@ -32,13 +32,13 @@ export default function AdminDashboard() {
   if (loading || !stats) {
     return (
       <div className="flex justify-center items-center h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold"></div>
       </div>
     );
   }
 
   const statCards = [
-    { title: 'Total Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, icon: <FiTrendingUp />, color: 'bg-blue-600', trend: '+12.5%', trendUp: true },
+    { title: 'Total Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, icon: <FiTrendingUp />, color: 'bg-premium-gold', trend: '+12.5%', trendUp: true },
     { title: 'Total Orders', value: stats.totalOrders, icon: <FiShoppingBag />, color: 'bg-indigo-600', trend: '+8.2%', trendUp: true },
     { title: 'Pending Orders', value: stats.pendingOrders, icon: <FiShoppingBag />, color: 'bg-yellow-600', trend: 'Live', trendUp: true },
     { title: 'Low Stock', value: stats.lowStockAlerts, icon: <FiBox />, color: 'bg-red-600', trend: 'Critical', trendUp: false },
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-8 border-b border-gray-100 flex justify-between items-center">
           <h3 className="text-xl font-black text-gray-900">Recent Transactions</h3>
-          <Link href="/admin/orders" className="text-blue-600 font-bold hover:underline">View All Orders</Link>
+          <Link href="/admin/orders" className="text-premium-gold font-bold hover:underline">View All Orders</Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
@@ -164,7 +164,7 @@ export default function AdminDashboard() {
                   <td className="px-8 py-5">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide ${order.status === 'confirmed' ? 'bg-green-100 text-green-700' :
                       order.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                        order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                        order.status === 'shipped' ? 'bg-blue-100 text-premium-black' :
                           'bg-gray-100 text-gray-700'
                       }`}>
                       {order.status}

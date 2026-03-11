@@ -110,32 +110,32 @@ export default function ProfilePage() {
         <div className="lg:w-1/4">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="p-6 border-b border-gray-100 bg-gray-50 flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold shadow-inner">
+              <div className="w-12 h-12 bg-premium-gold text-white rounded-full flex items-center justify-center text-xl font-bold shadow-inner">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               <div>
                 <h3 className="font-bold text-gray-900">{user.name}</h3>
-                <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded uppercase">{user.role}</span>
+                <span className="text-xs font-medium text-premium-gold bg-blue-100 px-2 py-0.5 rounded uppercase">{user.role}</span>
               </div>
             </div>
             <nav className="p-4 space-y-2">
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'profile' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'profile' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                 Profile Information
               </button>
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'orders' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'orders' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                 Order History
               </button>
               <button
                 onClick={() => setActiveTab('addresses')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'addresses' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'addresses' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 Saved Addresses
@@ -236,7 +236,7 @@ export default function ProfilePage() {
               <div className="p-6 bg-gray-50 min-h-[400px]">
                 {loading ? (
                   <div className="flex justify-center items-center h-48">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold"></div>
                   </div>
                 ) : orders.length === 0 ? (
                   <div className="text-center py-16 bg-white rounded-xl border border-dashed border-gray-300">
@@ -268,7 +268,7 @@ export default function ProfilePage() {
                           </div>
                           <div>
                             <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase ${order.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                              order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                              order.status === 'shipped' ? 'bg-blue-100 text-premium-black' :
                                 order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                                   'bg-yellow-100 text-yellow-700'
                               }`}>
@@ -285,7 +285,7 @@ export default function ProfilePage() {
                           </div>
                           <div className="flex gap-3">
                             <button className="px-4 py-2 border border-gray-300 rounded font-medium text-gray-700 hover:bg-gray-50 transition-colors hidden sm:block">Track Order</button>
-                            <Link href={`/orders/${order.id}`} className="px-4 py-2 bg-blue-50 text-blue-700 rounded font-bold hover:bg-blue-100 transition-colors">
+                            <Link href={`/orders/${order.id}`} className="px-4 py-2 bg-premium-cream text-premium-black rounded font-bold hover:bg-blue-100 transition-colors">
                               View Details
                             </Link>
                           </div>
@@ -303,7 +303,7 @@ export default function ProfilePage() {
             <div className="card shadow-sm border border-gray-200">
               <div className="flex justify-between items-center mb-6 border-b pb-4">
                 <h2 className="text-xl font-bold">Saved Addresses</h2>
-                <button className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
+                <button className="flex items-center gap-1 text-sm font-bold text-premium-gold hover:text-blue-800 transition-colors">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                   Add New
                 </button>
@@ -311,13 +311,13 @@ export default function ProfilePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Mock Default Address */}
-                <div className="border-2 border-blue-500 rounded-xl p-5 relative bg-blue-50">
-                  <span className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">Default</span>
+                <div className="border-2 border-premium-cream0 rounded-xl p-5 relative bg-premium-cream">
+                  <span className="absolute top-3 right-3 bg-premium-gold text-white text-xs font-bold px-2 py-1 rounded">Default</span>
                   <h4 className="font-bold text-gray-900 mb-1">{user.name}</h4>
                   <p className="text-sm text-gray-600 mb-4">123 Perfume Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
                   <p className="text-sm text-gray-600 mb-4">Phone: +91 98765 43210</p>
                   <div className="flex gap-3 text-sm font-medium">
-                    <button className="text-blue-600 hover:underline">Edit</button>
+                    <button className="text-premium-gold hover:underline">Edit</button>
                     <span className="text-gray-300">|</span>
                     <button className="text-red-500 hover:underline">Remove</button>
                   </div>
@@ -329,7 +329,7 @@ export default function ProfilePage() {
                   <p className="text-sm text-gray-600 mb-4">456 Corporate Park, Tower B<br />Business District<br />New Delhi, Delhi 110001<br />India</p>
                   <p className="text-sm text-gray-600 mb-4">Phone: +91 98765 43210</p>
                   <div className="flex gap-3 text-sm font-medium">
-                    <button className="text-blue-600 hover:underline">Edit</button>
+                    <button className="text-premium-gold hover:underline">Edit</button>
                     <span className="text-gray-300">|</span>
                     <button className="text-gray-500 hover:underline">Set as Default</button>
                   </div>

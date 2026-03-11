@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
+import './imperial.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CMSInitializer from '@/components/CMSInitializer';
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 import CustomCursor from '@/components/CustomCursor';
+import Toast from '@/components/Toast';
 
 export default function RootLayout({
   children,
@@ -39,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased lg:cursor-none" suppressHydrationWarning={true}>
         <CustomCursor />
+        <Toast />
         <CMSInitializer />
         <Header />
         <main className="min-h-screen">{children}</main>

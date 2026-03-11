@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { productAPI } from '@/lib/api';
 import { useCartStore } from '@/store/cart';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { useNotificationStore } from '@/store/notification';
+import AttributeEditable from '@/components/AttributeEditable';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -16,6 +18,7 @@ export default function ProductDetailPage() {
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const { addItem } = useCartStore();
+  const { showNotification } = useNotificationStore();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -43,7 +46,7 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (product) {
       if (quantity > product.stock) {
-        alert('Cannot add more than available stock.');
+        showNotification('Cannot add more than available stock.', 'error');
         return;
       }
       addItem({
@@ -51,8 +54,9 @@ export default function ProductDetailPage() {
         name: product.name,
         price: product.price,
         quantity,
+        image: productImages[0],
       });
-      alert('Added to cart!');
+      showNotification('Added to cart!', 'luxury');
     }
   };
 
@@ -99,7 +103,14 @@ export default function ProductDetailPage() {
             <Link href="/products" className="hover:text-premium-gold transition-colors">Reserve</Link> /
             <span className="text-premium-gold">{product.fabric_type || 'Exclusif'}</span>
           </div>
-          <h1 className="text-5xl lg:text-7xl imperial-serif mb-6 text-premium-black leading-[1.1]">{product.name}</h1>
+          <AttributeEditable
+            productId={product.id}
+            field="name"
+            value={product.name}
+            onUpdate={(val) => setProduct({ ...product, name: val })}
+          >
+            <h1 className="text-5xl lg:text-7xl imperial-serif mb-6 text-premium-black leading-[1.1]">{product.name}</h1>
+          </AttributeEditable>
 
           <div className="flex items-center gap-6 mb-10">
             <div className="flex text-premium-gold text-sm tracking-widest">
@@ -110,7 +121,15 @@ export default function ProductDetailPage() {
           </div>
 
           <div className="mb-12 flex items-baseline gap-6 border-b border-premium-gold/10 pb-8">
-            <span className="text-4xl imperial-serif text-premium-black">₹{product.price.toLocaleString()}</span>
+            <AttributeEditable
+              productId={product.id}
+              field="price"
+              value={product.price}
+              type="number"
+              onUpdate={(val) => setProduct({ ...product, price: Number(val) })}
+            >
+              <span className="text-4xl imperial-serif text-premium-black">₹{product.price.toLocaleString()}</span>
+            </AttributeEditable>
             {product.original_price && product.original_price > product.price && (
               <span className="text-lg text-premium-charcoal/30 line-through tracking-widest">₹{product.original_price.toLocaleString()}</span>
             )}
@@ -121,7 +140,15 @@ export default function ProductDetailPage() {
 
           <div className="mb-12 space-y-4">
             <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em]">The Olfactive Profile</h3>
-            <p className="text-premium-charcoal/70 leading-relaxed font-light imperial-body text-lg italic">{product.description}</p>
+            <AttributeEditable
+              productId={product.id}
+              field="description"
+              value={product.description}
+              type="textarea"
+              onUpdate={(val) => setProduct({ ...product, description: val })}
+            >
+              <p className="text-premium-charcoal/70 leading-relaxed font-light imperial-body text-lg italic">{product.description}</p>
+            </AttributeEditable>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
@@ -205,22 +232,22 @@ export default function ProductDetailPage() {
       {/* Recommended Section (Simplified for performance) */}
       <div className="mt-24">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl font-black text-gray-900">Curated For You</h2>
-          <Link href="/products" className="text-blue-600 font-bold hover:underline">View All Collection</Link>
+          <h2 className="text-3xl font-black text-premium-black uppercase tracking-widest imperial-serif lowercase">Curated For You</h2>
+          <Link href="/products" className="text-[10px] font-black uppercase tracking-widest text-premium-gold hover:underline">View All Collection</Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {relatedProducts.map(p => (
             <Link key={p.id} href={`/products/${p.id}`} className="group">
-              <div className="bg-white rounded-3xl overflow-hidden border border-gray-50 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
+              <div className="bg-white overflow-hidden border border-premium-gold/10 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
                 <div className="aspect-square relative overflow-hidden bg-gray-50">
                   <img src={p.images?.[0] || p.image_url} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg text-[10px] font-black uppercase text-blue-600">{p.fabric_type || 'Perfume'}</span>
+                    <span className="bg-premium-black text-premium-gold px-3 py-1.5 text-[8px] font-black uppercase tracking-widest">{p.fabric_type || 'Perfume'}</span>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">{p.name}</h3>
-                  <p className="text-xl font-black text-gray-900">₹{p.price.toLocaleString()}</p>
+                <div className="p-8 text-center">
+                  <h3 className="imperial-serif text-xl text-premium-black group-hover:text-premium-gold transition-colors mb-2 lowercase">{p.name}</h3>
+                  <p className="text-lg imperial-serif text-premium-black tracking-widest">₹{p.price.toLocaleString()}</p>
                 </div>
               </div>
             </Link>

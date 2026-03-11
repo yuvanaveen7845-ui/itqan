@@ -1,0 +1,21 @@
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+.luxury-card {
+    @apply bg-white border border-premium-gold/10 p-8 transition-all duration-700 hover:border-premium-gold/30 hover:shadow-[0_20px_50px_rgba(197, 160, 89, 0.08)];
+}
+
+.premium-input {
+    @apply bg-transparent border border-premium-gold/20 p-4 text-[10px] font-black uppercase tracking-widest text-premium-black focus:border-premium-gold outline-none transition-all;
+}
+
+.secondary-button {
+    @apply px-8 py-4 border border-premium-black text-premium-black text-[9px] font-black uppercase tracking-[0.3em] hover:bg-premium-black hover:text-premium-gold transition-all duration-500;
+}

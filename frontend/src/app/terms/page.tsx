@@ -7,7 +7,7 @@ export default function TermsOfService() {
         <div className="bg-white min-h-screen">
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
-                    <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+                    <Link href="/" className="hover:text-premium-gold transition-colors">Home</Link>
                     <span>/</span>
                     <span className="text-gray-900 font-medium">Terms of Service</span>
                 </nav>

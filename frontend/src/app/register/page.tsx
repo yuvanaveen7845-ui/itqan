@@ -113,7 +113,7 @@ export default function RegisterPage() {
             <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
             <input
               type="text"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="John Doe"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -125,7 +125,7 @@ export default function RegisterPage() {
             <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
             <input
               type="email"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="you@example.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -137,7 +137,7 @@ export default function RegisterPage() {
             <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
             <input
               type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="••••••••"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -149,7 +149,7 @@ export default function RegisterPage() {
             <label className="block text-sm font-bold text-gray-700 mb-2">Confirm Password</label>
             <input
               type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="••••••••"
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -163,15 +163,15 @@ export default function RegisterPage() {
               id="terms"
               checked={agreedToTerms}
               onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer"
+              className="mt-1 w-4 h-4 text-premium-gold rounded border-gray-300 focus:ring-premium-cream0 cursor-pointer"
             />
             <label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
               I agree to the{' '}
-              <Link href="/terms" className="text-blue-600 font-bold hover:underline" target="_blank">
+              <Link href="/terms" className="text-premium-gold font-bold hover:underline" target="_blank">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link href="/privacy" className="text-blue-600 font-bold hover:underline" target="_blank">
+              <Link href="/privacy" className="text-premium-gold font-bold hover:underline" target="_blank">
                 Privacy Policy
               </Link>
             </label>
@@ -180,7 +180,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading || !agreedToTerms}
-            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading || !agreedToTerms ? 'bg-blue-300 cursor-not-allowed grayscale' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'}`}
+            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading || !agreedToTerms ? 'bg-blue-300 cursor-not-allowed grayscale' : 'bg-premium-gold hover:bg-premium-black hover:shadow-lg'}`}
           >
             {loading ? (
               <>
@@ -221,7 +221,7 @@ export default function RegisterPage() {
 
         <p className="text-center mt-8 text-gray-600 font-medium">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:text-blue-800 hover:underline transition-colors font-bold">
+          <Link href="/login" className="text-premium-gold hover:text-blue-800 hover:underline transition-colors font-bold">
             Log in instead
           </Link>
         </p>

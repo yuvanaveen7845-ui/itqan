@@ -55,7 +55,7 @@ export default function AdminOrdersPage() {
             <input
               type="text"
               placeholder="Search orders..."
-              className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600 transition"
+              className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-premium-gold transition"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -78,7 +78,7 @@ export default function AdminOrdersPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="p-20 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto"></div>
           </div>
         ) : (
           <table className="w-full text-left">
@@ -102,7 +102,7 @@ export default function AdminOrdersPage() {
                   <td className="px-8 py-4">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide border ${order.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' :
                       order.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                        order.status === 'shipped' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                        order.status === 'shipped' ? 'bg-premium-cream text-premium-black border-blue-200' :
                           order.status === 'cancelled' ? 'bg-red-50 text-red-700 border-red-200' :
                             'bg-gray-50 text-gray-700 border-gray-200'
                       }`}>
@@ -119,7 +119,7 @@ export default function AdminOrdersPage() {
                       {order.status === 'confirmed' && (
                         <button
                           onClick={() => handleUpdateStatus(order.id, 'shipped')}
-                          className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition" title="Mark Shipped">
+                          className="p-2 bg-premium-cream text-premium-gold rounded-lg hover:bg-premium-gold hover:text-white transition" title="Mark Shipped">
                           <FiBox />
                         </button>
                       )}
@@ -142,7 +142,7 @@ export default function AdminOrdersPage() {
                       </button>
                       <button
                         onClick={() => router.push(`/admin/orders/${order.id}`)}
-                        className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-blue-600 hover:text-white transition" title="View Details"
+                        className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-premium-gold hover:text-white transition" title="View Details"
                       >
                         <FiEye />
                       </button>

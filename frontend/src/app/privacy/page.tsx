@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
         <div className="bg-white min-h-screen">
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500">
-                    <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+                    <Link href="/" className="hover:text-premium-gold transition-colors">Home</Link>
                     <span>/</span>
                     <span className="text-gray-900 font-medium">Privacy Policy</span>
                 </nav>
@@ -62,11 +62,11 @@ export default function PrivacyPolicy() {
                         </p>
                     </section>
 
-                    <section className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
+                    <section className="bg-premium-cream p-6 rounded-2xl border border-blue-100">
                         <h2 className="text-xl font-bold text-gray-900 mb-3">Contact Us</h2>
                         <p className="mb-0">
                             If you have any questions about this privacy policy or our privacy practices, please contact us at: <br />
-                            <a href="mailto:privacy@iqtanperfumes.com" className="text-blue-600 font-bold hover:underline">privacy@iqtanperfumes.com</a>
+                            <a href="mailto:privacy@iqtanperfumes.com" className="text-premium-gold font-bold hover:underline">privacy@iqtanperfumes.com</a>
                         </p>
                     </section>
                 </div>

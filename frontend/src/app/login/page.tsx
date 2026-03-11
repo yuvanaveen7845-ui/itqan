@@ -95,7 +95,7 @@ export default function LoginPage() {
             <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
             <input
               type="email"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="you@example.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -106,13 +106,13 @@ export default function LoginPage() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-bold text-gray-700">Password</label>
-              <Link href="/forgot-password" className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+              <Link href="/forgot-password" className="text-sm font-semibold text-premium-gold hover:text-blue-800 transition-colors">
                 Forgot password?
               </Link>
             </div>
             <input
               type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
               placeholder="••••••••"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -123,7 +123,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'}`}
+            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-premium-gold hover:bg-premium-black hover:shadow-lg'}`}
           >
             {loading ? (
               <>
@@ -173,7 +173,7 @@ export default function LoginPage() {
 
         <p className="text-center mt-8 text-gray-600 font-medium">
           Don't have an account?{' '}
-          <Link href="/register" className="text-blue-600 hover:text-blue-800 hover:underline transition-colors font-bold">
+          <Link href="/register" className="text-premium-gold hover:text-blue-800 hover:underline transition-colors font-bold">
             Create an account
           </Link>
         </p>

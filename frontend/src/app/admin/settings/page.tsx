@@ -81,7 +81,7 @@ export default function AdminSettingsPage() {
     };
 
     if (loading) {
-        return <div className="p-20 text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div></div>;
+        return <div className="p-20 text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto"></div></div>;
     }
 
     return (
@@ -132,7 +132,7 @@ export default function AdminSettingsPage() {
                                             </td>
                                             <td className="py-6">
                                                 <span className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${admin.role === 'super_admin' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' :
-                                                        admin.role === 'admin' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                                        admin.role === 'admin' ? 'bg-premium-cream text-premium-black border-blue-100' :
                                                             'bg-gray-50 text-gray-600 border-gray-100'
                                                     }`}>
                                                     {admin.role.replace('_', ' ')}
@@ -264,7 +264,7 @@ export default function AdminSettingsPage() {
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, role: 'admin' })}
-                                        className={`py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition border ${formData.role === 'admin' ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100' : 'bg-white text-gray-400 border-gray-100 hover:border-blue-100'}`}
+                                        className={`py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition border ${formData.role === 'admin' ? 'bg-premium-gold text-white border-premium-gold shadow-lg shadow-blue-100' : 'bg-white text-gray-400 border-gray-100 hover:border-blue-100'}`}
                                     >
                                         Inventory Admin
                                     </button>

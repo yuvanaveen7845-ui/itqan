@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cart';
 import { useAuthStore } from '@/store/auth';
 import { orderAPI, couponAPI } from '@/lib/api';
+import { useNotificationStore } from '@/store/notification';
 
 declare global {
   interface Window {
@@ -16,6 +17,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { user } = useAuthStore();
   const { items, getTotal, clearCart } = useCartStore();
+  const { showNotification } = useNotificationStore();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     address: '',
@@ -133,7 +135,7 @@ export default function CheckoutPage() {
       };
       document.body.appendChild(script);
     } catch (error) {
-      alert('Checkout failed');
+      showNotification('Transaction process interrupted', 'error');
     } finally {
       setLoading(false);
     }
@@ -182,7 +184,7 @@ export default function CheckoutPage() {
               <div>
                 <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Street Address</label>
                 <textarea
-                  className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-blue-50 outline-none transition font-medium"
+                  className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-premium-cream outline-none transition font-medium"
                   rows={3}
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -196,7 +198,7 @@ export default function CheckoutPage() {
                   <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">City</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-blue-50 outline-none transition font-medium"
+                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-premium-cream outline-none transition font-medium"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     required
@@ -207,7 +209,7 @@ export default function CheckoutPage() {
                   <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">State</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-blue-50 outline-none transition font-medium"
+                    className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-premium-cream outline-none transition font-medium"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                     required
@@ -220,7 +222,7 @@ export default function CheckoutPage() {
                 <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Pincode</label>
                 <input
                   type="text"
-                  className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-blue-50 outline-none transition font-bold tracking-widest"
+                  className="w-full px-5 py-4 rounded-2xl bg-gray-50 border-none focus:ring-4 focus:ring-premium-cream outline-none transition font-bold tracking-widest"
                   value={formData.zipcode}
                   onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
                   required
@@ -232,9 +234,10 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:bg-blue-700 transition transform active:scale-[0.98] disabled:opacity-50"
+                className="group relative w-full py-5 bg-premium-black text-premium-gold rounded-none font-black text-[10px] uppercase tracking-[0.4em] shadow-2xl shadow-premium-gold/5 hover:bg-premium-gold hover:text-black transition-all duration-700 overflow-hidden"
               >
-                {loading ? 'Processing Transaction...' : 'Complete Purchase'}
+                <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700"></div>
+                <span className="relative z-10">{loading ? 'Validating Allocation...' : 'Complete Acquisition'}</span>
               </button>
             </form>
           </div>
@@ -258,7 +261,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Promo Section */}
-            <div className="mb-8 p-6 bg-indigo-50/50 rounded-3xl border border-indigo-100/50">
+            <div className="mb-8 p-6 bg-premium-cream/30 border border-premium-gold/10 p-6 rounded-none shadow-none">
               <p className="text-xs font-black text-indigo-400 uppercase tracking-widest mb-3">Rewards & Promos</p>
               <div className="flex gap-2">
                 <input
@@ -271,7 +274,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={applyCoupon}
                   disabled={couponLoading || couponApplied}
-                  className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-xs hover:bg-indigo-700 transition shadow-lg shadow-indigo-100 disabled:bg-gray-200 disabled:shadow-none"
+                  className="px-6 py-3 bg-premium-black text-premium-gold hover:bg-premium-gold hover:text-black transition-all duration-500 font-black uppercase tracking-widest text-[9px] px-6 py-2 shadow-lg shadow-premium-gold/5"
                 >
                   {couponLoading ? '...' : couponApplied ? 'Applied' : 'Apply'}
                 </button>
@@ -290,7 +293,7 @@ export default function CheckoutPage() {
               </div>
               <div className="flex justify-between items-center">
                 <span>Shipping Fee</span>
-                <span className={shippingCost === 0 ? 'text-gray-300' : 'text-blue-600 font-black'}>
+                <span className={shippingCost === 0 ? 'text-gray-300' : 'text-premium-gold font-black'}>
                   {formData.zipcode.length === 6 ? `₹${shippingCost.toFixed(2)}` : 'Waiting for Zip'}
                 </span>
               </div>

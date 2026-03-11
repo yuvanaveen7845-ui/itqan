@@ -36,7 +36,7 @@ export default function ForgotPasswordPage() {
             <div className="card shadow-2xl border-0 p-8">
                 <div className="text-center mb-8">
                     <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-8 h-8 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                         </svg>
                     </div>
@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
                             <p className="text-sm">We've sent a password reset link to <strong>{email}</strong>.</p>
                         </div>
                         <button onClick={() => router.push('/login')} className="w-full btn btn-primary py-3 mb-4">Back to Login</button>
-                        <p className="text-sm text-gray-500">Didn't receive the email? <button onClick={() => setStatus('idle')} className="text-blue-600 font-bold hover:underline">Click to resend</button></p>
+                        <p className="text-sm text-gray-500">Didn't receive the email? <button onClick={() => setStatus('idle')} className="text-premium-gold font-bold hover:underline">Click to resend</button></p>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
                             <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
                             <input
                                 type="email"
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
                                 placeholder="you@example.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -76,7 +76,7 @@ export default function ForgotPasswordPage() {
                         <button
                             type="submit"
                             disabled={status === 'loading'}
-                            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${status === 'loading' ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'}`}
+                            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${status === 'loading' ? 'bg-blue-400 cursor-not-allowed' : 'bg-premium-gold hover:bg-premium-black hover:shadow-lg'}`}
                         >
                             {status === 'loading' ? (
                                 <>

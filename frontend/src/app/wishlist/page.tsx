@@ -4,14 +4,16 @@ import { useEffect } from 'react';
 import { useWishlistStore } from '@/store/wishlist';
 import { useCartStore } from '@/store/cart';
 import { useAuthStore } from '@/store/auth';
+import { useNotificationStore } from '@/store/notification';
 import ProductCard from '@/components/ProductCard';
-import { FiHeart, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
+import { FiHeart, FiShoppingBag, FiArrowRight, FiCheck } from 'react-icons/fi';
 import Link from 'next/link';
 
 export default function WishlistPage() {
     const { user } = useAuthStore();
     const { items, loading, fetchWishlist, removeItem } = useWishlistStore();
     const { addItem: addToCart } = useCartStore();
+    const { showNotification } = useNotificationStore();
 
     useEffect(() => {
         if (user) {
@@ -20,7 +22,6 @@ export default function WishlistPage() {
     }, [user, fetchWishlist]);
 
     const handleMoveToCart = async (item: any) => {
-        // Add to cart
         addToCart({
             product_id: item.product_id,
             name: item.products.name,
@@ -28,74 +29,74 @@ export default function WishlistPage() {
             quantity: 1,
             image: item.products.image_url
         });
-
-        // Remove from wishlist
         await removeItem(item.product_id);
+        showNotification('Artefact moved to Vault', 'luxury');
     };
 
     if (!user) {
         return (
-            <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-                <div className="bg-blue-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-600">
-                    <FiHeart size={40} />
+            <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#FAF9F6] text-center">
+                <div className="w-20 h-20 border border-premium-gold/20 rounded-full flex items-center justify-center mb-8 text-premium-gold">
+                    <FiHeart size={32} />
                 </div>
-                <h1 className="text-3xl font-black text-gray-900 mb-4">Your Wishlist awaits</h1>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">Login to see your saved perfume treasures and pick up where you left off.</p>
-                <Link href="/login" className="btn btn-primary px-10 py-4 bg-blue-600 hover:bg-blue-700">Login Now</Link>
+                <h1 className="text-4xl imperial-serif mb-4 text-premium-black lowercase">Your Sanctuary</h1>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-charcoal/40 mb-12 max-w-sm">Login to reveal your curated collection of olfactory masterpieces.</p>
+                <Link href="/login" className="secondary-button !bg-premium-black !text-premium-gold">
+                    Divine Entry
+                </Link>
             </div>
         );
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen py-12">
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-                    <div>
-                        <h1 className="text-4xl font-black text-gray-900 mb-2">My Wishlist</h1>
-                        <p className="text-gray-600">You have {items.length} items saved in your collection.</p>
+        <div className="bg-[#FAF9F6]/50 min-h-screen py-32 sm:py-40">
+            <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-24">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                    <div className="space-y-4">
+                        <h1 className="text-5xl lg:text-7xl imperial-serif text-premium-black leading-none lowercase">The Wishlist</h1>
+                        <p className="text-[10px] font-black uppercase tracking-[0.6em] text-premium-gold">Curated treasures ({items.length})</p>
                     </div>
                     {items.length > 0 && (
-                        <Link href="/products" className="text-blue-600 font-bold flex items-center gap-2 hover:underline">
-                            Continue Shopping <FiArrowRight />
+                        <Link href="/products" className="text-[10px] font-black uppercase tracking-widest text-premium-black hover:text-premium-gold transition-colors flex items-center gap-4">
+                            Seek Further <FiArrowRight />
                         </Link>
                     )}
                 </div>
 
                 {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <div className="flex justify-center py-40">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold"></div>
                     </div>
                 ) : items.length === 0 ? (
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12 text-center max-w-2xl mx-auto">
-                        <div className="bg-gray-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300">
-                            <FiHeart size={48} />
+                    <div className="imperial-panel text-center max-w-3xl mx-auto py-24">
+                        <div className="w-24 h-24 border border-premium-gold/10 rounded-full flex items-center justify-center mx-auto mb-10 text-premium-gold/30">
+                            <FiHeart size={40} />
                         </div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Your wishlist is empty</h2>
-                        <p className="text-gray-500 mb-8">Save items you love to keep track of them and buy them later.</p>
-                        <Link href="/products" className="btn btn-primary bg-blue-600 hover:bg-blue-700 px-8 py-3">Explore Collections</Link>
+                        <h2 className="text-3xl imperial-serif text-premium-black mb-6 lowercase">Silent Echoes</h2>
+                        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-charcoal/40 mb-12">No masterpieces have been secured yet.</p>
+                        <Link href="/products" className="secondary-button !bg-premium-black !text-premium-gold">Explore the Atelier</Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-20">
                         {items.map((item) => (
-                            <div key={item.id} className="relative group">
+                            <div key={item.id} className="relative group space-y-8">
                                 <ProductCard product={{
                                     id: item.product_id,
                                     name: item.products.name,
                                     price: item.products.price,
                                     image_url: item.products.image_url,
-                                    description: "Premium Fragrance from your wishlist",
+                                    description: "Olfactory masterpiece from your collection",
                                     Fragrance_type: item.products.Fragrance_type,
-                                    stock: 10 // Placeholder
+                                    stock: 10
                                 }} />
 
-                                <div className="mt-4 px-2">
-                                    <button
-                                        onClick={() => handleMoveToCart(item)}
-                                        className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 transition shadow-md group-hover:shadow-blue-200"
-                                    >
-                                        <FiShoppingBag /> Move to Cart
-                                    </button>
-                                </div>
+                                <button
+                                    onClick={() => handleMoveToCart(item)}
+                                    className="group relative w-full py-5 bg-premium-black text-premium-gold font-black text-[9px] uppercase tracking-[0.4em] overflow-hidden hover:bg-premium-gold hover:text-black transition-all duration-700"
+                                >
+                                    <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700"></div>
+                                    <span className="relative z-10 flex items-center justify-center gap-3"><FiShoppingBag /> Secure Artefact</span>
+                                </button>
                             </div>
                         ))}
                     </div>

@@ -6,7 +6,7 @@ export default function ShopDetailsPage() {
             <div className="max-w-4xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter mb-4">
-                        Visit <span className="text-blue-600">Our Store</span>
+                        Visit <span className="text-premium-gold">Our Store</span>
                     </h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Experience the essence of luxury fragrances in person. Our experts are here to help you find your signature scent.
@@ -21,7 +21,7 @@ export default function ShopDetailsPage() {
 
                             <div className="space-y-8">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
                                         <FiMapPin size={24} />
                                     </div>
                                     <div>
@@ -36,7 +36,7 @@ export default function ShopDetailsPage() {
                                             href="https://maps.app.goo.gl/TGSDjVVvMSgtNRC57?g_st=iw"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="mt-4 inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+                                            className="mt-4 inline-flex items-center gap-2 bg-premium-gold text-white px-5 py-2.5 rounded-xl font-bold hover:bg-premium-black transition-colors shadow-lg shadow-blue-200"
                                         >
                                             <FiNavigation />
                                             View on Google Maps
@@ -45,7 +45,7 @@ export default function ShopDetailsPage() {
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
                                         <FiClock size={24} />
                                     </div>
                                     <div>
@@ -56,13 +56,13 @@ export default function ShopDetailsPage() {
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
                                         <FiPhone size={24} />
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-gray-900 mb-1">Contact Us</h3>
                                         <p className="text-gray-600">+91 98765 43210</p>
-                                        <p className="text-blue-600 font-medium mt-1">itqanperfumes@gmail.com</p>
+                                        <p className="text-premium-gold font-medium mt-1">itqanperfumes@gmail.com</p>
                                     </div>
                                 </div>
                             </div>

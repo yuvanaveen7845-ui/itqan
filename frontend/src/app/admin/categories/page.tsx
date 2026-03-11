@@ -105,7 +105,7 @@ export default function AdminCategoriesPage() {
 
     if (loading) return (
         <div className="flex justify-center items-center h-[60vh]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold"></div>
         </div>
     );
 
@@ -273,7 +273,7 @@ export default function AdminCategoriesPage() {
                     </div>
                 </div>
 
-                <div className="hidden lg:block bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
+                <div className="hidden lg:block bg-gradient-to-br from-indigo-600 to-premium-black rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
                     <div className="relative z-10">
                         <h3 className="text-4xl font-black mb-6">Hierarchy Insight</h3>
                         <p className="text-indigo-100 font-medium leading-relaxed mb-8">

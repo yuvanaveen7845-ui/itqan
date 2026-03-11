@@ -141,7 +141,7 @@ export default function AdminProductsPage() {
 
   if (loading) return (
     <div className="flex justify-center items-center h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold"></div>
     </div>
   );
 
@@ -157,7 +157,7 @@ export default function AdminProductsPage() {
             if (showForm) resetForm();
             else setShowForm(true);
           }}
-          className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black transition-all duration-300 shadow-xl ${showForm ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95'
+          className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black transition-all duration-300 shadow-xl ${showForm ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-premium-gold text-white shadow-blue-200 hover:bg-premium-black hover:scale-105 active:scale-95'
             }`}
         >
           {showForm ? <><FiX size={20} /> Close Editor</> : <><FiPlus size={20} /> Create New Product</>}
@@ -178,7 +178,7 @@ export default function AdminProductsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition ${activeTab === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition ${activeTab === tab.id ? 'bg-white text-premium-gold shadow-sm' : 'text-gray-400 hover:text-gray-600'
                     }`}
                 >
                   {tab.icon}
@@ -195,7 +195,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Product Title</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="Premium Fragrance Name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -205,7 +205,7 @@ export default function AdminProductsPage() {
                 <div className="md:col-span-2">
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Description</label>
                   <textarea
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     rows={4}
                     placeholder="Craft a compelling narrative for this product..."
                     value={formData.description}
@@ -217,7 +217,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Base Price (₹)</label>
                   <input
                     type="number"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     required
@@ -226,7 +226,7 @@ export default function AdminProductsPage() {
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Category</label>
                   <select
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition appearance-none"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition appearance-none"
                     value={formData.fabric_type}
                     onChange={(e) => setFormData({ ...formData, fabric_type: e.target.value })}
                     required
@@ -240,7 +240,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Master Image URL</label>
                   <input
                     type="url"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="https://images.unsplash.com/..."
                     value={formData.image_url}
                     onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
@@ -255,7 +255,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">SKU (Stock Keeping Unit)</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition font-mono"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition font-mono"
                     placeholder="PERF-OM-001"
                     value={formData.sku}
                     onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
@@ -265,7 +265,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Available Stock</label>
                   <input
                     type="number"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     value={formData.stock}
                     onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                     required
@@ -276,7 +276,7 @@ export default function AdminProductsPage() {
                   <input
                     type="number"
                     step="0.01"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="0.5"
                     value={formData.weight}
                     onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
@@ -286,24 +286,24 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Dimensions (LxWxH)</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="10x5x15 cm"
                     value={formData.dimensions}
                     onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
                   />
                 </div>
                 <div className="md:col-span-2 py-4">
-                  <div className="flex items-center gap-4 bg-blue-50 p-4 rounded-xl border border-blue-100">
+                  <div className="flex items-center gap-4 bg-premium-cream p-4 rounded-xl border border-blue-100">
                     <input
                       type="checkbox"
                       id="is_visible"
-                      className="w-5 h-5 accent-blue-600"
+                      className="w-5 h-5 accent-premium-gold"
                       checked={formData.is_visible}
                       onChange={(e) => setFormData({ ...formData, is_visible: e.target.checked })}
                     />
                     <div>
                       <label htmlFor="is_visible" className="font-bold text-gray-900 cursor-pointer">Published & Visible</label>
-                      <p className="text-xs text-blue-600">Product will be visible to all customers in the shop front.</p>
+                      <p className="text-xs text-premium-gold">Product will be visible to all customers in the shop front.</p>
                     </div>
                   </div>
                 </div>
@@ -316,7 +316,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Primary Color</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="Amber / Rose"
                     value={formData.color}
                     onChange={(e) => setFormData({ ...formData, color: e.target.value })}
@@ -326,7 +326,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Size / Volume</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="100ml / XL"
                     value={formData.size}
                     onChange={(e) => setFormData({ ...formData, size: e.target.value })}
@@ -336,7 +336,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Pattern / Type</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="Concentrated / Plain"
                     value={formData.pattern}
                     onChange={(e) => setFormData({ ...formData, pattern: e.target.value })}
@@ -351,7 +351,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Meta Browser Title</label>
                   <input
                     type="text"
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     placeholder="Perfume title as it appears in search results"
                     value={formData.meta_title}
                     onChange={(e) => setFormData({ ...formData, meta_title: e.target.value })}
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Meta Description</label>
                   <textarea
-                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-50 outline-none transition"
+                    className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-premium-cream outline-none transition"
                     rows={3}
                     placeholder="Briefly describe the product for search engines..."
                     value={formData.meta_description}
@@ -373,7 +373,7 @@ export default function AdminProductsPage() {
             )}
 
             <div className="mt-10 pt-6 border-t border-gray-100 flex gap-4">
-              <button type="submit" className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-black shadow-lg shadow-blue-100 hover:bg-blue-700 transition">
+              <button type="submit" className="flex-1 bg-premium-gold text-white py-4 rounded-xl font-black shadow-lg shadow-blue-100 hover:bg-premium-black transition">
                 {editingId ? 'Save Application Changes' : 'Initialize Product Listing'}
               </button>
               {editingId && (
@@ -426,7 +426,7 @@ export default function AdminProductsPage() {
                 <th className="px-8 py-5">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 accent-blue-600 rounded"
+                    className="w-4 h-4 accent-premium-gold rounded"
                     checked={selectedIds.length === products.length && products.length > 0}
                     onChange={toggleSelectAll}
                   />
@@ -440,11 +440,11 @@ export default function AdminProductsPage() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {products.map((product: any) => (
-                <tr key={product.id} className={`hover:bg-blue-50/30 transition-colors ${selectedIds.includes(product.id) ? 'bg-blue-50/50' : ''}`}>
+                <tr key={product.id} className={`hover:bg-premium-cream/30 transition-colors ${selectedIds.includes(product.id) ? 'bg-premium-cream/50' : ''}`}>
                   <td className="px-8 py-5">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-blue-600 rounded"
+                      className="w-4 h-4 accent-premium-gold rounded"
                       checked={selectedIds.includes(product.id)}
                       onChange={() => toggleSelect(product.id)}
                     />
@@ -455,7 +455,7 @@ export default function AdminProductsPage() {
                         {product.image_url ? <img src={product.image_url} alt="" className="w-full h-full object-cover" /> : <FiBox size={20} />}
                       </div>
                       <div>
-                        <p className="font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{product.name}</p>
+                        <p className="font-bold text-gray-900 group-hover:text-premium-gold transition-colors">{product.name}</p>
                         <p className="text-[10px] font-mono text-gray-400 uppercase tracking-tighter">{product.sku || product.id.slice(0, 8)}</p>
                       </div>
                     </div>
@@ -477,7 +477,7 @@ export default function AdminProductsPage() {
                     <div className="flex justify-end gap-2">
                       <button
                         onClick={() => handleEditClick(product)}
-                        className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-blue-600 hover:text-white transition shadow-sm"
+                        className="p-2.5 bg-gray-50 text-gray-400 rounded-xl hover:bg-premium-gold hover:text-white transition shadow-sm"
                         title="Quick Edit"
                       >
                         <FiEdit2 size={16} />

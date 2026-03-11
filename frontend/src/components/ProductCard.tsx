@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { useWishlistStore } from '@/store/wishlist';
 import { useAuthStore } from '@/store/auth';
 import { useDevStore } from '@/store/dev';
-import { FiHeart, FiArrowRight, FiEdit3 } from 'react-icons/fi';
+import { FiHeart, FiArrowRight, FiEdit3, FiCopy } from 'react-icons/fi';
+import { useNotificationStore } from '@/store/notification';
+import AttributeEditable from '@/components/AttributeEditable';
+import { useState } from 'react';
+import { productAPI } from '@/lib/api';
 
 interface ProductCardProps {
     product: {
@@ -27,22 +31,44 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
     const { isInWishlist, addItem, removeItem } = useWishlistStore();
     const isDevMode = useDevStore((state) => state.isDevMode);
 
-    const isWishlisted = isInWishlist(product.id);
-    const primaryImage = product.images && product.images.length > 0 ? product.images[0] : product.image_url;
+    const { showNotification } = useNotificationStore();
+    const [localProduct, setLocalProduct] = useState(product);
+
+    const isWishlisted = isInWishlist(localProduct.id);
+    const primaryImage = localProduct.images && localProduct.images.length > 0 ? localProduct.images[0] : localProduct.image_url;
 
     const toggleWishlist = async (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
         if (!user) {
-            alert('Please login to add items to your wishlist.');
+            showNotification('Please login to add items to your wishlist.', 'info');
             return;
         }
 
         if (isWishlisted) {
-            await removeItem(product.id);
+            await removeItem(localProduct.id);
+            showNotification('Removed from wishlist', 'info');
         } else {
-            await addItem(product.id);
+            await addItem(localProduct.id);
+            showNotification('Added to wishlist', 'luxury');
+        }
+    };
+
+    const handleDuplicate = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const { id, ...duplicateData } = localProduct as any;
+            const newProduct = {
+                ...duplicateData,
+                name: `${localProduct.name} (Copy)`,
+                sku: `${(localProduct as any).sku || 'SKU'}-${Math.floor(Math.random() * 1000)}`
+            };
+            await productAPI.create(newProduct);
+            showNotification('Masterpiece Duplicated Successfully', 'luxury');
+        } catch (error) {
+            showNotification('Duplication failed', 'error');
         }
     };
 
@@ -77,14 +103,20 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
                 {/* Dev Mode Overlay */}
                 {isDevMode && (
-                    <div className="absolute inset-0 z-30 bg-premium-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                    <div className="absolute inset-0 z-30 bg-premium-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 pointer-events-none">
                         <Link
-                            href={`/admin/products/${product.id}`}
-                            className="pointer-events-auto bg-premium-gold text-premium-black px-6 py-3 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform"
+                            href={`/admin/products/${localProduct.id}`}
+                            className="pointer-events-auto bg-white text-premium-black px-6 py-3 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <FiEdit3 size={14} /> Edit Attributes
+                            <FiEdit3 size={14} /> Full Editor
                         </Link>
+                        <button
+                            onClick={handleDuplicate}
+                            className="pointer-events-auto bg-premium-gold text-premium-black px-6 py-3 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform"
+                        >
+                            <FiCopy size={14} /> Quick Duplicate
+                        </button>
                     </div>
                 )}
 
@@ -111,19 +143,34 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                         <p className="text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] font-inter">
                             {product.Fragrance_type || 'Private Label'}
                         </p>
-                        <h3 className="text-2xl imperial-serif text-premium-black group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
-                            {product.name}
-                        </h3>
+                        <AttributeEditable
+                            productId={localProduct.id}
+                            field="name"
+                            value={localProduct.name}
+                            onUpdate={(val) => setLocalProduct({ ...localProduct, name: val })}
+                        >
+                            <h3 className="text-2xl imperial-serif text-premium-black group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
+                                {localProduct.name}
+                            </h3>
+                        </AttributeEditable>
                     </div>
 
                     <div className="mt-8 flex flex-col items-center gap-1">
                         <div className="flex items-baseline gap-4">
-                            <span className="text-xl imperial-serif text-premium-black tracking-[0.2em]">
-                                ₹{product.price.toLocaleString()}
-                            </span>
-                            {product.original_price && product.original_price > product.price && (
+                            <AttributeEditable
+                                productId={localProduct.id}
+                                field="price"
+                                value={localProduct.price}
+                                type="number"
+                                onUpdate={(val) => setLocalProduct({ ...localProduct, price: Number(val) })}
+                            >
+                                <span className="text-xl imperial-serif text-premium-black tracking-[0.2em]">
+                                    ₹{localProduct.price.toLocaleString()}
+                                </span>
+                            </AttributeEditable>
+                            {localProduct.original_price && localProduct.original_price > localProduct.price && (
                                 <span className="text-[10px] text-premium-charcoal/30 font-light line-through tracking-[0.3em]">
-                                    ₹{product.original_price.toLocaleString()}
+                                    ₹{localProduct.original_price.toLocaleString()}
                                 </span>
                             )}
                         </div>

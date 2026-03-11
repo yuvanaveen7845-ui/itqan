@@ -58,11 +58,11 @@ export default function SearchPage() {
                 <p className="text-gray-600">Search through our premium perfume collection for every occasion.</p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12 border border-blue-50">
+            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12 border border-premium-cream">
                 <form onSubmit={handleSearch} className="relative">
                     <input
                         type="text"
-                        className="w-full text-xl p-4 pl-12 border-2 border-gray-200 rounded-xl focus:border-blue-600 focus:ring-0 outline-none transition-colors"
+                        className="w-full text-xl p-4 pl-12 border-2 border-gray-200 rounded-xl focus:border-premium-gold focus:ring-0 outline-none transition-colors"
                         placeholder="Search for 'Silk', 'Cotton', 'Blue'..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -73,7 +73,7 @@ export default function SearchPage() {
                     </svg>
                     <button
                         type="submit"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-premium-gold text-white px-6 py-2 rounded-lg font-bold hover:bg-premium-black transition"
                     >
                         Search
                     </button>
@@ -95,7 +95,7 @@ export default function SearchPage() {
                                                 <div className="w-12 h-12 bg-gray-200 rounded flex-shrink-0"></div>
                                             )}
                                             <div>
-                                                <h4 className="font-bold text-gray-800 group-hover:text-blue-600">{product.name}</h4>
+                                                <h4 className="font-bold text-gray-800 group-hover:text-premium-gold">{product.name}</h4>
                                                 <p className="text-sm text-gray-500">{product.Fragrance_type} • ₹{product.price}</p>
                                             </div>
                                         </Link>
@@ -135,7 +135,7 @@ export default function SearchPage() {
                     {/* Popular Categories */}
                     <div>
                         <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 text-premium-cream0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                             </svg>
                             Popular Categories
@@ -145,7 +145,7 @@ export default function SearchPage() {
                                 <button
                                     key={term}
                                     onClick={() => router.push(`/products?Fragrance_type=${term}`)}
-                                    className="border border-blue-200 text-blue-700 hover:bg-blue-50 px-4 py-2 rounded-full text-sm transition"
+                                    className="border border-blue-200 text-premium-black hover:bg-premium-cream px-4 py-2 rounded-full text-sm transition"
                                 >
                                     {term}
                                 </button>

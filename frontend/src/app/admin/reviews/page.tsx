@@ -20,7 +20,7 @@ export default function AdminReviewsPage() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-black text-gray-900">Review Moderation</h1>
-                <span className="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wide">
+                <span className="bg-blue-100 text-premium-black px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wide">
                     {reviews.length} Pending
                 </span>
             </div>
@@ -39,7 +39,7 @@ export default function AdminReviewsPage() {
                             </div>
                             <p className="text-gray-800 font-medium italic">"{review.comment}"</p>
                             <div className="flex items-center gap-4 text-xs font-bold pt-2">
-                                <div className="flex items-center gap-1.5 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg">
+                                <div className="flex items-center gap-1.5 text-premium-gold bg-premium-cream px-3 py-1.5 rounded-lg">
                                     <FiUser /> {review.user}
                                 </div>
                                 <div className="flex items-center gap-1.5 text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg">
