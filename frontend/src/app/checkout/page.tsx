@@ -116,6 +116,7 @@ export default function CheckoutPage() {
                 orderId: orderData.order.id,
                 razorpayOrderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
               });
 
               clearCart();

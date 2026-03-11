@@ -28,8 +28,8 @@ export default function DevModeToggle() {
             <button
                 onClick={toggleDevMode}
                 className={`pointer-events-auto group relative w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl ${isDevMode
-                        ? 'bg-premium-gold text-premium-black rotate-180 scale-110'
-                        : 'bg-premium-black text-premium-gold hover:scale-110'
+                    ? 'bg-premium-gold text-premium-black rotate-180 scale-110'
+                    : 'bg-premium-black text-premium-gold hover:scale-110'
                     }`}
                 title={isDevMode ? 'Exit Developer Mode' : 'Enter Developer Mode'}
             >
@@ -37,8 +37,9 @@ export default function DevModeToggle() {
                 {isDevMode ? <FiZap size={24} /> : <FiCode size={24} />}
 
                 {/* Tooltip */}
-                <div className="absolute right-20 bg-premium-black text-premium-gold text-[9px] font-black uppercase tracking-widest px-4 py-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-premium-gold/20">
-                    Ultimate Power Toggle
+                <div className="absolute right-20 bg-premium-black text-premium-gold text-[9px] font-black uppercase tracking-widest px-4 py-3 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-premium-gold/20 shadow-2xl">
+                    <p className="mb-1">{isDevMode ? 'Deactivate Superpowers' : 'Unlock Ultimate Power'}</p>
+                    <p className="text-white/40 text-[7px] lowercase tracking-normal font-medium">Edit text, images, links & visibility</p>
                 </div>
             </button>
         </div>

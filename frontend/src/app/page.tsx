@@ -34,7 +34,7 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  const activeBanner = banners.find(b => b.is_active) || {
+  const activeBanner = banners.length > 0 ? banners.find(b => b.is_active) || banners[0] : {
     title: 'Exquisite Fragrance',
     subtitle: 'THE ART OF SCENT',
     image_url: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=2000'
@@ -192,14 +192,20 @@ export default function HomePage() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-40">
+          <div className="flex justify-center items-center h-96">
             <div className="w-12 h-12 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8 min-h-[400px]">
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-20 text-premium-charcoal/40 font-bold uppercase tracking-widest">
+                Discovering our private collection...
+              </div>
+            )}
           </div>
         )}
       </section>
