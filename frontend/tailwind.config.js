@@ -24,6 +24,10 @@ module.exports = {
         elite: '0.2em',
         luxury: '0.1em',
       },
+      boxShadow: {
+        'luxury': '0 20px 50px rgba(197, 160, 89, 0.08)',
+        'luxury-hover': '0 20px 50px rgba(197, 160, 89, 0.15)',
+      },
       keyframes: {
         'fade-in-up': {
           '0%': {

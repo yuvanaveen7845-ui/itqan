@@ -14,7 +14,7 @@ const icons: Record<NotificationType, any> = {
 const colors: Record<NotificationType, string> = {
     success: 'border-emerald-500/30 text-emerald-400',
     error: 'border-rose-500/30 text-rose-400',
-    info: 'border-premium-cream0/30 text-blue-400',
+    info: 'border-premium-cream/30 text-blue-400',
     luxury: 'border-premium-gold/30 text-premium-gold',
 };
 
