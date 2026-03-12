@@ -80,10 +80,14 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
   try {
     const { items, address_id, address, couponCode } = req.body;
     let userId = req.user?.id || null;
+    const userEmail = req.user?.email || null;
+    const userName = userEmail ? userEmail.split('@')[0] : 'Customer';
 
-    // Fix: Resolve non-UUID developer IDs (like email addresses) to actual UUIDs
+    console.log(`--- Order Creation: User from JWT: id=${userId}, email=${userEmail} ---`);
+
+    // Step 1: Resolve non-UUID IDs (e.g. email-based dev accounts) to real UUIDs
     if (userId && !isUUID(userId)) {
-      console.log(`--- Order Creation: Resolving non-UUID ID (${userId}) ---`);
+      console.log(`--- Resolving non-UUID ID (${userId}) to UUID via email lookup ---`);
       const { data: userData } = await supabase
         .from('users')
         .select('id')
@@ -94,8 +98,60 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
         userId = userData.id;
         console.log(`✓ Resolved to UUID: ${userId}`);
       } else {
-        console.warn(`⚠️  Could not resolve ID ${userId} to UUID. Setting to null.`);
+        console.warn(`⚠️  Could not resolve non-UUID ID. Setting to null.`);
         userId = null;
+      }
+    }
+
+    // Step 2: Verify the UUID actually exists in the users table (FK guard)
+    // Catches cases where JWT has a valid UUID but user was never inserted into our users table
+    if (userId && isUUID(userId)) {
+      console.log(`--- Verifying user ${userId} exists in users table ---`);
+      const { data: existingUser, error: userCheckError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (userCheckError) {
+        console.error('User lookup error:', userCheckError.message);
+      }
+
+      if (!existingUser) {
+        console.warn(`⚠️  User ${userId} NOT in users table. Attempting recovery via email.`);
+
+        // Check if user exists by email with a different ID
+        const { data: emailUser } = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', userEmail || '')
+          .maybeSingle();
+
+        if (emailUser) {
+          userId = emailUser.id;
+          console.log(`✓ Found user by email, using DB id: ${userId}`);
+        } else if (userEmail) {
+          // User genuinely missing — upsert so FK constraint succeeds
+          console.log(`--- Upserting missing user into users table: ${userEmail} ---`);
+          const { data: newUser, error: upsertError } = await supabase
+            .from('users')
+            .insert([{ id: userId, email: userEmail, name: userName, role: 'customer' }])
+            .select('id')
+            .single();
+
+          if (upsertError) {
+            console.error('⚠️  Upsert failed:', upsertError.message, '— guest order (userId=null)');
+            userId = null;
+          } else {
+            console.log(`✓ User upserted: ${newUser.id}`);
+            userId = newUser.id;
+          }
+        } else {
+          console.warn('⚠️  No email to upsert user. Guest order (userId=null).');
+          userId = null;
+        }
+      } else {
+        console.log(`✓ User confirmed in DB: ${userId}`);
       }
     }
 
