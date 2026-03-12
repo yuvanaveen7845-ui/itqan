@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cart';
 import { useAuthStore } from '@/store/auth';
+
 import { orderAPI, couponAPI } from '@/lib/api';
 import { useNotificationStore } from '@/store/notification';
 
@@ -15,7 +16,7 @@ declare global {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { user } = useAuthStore();
+  const { user, isInitialized } = useAuthStore();
   const { items, getTotal, clearCart } = useCartStore();
   const { showNotification } = useNotificationStore();
   const [loading, setLoading] = useState(false);
@@ -40,12 +41,14 @@ export default function CheckoutPage() {
 
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
+    // Wait for auth store to hydrate from localStorage before redirecting
+    if (isInitialized && !user) {
+      router.push('/login?returnTo=/checkout');
     }
-  }, [user, router]);
+  }, [user, router, isInitialized]);
 
-  if (!user) return null;
+  // Show nothing until we know auth state, then redirect if not logged in
+  if (!isInitialized || !user) return null;
 
   const validateForm = () => {
     if (!user.email) {
@@ -76,8 +79,8 @@ export default function CheckoutPage() {
         couponCode: couponApplied ? couponCode : null,
       });
 
-      // If mock order, simulate success
-      if (orderData.razorpayOrder.id.startsWith('mock_order')) {
+      // If mock order (dev/test mode), simulate success without Razorpay
+      if (!orderData.razorpayOrder || orderData.razorpayOrder.id?.startsWith('mock_order')) {
         setTimeout(async () => {
           try {
             await orderAPI.verifyPayment({
@@ -85,13 +88,12 @@ export default function CheckoutPage() {
               razorpayOrderId: 'order_mock_' + Math.random().toString(36).substr(2, 9),
               paymentId: 'pay_mock_' + Math.random().toString(36).substr(2, 9),
               signature: 'sig_mock_' + Math.random().toString(36).substr(2, 9),
-
             });
             clearCart();
             window.location.href = `/order-confirmation/${orderData.order.id}`;
-          } catch (error) {
-            console.error('Mock payment error:', error);
-            alert('Mock payment verification failed');
+          } catch (mockErr) {
+            console.error('Mock payment error:', mockErr);
+            showNotification('Mock payment verification failed', 'error');
           } finally {
             setLoading(false);
           }
@@ -99,7 +101,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Load Razorpay script (Production/Real Test mode)
+      // Load Razorpay script (Production/Real mode)
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
@@ -109,7 +111,7 @@ export default function CheckoutPage() {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
           amount: Math.round(finalAmount * 100),
           currency: 'INR',
-          name: 'Perfume Store',
+          name: 'Itqan Perfumes',
           description: 'Order Payment',
           order_id: orderData.razorpayOrder.id,
           handler: async (response: any) => {
@@ -120,22 +122,29 @@ export default function CheckoutPage() {
                 paymentId: response.razorpay_payment_id,
                 signature: response.razorpay_signature,
               });
-
               clearCart();
               window.location.href = `/order-confirmation/${orderData.order.id}`;
-            } catch (error) {
-              console.error('Payment verification error:', error);
-              alert('Payment verification failed');
+            } catch (verifyErr) {
+              console.error('Payment verification error:', verifyErr);
+              showNotification('Payment verification failed. Contact support.', 'error');
             }
           },
         };
-
         const razorpay = new window.Razorpay(options);
         razorpay.open();
       };
       document.body.appendChild(script);
-    } catch (error) {
-      showNotification('Transaction process interrupted', 'error');
+    } catch (error: any) {
+      // Handle unauthenticated error — redirect to login
+      const status = error?.response?.status;
+      if (status === 401) {
+        showNotification('Session expired. Please log in again.', 'error');
+        setTimeout(() => router.push('/login?returnTo=/checkout'), 1500);
+        return;
+      }
+      const msg = error?.response?.data?.error || error?.response?.data?.message || 'Transaction process interrupted';
+      setError(msg);
+      showNotification(msg, 'error');
     } finally {
       setLoading(false);
     }

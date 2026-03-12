@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { supabase } from '../config/database';
 import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
@@ -389,7 +389,7 @@ router.get('/settings', verifyToken, requireRole(['admin', 'super_admin']), asyn
 });
 
 // Update system settings (Super Admin only)
-router.post('/settings', verifyToken, requireRole(['super_admin']), async (req: AuthRequest, res) => {
+router.post('/settings', verifyToken, requireRole(['super_admin']), async (req: AuthRequest, res: Response) => {
   try {
     const { maintenanceMode } = req.body;
     if (typeof maintenanceMode === 'boolean') {
@@ -398,6 +398,52 @@ router.post('/settings', verifyToken, requireRole(['super_admin']), async (req: 
     res.json({ message: 'Settings updated successfully', settings: systemSettings });
   } catch (error) {
     res.status(500).json({ error: 'Failed to update settings' });
+  }
+});
+
+// Production Debug Connection Test (Super Admin only)
+router.get('/debug-env', verifyToken, requireRole(['super_admin']), async (req: any, res: any) => {
+  try {
+    const sUrl = process.env.SUPABASE_URL || 'NOT_SET';
+    const sKey = process.env.SUPABASE_KEY || 'NOT_SET';
+
+    const keyInfo = {
+      length: sKey.length,
+      startsWithEy: sKey.startsWith('eyJ'),
+      formatMatched: /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/.test(sKey), // JWT pattern
+      masked: sKey === 'NOT_SET' ? 'NOT_SET' : `${sKey.substring(0, 5)}...${sKey.substring(sKey.length - 5)}`
+    };
+
+    console.log('--- PRODUCTION DEBUG TRIGGERED ---');
+    console.log(`URL: ${sUrl}`);
+    console.log(`KEY INFO:`, keyInfo);
+
+    // Test DB ping
+    const { data, error, status: dbStatus } = await supabase.from('products').select('count', { count: 'exact', head: true });
+
+    res.json({
+      timestamp: new Date().toISOString(),
+      nodeEnv: process.env.NODE_ENV,
+      supabaseUrl: sUrl,
+      supabaseKeyInfo: keyInfo,
+      databaseTest: {
+        status: dbStatus,
+        success: !error,
+        error: error ? {
+          message: error.message,
+          code: error.code,
+          hint: error.hint,
+          details: error.details
+        } : null
+      },
+      razorpay: {
+        keyId: process.env.RAZORPAY_KEY_ID ? 'SET' : 'NOT_SET',
+        secretSet: !!process.env.RAZORPAY_KEY_SECRET
+      }
+    });
+  } catch (err: any) {
+    console.error('Debug Route Crash:', err);
+    res.status(500).json({ error: 'Debug route failed', message: err.message });
   }
 });
 

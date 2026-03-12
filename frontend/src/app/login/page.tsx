@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { authAPI } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
-import { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -46,8 +45,10 @@ function GoogleLoader({ onSignIn }: { onSignIn: (credential: string) => void }) 
   return null;
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo') || '/';
   const { login } = useAuthStore();
   const { fetchCart } = useCartStore();
   const { fetchWishlist } = useWishlistStore();
@@ -67,7 +68,7 @@ export default function LoginPage() {
       const { data } = await authAPI.login(formData);
       login(data.user, data.token);
       await Promise.all([fetchCart(), fetchWishlist()]);
-      router.push('/');
+      router.push(returnTo);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {
@@ -163,7 +164,7 @@ export default function LoginPage() {
             const { data } = await authAPI.googleLogin(credential);
             login(data.user, data.token);
             await Promise.all([fetchCart(), fetchWishlist()]);
-            router.push('/');
+            router.push(returnTo);
           } catch (err: any) {
             setError(err.response?.data?.error || 'Google login failed');
           } finally {
@@ -179,5 +180,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="max-w-md mx-auto px-4 py-16 text-center">Loading...</div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
