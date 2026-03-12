@@ -93,12 +93,12 @@ export default function Header() {
           </div>
 
           {/* Right: Icons & Profile */}
-          <div className="flex justify-end items-center gap-2 sm:gap-8">
-            <Link href="/search" className={`hidden sm:block p-2 transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
+          <div className="flex justify-end items-center gap-1 sm:gap-4">
+            <Link href="/search" className={`hidden md:block p-2 transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
               <FiSearch size={20} />
             </Link>
 
-            <Link href="/wishlist" className={`p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Wishlist">
+            <Link href="/wishlist" className={`hidden sm:block p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Wishlist">
               <FiHeart size={20} className={wishlistItems.length > 0 ? 'fill-premium-gold text-premium-gold' : ''} />
               {wishlistItems.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[7px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
@@ -116,19 +116,19 @@ export default function Header() {
               )}
             </Link>
 
-            <div className="h-6 w-px bg-premium-gold/20 mx-2 hidden md:block"></div>
+            <div className="h-6 w-px bg-premium-gold/20 mx-1 hidden sm:block"></div>
 
             {user ? (
-              <div className="flex items-center gap-4">
-                <Link href="/profile" className="group flex items-center gap-4">
-                  <div className="w-9 h-9 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-500">
-                    <span className="text-xs font-black text-premium-gold">{user.name.charAt(0)}</span>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <Link href="/profile" className="group flex items-center">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-500">
+                    <span className="text-[10px] sm:text-xs font-black text-premium-gold">{user.name.charAt(0)}</span>
                   </div>
                 </Link>
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="hidden lg:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] text-premium-gold/60 border border-premium-gold/20 px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white hover:border-premium-gold transition-all duration-700"
+                    className="hidden xl:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] text-premium-gold/60 border border-premium-gold/20 px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white hover:border-premium-gold transition-all duration-700"
                   >
                     <Editable id="header_surveillance_label" fallback="ATELIER">
                       <span>ATELIER</span>
@@ -137,7 +137,7 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className={`text-[9px] font-black uppercase tracking-[0.4em] border px-7 py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black hover:bg-premium-black hover:text-premium-gold' : 'border-white/30 text-white hover:border-premium-gold hover:text-premium-gold'}`}>
+              <Link href="/login" className={`text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] border px-4 sm:px-7 py-2 sm:py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black hover:bg-premium-black hover:text-premium-gold' : 'border-white/30 text-white hover:border-premium-gold hover:text-premium-gold'}`}>
                 Sign In
               </Link>
             )}

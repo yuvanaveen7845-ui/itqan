@@ -236,11 +236,16 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
       }
     }
 
-    // Calculate shipping
-    let shippingCost = 200; // Default
+    // Calculate shipping — MUST match estimate-delivery endpoint exactly
+    let shippingCost = 200; // Default (Zone D: Rest of India)
     const targetZip = address?.zipcode || '000000';
-    if (targetZip.startsWith('64')) shippingCost = 50;
-    else if (targetZip.startsWith('6')) shippingCost = 100;
+    const zip1 = targetZip.substring(0, 1);
+    const zip2 = targetZip.substring(0, 2);
+    if (zip2 === '64') shippingCost = 150;           // Zone A: Coimbatore
+    else if (zip1 === '6') shippingCost = 150;       // Zone B: Tamil Nadu & Kerala
+    else if (['4', '5', '7'].includes(zip1)) shippingCost = 150; // Zone C: Neighboring states
+    // else ₹200 (Zone D)
+    console.log(`Shipping calc: zip=${targetZip}, cost=₹${shippingCost}`);
 
     const total = subtotal + shippingCost - discountAmount;
 
@@ -309,7 +314,7 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     try {
       const razorpayOrder = await createRazorpayOrder(total, order.id);
       res.status(201).json({
-        order,
+        order: { ...order, total_amount: total, shipping_cost: shippingCost, subtotal },
         razorpayOrder,
         key: process.env.RAZORPAY_KEY_ID,
       });
@@ -381,20 +386,28 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       },
     ]);
 
-    // Send confirmation email
-    const { data: user } = await supabase
-      .from('users')
-      .select('email')
-      .eq('id', req.user?.id)
-      .single();
+    // Send confirmation email — use the email from the order's joined user data
+    // This is more reliable than re-querying by req.user.id which may differ for OAuth users
+    const customerEmail = order.users?.email || req.user?.email;
+    const customerName = order.users?.name || 'Valued Customer';
+    const shopEmail = process.env.SMTP_FROM || 'itqanperfumes@gmail.com';
 
-    if (user) {
+    if (customerEmail) {
+      console.log(`Sending order confirmation to: ${customerEmail}`);
+      // Email to customer
       await sendEmail(
-        user.email,
-        'Order Confirmation - Itqan Perfumes',
-        emailTemplates.orderConfirmation(orderId, order.total_amount),
-        process.env.SMTP_FROM || 'itqanperfumes@gmail.com'
+        customerEmail,
+        'Order Confirmed — Itqan Perfumes',
+        emailTemplates.orderConfirmation(order.display_id || orderId, order.total_amount, customerName)
       );
+      // Notify shop owner
+      await sendEmail(
+        shopEmail,
+        `New Order Paid: ${order.display_id || orderId}`,
+        emailTemplates.shopOwnerNotification(order.display_id || orderId, customerEmail, customerName, order.total_amount, order.order_items)
+      );
+    } else {
+      console.warn('⚠️  No customer email found — skipping order confirmation email');
     }
 
     // --- DECREMENT STOCK FOR EACH ITEM ---
@@ -429,7 +442,7 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       .maybeSingle();
 
     const automationData = {
-      customer_email: order.users?.email || user?.email,
+      customer_email: order.users?.email || customerEmail,
       order_id: order.id,
       total_amount: order.total_amount,
       shipping_address: address ?
@@ -453,7 +466,7 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
     const WEBHOOK_URL = 'https://workflow-praveen.xyz/webhook-test/5c4ddd6d-fa9f-4bdf-acf6-6b0e286ea903';
     await axios.post(WEBHOOK_URL, {
       message: "Payment Success",
-      user: order.users?.email || user?.email,
+      user: order.users?.email || customerEmail,
       orderId: order.id,
       source: "Backend (Post-Payment)"
     }).catch(err => {

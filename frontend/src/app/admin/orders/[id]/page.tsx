@@ -68,9 +68,9 @@ export default function AdminOrderDetailsPage({ params }: { params: Promise<{ id
                     <div className="flex items-center gap-4 text-gray-500 font-medium">
                         <span className="flex items-center gap-1"><FiCalendar /> {new Date(order.created_at).toLocaleString()}</span>
                         <span className={`px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border ${order.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' :
-                                order.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                                    order.status === 'delivered' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
-                                        'bg-gray-50 text-gray-700 border-gray-200'
+                            order.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                                order.status === 'delivered' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' :
+                                    'bg-gray-50 text-gray-700 border-gray-200'
                             }`}>
                             Status: {order.status}
                         </span>
@@ -120,18 +120,31 @@ export default function AdminOrderDetailsPage({ params }: { params: Promise<{ id
                             ))}
                         </div>
                         <div className="p-8 bg-gray-50 border-t border-gray-100 space-y-3 font-bold text-gray-600">
-                            <div className="flex justify-between items-center">
-                                <span>Subtotal</span>
-                                <span>₹{(order.total_amount - (order.total_amount < 200 ? 50 : 0)).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-blue-600">
-                                <span>Shipping</span>
-                                <span>Calculated</span>
-                            </div>
-                            <div className="flex justify-between items-center text-2xl font-black text-gray-900 pt-3 border-t border-gray-200">
-                                <span>Grand Total</span>
-                                <span>₹{order.total_amount.toLocaleString()}</span>
-                            </div>
+                            {(() => {
+                                const itemsSubtotal = order.items?.reduce((sum: number, item: any) => sum + (item.quantity * item.price), 0) || 0;
+                                const discountAmt = order.discount_amount || 0;
+                                const shipping = Math.max(0, order.total_amount - itemsSubtotal + discountAmt);
+                                return (<>
+                                    <div className="flex justify-between items-center">
+                                        <span>Items Subtotal</span>
+                                        <span>₹{itemsSubtotal.toLocaleString()}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-blue-600">
+                                        <span>Shipping</span>
+                                        <span>₹{shipping.toLocaleString()}</span>
+                                    </div>
+                                    {discountAmt > 0 && (
+                                        <div className="flex justify-between items-center text-green-600">
+                                            <span>Discount</span>
+                                            <span>-₹{discountAmt.toLocaleString()}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between items-center text-2xl font-black text-gray-900 pt-3 border-t border-gray-200">
+                                        <span>Grand Total</span>
+                                        <span>₹{order.total_amount.toLocaleString()}</span>
+                                    </div>
+                                </>);
+                            })()}
                         </div>
                     </div>
 
