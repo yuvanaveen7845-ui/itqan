@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS order_status_history (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. Ensure coupons table exists (needed for coupon_id FK lookups)
+-- 4. Ensure coupons table exists
 CREATE TABLE IF NOT EXISTS coupons (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   code VARCHAR(50) UNIQUE NOT NULL,
@@ -68,9 +68,13 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 6. Add missing password column to users (for email/password auth)
+-- 6. CRITICAL: Add password column if missing AND make it nullable
+--    Google OAuth users have no password, so this column must allow NULL
 ALTER TABLE users
   ADD COLUMN IF NOT EXISTS password VARCHAR(255);
+
+ALTER TABLE users
+  ALTER COLUMN password DROP NOT NULL;
 
 -- 7. Verify: show orders table columns
 SELECT column_name, data_type, is_nullable
