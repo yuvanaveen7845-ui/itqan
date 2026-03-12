@@ -135,7 +135,7 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
           console.log(`--- Upserting missing user into users table: ${userEmail} ---`);
           const { data: newUser, error: upsertError } = await supabase
             .from('users')
-            .insert([{ id: userId, email: userEmail, name: userName, role: 'customer' }])
+            .insert([{ id: userId, email: userEmail, name: userName, role: 'customer', password: 'oauth_no_password' }])
             .select('id')
             .single();
 
