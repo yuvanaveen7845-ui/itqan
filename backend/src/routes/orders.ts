@@ -195,21 +195,35 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
 
     // Create order record
     console.log('--- Order Creation: Inserting order record ---');
-    const { data: order, error: orderError } = await supabase
-      .from('orders')
-      .insert([
-        {
-          user_id: userId,
-          address_id: finalAddressId,
-          total_amount: total,
-          status: 'pending',
-          display_id: displayId,
-          coupon_id: couponId,
-          discount_amount: discountAmount
-        },
-      ])
-      .select()
-      .single();
+    const orderPayload: any = {
+      user_id: userId,
+      address_id: finalAddressId,
+      total_amount: total,
+      status: 'pending',
+    };
+    console.log('Order payload (core):', JSON.stringify(orderPayload));
+
+    // Try full insert first (with extended columns)
+    let order: any = null;
+    let orderError: any = null;
+
+    const fullPayload = { ...orderPayload, display_id: displayId, coupon_id: couponId, discount_amount: discountAmount };
+    const fullResult = await supabase.from('orders').insert([fullPayload]).select().single();
+
+    if (fullResult.error) {
+      console.warn('⚠️  Full order insert failed, trying minimal insert. Error:', JSON.stringify(fullResult.error));
+      // Fallback: insert with only guaranteed-existing columns
+      const minimalResult = await supabase.from('orders').insert([orderPayload]).select().single();
+      if (minimalResult.error) {
+        orderError = minimalResult.error;
+      } else {
+        order = minimalResult.data;
+        // Best-effort: patch extended columns after insert
+        await Promise.resolve(supabase.from('orders').update({ display_id: displayId, discount_amount: discountAmount }).eq('id', order.id)).catch(() => { });
+      }
+    } else {
+      order = fullResult.data;
+    }
 
     if (orderError) {
       console.error('✗ Supabase Order Insert Error:', JSON.stringify(orderError, null, 2));
