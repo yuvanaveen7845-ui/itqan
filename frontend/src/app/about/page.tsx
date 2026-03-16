@@ -1,13 +1,30 @@
 import { FiMapPin, FiClock, FiPhone, FiNavigation } from 'react-icons/fi';
+import Editable from '@/components/Editable';
 
 export default function ShopDetailsPage() {
     return (
-        <div className="bg-[#FAF9F6]/50 min-h-screen py-32 scroll-reveal visible">
-            <div className="max-w-6xl mx-auto px-6">
+        <div className="bg-white min-h-screen scroll-reveal visible">
+            <section className="pt-80 pb-60 bg-premium-black grain-overlay overflow-hidden relative">
+                <div className="absolute inset-0 z-0 opacity-20 scale-110">
+                    <Editable id="about_hero_image" type="image" fallback="https://images.unsplash.com/photo-1595071167447-080c512365bf?auto=format&fit=crop&q=80&w=2500">
+                        <img src="https://images.unsplash.com/photo-1595071167447-080c512365bf?auto=format&fit=crop&q=80&w=2500" alt="Boutique" className="w-full h-full object-cover grayscale" />
+                    </Editable>
+                </div>
+                <div className="relative z-10 text-center px-4 boutique-layout">
+                    <Editable id="about_eyebrow" type="text" fallback="The Maison">
+                        <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block mb-12 animate-reveal">Our Legacy</span>
+                    </Editable>
+                    <Editable id="about_title" type="richtext" fallback="The Art of Fragrant Silence">
+                        <h1 className="text-7xl md:text-[140px] imperial-serif text-white animate-reveal" style={{ animationDelay: '0.2s' }}>
+                            A Legacy <br />
+                            <span className="gold-luxury-text italic lowercase font-normal">Unspoken</span>
+                        </h1>
+                    </Editable>
+                </div>
+            </section>
+
+            <div className="max-w-6xl mx-auto px-6 py-32">
                 <div className="text-center mb-24 space-y-6">
-                    <h1 className="text-6xl md:text-8xl font-black text-premium-black tracking-tighter mb-4 imperial-serif lowercase">
-                        Visit <span className="gold-luxury-text">Our Atelier</span>
-                    </h1>
                     <p className="text-[11px] font-black uppercase tracking-[0.8em] text-premium-gold/60 max-w-2xl mx-auto font-inter">
                         Experience olfactory excellence in its purest form
                     </p>

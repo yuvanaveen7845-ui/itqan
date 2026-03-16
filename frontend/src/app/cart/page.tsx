@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useCartStore } from '@/store/cart';
 import { orderAPI } from '@/lib/api';
 import { useNotificationStore } from '@/store/notification';
-import { FiTrash2, FiTruck, FiArrowRight, FiShield, FiPackage } from 'react-icons/fi';
+import { FiTrash2, FiShoppingBag, FiArrowRight, FiShield, FiTruck, FiPackage } from 'react-icons/fi';
+import Editable from '@/components/Editable';
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, clearCart } = useCartStore();
@@ -56,11 +57,20 @@ export default function CartPage() {
 
   return (
     <div className="max-w-[1800px] mx-auto px-6 py-32 sm:px-12 lg:px-24">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-        <div className="space-y-2">
-          <h1 className="text-5xl lg:text-7xl imperial-serif text-premium-black leading-none">The Collection</h1>
-          <p className="text-[10px] font-black uppercase tracking-[0.6em] text-premium-gold">Selected Essence</p>
+      <section className="pt-60 pb-40 px-12 sm:px-24 boutique-layout border-b border-premium-gold/5">
+        <div className="flex flex-col items-center text-center space-y-12">
+          <Editable id="cart_eyebrow" type="text" fallback="Selected Artefacts">
+            <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Your Selection</span>
+          </Editable>
+          <Editable id="cart_title" type="richtext" fallback="Shopping Bag">
+            <h1 className="text-7xl md:text-9xl imperial-serif text-premium-black animate-reveal" style={{ animationDelay: '0.2s' }}>
+              Vault <br />
+              <span className="gold-luxury-text italic lowercase font-normal">Allocation</span>
+            </h1>
+          </Editable>
         </div>
+      </section>
+      <div className="flex justify-end mt-12">
         <button
           onClick={() => { clearCart(); showNotification('Vault cleared', 'info'); }}
           className="text-[9px] font-black uppercase tracking-widest text-rose-500/60 hover:text-rose-500 transition-colors"

@@ -7,12 +7,14 @@ import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { useCMSStore } from '@/store/cms';
 import Editable from '@/components/Editable';
-import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight, FiShoppingBag } from 'react-icons/fi';
 
 export default function Header() {
   const { user, logout } = useAuthStore();
   const { items } = useCartStore();
+  const itemCount = items.reduce((total, item) => total + item.quantity, 0);
   const { items: wishlistItems } = useWishlistStore();
+  const wishlistCount = wishlistItems.length;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -47,107 +49,58 @@ export default function Header() {
       )}
 
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
-          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-auto max-w-[98%] px-10 rounded-2xl'
-          : 'bg-transparent py-10'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-[1.5s] ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
+          ? 'bg-black/80 backdrop-blur-3xl py-6 border-b border-white/5'
+          : 'bg-transparent py-16'
           }`}
       >
-        <nav className="max-w-[1800px] mx-auto px-6 grid grid-cols-3 items-center">
+        <div className="max-w-[1700px] mx-auto px-12 sm:px-24 flex items-center justify-center relative">
+          {/* Menu Trigger Pin */}
+          <div className="absolute left-12 sm:left-24">
+             <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="flex items-center gap-6 group"
+              >
+                <div className="w-12 h-[1px] bg-white group-hover:bg-premium-gold transition-all group-hover:w-16"></div>
+                <span className="text-[9px] font-black text-white/40 group-hover:text-premium-gold uppercase tracking-[0.6em]">Menu</span>
+              </button>
+          </div>
 
-          {/* Left: Desktop Nav - High Tracking */}
-          <div className="flex items-center gap-10">
-            <button
-              className={`p-2 -ml-2 transition-all duration-500 transform hover:scale-110 ${isScrolled ? 'text-premium-black' : 'text-white'}`}
-              onClick={() => setIsSidebarOpen(true)}
-              title="Open Menu"
-            >
-              <FiMenu size={20} />
-            </button>
-            <div className="hidden lg:flex items-center gap-10">
-              <Editable id="nav_collections" fallback="Collections">
-                <Link href="/products" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Collections</Link>
-              </Editable>
-              <Editable id="nav_oud" fallback="Oud">
-                <Link href="/products?category=Oud" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Oud</Link>
-              </Editable>
-              <Editable id="nav_floral" fallback="Floral">
-                <Link href="/products?category=Floral" className={`text-[10px] font-black uppercase tracking-[0.4em] transition-colors ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`}>Floral</Link>
-              </Editable>
+          <div className="absolute right-12 sm:right-24 flex items-center gap-12">
+            <Link href="/search" className="text-white hover:text-premium-gold transition-colors"><FiSearch size={20} /></Link>
+            <div className="relative group cursor-pointer">
+               <Link href="/cart" className="text-white hover:text-premium-gold transition-colors flex items-center gap-3">
+                 <FiShoppingBag size={20} />
+                 {itemCount > 0 && <span className="text-[9px] font-black bg-premium-gold text-premium-black w-4 h-4 rounded-full flex items-center justify-center">{itemCount}</span>}
+               </Link>
             </div>
           </div>
-
-          {/* Center: Imperial Logo */}
-          <div className="flex justify-center flex-col items-center">
-            <Link href="/" className="group flex flex-col items-center text-center">
-              <Editable id="header_logo_main" fallback="iqtan">
-                <span className={`text-3xl md:text-5xl imperial-serif lowercase tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-700 ${isScrolled ? 'text-premium-black' : 'text-white'}`}>
-                  {branding.name?.split(' ')[0] || 'iqtan'}
-                </span>
+          <div className="flex items-center gap-12">
+              <Editable id="nav_links" type="richtext">
+                <nav className="hidden lg:flex items-center gap-12">
+                  <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Collections</Link>
+                  <Link href="/about" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Heritage</Link>
+                  <Link href="/bespoke" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Bespoke</Link>
+                </nav>
               </Editable>
-              <Editable id="header_logo_sub" fallback="perfumes">
-                <span className="text-[9px] font-black text-premium-gold tracking-[0.8em] uppercase -mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
-                  {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
-                </span>
-              </Editable>
-            </Link>
-          </div>
 
-          {/* Right: Icons & Profile */}
-          <div className="flex justify-end items-center gap-3 sm:gap-6">
-            <Link href="/search" className={`hidden md:flex p-2 items-center justify-center transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
-              <FiSearch size={22} />
-            </Link>
-
-            <Link href="/wishlist" className={`hidden sm:block p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Wishlist">
-              <FiHeart size={20} className={wishlistItems.length > 0 ? 'fill-premium-gold text-premium-gold' : ''} />
-              {wishlistItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[7px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
-                  {wishlistItems.length}
-                </span>
-              )}
-            </Link>
-
-            <Link href="/cart" className={`p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Cart">
-              <FiShoppingCart size={20} />
-              {items.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-premium-black text-premium-gold text-[7px] rounded-full w-4 h-4 flex items-center justify-center font-black border border-premium-gold/30">
-                  {items.reduce((sum, i) => sum + i.quantity, 0)}
-                </span>
-              )}
-            </Link>
-
-            <div className="h-6 w-px bg-premium-gold/20 mx-1 hidden sm:block"></div>
-
-            {user ? (
-              <div className="flex items-center gap-2 sm:gap-4">
-                <Link href="/profile" className="group flex items-center gap-3">
-                  <div className="hidden md:block">
-                    <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest text-right">Concierge</p>
-                    <p className={`text-[10px] font-bold ${isScrolled ? 'text-premium-black' : 'text-white'} group-hover:text-premium-gold transition-colors`}>{user.name.split(' ')[0]}</p>
-                  </div>
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-700 shadow-xl">
-                    <span className="text-[10px] sm:text-xs font-black text-premium-gold">{user.name.charAt(0)}</span>
-                  </div>
-                </Link>
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    className={`hidden xl:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] ${isScrolled ? 'text-premium-gold/60 border-premium-gold/20' : 'text-white/60 border-white/10'} border px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white transition-all duration-700`}
-                  >
-                    <Editable id="header_surveillance_label" fallback="ATELIER">
-                      <span>ATELIER</span>
-                    </Editable>
-                  </Link>
-                )}
-              </div>
-            ) : (
-              <Link href="/login" className={`text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] overflow-hidden group relative border px-4 sm:px-7 py-2 sm:py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black' : 'border-white/30 text-white hover:border-premium-gold'}`}>
-                 <span className="relative z-10 group-hover:text-premium-gold transition-colors">Sign In</span>
-                 <div className="absolute inset-0 bg-premium-black translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+              <Link href="/" className="flex flex-col items-center group">
+                <Editable id="header_logo" type="text" fallback="IQTAN">
+                  <span className="text-4xl imperial-serif text-white tracking-[1.2rem] group-hover:gold-luxury-text transition-all duration-1000">IQTAN</span>
+                </Editable>
+                <div className="h-px w-0 group-hover:w-full bg-premium-gold transition-all duration-1000 mt-2"></div>
               </Link>
-            )}
-          </div>
-        </nav>
+
+              <div className="hidden lg:flex items-center gap-12">
+                <Editable id="nav_secondary" type="richtext">
+                  <div className="flex items-center gap-12">
+                    <Link href="/journal" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Journal</Link>
+                    <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Concierge</Link>
+                  </div>
+                </Editable>
+              </div>
+            </div>
+        </div>
       </header>
 
       {/* Navigation Sidebar Drawer */}

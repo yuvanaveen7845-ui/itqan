@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Editable from '@/components/Editable';
 import Link from 'next/link';
 import { productAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
@@ -45,13 +46,21 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Premium Sub-Header */}
-      <div className="bg-premium-cream border-b border-premium-gold/10 py-24 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03] scale-150 rotate-12 pointer-events-none font-playfair italic text-[200px] text-premium-gold select-none">Collection</div>
-        <h1 className="relative z-10 text-6xl md:text-8xl imperial-serif text-premium-black mb-6">The Collection</h1>
-        <p className="relative z-10 text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] font-inter">Private Reserve & Signature Blends</p>
-      </div>
-
+      {/* Radical Boutique Header Section */}
+      <section className="bg-white pt-60 pb-40 px-12 sm:px-24 boutique-layout border-b border-premium-gold/5">
+        <div className="flex flex-col items-center text-center space-y-12">
+          <Editable id="products_eyebrow" type="text" fallback="Curated Artisan Scents">
+            <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Collections</span>
+          </Editable>
+          <Editable id="products_title" type="richtext" fallback="The Olfactive Archive">
+            <h1 className="text-7xl md:text-9xl imperial-serif text-premium-black animate-reveal" style={{ animationDelay: '0.2s' }}>
+              Specialist <br />
+              <span className="gold-luxury-text italic lowercase font-normal">Editions</span>
+            </h1>
+          </Editable>
+          <div className="w-24 h-px bg-premium-gold/30 animate-reveal" style={{ animationDelay: '0.4s' }}></div>
+        </div>
+      </section>
       <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-12">
         <div className="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 border-b border-gray-100 pb-8">
           <div className="flex items-center gap-8">
