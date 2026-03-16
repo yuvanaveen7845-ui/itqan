@@ -44,7 +44,7 @@ export default function HomePage() {
     <div className="bg-white min-h-screen font-inter">
 
       {/* Ultra-Premium Cinematic Hero */}
-      <section className="relative h-[95vh] overflow-hidden bg-premium-black">
+      <section className="relative h-[95vh] overflow-hidden bg-premium-black grain-overlay">
         {/* Ambient Background with slow zoom */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
@@ -108,9 +108,9 @@ export default function HomePage() {
         </div>
 
         {/* Cinematic Scroll Indicator */}
-        <div className="absolute bottom-12 right-12 flex items-center gap-8 rotate-90 origin-right translate-y-[-50%]">
-          <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.6em] animate-pulse">Scroll to Discover</span>
-          <div className="w-24 h-px bg-gradient-to-r from-premium-gold to-transparent"></div>
+        <div className="absolute bottom-12 right-12 flex items-center gap-10 rotate-90 origin-right translate-y-[-50%]">
+          <span className="text-white/60 text-[9px] font-black uppercase tracking-[0.8em] animate-pulse">Begin the Journey</span>
+          <div className="w-32 h-[1px] bg-gradient-to-r from-premium-gold via-premium-gold to-transparent"></div>
         </div>
       </section>
 
@@ -124,12 +124,13 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           <div className="relative group scroll-reveal visible">
             <div className="absolute -inset-12 border border-premium-gold/20 group-hover:inset-0 transition-all duration-1000 rounded-none transform rotate-3 group-hover:rotate-0"></div>
-            <div className="relative overflow-hidden luxury-card-rich p-0 border-none shadow-2xl">
+            <div className="relative overflow-hidden luxury-card-rich p-0 border-none shadow-2xl group/img">
               <img
                 src="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000"
                 alt="Perfume Craft"
                 className="relative z-10 w-full aspect-[4/5] object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]"
               />
+              <div className="absolute inset-0 bg-premium-black/20 group-hover:bg-transparent transition-all duration-1000 z-20"></div>
             </div>
             <div className="absolute -bottom-12 -right-12 z-20 bg-premium-black p-12 border border-premium-gold/20 shadow-2xl translate-y-8 group-hover:translate-y-0 transition-transform duration-1000">
               <span className="text-[10px] font-black text-premium-gold tracking-[0.8em] uppercase">Est. 2012</span>
@@ -286,21 +287,28 @@ export default function HomePage() {
       </section>
 
       {/* Luxury Footer Newsletter CTA */}
-      <section className="py-40 bg-premium-cream text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
-        <div className="max-w-4xl mx-auto px-8 space-y-12">
-          <h2 className="text-5xl md:text-7xl font-playfair font-black text-premium-black italic">Join the Inner Circle</h2>
-          <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.6em]">Receive Invitations to Private Collections & Elite Experiences</p>
-          <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+      <section className="py-60 bg-white text-center relative overflow-hidden grain-overlay border-t border-premium-gold/10">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
+        <div className="max-w-4xl mx-auto px-8 space-y-16">
+          <div className="space-y-6">
+            <h2 className="text-6xl md:text-8xl imperial-serif text-premium-black">The Inner Circle</h2>
+            <p className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8em]">A Legacy of Privileged Updates</p>
+          </div>
+          <p className="text-premium-charcoal/60 text-lg md:text-xl imperial-body italic max-w-2xl mx-auto">
+            "Membership is not merely a subscription; it is an invitation to witness the birth of ephemeral masterpieces."
+          </p>
+          <div className="flex flex-col md:flex-row gap-0 max-w-2xl mx-auto shadow-2xl border border-premium-gold/20 overflow-hidden rounded-none">
             <input
               type="email"
-              placeholder="Your elegant email adress..."
-              className="flex-1 bg-white border border-premium-gold/10 p-5 text-xs font-bold outline-none focus:border-premium-gold transition-colors"
+              placeholder="YOUR.ESTEEMED.EMAIL@ADDRESS.COM"
+              className="flex-1 bg-white p-8 text-[11px] font-black uppercase tracking-widest outline-none focus:bg-premium-cream/30 transition-all placeholder:text-premium-charcoal/30"
             />
-            <button className="bg-premium-black text-premium-gold px-12 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all">
-              Subscribe
+            <button className="bg-premium-black text-premium-gold px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-premium-black transition-all duration-700 relative group overflow-hidden">
+               <span className="relative z-10">Request Access</span>
+               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
             </button>
           </div>
+          <p className="text-[9px] font-black text-premium-gold/40 uppercase tracking-[0.5em] mt-10">Limited Entries Available Monthly</p>
         </div>
       </section>
     </div>

@@ -120,15 +120,19 @@ export default function Header() {
 
             {user ? (
               <div className="flex items-center gap-2 sm:gap-4">
-                <Link href="/profile" className="group flex items-center">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-500">
+                <Link href="/profile" className="group flex items-center gap-3">
+                  <div className="hidden md:block">
+                    <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest text-right">Concierge</p>
+                    <p className={`text-[10px] font-bold ${isScrolled ? 'text-premium-black' : 'text-white'} group-hover:text-premium-gold transition-colors`}>{user.name.split(' ')[0]}</p>
+                  </div>
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-premium-gold/20 bg-premium-black/5 overflow-hidden flex items-center justify-center group-hover:border-premium-gold transition-all duration-700 shadow-xl">
                     <span className="text-[10px] sm:text-xs font-black text-premium-gold">{user.name.charAt(0)}</span>
                   </div>
                 </Link>
                 {isAdmin && (
                   <Link
                     href="/admin"
-                    className="hidden xl:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] text-premium-gold/60 border border-premium-gold/20 px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white hover:border-premium-gold transition-all duration-700"
+                    className={`hidden xl:flex items-center gap-2 text-[8px] font-black tracking-[0.4em] ${isScrolled ? 'text-premium-gold/60 border-premium-gold/20' : 'text-white/60 border-white/10'} border px-4 py-2 rounded-none hover:bg-premium-gold hover:text-white transition-all duration-700`}
                   >
                     <Editable id="header_surveillance_label" fallback="ATELIER">
                       <span>ATELIER</span>
@@ -137,8 +141,9 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className={`text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] border px-4 sm:px-7 py-2 sm:py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black hover:bg-premium-black hover:text-premium-gold' : 'border-white/30 text-white hover:border-premium-gold hover:text-premium-gold'}`}>
-                Sign In
+              <Link href="/login" className={`text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] overflow-hidden group relative border px-4 sm:px-7 py-2 sm:py-3 transition-all duration-700 ${isScrolled ? 'border-premium-black text-premium-black' : 'border-white/30 text-white hover:border-premium-gold'}`}>
+                 <span className="relative z-10 group-hover:text-premium-gold transition-colors">Sign In</span>
+                 <div className="absolute inset-0 bg-premium-black translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
               </Link>
             )}
           </div>
@@ -151,14 +156,14 @@ export default function Header() {
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 left-0 h-full w-full sm:w-[500px] bg-white z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl bg-white/95`}>
-        <div className="h-32 px-12 flex items-center justify-between border-b border-gray-50">
+      <div className={`fixed top-0 left-0 h-full w-full sm:w-[550px] bg-white z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl bg-white/98`}>
+        <div className="h-40 px-12 flex items-center justify-between border-b border-premium-gold/10 bg-premium-black/5">
           <div className="flex flex-col">
-            <span className="text-2xl font-playfair font-black text-premium-black tracking-widest">MENU</span>
-            <span className="text-[8px] font-black text-premium-gold tracking-[0.5em] uppercase font-inter">Private Collection</span>
+            <span className="text-3xl imperial-serif text-premium-black italic lowercase">the atlas</span>
+            <span className="text-[8px] font-black text-premium-gold tracking-[0.8em] uppercase font-inter mt-1 opacity-70">Privileged Access Menu</span>
           </div>
-          <button onClick={() => setIsSidebarOpen(false)} className="group p-4 bg-premium-black text-premium-gold rounded-full hover:rotate-90 transition-all duration-500">
-            <FiX size={20} />
+          <button onClick={() => setIsSidebarOpen(false)} className="group w-14 h-14 bg-premium-black text-premium-gold flex items-center justify-center rounded-full hover:rotate-90 transition-all duration-700 border border-premium-gold/20 shadow-xl">
+            <FiX size={24} />
           </button>
         </div>
 
