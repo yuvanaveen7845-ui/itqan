@@ -57,7 +57,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 h-full container mx-auto px-6 flex flex-col justify-center">
-          <div className="max-w-5xl">
+          <div className="max-w-5xl glass-panel p-12 md:p-20 rounded-[40px] bg-white/5 border-white/10 backdrop-blur-md">
             {/* Subtitle with gold accent */}
             <Editable id="hero_subtitle" fallback="Maison de Parfum">
               <div className="flex items-center gap-4 mb-8 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_forwards]">
@@ -108,23 +108,23 @@ export default function HomePage() {
         </div>
 
         {/* Cinematic Scroll Indicator */}
-        <div className="absolute bottom-10 right-10 flex items-center gap-6 rotate-90 origin-right translate-y-[-50%]">
-          <span className="text-white/30 text-[9px] font-black uppercase tracking-[0.5em]">Scroll to Discover</span>
-          <div className="w-20 h-px bg-gradient-to-r from-premium-gold to-transparent"></div>
+        <div className="absolute bottom-12 right-12 flex items-center gap-8 rotate-90 origin-right translate-y-[-50%]">
+          <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.6em] animate-pulse">Scroll to Discover</span>
+          <div className="w-24 h-px bg-gradient-to-r from-premium-gold to-transparent"></div>
         </div>
       </section>
 
       {/* The Storytelling Section - High Contrast with Vertical Decor */}
-      <section className="py-40 bg-[#FAF9F6] parchment-texture relative">
+      <section className="py-60 bg-[#FAF9F6] parchment-texture relative overflow-hidden">
         {/* Vertical Decorative Label */}
         <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden xl:block">
           <span className="vogue-text">The Scent of Heritage — Since 2012</span>
         </div>
 
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-          <div className="relative group">
-            <div className="absolute -inset-8 border border-premium-gold/10 group-hover:inset-0 transition-all duration-1000"></div>
-            <div className="relative overflow-hidden">
+          <div className="relative group scroll-reveal visible">
+            <div className="absolute -inset-12 border border-premium-gold/20 group-hover:inset-0 transition-all duration-1000 rounded-none transform rotate-3 group-hover:rotate-0"></div>
+            <div className="relative overflow-hidden luxury-card-rich p-0 border-none shadow-2xl">
               <img
                 src="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000"
                 alt="Perfume Craft"

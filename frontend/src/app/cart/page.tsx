@@ -73,8 +73,8 @@ export default function CartPage() {
         {/* Cart Items */}
         <div className="lg:col-span-8 space-y-12">
           {items.map((item) => (
-            <div key={item.product_id} className="group relative flex flex-col sm:flex-row items-center gap-10 py-10 border-b border-premium-gold/10 hover:border-premium-gold/30 transition-all duration-700">
-              <div className="w-40 aspect-[4/5] bg-gray-50 overflow-hidden border border-premium-gold/5">
+            <div key={item.product_id} className="group relative flex flex-col sm:flex-row items-center gap-10 py-12 px-8 border border-premium-gold/5 hover:border-premium-gold/20 luxury-card-rich shadow-none hover:shadow-2xl transition-all duration-1000 rounded-2xl">
+              <div className="w-44 aspect-[4/5] bg-gray-50 overflow-hidden rounded-lg border border-premium-gold/10">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" />
               </div>
 
@@ -118,28 +118,26 @@ export default function CartPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-4 lg:sticky lg:top-36 h-fit space-y-8">
-          <div className="bg-[#FAF9F6] border border-premium-gold/10 p-12 space-y-12">
-            <div className="space-y-4">
-              <h2 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em]">Investment Summary</h2>
-              <div className="h-px bg-premium-gold/20"></div>
+          <div className="luxury-card-rich p-12 space-y-12 shadow-2xl rounded-3xl border-none">
+            <div className="space-y-4 text-center">
+              <h2 className="text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] mb-2">Vault Allocation</h2>
+              <div className="h-px bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex justify-between items-center">
-                <span className="text-[9px] font-black uppercase tracking-widest text-premium-charcoal/50">Artefacts</span>
-                <span className="text-lg imperial-serif text-premium-black">₹{getTotal().toLocaleString()}</span>
+            <div className="space-y-8">
+              <div className="flex justify-between items-center group">
+                <span className="text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40 group-hover:text-premium-black transition-colors">Selected Artefacts</span>
+                <span className="text-xl imperial-serif text-premium-black">₹{getTotal().toLocaleString()}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[9px] font-black uppercase tracking-widest text-premium-charcoal/50">Logistics</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-premium-gold">Complimentary</span>
+              <div className="flex justify-between items-center group">
+                <span className="text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40 group-hover:text-premium-black transition-colors">Logistics Concierge</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-premium-gold animate-pulse">Complimentary</span>
               </div>
             </div>
 
-            <div className="pt-8 border-t border-premium-gold/20 flex justify-between items-end">
-              <div className="space-y-1">
-                <span className="text-[7px] font-black uppercase tracking-widest text-premium-gold">Total Value</span>
-                <p className="text-4xl imperial-serif text-premium-black">₹{getTotal().toLocaleString()}</p>
-              </div>
+            <div className="pt-10 border-t border-premium-gold/10 space-y-2 text-center">
+              <span className="text-[8px] font-black uppercase tracking-[0.8em] text-premium-gold/60">Total Value</span>
+              <p className="text-5xl imperial-serif text-premium-black font-normal">₹{getTotal().toLocaleString()}</p>
             </div>
 
             <div className="space-y-4">

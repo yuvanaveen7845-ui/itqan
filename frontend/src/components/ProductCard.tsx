@@ -74,7 +74,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
     return (
         <Link href={`/products/${product.id}`} className="group block relative perspective-1000">
-            <div className="relative overflow-hidden bg-premium-cream border border-premium-gold/10 transition-all duration-700 group-hover:border-premium-gold/30 group-hover:shadow-[0_20px_50px_rgba(197,160,89,0.1)]">
+            <div className="relative overflow-hidden luxury-card-rich transition-all duration-1000 group-hover:shadow-[0_40px_80px_rgba(197,160,89,0.15)] rounded-2xl">
 
                 {/* Status Badges */}
                 <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
@@ -129,10 +129,10 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                     />
 
                     {/* Hover Overlay - Light Leak Style */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/10 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center p-8 text-center pointer-events-none">
-                        <div className="border border-premium-gold/20 w-full h-full flex flex-col items-center justify-center translate-y-4 group-hover:translate-y-0 transition-transform duration-1000 backdrop-brightness-110">
-                            <span className="text-white text-[9px] font-black tracking-[0.6em] uppercase mb-2 font-inter">View Masterpiece</span>
-                            <div className="w-8 h-px bg-premium-gold"></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center p-8 text-center pointer-events-none">
+                        <div className="border border-premium-gold/30 w-full h-full flex flex-col items-center justify-center translate-y-8 group-hover:translate-y-0 transition-transform duration-1000 backdrop-blur-[2px]">
+                            <span className="text-white text-[10px] font-black tracking-[0.8em] uppercase mb-4 font-inter text-shadow-lg">Discover</span>
+                            <div className="w-12 h-px bg-premium-gold/50"></div>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                                 type="number"
                                 onUpdate={(val) => setLocalProduct({ ...localProduct, price: Number(val) })}
                             >
-                                <span className="text-xl imperial-serif text-premium-black tracking-[0.2em]">
+                                <span className="text-xl imperial-serif text-premium-black tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-1000">
                                     ₹{localProduct.price.toLocaleString()}
                                 </span>
                             </AttributeEditable>

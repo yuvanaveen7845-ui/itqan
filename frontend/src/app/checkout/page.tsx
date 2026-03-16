@@ -192,14 +192,14 @@ export default function CheckoutPage() {
             </div>
           )}
 
-          <div className="border border-premium-gold/15 p-8 space-y-6 bg-white">
-            <h2 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em] border-b border-premium-gold/15 pb-4">Shipping Destination</h2>
+          <div className="luxury-card-rich p-10 space-y-10 shadow-xl rounded-3xl border-none">
+            <h2 className="text-[12px] font-black text-premium-black uppercase tracking-[0.5em] border-b border-premium-gold/20 pb-6 text-center">Shipping Destination</h2>
 
-            <form onSubmit={handleCheckout} className="space-y-5">
+            <form onSubmit={handleCheckout} className="space-y-8">
               <div>
-                <label className="block text-[9px] font-black text-premium-charcoal/50 mb-2 uppercase tracking-widest">Street Address</label>
+                <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">Street Address</label>
                 <textarea
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-premium-gold/10 focus:border-premium-gold outline-none transition font-medium text-sm"
+                  className="premium-input w-full rounded-xl min-h-[120px] normal-case font-medium text-sm"
                   rows={3}
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -208,12 +208,12 @@ export default function CheckoutPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[9px] font-black text-premium-charcoal/50 mb-2 uppercase tracking-widest">City</label>
+                  <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">City</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 bg-[#FAF9F6] border border-premium-gold/10 focus:border-premium-gold outline-none transition font-medium text-sm"
+                    className="premium-input w-full rounded-xl normal-case font-medium text-sm"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     required
@@ -221,10 +221,10 @@ export default function CheckoutPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[9px] font-black text-premium-charcoal/50 mb-2 uppercase tracking-widest">State</label>
+                  <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">State</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 bg-[#FAF9F6] border border-premium-gold/10 focus:border-premium-gold outline-none transition font-medium text-sm"
+                    className="premium-input w-full rounded-xl normal-case font-medium text-sm"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                     required
@@ -260,8 +260,8 @@ export default function CheckoutPage() {
 
         {/* Order Summary */}
         <div className="space-y-6">
-          <div className="border border-premium-gold/15 p-8 bg-white">
-            <h2 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em] border-b border-premium-gold/15 pb-4 mb-6">Order Summary</h2>
+          <div className="luxury-card-rich p-10 shadow-2xl rounded-3xl border-none">
+            <h2 className="text-[12px] font-black text-premium-black uppercase tracking-[0.5em] border-b border-premium-gold/20 pb-6 mb-8 text-center">Acquisition Details</h2>
 
             <div className="space-y-3 mb-6 max-h-[260px] overflow-y-auto pr-1">
               {items.map((item) => (

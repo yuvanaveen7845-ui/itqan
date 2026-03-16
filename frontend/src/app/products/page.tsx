@@ -46,9 +46,10 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Premium Sub-Header */}
-      <div className="bg-premium-cream border-b border-premium-gold/10 py-16 text-center">
-        <h1 className="text-5xl md:text-7xl font-playfair font-black text-premium-black mb-4">The Collection</h1>
-        <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.5em] font-inter">Private Reserve & Signature Blends</p>
+      <div className="bg-premium-cream border-b border-premium-gold/10 py-24 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03] scale-150 rotate-12 pointer-events-none font-playfair italic text-[200px] text-premium-gold select-none">Collection</div>
+        <h1 className="relative z-10 text-6xl md:text-8xl imperial-serif text-premium-black mb-6">The Collection</h1>
+        <p className="relative z-10 text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] font-inter">Private Reserve & Signature Blends</p>
       </div>
 
       <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-12">
@@ -81,19 +82,19 @@ export default function ProductsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
           {/* Filters Sidebar */}
-          <div className={`${isFilterOpen ? 'block animate-in fade-in slide-in-from-left-4 duration-500' : 'hidden'} lg:col-span-1 border-r border-gray-100 pr-10`}>
-            <div className="space-y-12 sticky top-32">
+          <div className={`${isFilterOpen ? 'block animate-in fade-in slide-in-from-left-8 duration-1000' : 'hidden'} lg:col-span-1 border-r border-gray-100 pr-10 sticky top-32 h-fit`}>
+            <div className="space-y-12 luxury-card-rich p-8 border-none shadow-xl">
               <div>
-                <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Olfactive Search</h3>
+                <h3 className="text-[11px] font-black text-premium-black uppercase tracking-[0.4em] mb-8 border-b border-premium-gold/20 pb-4 font-inter">Olfactive Search</h3>
                 <div className="relative group">
                   <input
                     type="text"
                     placeholder="Search essences..."
-                    className="w-full bg-[#FAF9F6] border-none px-6 py-4 text-xs font-bold focus:ring-1 focus:ring-premium-gold/50 transition-all placeholder:text-premium-charcoal/20"
+                    className="w-full bg-[#FAF9F6] border-none px-6 py-5 text-xs font-bold focus:ring-1 focus:ring-premium-gold/30 transition-all placeholder:text-premium-charcoal/30 font-inter"
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                   />
-                  <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-premium-gold group-focus-within:w-full transition-all duration-500"></div>
+                  <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-premium-gold group-focus-within:w-full transition-all duration-700"></div>
                 </div>
               </div>
 

@@ -47,9 +47,9 @@ export default function Header() {
       )}
 
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${isScrolled
-          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-4 sm:mx-8 px-4 rounded-xl'
-          : 'bg-transparent py-8'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isScrolled
+          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-4 sm:mx-8 px-8 rounded-2xl'
+          : 'bg-transparent py-10'
           }`}
       >
         <nav className="max-w-[1800px] mx-auto px-6 grid grid-cols-3 items-center">
@@ -151,7 +151,7 @@ export default function Header() {
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 left-0 h-full w-full sm:w-[500px] bg-white z-[201] shadow-2xl transition-all duration-700 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}>
+      <div className={`fixed top-0 left-0 h-full w-full sm:w-[500px] bg-white z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl bg-white/95`}>
         <div className="h-32 px-12 flex items-center justify-between border-b border-gray-50">
           <div className="flex flex-col">
             <span className="text-2xl font-playfair font-black text-premium-black tracking-widest">MENU</span>
