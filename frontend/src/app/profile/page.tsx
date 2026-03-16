@@ -97,7 +97,9 @@ export default function ProfilePage() {
       {/* Executive Boutique Header */}
       <section className="bg-premium-black pt-36 sm:pt-60 pb-16 sm:pb-40 px-4 sm:px-12 md:px-24 grain-overlay relative overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
-          <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal">Concierge</span>
+          <Editable id="profile_bg_text" fallback="Concierge">
+            <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal">Concierge</span>
+          </Editable>
         </div>
         <div className="relative z-10 boutique-layout flex flex-col md:flex-row justify-between items-end gap-12">
           <div className="space-y-8">
@@ -118,7 +120,10 @@ export default function ProfilePage() {
 
           <div className="flex gap-8 animate-reveal" style={{ animationDelay: '0.6s' }}>
              <button onClick={() => { logout(); router.push('/'); }} className="px-12 py-5 border border-white/10 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-500 transition-all flex items-center gap-4 group">
-                Terminate Session <FiLogOut className="group-hover:translate-x-2 transition-transform" />
+                <Editable id="profile_logout_btn" fallback="Terminate Session">
+                  <span>Terminate Session</span>
+                </Editable>
+                <FiLogOut className="group-hover:translate-x-2 transition-transform" />
              </button>
           </div>
         </div>
@@ -130,7 +135,9 @@ export default function ProfilePage() {
           {/* Navigation Dossier */}
           <div className="lg:col-span-3 space-y-12">
             <div className="space-y-4">
-               <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-12">Dossier Sections</h3>
+               <Editable id="profile_sidebar_title" fallback="Dossier Sections">
+                 <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-12">Dossier Sections</h3>
+               </Editable>
                <nav className="space-y-4">
                   {[
                     { id: 'orders', label: 'Order Archive', icon: FiPackage },
@@ -160,8 +167,12 @@ export default function ProfilePage() {
             {activeTab === 'orders' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">The Order <span className="italic gold-luxury-text font-normal lowercase">Archive</span></h2>
-                   <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">{orders.length} Records</span>
+                   <Editable id="profile_orders_title" fallback="The Order Archive">
+                     <h2 className="text-3xl sm:text-5xl imperial-serif text-white">The Order <span className="italic gold-luxury-text font-normal lowercase">Archive</span></h2>
+                   </Editable>
+                   <Editable id="profile_orders_count_label" fallback="Records">
+                     <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">{orders.length} Records</span>
+                   </Editable>
                 </div>
                 
                 {loading ? (
@@ -196,8 +207,12 @@ export default function ProfilePage() {
                 ) : (
                   <div className="py-40 text-center space-y-8 border-2 border-dashed border-premium-gold/10">
                      <FiShoppingBag className="mx-auto text-premium-gold/20" size={60} />
-                     <p className="imperial-serif italic text-2xl text-white/30">The archive remains silent...</p>
-                     <Link href="/products" className="inline-block mt-8 px-12 py-5 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-premium-black transition-all">Begin Selection</Link>
+                     <Editable id="profile_orders_empty_text" fallback="The archive remains silent...">
+                       <p className="imperial-serif italic text-2xl text-white/30">The archive remains silent...</p>
+                     </Editable>
+                     <Editable id="profile_orders_empty_btn" fallback="Begin Selection">
+                       <Link href="/products" className="inline-block mt-8 px-12 py-5 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-premium-black transition-all">Begin Selection</Link>
+                     </Editable>
                   </div>
                 )}
               </div>
@@ -206,10 +221,14 @@ export default function ProfilePage() {
             {activeTab === 'addresses' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Signature <span className="italic gold-luxury-text font-normal lowercase">Locales</span></h2>
+                   <Editable id="profile_addresses_title" fallback="Signature Locales">
+                     <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Signature <span className="italic gold-luxury-text font-normal lowercase">Locales</span></h2>
+                   </Editable>
                    <button className="flex items-center gap-4 text-premium-gold group">
                       <FiPlus className="group-hover:rotate-90 transition-transform" />
-                      <span className="text-[10px] font-black uppercase tracking-widest">New Protocol</span>
+                      <Editable id="profile_addresses_new_btn" fallback="New Protocol">
+                        <span className="text-[10px] font-black uppercase tracking-widest">New Protocol</span>
+                      </Editable>
                    </button>
                 </div>
                 
@@ -237,12 +256,16 @@ export default function ProfilePage() {
             {activeTab === 'settings' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Security <span className="italic gold-luxury-text font-normal lowercase">Details</span></h2>
+                   <Editable id="profile_settings_title" fallback="Security Details">
+                     <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Security <span className="italic gold-luxury-text font-normal lowercase">Details</span></h2>
+                   </Editable>
                 </div>
                 
                 <div className="max-w-xl space-y-12">
                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                      <Editable id="profile_settings_name_label" fallback="Master Name">
+                        <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                      </Editable>
                       <input 
                         type="text" 
                         value={profileData.name} 
@@ -251,11 +274,15 @@ export default function ProfilePage() {
                       />
                    </div>
                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Encrypted Identity</label>
+                      <Editable id="profile_settings_email_label" fallback="Encrypted Identity">
+                        <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Encrypted Identity</label>
+                      </Editable>
                       <p className="text-xl imperial-serif text-white/40 italic">{user.email}</p>
                    </div>
                    <button onClick={handleSaveChanges} className="px-12 sm:px-20 py-6 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl">
-                      {updating ? 'Recording...' : 'Update Protocol'}
+                      <Editable id="profile_settings_update_btn" fallback="Update Protocol">
+                        <span>{updating ? 'Recording...' : 'Update Protocol'}</span>
+                      </Editable>
                    </button>
                 </div>
               </div>

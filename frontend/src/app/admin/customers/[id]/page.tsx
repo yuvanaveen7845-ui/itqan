@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { adminAPI } from '@/lib/api';
 import { FiArrowLeft, FiUser, FiMail, FiCalendar, FiShoppingBag, FiDollarSign, FiClock, FiPackage, FiExternalLink } from 'react-icons/fi';
 
-export default function AdminCustomerDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = use(params);
+export default function AdminCustomerDetailsPage({ params }: { params: { id: string } }) {
+    const { id } = params;
     const router = useRouter();
     const [customer, setCustomer] = useState<any>(null);
     const [loading, setLoading] = useState(true);

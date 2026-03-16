@@ -153,9 +153,11 @@ export default function HomePage() {
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
-              <div className="col-span-full text-center py-20 text-premium-charcoal/40 font-bold uppercase tracking-widest">
-                Discovering our private collection...
-              </div>
+              <Editable id="home_products_empty" fallback="Discovering our private collection...">
+                <div className="col-span-full text-center py-20 text-premium-charcoal/40 font-bold uppercase tracking-widest">
+                  Discovering our private collection...
+                </div>
+              </Editable>
             )}
           </div>
         )}
@@ -178,37 +180,61 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 h-[900px]">
           <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <Editable id="gallery_oud_image" type="image" fallback="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000">
+                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              </Editable>
               <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
             <div className="relative z-10">
-              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Sacred Earth</span>
-              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Majestic Oud</h3>
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Origins</p>
+              <Editable id="gallery_oud_eyebrow" fallback="Sacred Earth">
+                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Sacred Earth</span>
+              </Editable>
+              <Editable id="gallery_oud_title" fallback="Majestic Oud">
+                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Majestic Oud</h3>
+              </Editable>
+              <Editable id="gallery_oud_cta" fallback="Explore the Origins">
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Origins</p>
+              </Editable>
             </div>
           </Link>
 
           <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <Editable id="gallery_floral_image" type="image" fallback="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000">
+                <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              </Editable>
               <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
             <div className="relative z-10">
-              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Royal Garden</span>
-              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Velvet Rose</h3>
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Garden</p>
+              <Editable id="gallery_floral_eyebrow" fallback="Royal Garden">
+                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Royal Garden</span>
+              </Editable>
+              <Editable id="gallery_floral_title" fallback="Velvet Rose">
+                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Velvet Rose</h3>
+              </Editable>
+              <Editable id="gallery_floral_cta" fallback="Explore the Garden">
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Garden</p>
+              </Editable>
             </div>
           </Link>
 
           <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-16 text-center">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
+              <Editable id="gallery_spicy_image" type="image" fallback="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000">
+                <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
+              </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
             </div>
             <div className="relative z-10">
-              <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Midnight Dune</span>
-              <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Amber Spice</h3>
-              <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Night</p>
+              <Editable id="gallery_spicy_eyebrow" fallback="Midnight Dune">
+                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Midnight Dune</span>
+              </Editable>
+              <Editable id="gallery_spicy_title" fallback="Amber Spice">
+                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Amber Spice</h3>
+              </Editable>
+              <Editable id="gallery_spicy_cta" fallback="Explore the Night">
+                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Night</p>
+              </Editable>
             </div>
           </Link>
         </div>
@@ -228,8 +254,12 @@ export default function HomePage() {
                 <item.icon className="text-premium-gold w-7 h-7" />
               </div>
               <div className="space-y-3">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{item.title}</h4>
-                <p className="text-[11px] imperial-body text-premium-charcoal/60 leading-relaxed max-w-[220px] mx-auto">{item.desc}</p>
+                <Editable id={`trust_title_${idx}`} fallback={item.title}>
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{item.title}</h4>
+                </Editable>
+                <Editable id={`trust_desc_${idx}`} fallback={item.desc}>
+                  <p className="text-[11px] imperial-body text-premium-charcoal/60 leading-relaxed max-w-[220px] mx-auto">{item.desc}</p>
+                </Editable>
               </div>
             </div>
           ))}
@@ -241,12 +271,18 @@ export default function HomePage() {
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-16">
           <div className="space-y-6">
-            <h2 className="text-4xl sm:text-6xl md:text-8xl imperial-serif text-white">The Inner Circle</h2>
-            <p className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8em]">A Legacy of Privileged Updates</p>
+            <Editable id="newsletter_title" fallback="The Inner Circle">
+              <h2 className="text-4xl sm:text-6xl md:text-8xl imperial-serif text-white">The Inner Circle</h2>
+            </Editable>
+            <Editable id="newsletter_subtitle" fallback="A Legacy of Privileged Updates">
+              <p className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8em]">A Legacy of Privileged Updates</p>
+            </Editable>
           </div>
-          <p className="text-premium-charcoal/60 text-lg md:text-xl imperial-body italic max-w-2xl mx-auto">
-            "Membership is not merely a subscription; it is an invitation to witness the birth of ephemeral masterpieces."
-          </p>
+          <Editable id="newsletter_desc" fallback="&quot;Membership is not merely a subscription; it is an invitation to witness the birth of ephemeral masterpieces.&quot;">
+            <p className="text-premium-charcoal/60 text-lg md:text-xl imperial-body italic max-w-2xl mx-auto">
+              "Membership is not merely a subscription; it is an invitation to witness the birth of ephemeral masterpieces."
+            </p>
+          </Editable>
           <div className="flex flex-col md:flex-row gap-0 max-w-2xl mx-auto shadow-2xl border border-premium-gold/20 overflow-hidden rounded-none">
             <input
               type="email"
@@ -254,11 +290,15 @@ export default function HomePage() {
               className="flex-1 bg-white/5 p-6 sm:p-8 text-[11px] font-black uppercase tracking-widest outline-none focus:bg-white/10 transition-all placeholder:text-white/20 text-white"
             />
             <button className="bg-premium-black text-premium-gold px-12 py-8 text-[11px] font-black uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-premium-black transition-all duration-700 relative group overflow-hidden">
-               <span className="relative z-10">Request Access</span>
+               <Editable id="newsletter_btn" fallback="Request Access">
+                 <span className="relative z-10">Request Access</span>
+               </Editable>
                <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
             </button>
           </div>
-          <p className="text-[9px] font-black text-premium-gold/40 uppercase tracking-[0.5em] mt-10">Limited Entries Available Monthly</p>
+          <Editable id="newsletter_footer_note" fallback="Limited Entries Available Monthly">
+            <p className="text-[9px] font-black text-premium-gold/40 uppercase tracking-[0.5em] mt-10">Limited Entries Available Monthly</p>
+          </Editable>
         </div>
       </section>
     </div>

@@ -89,9 +89,13 @@ export default function ProductDetailPage() {
     <div>
       {/* Breadcrumbs - Minimalist */}
       <nav className="boutique-layout px-4 sm:px-12 md:px-24 py-8 sm:py-16 flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-white/40">
-        <Link href="/" className="hover:text-premium-gold transition-colors">Atelier</Link>
+        <Editable id="product_detail_breadcrumb_home" fallback="Atelier">
+          <Link href="/" className="hover:text-premium-gold transition-colors">Atelier</Link>
+        </Editable>
         <FiChevronRight size={10} />
-        <Link href="/products" className="hover:text-premium-gold transition-colors">Collections</Link>
+        <Editable id="product_detail_breadcrumb_products" fallback="Collections">
+          <Link href="/products" className="hover:text-premium-gold transition-colors">Collections</Link>
+        </Editable>
         <FiChevronRight size={10} />
         <span className="text-premium-gold">{product.name}</span>
       </nav>
@@ -109,7 +113,9 @@ export default function ProductDetailPage() {
                 className="relative z-0 w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3s]"
               />
               <div className="absolute top-12 left-12 z-20">
-                <span className="bg-premium-black text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] px-6 py-3 shadow-2xl">Signature Reserve</span>
+                <Editable id="product_detail_badge" fallback="Signature Reserve">
+                  <span className="bg-premium-black text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] px-6 py-3 shadow-2xl">Signature Reserve</span>
+                </Editable>
               </div>
             </div>
           </div>
@@ -137,11 +143,17 @@ export default function ProductDetailPage() {
               {/* Attributes - Boutique Grid */}
               <div className="grid grid-cols-2 gap-12 py-12 border-y border-premium-gold/10">
                  <div className="space-y-2">
-                    <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Concentration</span>
-                    <p className="text-xs font-bold text-white uppercase tracking-widest">Extrait de Parfum</p>
+                    <Editable id="product_detail_spec_1_label" fallback="Concentration">
+                      <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Concentration</span>
+                    </Editable>
+                    <Editable id="product_detail_spec_1_value" fallback="Extrait de Parfum">
+                      <p className="text-xs font-bold text-white uppercase tracking-widest">Extrait de Parfum</p>
+                    </Editable>
                  </div>
                  <div className="space-y-2">
-                    <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Allocation</span>
+                    <Editable id="product_detail_spec_2_label" fallback="Allocation">
+                      <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Allocation</span>
+                    </Editable>
                     <p className={`font-medium text-lg imperial-body ${product.stock < 10 && product.stock > 0 ? 'gold-luxury-text font-black italic' : 'text-white'}`}>{product.stock > 0 ? `${product.stock} Units` : 'Private Reserve'}</p>
                  </div>
               </div>
@@ -159,7 +171,9 @@ export default function ProductDetailPage() {
                     onClick={handleAddToCart}
                     className="flex-1 bg-premium-black text-premium-gold py-6 text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-premium-black transition-all duration-700 shadow-2xl relative overflow-hidden group/add"
                   >
-                    <span className="relative z-10">Allocate to Vault</span>
+                    <Editable id="product_detail_add_to_cart_btn" fallback="Allocate to Vault">
+                      <span className="relative z-10">Allocate to Vault</span>
+                    </Editable>
                     <div className="absolute inset-0 bg-white translate-y-full group-hover/add:translate-y-0 transition-transform duration-500 opacity-10"></div>
                   </button>
                </div>
@@ -169,7 +183,9 @@ export default function ProductDetailPage() {
                 className="w-full py-5 border border-premium-gold/10 flex items-center justify-center gap-4 group/wish hover:border-premium-gold transition-all"
                >
                  <FiHeart className={isInWishlist ? 'fill-premium-gold text-premium-gold' : 'text-premium-charcoal group-hover/wish:text-premium-gold'} size={18} />
-                 <span className="text-[9px] font-black tracking-widest uppercase">Curate to Likes</span>
+                 <Editable id="product_detail_wishlist_btn" fallback="Curate to Likes">
+                   <span className="text-[9px] font-black tracking-widest uppercase">Curate to Likes</span>
+                 </Editable>
                </button>
             </div>
             
@@ -177,11 +193,15 @@ export default function ProductDetailPage() {
             <div className="pt-12 space-y-6">
                <div className="flex items-center gap-6 group">
                   <FiTruck className="text-premium-gold group-hover:scale-110 transition-transform" />
-                  <span className="text-[8px] font-black uppercase tracking-widest">Complimentary Global Courier</span>
+                  <Editable id="product_detail_guarantee_1" fallback="Complimentary Global Courier">
+                    <span className="text-[8px] font-black uppercase tracking-widest">Complimentary Global Courier</span>
+                  </Editable>
                </div>
                <div className="flex items-center gap-6 group">
                   <FiShield className="text-premium-gold group-hover:scale-110 transition-transform" />
-                  <span className="text-[8px] font-black uppercase tracking-widest">Provenance Certificate Included</span>
+                  <Editable id="product_detail_guarantee_2" fallback="Provenance Certificate Included">
+                    <span className="text-[8px] font-black uppercase tracking-widest">Provenance Certificate Included</span>
+                  </Editable>
                </div>
             </div>
           </div>
@@ -191,8 +211,12 @@ export default function ProductDetailPage() {
       {/* Recommended Section (Simplified for performance) */}
       <div className="boutique-layout px-12 sm:px-24 section-spacing">
         <div className="flex items-center justify-between mb-24 border-b border-premium-gold/10 pb-8">
-          <h2 className="text-3xl sm:text-5xl imperial-serif text-white lowercase">Curated Portfolio</h2>
-          <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-gold hover:underline">Full Collection</Link>
+          <Editable id="product_detail_related_title" fallback="Curated Portfolio">
+            <h2 className="text-3xl sm:text-5xl imperial-serif text-white lowercase">Curated Portfolio</h2>
+          </Editable>
+          <Editable id="product_detail_related_link" fallback="Full Collection">
+            <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-gold hover:underline">Full Collection</Link>
+          </Editable>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {relatedProducts.map(p => (

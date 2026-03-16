@@ -52,8 +52,8 @@ export default function ProductsPage() {
           <Editable id="products_eyebrow" type="text" fallback="Curated Artisan Scents">
             <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Collections</span>
           </Editable>
-          <Editable id="products_title" type="richtext" fallback="The Olfactive Archive">
-            <h1 className="text-7xl md:text-9xl imperial-serif text-premium-black animate-reveal" style={{ animationDelay: '0.2s' }}>
+          <Editable id="products_title" type="richtext" fallback="Specialist Editions">
+            <h1 className="text-7xl md:text-9xl imperial-serif text-white animate-reveal" style={{ animationDelay: '0.2s' }}>
               Specialist <br />
               <span className="gold-luxury-text italic lowercase font-normal">Editions</span>
             </h1>
@@ -71,7 +71,9 @@ export default function ProductsPage() {
               <FiSliders size={16} />
               {isFilterOpen ? 'Close Filters' : 'Filter Selection'}
             </button>
-            <span className="text-[10px] text-premium-charcoal/40 font-black uppercase tracking-widest">{filteredAndSortedProducts.length} SIGNATURES</span>
+            <Editable id="products_count_label" fallback="SIGNATURES">
+              <span className="text-[10px] text-premium-charcoal/40 font-black uppercase tracking-widest">{filteredAndSortedProducts.length} SIGNATURES</span>
+            </Editable>
           </div>
 
           <div className="flex items-center gap-6">
@@ -108,7 +110,9 @@ export default function ProductsPage() {
               </div>
 
               <div>
-                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Fragrance Families</h3>
+                <Editable id="products_filter_family_header" fallback="Fragrance Families">
+                  <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Fragrance Families</h3>
+                </Editable>
                 <div className="flex flex-col gap-1">
                   {['Oud', 'Floral', 'Spicy', 'Oriental', 'Fresh'].map((cat) => (
                     <button
@@ -125,7 +129,9 @@ export default function ProductsPage() {
               </div>
 
               <div>
-                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Price Reserve</h3>
+                <Editable id="products_filter_price_header" fallback="Price Reserve">
+                  <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Price Reserve</h3>
+                </Editable>
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
@@ -153,12 +159,14 @@ export default function ProductsPage() {
               </div>
 
               <div className="pt-6">
-                <button
-                  onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })}
-                  className="w-full py-5 bg-premium-gold text-premium-black text-[9px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all duration-500 shadow-xl shadow-premium-gold/10"
-                >
-                  Clear Selection
-                </button>
+                <Editable id="products_filter_clear_btn" fallback="Clear Selection">
+                  <button
+                    onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })}
+                    className="w-full py-5 bg-premium-gold text-premium-black text-[9px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all duration-500 shadow-xl shadow-premium-gold/10"
+                  >
+                    Clear Selection
+                  </button>
+                </Editable>
               </div>
             </div>
           </div>
@@ -178,8 +186,12 @@ export default function ProductsPage() {
                 <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
                   <FiX className="text-premium-gold/30 w-8 h-8" />
                 </div>
-                <h3 className="text-3xl font-playfair italic text-white mb-4">No matching signatures discovered</h3>
-                <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">Refine your search parameters</p>
+                <Editable id="products_empty_state_title" fallback="No matching signatures discovered">
+                  <h3 className="text-3xl font-playfair italic text-white mb-4">No matching signatures discovered</h3>
+                </Editable>
+                <Editable id="products_empty_state_desc" fallback="Refine your search parameters">
+                  <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">Refine your search parameters</p>
+                </Editable>
               </div>
             ) : (
               <div className={`grid grid-cols-1 md:grid-cols-2 ${isFilterOpen ? 'xl:grid-cols-3' : 'xl:grid-cols-4'} gap-x-8 gap-y-16 animate-in fade-in duration-1000`}>

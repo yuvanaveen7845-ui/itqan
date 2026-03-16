@@ -101,7 +101,9 @@ export default function RegisterPage() {
                   <Editable id="register_eyebrow" type="text" fallback="Signature Enrollment">
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">New Archive</span>
                   </Editable>
-                  <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Join the <span className="gold-luxury-text italic font-normal">Atelier</span></h1>
+                  <Editable id="register_title" fallback="Join the Atelier">
+                      <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Join the <span className="gold-luxury-text italic font-normal">Atelier</span></h1>
+                  </Editable>
               </div>
           </div>
       </section>
@@ -116,7 +118,9 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-12">
              <div className="space-y-2">
-                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                <Editable id="register_label_name" fallback="Master Name">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                </Editable>
                 <input
                   type="text"
                   className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -128,7 +132,9 @@ export default function RegisterPage() {
              </div>
 
              <div className="space-y-2">
-                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                <Editable id="register_label_email" fallback="Digital Identity">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                </Editable>
                 <input
                   type="email"
                   className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -140,7 +146,9 @@ export default function RegisterPage() {
              </div>
 
              <div className="space-y-2">
-                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
+                <Editable id="register_label_password" fallback="Secret Keyword">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
+                </Editable>
                 <input
                   type="password"
                   className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors"
@@ -152,7 +160,9 @@ export default function RegisterPage() {
              </div>
 
              <div className="space-y-2">
-                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Confirm Keyword</label>
+                <Editable id="register_label_confirm" fallback="Confirm Keyword">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Confirm Keyword</label>
+                </Editable>
                 <input
                   type="password"
                   className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors"
@@ -167,8 +177,10 @@ export default function RegisterPage() {
                 <div className={`w-6 h-6 border ${agreedToTerms ? 'bg-premium-gold border-premium-gold' : 'border-premium-gold/20'} flex items-center justify-center transition-all`}>
                    {agreedToTerms && <span className="text-black text-[10px] font-bold">✓</span>}
                 </div>
-                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest cursor-pointer group-hover:text-premium-gold transition-colors">
-                  I accept the <Link href="/terms" className="underline">Terms</Link> & <Link href="/privacy" className="underline">Sanctuary Privacy</Link>
+                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest cursor-pointer group-hover:text-premium-gold transition-colors block leading-relaxed">
+                  <Editable id="register_terms" fallback="I accept the Terms & Sanctuary Privacy">
+                    <span>I accept the <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link> & <Link href="/privacy" className="underline hover:text-white transition-colors">Sanctuary Privacy</Link></span>
+                  </Editable>
                 </label>
              </div>
 
@@ -177,22 +189,30 @@ export default function RegisterPage() {
                 disabled={loading || !agreedToTerms}
                 className="w-full py-6 sm:py-8 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl relative overflow-hidden group/btn disabled:opacity-20 grayscale"
              >
-                <span className="relative z-10">{loading ? 'Creating...' : 'Establish Profile'}</span>
+                <Editable id="register_submit_btn" fallback="Establish Profile">
+                  <span className="relative z-10">{loading ? 'Creating...' : 'Establish Profile'}</span>
+                </Editable>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
              </button>
           </form>
 
-          <div className="space-y-8">
+           <div className="space-y-8">
              <div className="relative">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-premium-gold/10"></div></div>
-                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-premium-black text-white/40 italic">Signature Providers</span></div>
+                <Editable id="register_providers_label" fallback="Signature Providers">
+                  <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-premium-black text-white/40 italic">Signature Providers</span></div>
+                </Editable>
              </div>
              <div id="google-signup-button" className="w-full overflow-hidden luxury-card-rich outline-none"></div>
           </div>
 
           <p className="text-center text-[10px] font-black uppercase tracking-widest text-white/60">
-            Already enrolled?{' '}
-            <Link href="/login" className="text-premium-gold hover:underline">Entry Gateway</Link>
+            <Editable id="register_has_account_text" fallback="Already enrolled?">
+              <span>Already enrolled?{' '}</span>
+            </Editable>
+            <Editable id="register_login_link" fallback="Entry Gateway">
+              <Link href="/login" className="text-premium-gold hover:underline">Entry Gateway</Link>
+            </Editable>
           </p>
 
           <GoogleLoader onSignIn={async (credential) => {

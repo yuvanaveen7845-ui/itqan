@@ -43,7 +43,9 @@ export default function Header() {
               {announcement.text}
             </Link>
           ) : (
-            announcement.text
+            <Editable id="header_announcement" fallback={announcement.text}>
+              {announcement.text}
+            </Editable>
           )}
         </div>
       )}
@@ -71,8 +73,12 @@ export default function Header() {
               </Link>
 
               <nav className="hidden lg:flex items-center gap-10 ml-8">
-                <Link href="/products" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Collections</Link>
-                <Link href="/about" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Atelier</Link>
+                <Editable id="header_nav_collections" fallback="Collections">
+                  <Link href="/products" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Collections</Link>
+                </Editable>
+                <Editable id="header_nav_atelier" fallback="Atelier">
+                  <Link href="/about" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Atelier</Link>
+                </Editable>
               </nav>
           </div>
 
@@ -99,18 +105,26 @@ export default function Header() {
                   <div className="bg-premium-black border border-white/10 p-6 shadow-2xl skew-x-[-1deg]">
                     <div className="space-y-4 skew-x-[1deg]">
                       <Link href="/profile" className="flex items-center justify-between group/link">
-                        <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Portfolio</span>
+                        <Editable id="header_dropdown_portfolio" fallback="Portfolio">
+                          <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Portfolio</span>
+                        </Editable>
                         <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
                       <Link href="/wishlist" className="flex items-center justify-between group/link">
-                        <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Sanctuary</span>
+                        <Editable id="header_dropdown_sanctuary" fallback="Sanctuary">
+                          <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Sanctuary</span>
+                        </Editable>
                         <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
                       {isAdmin && (
-                        <Link href="/admin" className="block text-[8px] font-black text-premium-gold uppercase tracking-widest pt-4 border-t border-white/5">Atelier Control</Link>
+                        <Editable id="header_dropdown_admin" fallback="Atelier Control">
+                          <Link href="/admin" className="block text-[8px] font-black text-premium-gold uppercase tracking-widest pt-4 border-t border-white/5">Atelier Control</Link>
+                        </Editable>
                       )}
                       <button onClick={logout} className="w-full pt-4 border-t border-white/5 text-left group/link flex items-center justify-between">
-                        <span className="text-[8px] font-black text-rose-500 uppercase tracking-widest">Terminate</span>
+                        <Editable id="header_dropdown_logout" fallback="Terminate">
+                          <span className="text-[8px] font-black text-rose-500 uppercase tracking-widest">Terminate</span>
+                        </Editable>
                         <FiLogOut size={10} className="text-rose-500" />
                       </button>
                     </div>
@@ -118,9 +132,11 @@ export default function Header() {
                 </div>
               </div>
             ) : (
-              <Link href="/login" className="text-[8px] font-black text-white hover:text-premium-gold uppercase tracking-widest border border-premium-gold/20 px-5 py-2 hover:bg-premium-gold hover:text-black transition-all">
-                Login
-              </Link>
+              <Editable id="header_login_btn" fallback="Login">
+                <Link href="/login" className="text-[8px] font-black text-white hover:text-premium-gold uppercase tracking-widest border border-premium-gold/20 px-5 py-2 hover:bg-premium-gold hover:text-black transition-all">
+                  Login
+                </Link>
+              </Editable>
             )}
             
             <button
@@ -142,8 +158,12 @@ export default function Header() {
       <div className={`fixed top-0 left-0 h-full w-full sm:w-[550px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl border-r border-premium-gold/10`}>
         <div className="h-40 px-6 sm:px-12 flex items-center justify-between border-b border-premium-gold/10">
           <div className="flex flex-col">
-            <span className="text-3xl imperial-serif text-white italic lowercase">the atlas</span>
-            <span className="text-[8px] font-black text-premium-gold tracking-[0.8em] uppercase font-inter mt-1 opacity-70">Privileged Access Menu</span>
+            <Editable id="sidebar_title" fallback="the atlas">
+              <span className="text-3xl imperial-serif text-white italic lowercase">the atlas</span>
+            </Editable>
+            <Editable id="sidebar_subtitle" fallback="Privileged Access Menu">
+              <span className="text-[8px] font-black text-premium-gold tracking-[0.8em] uppercase font-inter mt-1 opacity-70">Privileged Access Menu</span>
+            </Editable>
           </div>
           <button onClick={() => setIsSidebarOpen(false)} className="group w-14 h-14 bg-premium-black text-premium-gold flex items-center justify-center rounded-full hover:rotate-90 transition-all duration-700 border border-premium-gold/20 shadow-xl">
             <FiX size={24} />
@@ -153,20 +173,24 @@ export default function Header() {
         <div className="flex-1 overflow-y-auto py-12 px-6 sm:px-12 space-y-12">
           {/* Primary Navigation */}
           <div className="space-y-6">
-            <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">Universe</h3>
+            <Editable id="sidebar_universe_heading" fallback="Universe">
+              <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">Universe</h3>
+            </Editable>
             <div className="grid grid-cols-1 gap-4">
               {[
                 { label: 'The Collection', path: '/products', icon: FiGrid },
                 { label: 'Fragrance Houses', path: '/products?category=Oud', icon: FiHome },
                 { label: 'Scent Discovery', path: '/about', icon: FiInfo },
-              ].map((item) => (
+              ].map((item, idx) => (
                 <Link
                   key={item.label}
                   href={item.path}
                   className="group flex items-center justify-between py-2 border-b border-white/5 hover:border-premium-gold transition-colors"
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  <span className="text-xl font-playfair italic text-white group-hover:text-premium-gold group-hover:translate-x-4 transition-all duration-500">{item.label}</span>
+                  <Editable id={`sidebar_universe_link_${idx}`} fallback={item.label}>
+                    <span className="text-xl font-playfair italic text-white group-hover:text-premium-gold group-hover:translate-x-4 transition-all duration-500">{item.label}</span>
+                  </Editable>
                   <FiChevronRight className="text-premium-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               ))}
@@ -175,22 +199,34 @@ export default function Header() {
 
           {/* Account & Administration */}
           <div className="space-y-6">
-            <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">My Space</h3>
+            <Editable id="sidebar_myspace_heading" fallback="My Space">
+              <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">My Space</h3>
+            </Editable>
             <div className="grid grid-cols-1 gap-2">
               {user ? (
                 <>
-                  <Link href="/profile" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Dashboard Overview</Link>
-                  <Link href="/wishlist" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Signature Likes</Link>
+                  <Editable id="sidebar_myspace_dashboard" fallback="Dashboard Overview">
+                    <Link href="/profile" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Dashboard Overview</Link>
+                  </Editable>
+                  <Editable id="sidebar_myspace_wishlist" fallback="Signature Likes">
+                    <Link href="/wishlist" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Signature Likes</Link>
+                  </Editable>
                   {isAdmin && (
-                    <Link href="/admin" className="mt-4 px-6 py-4 bg-premium-black text-premium-gold text-xs font-black tracking-widest text-center block rounded-none hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>
-                      ACCESS SECURITY PANEL
-                    </Link>
+                    <Editable id="sidebar_myspace_admin" fallback="ACCESS SECURITY PANEL">
+                      <Link href="/admin" className="mt-4 px-6 py-4 bg-premium-black text-premium-gold text-xs font-black tracking-widest text-center block rounded-none hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>
+                        ACCESS SECURITY PANEL
+                      </Link>
+                    </Editable>
                   )}
                 </>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  <Link href="/login" className="px-6 py-4 border border-premium-gold/30 text-premium-gold text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Login</Link>
-                  <Link href="/register" className="px-6 py-4 bg-premium-gold text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-white hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
+                  <Editable id="sidebar_myspace_login" fallback="Login">
+                    <Link href="/login" className="px-6 py-4 border border-premium-gold/30 text-premium-gold text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Login</Link>
+                  </Editable>
+                  <Editable id="sidebar_myspace_register" fallback="Join Us">
+                    <Link href="/register" className="px-6 py-4 bg-premium-gold text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-white hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
+                  </Editable>
                 </div>
               )}
             </div>

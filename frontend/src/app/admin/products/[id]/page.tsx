@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import { productAPI } from '@/lib/api';
 import { FiArrowLeft, FiBox, FiTrendingUp, FiSettings, FiGlobe, FiSave, FiEye, FiTrash2 } from 'react-icons/fi';
 import { useNotificationStore } from '@/store/notification';
 
-export default function AdminProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function AdminProductDetailsPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const router = useRouter();
   const { user } = useAuthStore();
   const { showNotification } = useNotificationStore();

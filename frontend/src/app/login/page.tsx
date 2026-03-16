@@ -85,7 +85,9 @@ function LoginContent() {
                   <Editable id="login_eyebrow" type="text" fallback="Signature Authentication">
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">Private Gateway</span>
                   </Editable>
-                  <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Welcome <span className="gold-luxury-text italic font-normal">Back</span></h1>
+                  <Editable id="login_title" fallback="Welcome Back">
+                      <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Welcome <span className="gold-luxury-text italic font-normal">Back</span></h1>
+                  </Editable>
               </div>
           </div>
       </section>
@@ -100,7 +102,9 @@ function LoginContent() {
 
           <form onSubmit={handleSubmit} className="space-y-12">
              <div className="space-y-2">
-                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                <Editable id="login_label_email" fallback="Digital Identity">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                </Editable>
                 <input
                   type="email"
                   className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -113,8 +117,12 @@ function LoginContent() {
 
              <div className="space-y-2">
                 <div className="flex justify-between items-end">
-                   <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
-                   <Link href="/forgot-password" className="text-[8px] font-black text-white/40 hover:text-premium-gold uppercase tracking-widest transition-colors mb-2">Forgot Protocol?</Link>
+                   <Editable id="login_label_password" fallback="Secret Keyword">
+                     <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
+                   </Editable>
+                   <Editable id="login_forgot_link" fallback="Forgot Protocol?">
+                     <Link href="/forgot-password" className="text-[8px] font-black text-white/40 hover:text-premium-gold uppercase tracking-widest transition-colors mb-2">Forgot Protocol?</Link>
+                   </Editable>
                 </div>
                 <input
                   type="password"
@@ -131,7 +139,9 @@ function LoginContent() {
                 disabled={loading}
                 className="w-full py-6 sm:py-8 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl relative overflow-hidden group/btn"
              >
-                <span className="relative z-10">{loading ? 'Verifying...' : 'Establish Session'}</span>
+                <Editable id="login_submit_btn" fallback="Establish Session">
+                  <span className="relative z-10">{loading ? 'Verifying...' : 'Establish Session'}</span>
+                </Editable>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
              </button>
           </form>
@@ -139,14 +149,20 @@ function LoginContent() {
           <div className="space-y-8">
              <div className="relative">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-premium-gold/10"></div></div>
-                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-premium-black text-white/40 italic">Signature Providers</span></div>
+                <Editable id="login_providers_label" fallback="Signature Providers">
+                  <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-premium-black text-white/40 italic">Signature Providers</span></div>
+                </Editable>
              </div>
              <div id="google-signin-button" className="w-full overflow-hidden luxury-card-rich outline-none"></div>
           </div>
 
           <p className="text-center text-[10px] font-black uppercase tracking-widest text-white/60">
-            No archives yet?{' '}
-            <Link href="/register" className="text-premium-gold hover:underline">Create Protocol</Link>
+            <Editable id="login_no_account_text" fallback="No archives yet?">
+              <span>No archives yet?{' '}</span>
+            </Editable>
+            <Editable id="login_create_link" fallback="Create Protocol">
+              <Link href="/register" className="text-premium-gold hover:underline">Create Protocol</Link>
+            </Editable>
           </p>
 
           <GoogleLoader onSignIn={async (credential) => {

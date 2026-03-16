@@ -185,9 +185,11 @@ export default function CheckoutPage() {
                   <Editable id="checkout_eyebrow" type="text" fallback="Final Acquisition">
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Secure Portal</span>
                   </Editable>
-                  <h1 className="text-6xl md:text-9xl imperial-serif text-white animate-reveal lowercase" style={{ animationDelay: '0.2s' }}>
-                      The <span className="gold-luxury-text italic font-normal">Final Step</span>
-                  </h1>
+                  <Editable id="checkout_title" fallback="The Final Step">
+                      <h1 className="text-6xl md:text-9xl imperial-serif text-white animate-reveal lowercase" style={{ animationDelay: '0.2s' }}>
+                          The <span className="gold-luxury-text italic font-normal">Final Step</span>
+                      </h1>
+                  </Editable>
               </div>
           </div>
       </section>
@@ -198,7 +200,9 @@ export default function CheckoutPage() {
           <div className="lg:col-span-7 space-y-16">
             <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
                <span className="text-4xl imperial-serif italic text-premium-gold">01</span>
-               <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Delivery Sanctuary</h2>
+               <Editable id="checkout_section_1_title" fallback="Delivery Sanctuary">
+                 <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Delivery Sanctuary</h2>
+               </Editable>
             </div>
 
             {error && (
@@ -209,7 +213,9 @@ export default function CheckoutPage() {
 
             <form onSubmit={handleCheckout} className="space-y-12">
                <div className="space-y-2">
-                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Street Locale</label>
+                  <Editable id="checkout_label_address" fallback="Street Locale">
+                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Street Locale</label>
+                  </Editable>
                   <textarea
                     className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors min-h-[100px] sm:min-h-[120px] placeholder:text-white/30"
                     value={formData.address}
@@ -221,7 +227,9 @@ export default function CheckoutPage() {
 
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-20">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">City</label>
+                    <Editable id="checkout_label_city" fallback="City">
+                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">City</label>
+                    </Editable>
                     <input
                       type="text"
                       className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -231,7 +239,9 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">State</label>
+                    <Editable id="checkout_label_state" fallback="State">
+                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">State</label>
+                    </Editable>
                     <input
                       type="text"
                       className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -243,7 +253,9 @@ export default function CheckoutPage() {
                </div>
 
                <div className="space-y-2">
-                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Postal Code</label>
+                  <Editable id="checkout_label_zip" fallback="Postal Code">
+                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Postal Code</label>
+                  </Editable>
                   <input
                     type="text"
                     className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
@@ -259,7 +271,9 @@ export default function CheckoutPage() {
                   disabled={loading}
                   className="w-full lg:w-max px-10 sm:px-20 py-6 sm:py-8 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl relative overflow-hidden group/btn"
                >
-                  <span className="relative z-10">{loading ? 'Acquiring...' : 'Finalize Acquisition'}</span>
+                  <Editable id="checkout_submit_btn" fallback="Finalize Acquisition">
+                    <span className="relative z-10">{loading ? 'Acquiring...' : 'Finalize Acquisition'}</span>
+                  </Editable>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
                </button>
             </form>
@@ -269,7 +283,9 @@ export default function CheckoutPage() {
           <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-12 sm:space-y-16 lg:pl-8">
             <div className="flex items-center gap-6 sm:gap-8 border-b border-premium-gold/10 pb-8">
                <span className="text-4xl imperial-serif italic text-premium-gold">02</span>
-               <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Acquisition Ledger</h2>
+               <Editable id="checkout_section_2_title" fallback="Acquisition Ledger">
+                 <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Acquisition Ledger</h2>
+               </Editable>
             </div>
 
             <div className="space-y-8">
@@ -286,7 +302,9 @@ export default function CheckoutPage() {
 
             {/* Coupon Protocol */}
             <div className="py-8 border-y border-premium-gold/10 space-y-4">
-               <label className="text-[8px] font-black text-premium-gold uppercase tracking-[0.4em] block">Signature Token</label>
+               <Editable id="checkout_coupon_label" fallback="Signature Token">
+                 <label className="text-[8px] font-black text-premium-gold uppercase tracking-[0.4em] block">Signature Token</label>
+               </Editable>
                <div className="flex gap-4">
                   <input
                     className="flex-1 bg-transparent border-b border-premium-gold/20 py-2 text-xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
@@ -308,21 +326,29 @@ export default function CheckoutPage() {
             {/* Totals */}
             <div className="space-y-6 pt-4">
                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/40">
-                  <span>Subtotal</span>
+                  <Editable id="checkout_summary_subtotal" fallback="Subtotal">
+                    <span>Subtotal</span>
+                  </Editable>
                   <span>₹{getTotal().toLocaleString()}</span>
                </div>
                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/40">
-                  <span>Logistics</span>
+                  <Editable id="checkout_summary_logistics" fallback="Logistics">
+                    <span>Logistics</span>
+                  </Editable>
                   <span className="text-premium-gold">+{shippingCost === 0 ? 'Evaluating' : `₹${shippingCost}`}</span>
                </div>
                {discountAmount > 0 && (
                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-600">
-                    <span>Token Credit</span>
+                    <Editable id="checkout_summary_discount" fallback="Token Credit">
+                      <span>Token Credit</span>
+                    </Editable>
                     <span>-₹{discountAmount.toLocaleString()}</span>
                  </div>
                )}
                <div className="flex justify-between items-center pt-8 border-t border-premium-gold">
-                  <span className="text-[11px] font-black text-premium-gold uppercase tracking-[0.4em]">Investment</span>
+                  <Editable id="checkout_summary_total" fallback="Investment">
+                    <span className="text-[11px] font-black text-premium-gold uppercase tracking-[0.4em]">Investment</span>
+                  </Editable>
                   <span className="text-3xl sm:text-5xl imperial-serif text-white">
                     ₹{(confirmedTotal ?? (getTotal() + shippingCost - discountAmount)).toLocaleString()}
                   </span>
