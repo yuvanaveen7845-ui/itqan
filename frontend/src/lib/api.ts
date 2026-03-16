@@ -93,4 +93,37 @@ export const cmsAPI = {
   savePage: (data: any) => api.post('/cms/pages', data),
 };
 
+export const addressAPI = {
+  getAll: () => api.get('/addresses'),
+  getById: (id: string) => api.get(`/addresses/${id}`),
+  create: (data: any) => api.post('/addresses', data),
+  update: (id: string, data: any) => api.put(`/addresses/${id}`, data),
+  delete: (id: string) => api.delete(`/addresses/${id}`),
+  setDefault: (id: string) => api.patch(`/addresses/${id}/default`),
+};
+
+export interface Address {
+  id: string;
+  user_id: string;
+  full_name: string;
+  phone: string;
+  address_line1: string;
+  address_line2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+  is_default: boolean;
+  created_at: string;
+}
+
+export interface Order {
+  id: string;
+  user_id: string;
+  total_amount: number;
+  status: string;
+  items?: any[];
+  created_at: string;
+}
+
 export default api;
