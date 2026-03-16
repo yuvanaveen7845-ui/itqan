@@ -2,16 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { FiUser, FiMapPin, FiPackage, FiShoppingBag, FiSettings, FiLogOut, FiEdit2, FiChevronRight, FiCheckCircle, FiPlus } from 'react-icons/fi';
 import { useAuthStore } from '@/store/auth';
-import { orderAPI, authAPI } from '@/lib/api';
+import { orderAPI, authAPI, addressAPI } from '@/lib/api';
+import { useNotificationStore } from '@/store/notification';
 import Link from 'next/link';
+import Editable from '@/components/Editable';
 
 export default function ProfilePage() {
   const router = useRouter();
   const { user, logout } = useAuthStore();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [addresses, setAddresses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'profile' | 'orders' | 'addresses'>('profile');
+  const [activeTab, setActiveTab] = useState<'orders' | 'addresses' | 'settings'>('orders');
   const [profileData, setProfileData] = useState({
     name: user?.name || '',
     phone: '',
@@ -22,11 +26,11 @@ export default function ProfilePage() {
     confirmPassword: '',
   });
   const [updating, setUpdating] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const { showNotification } = useNotificationStore();
 
   useEffect(() => {
     if (user) {
-      setProfileData({ ...profileData, name: user.name });
+      setProfileData(prev => ({ ...prev, name: user.name }));
     }
   }, [user]);
 
@@ -35,29 +39,32 @@ export default function ProfilePage() {
       router.push('/login');
       return;
     }
-
-    fetchOrders();
-  }, [user, router]);
-
-  const fetchOrders = async () => {
-    try {
-      const { data } = await orderAPI.getAll();
-      setOrders(data);
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const [ordersRes, addrRes] = await Promise.all([
+                orderAPI.getAll(),
+                addressAPI.getAll()
+            ]);
+            setOrders(ordersRes.data || []);
+            setAddresses(addrRes.data || []);
+        } catch (error) {
+            console.error('Failed to fetch data:', error);
+            showNotification('Failed to retrieve dossier records.', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchData();
+  }, [user, router, showNotification]);
 
   const handleSaveChanges = async () => {
     setUpdating(true);
-    setMessage({ type: '', text: '' });
     try {
       await authAPI.updateProfile(profileData);
-      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      showNotification('Profile updated successfully!', 'luxury');
     } catch (error) {
-      setMessage({ type: 'error', text: 'Failed to update profile' });
+      showNotification('Failed to update profile.', 'error');
     } finally {
       setUpdating(false);
     }
@@ -65,20 +72,19 @@ export default function ProfilePage() {
 
   const handleChangePassword = async () => {
     if (securityData.newPassword !== securityData.confirmPassword) {
-      setMessage({ type: 'error', text: 'Passwords do not match' });
+      showNotification('Passwords do not match.', 'error');
       return;
     }
     setUpdating(true);
-    setMessage({ type: '', text: '' });
     try {
       await authAPI.changePassword({
         currentPassword: securityData.currentPassword,
         newPassword: securityData.newPassword,
       });
-      setMessage({ type: 'success', text: 'Password updated successfully!' });
+      showNotification('Password updated successfully!', 'luxury');
       setSecurityData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
-      setMessage({ type: 'error', text: 'Failed to update password' });
+      showNotification('Failed to update password.', 'error');
     } finally {
       setUpdating(false);
     }
@@ -87,257 +93,174 @@ export default function ProfilePage() {
   if (!user) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-24 scroll-reveal visible">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
-        <div className="space-y-4">
-          <h1 className="text-5xl lg:text-7xl font-black text-premium-black imperial-serif lowercase">The Dashboard</h1>
-          <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-[0.6em]">Executive Account Control</p>
+    <div className="bg-white min-h-screen">
+      {/* Executive Boutique Header */}
+      <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
+          <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal">Concierge</span>
         </div>
-        <button
-          onClick={() => {
-            logout();
-            router.push('/');
-          }}
-          className="flex items-center gap-2 text-red-600 hover:text-red-800 font-medium px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-          Sign Out
-        </button>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Navigation Sidebar */}
-        <div className="lg:w-1/4 scroll-reveal visible">
-          <div className="luxury-card-rich shadow-2xl rounded-[32px] border-none overflow-hidden">
-            <div className="p-8 border-b border-premium-gold/10 bg-premium-black/5 flex items-center gap-6">
-              <div className="w-16 h-16 bg-premium-black text-premium-gold rounded-full flex items-center justify-center text-2xl font-black shadow-inner border border-premium-gold/20 italic imperial-serif">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-bold text-premium-black text-lg">{user.name}</h3>
-                <span className="text-[9px] font-black text-premium-gold bg-premium-black/10 px-3 py-1 rounded-full uppercase tracking-widest">{user.role} Member</span>
-              </div>
+        <div className="relative z-10 boutique-layout flex flex-col md:flex-row justify-between items-end gap-12">
+          <div className="space-y-8">
+            <Editable id="profile_eyebrow" type="text" fallback="Signature Account">
+              <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Privileged Access</span>
+            </Editable>
+            <div className="space-y-4">
+               <h1 className="text-6xl md:text-9xl imperial-serif text-white animate-reveal" style={{ animationDelay: '0.2s' }}>
+                  {user.name.split(' ')[0]} <br />
+                  <span className="gold-luxury-text italic lowercase font-normal">{user.name.split(' ').slice(1).join(' ')}</span>
+               </h1>
+               <div className="flex items-center gap-6 pt-4 animate-reveal" style={{ animationDelay: '0.4s' }}>
+                  <span className="h-px w-12 bg-premium-gold/40"></span>
+                  <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.4em]">{user.email}</span>
+               </div>
             </div>
-            <nav className="p-6 space-y-4">
-              <button
-                onClick={() => setActiveTab('profile')}
-                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'profile' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
-              >
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'profile' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
-                Profile details
-              </button>
-              <button
-                onClick={() => setActiveTab('orders')}
-                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'orders' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
-              >
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'orders' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
-                Order history
-              </button>
-              <button
-                onClick={() => setActiveTab('addresses')}
-                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'addresses' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
-              >
-                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'addresses' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
-                Saved addresses
-              </button>
-            </nav>
+          </div>
+
+          <div className="flex gap-8 animate-reveal" style={{ animationDelay: '0.6s' }}>
+             <button onClick={() => { logout(); router.push('/'); }} className="px-12 py-5 border border-white/10 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-500 transition-all flex items-center gap-4 group">
+                Terminate Session <FiLogOut className="group-hover:translate-x-2 transition-transform" />
+             </button>
           </div>
         </div>
+      </section>
 
-        {/* Dynamic Content Area */}
-        <div className="lg:w-3/4">
-          {/* Tab 1: Profile */}
-          {activeTab === 'profile' && (
-            <div className="luxury-card-rich p-10 md:p-14 shadow-2xl rounded-[40px] border-none scroll-reveal visible">
-              <h2 className="text-[14px] font-black mb-10 border-b border-premium-gold/20 pb-6 text-premium-black uppercase tracking-[0.5em]">Personal Dossier</h2>
-
-              {message.text && (
-                <div className={`p-6 rounded-2xl mb-8 font-medium ${message.type === 'success' ? 'bg-premium-cream text-premium-black border border-premium-gold/20' : 'bg-red-50 text-red-700 border border-red-200'}`}>
-                  {message.text}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="space-y-3">
-                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Appellation</label>
-                  <input
-                    type="text"
-                    className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg"
-                    value={profileData.name}
-                    onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-3">
-                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Digital Signature</label>
-                  <input type="email" className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg bg-premium-cream/30 opacity-60" value={user.email} disabled />
-                </div>
-                <div className="space-y-3">
-                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Communication line</label>
-                  <input
-                    type="tel"
-                    className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg"
-                    placeholder="+91 98765 43210"
-                    value={profileData.phone}
-                    onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                  />
-                </div>
-                <div className="md:col-span-2 mt-8 space-y-10">
-                  <h3 className="text-[14px] font-black mb-10 border-t border-premium-gold/20 pt-10 text-premium-black uppercase tracking-[0.5em]">Gate Security</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <input
-                      type="password"
-                      placeholder="Current Key"
-                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
-                      value={securityData.currentPassword}
-                      onChange={(e) => setSecurityData({ ...securityData, currentPassword: e.target.value })}
-                    />
-                    <input
-                      type="password"
-                      placeholder="New Key"
-                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
-                      value={securityData.newPassword}
-                      onChange={(e) => setSecurityData({ ...securityData, newPassword: e.target.value })}
-                    />
-                    <input
-                      type="password"
-                      placeholder="Verify Key"
-                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
-                      value={securityData.confirmPassword}
-                      onChange={(e) => setSecurityData({ ...securityData, confirmPassword: e.target.value })}
-                    />
-                  </div>
-                  <button
-                    onClick={handleChangePassword}
-                    disabled={updating}
-                    className="group relative px-10 py-5 bg-transparent border border-premium-black text-premium-black rounded-full font-black text-[10px] uppercase tracking-[0.4em] hover:bg-premium-black hover:text-premium-gold transition-all duration-700 overflow-hidden"
-                  >
-                    <div className="absolute inset-0 bg-premium-black translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
-                    <span className="relative z-10">Rotate Credentials</span>
-                  </button>
-                </div>
-              </div>
-              <div className="mt-16 flex justify-end">
-                <button
-                  onClick={handleSaveChanges}
-                  disabled={updating}
-                  className="bg-premium-black text-premium-gold px-16 py-6 rounded-full font-black text-[11px] uppercase tracking-[0.5em] hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-2xl scale-110 active:scale-95"
-                >
-                  {updating ? 'Recording...' : 'Finalize dossier'}
-                </button>
-              </div>
+      <div className="boutique-layout px-12 sm:px-24 section-spacing">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-40">
+          
+          {/* Navigation Dossier */}
+          <div className="lg:col-span-3 space-y-12">
+            <div className="space-y-4">
+               <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-12">Dossier Sections</h3>
+               <nav className="space-y-4">
+                  {[
+                    { id: 'orders', label: 'Order Archive', icon: FiPackage },
+                    { id: 'addresses', label: 'Signature Locales', icon: FiMapPin },
+                    { id: 'settings', label: 'Security Details', icon: FiSettings }
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as any)}
+                      className={`w-full flex items-center justify-between py-6 border-b border-gray-100 group transition-all ${activeTab === tab.id ? 'border-premium-gold' : 'hover:border-premium-gold/40'}`}
+                    >
+                      <div className="flex items-center gap-6">
+                         <tab.icon size={18} className={activeTab === tab.id ? 'text-premium-gold' : 'text-premium-charcoal/40 group-hover:text-premium-gold transition-colors'} />
+                         <span className={`text-xl imperial-serif italic transition-all ${activeTab === tab.id ? 'text-premium-black translate-x-4' : 'text-premium-charcoal group-hover:translate-x-4'}`}>
+                            {tab.label}
+                         </span>
+                      </div>
+                      <FiChevronRight size={14} className={`text-premium-gold transition-opacity ${activeTab === tab.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'}`} />
+                    </button>
+                  ))}
+               </nav>
             </div>
-          )}
+          </div>
 
-          {/* Tab 2: Orders */}
-          {activeTab === 'orders' && (
-            <div className="luxury-card-rich shadow-2xl rounded-[40px] border-none overflow-hidden scroll-reveal visible">
-              <div className="p-10 border-b border-premium-gold/10 flex justify-between items-center bg-premium-black/5">
-                <h2 className="text-[14px] font-black text-premium-black uppercase tracking-[0.5em]">Investment Archive</h2>
-              </div>
-              <div className="p-10 min-h-[400px]">
+          {/* Content Pane */}
+          <div className="lg:col-span-9">
+            {activeTab === 'orders' && (
+              <div className="space-y-24">
+                <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
+                   <h2 className="text-5xl imperial-serif text-premium-black">The Order <span className="italic gold-luxury-text font-normal lowercase">Archive</span></h2>
+                   <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">{orders.length} Records</span>
+                </div>
+                
                 {loading ? (
-                  <div className="flex justify-center items-center h-48">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold"></div>
-                  </div>
-                ) : orders.length === 0 ? (
-                  <div className="text-center py-16 bg-white rounded-xl border border-dashed border-gray-300">
-                    <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">No orders yet</h3>
-                    <p className="text-gray-500 mb-6">Looks like you haven't made your first purchase.</p>
-                    <Link href="/products" className="btn btn-primary shadow-md hover:shadow-lg transition-all">
-                      Start Shopping
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="space-y-10">
-                    {orders.map((order: any) => (
-                      <div key={order.id} className="bg-white/40 backdrop-blur-md border border-premium-gold/10 rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 group">
-                        <div className="p-8 border-b border-premium-gold/5 flex flex-wrap justify-between items-center gap-6 bg-premium-black/5">
-                          <div className="flex gap-12">
-                            <div>
-                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Acquisition Date</p>
-                              <p className="font-bold text-premium-black text-lg imperial-serif italic">{new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                            </div>
-                            <div>
-                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Total Value</p>
-                              <p className="font-bold text-premium-black text-lg">₹{order.total_amount.toLocaleString()}</p>
-                            </div>
-                            <div className="hidden sm:block">
-                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Ledger #</p>
-                              <p className="font-mono text-sm text-premium-charcoal/60">{(order.display_id || order.id)?.slice(0, 12).toUpperCase() || 'N/A'}</p>
-                            </div>
-                          </div>
-                          <div>
-                            <span className={`px-6 py-2 rounded-full text-[9px] font-black tracking-[0.2em] uppercase shadow-inner ${order.status === 'delivered' ? 'bg-green-50 text-green-700 border border-green-200' :
-                              order.status === 'shipped' ? 'bg-premium-gold text-premium-black' :
-                                order.status === 'cancelled' ? 'bg-red-50 text-red-700 border border-red-200' :
-                                  'bg-premium-cream/50 text-premium-black border border-premium-gold/10'
-                              }`}>
-                              {order.status}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="p-8 flex justify-between items-center group-hover:bg-premium-cream/20 transition-colors duration-700">
-                          <div className="flex -space-x-4">
-                            {/* Placeholder for order item images */}
-                            <div className="w-16 h-16 rounded-full border-4 border-white bg-premium-cream flex items-center justify-center text-[10px] font-black text-premium-gold uppercase tracking-tighter shadow-xl">Item</div>
-                            {order.items?.length > 1 && <div className="w-16 h-16 rounded-full border-4 border-white bg-premium-black flex items-center justify-center text-[10px] font-black text-premium-gold shadow-xl">+{order.items.length - 1}</div>}
-                          </div>
-                          <div className="flex gap-6">
-                            <button className="px-8 py-3 border border-premium-gold/20 rounded-full text-[10px] font-black text-premium-black uppercase tracking-[0.3em] hover:bg-premium-black hover:text-premium-gold transition-all duration-700 hidden sm:block">Intercept Parcel</button>
-                            <Link href={`/orders/${order.id}`} className="px-8 py-3 bg-premium-gold text-premium-black rounded-full text-[10px] font-black uppercase tracking-[0.3em] hover:shadow-2xl transition-all duration-700 group/btn overflow-hidden relative">
-                              <span className="relative z-10">Review Ledger</span>
-                            </Link>
-                          </div>
+                    <div className="py-40 text-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold mx-auto"></div></div>
+                ) : orders.length > 0 ? (
+                  <div className="space-y-12">
+                    {orders.map((order) => (
+                      <div key={order.id} className="relative group luxury-card-rich p-12 bg-[#FAF9F6]/50 border border-premium-gold/5 hover:border-premium-gold/30 transition-all duration-700">
+                        <div className="flex flex-col md:flex-row justify-between gap-12">
+                           <div className="space-y-6">
+                              <div className="flex items-center gap-6">
+                                 <span className="text-[9px] font-black text-premium-gold uppercase tracking-[0.4em]">Allocation ID</span>
+                                 <span className="text-xs font-bold text-premium-black font-inter">#{order.id.slice(0, 8)}</span>
+                              </div>
+                              <h4 className="text-3xl imperial-serif text-premium-black">{new Date(order.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
+                              <div className="flex items-center gap-4">
+                                 <div className={`w-2 h-2 rounded-full ${order.status === 'delivered' ? 'bg-emerald-500' : 'bg-premium-gold animate-pulse'}`}></div>
+                                 <span className="text-[10px] font-black uppercase tracking-widest text-premium-charcoal/60">{order.status}</span>
+                              </div>
+                           </div>
+                           <div className="md:text-right space-y-4">
+                              <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest block font-inter">Investment</span>
+                              <span className="text-4xl imperial-serif gold-luxury-text block">₹{order.total_amount.toLocaleString()}</span>
+                              <div className="flex items-center md:justify-end gap-2 text-premium-charcoal/40 text-[9px] font-black uppercase tracking-tighter">
+                                 <FiPackage /> {order.items?.length || 0} Artefacts
+                              </div>
+                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
+                ) : (
+                  <div className="py-40 text-center space-y-8 border-2 border-dashed border-premium-gold/10">
+                     <FiShoppingBag className="mx-auto text-premium-gold/20" size={60} />
+                     <p className="imperial-serif italic text-2xl text-premium-charcoal/40">The archive remains silent...</p>
+                     <Link href="/products" className="inline-block mt-8 px-12 py-5 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-premium-black transition-all">Begin Selection</Link>
+                  </div>
                 )}
               </div>
-            </div>
-          )}
-
-          {/* Tab 3: Addresses */}
-          {activeTab === 'addresses' && (
-            <div className="luxury-card-rich p-10 md:p-14 shadow-2xl rounded-[40px] border-none scroll-reveal visible">
-              <div className="flex justify-between items-center mb-10 border-b border-premium-gold/20 pb-6">
-                <h2 className="text-[14px] font-black text-premium-black uppercase tracking-[0.5em]">Delivery Sanctuaries</h2>
-                <button className="flex items-center gap-3 text-[10px] font-black text-premium-gold hover:text-premium-black uppercase tracking-[0.3em] transition-all duration-500 group">
-                  <span className="w-6 h-6 rounded-full border border-premium-gold/30 flex items-center justify-center group-hover:bg-premium-gold group-hover:text-black transition-all">+</span>
-                  New Arrival Point
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {/* Mock Default Address */}
-                <div className="bg-premium-black/5 border border-premium-gold/30 rounded-[32px] p-8 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 py-2 px-6 bg-premium-gold text-black text-[9px] font-black uppercase tracking-widest rounded-bl-[20px]">Primary</div>
-                   <h4 className="font-bold text-premium-black text-xl mb-4 italic imperial-serif">{user.name}</h4>
-                  <p className="text-sm text-premium-charcoal/70 mb-6 leading-relaxed font-medium">123 Perfume Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
-                  <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-widest mb-6">Contact: +91 98765 43210</p>
-                  <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.3em]">
-                    <button className="text-premium-gold hover:text-premium-black transition-colors">Edit point</button>
-                    <span className="text-premium-gold/20">|</span>
-                    <button className="text-red-500/60 hover:text-red-600 transition-colors">Decommission</button>
-                  </div>
+            )}
+            
+            {activeTab === 'addresses' && (
+              <div className="space-y-24">
+                <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
+                   <h2 className="text-5xl imperial-serif text-premium-black">Signature <span className="italic gold-luxury-text font-normal lowercase">Locales</span></h2>
+                   <button className="flex items-center gap-4 text-premium-gold group">
+                      <FiPlus className="group-hover:rotate-90 transition-transform" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">New Protocol</span>
+                   </button>
                 </div>
-
-                {/* Mock Secondary Address */}
-                <div className="bg-white/40 backdrop-blur-md border border-premium-gold/10 rounded-[32px] p-8 relative hover:border-premium-gold/40 transition-all duration-700 group">
-                  <h4 className="font-bold text-premium-black text-xl mb-4 italic imperial-serif">{user.name} (Office)</h4>
-                  <p className="text-sm text-premium-charcoal/70 mb-6 leading-relaxed font-medium">456 Corporate Park, Tower B<br />Business District<br />New Delhi, Delhi 110001<br />India</p>
-                  <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-widest mb-6">Contact: +91 98765 43210</p>
-                  <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.3em]">
-                    <button className="text-premium-gold hover:text-premium-black transition-colors">Edit point</button>
-                    <span className="text-premium-gold/20">|</span>
-                    <button className="text-premium-charcoal/40 hover:text-premium-black transition-colors">Set as Primary</button>
-                  </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                   {addresses.map((addr) => (
+                      <div key={addr.id} className="p-12 border border-premium-gold/10 bg-white luxury-card-rich space-y-8 group transition-all hover:border-premium-gold">
+                         <div className="flex justify-between items-start">
+                            <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">{addr.is_default ? 'Primary Protocol' : 'Reserve Locale'}</span>
+                            <FiEdit2 className="text-premium-charcoal/20 hover:text-premium-gold cursor-pointer transition-colors" size={14} />
+                         </div>
+                         <div className="space-y-4">
+                            <h4 className="text-2xl imperial-serif italic text-premium-black">{addr.full_name}</h4>
+                            <p className="text-sm font-medium text-premium-charcoal/60 leading-relaxed font-inter">
+                               {addr.address_line1}<br />
+                               {addr.city}, {addr.state} {addr.postal_code}<br />
+                               {addr.country}
+                            </p>
+                         </div>
+                      </div>
+                   ))}
                 </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {activeTab === 'settings' && (
+              <div className="space-y-24">
+                <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
+                   <h2 className="text-5xl imperial-serif text-premium-black">Security <span className="italic gold-luxury-text font-normal lowercase">Details</span></h2>
+                </div>
+                
+                <div className="max-w-xl space-y-12">
+                   <div className="space-y-2">
+                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                      <input 
+                        type="text" 
+                        value={profileData.name} 
+                        onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
+                        className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                      />
+                   </div>
+                   <div className="space-y-2">
+                      <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Encrypted Identity</label>
+                      <p className="text-xl imperial-serif text-premium-charcoal/40 italic">{user.email}</p>
+                   </div>
+                   <button onClick={handleSaveChanges} className="px-20 py-6 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-premium-black transition-all shadow-2xl">
+                      {updating ? 'Recording...' : 'Update Protocol'}
+                   </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

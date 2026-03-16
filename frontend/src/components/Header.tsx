@@ -67,13 +67,53 @@ export default function Header() {
           </div>
 
           <div className="absolute right-12 sm:right-24 flex items-center gap-12">
-            <Link href="/search" className="text-white hover:text-premium-gold transition-colors"><FiSearch size={20} /></Link>
-            <div className="relative group cursor-pointer">
-               <Link href="/cart" className="text-white hover:text-premium-gold transition-colors flex items-center gap-3">
-                 <FiShoppingBag size={20} />
-                 {itemCount > 0 && <span className="text-[9px] font-black bg-premium-gold text-premium-black w-4 h-4 rounded-full flex items-center justify-center">{itemCount}</span>}
+            <Link href="/search" className="text-white/60 hover:text-premium-gold transition-colors"><FiSearch size={18} /></Link>
+            
+            <div className="relative group/cart">
+               <Link href="/cart" className="text-white/60 hover:text-premium-gold transition-colors flex items-center gap-3">
+                 <FiShoppingBag size={18} />
+                 {itemCount > 0 && <span className="text-[8px] font-black bg-premium-gold text-premium-black w-4 h-4 rounded-full flex items-center justify-center">{itemCount}</span>}
                </Link>
             </div>
+
+            {user ? (
+              <div className="relative group/user">
+                <button className="flex items-center gap-4 group/btn">
+                  <div className="flex flex-col items-end">
+                    <span className="text-[7px] font-black text-premium-gold uppercase tracking-[0.4em] opacity-60">Concierge</span>
+                    <span className="text-[9px] font-bold text-white uppercase tracking-[0.2em]">{user.name.split(' ')[0]}</span>
+                  </div>
+                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover/btn:border-premium-gold transition-all duration-700 bg-white/5">
+                     <span className="text-[10px] font-black text-premium-gold">{user.name.charAt(0)}</span>
+                  </div>
+                </button>
+
+                {/* Secret Privileged Dropdown */}
+                <div className="absolute top-full right-0 mt-6 w-64 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-700 translate-y-4 group-hover/user:translate-y-0 z-50">
+                  <div className="bg-black/90 backdrop-blur-3xl border border-white/10 p-8 shadow-2xl relative overflow-hidden">
+                    <div className="absolute inset-0 gold-shimmer opacity-5 pointer-events-none"></div>
+                    <div className="relative z-10 space-y-6">
+                      <Link href="/profile" className="flex items-center justify-between group/link">
+                        <span className="text-[9px] font-black text-white hover:text-premium-gold uppercase tracking-[0.4em] transition-colors">Profile Portfolio</span>
+                        <FiChevronRight size={12} className="text-premium-gold translate-x-[-10px] opacity-0 group-hover/link:translate-x-0 group-hover/link:opacity-100 transition-all" />
+                      </Link>
+                      <Link href="/wishlist" className="flex items-center justify-between group/link">
+                        <span className="text-[9px] font-black text-white hover:text-premium-gold uppercase tracking-[0.4em] transition-colors">Curated Likes</span>
+                        <FiChevronRight size={12} className="text-premium-gold translate-x-[-10px] opacity-0 group-hover/link:translate-x-0 group-hover/link:opacity-100 transition-all" />
+                      </Link>
+                      <button onClick={logout} className="w-full pt-6 border-t border-white/10 text-left group/link flex items-center justify-between">
+                        <span className="text-[9px] font-black text-rose-500 uppercase tracking-[0.4em] transition-colors">Terminate Session</span>
+                        <FiLogOut size={12} className="text-rose-500 opacity-0 group-hover/link:opacity-100 transition-all" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link href="/login" className="text-[8px] font-black text-white/40 hover:text-premium-gold uppercase tracking-[0.6em] transition-colors border border-white/10 px-6 py-3 hover:border-premium-gold">
+                Initiate Access
+              </Link>
+            )}
           </div>
           <div className="flex items-center gap-12">
               <Editable id="nav_links" type="richtext">
