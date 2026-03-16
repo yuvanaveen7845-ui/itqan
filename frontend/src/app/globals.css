@@ -232,7 +232,7 @@ html {
 }
 
 .scroll-reveal {
-  @apply opacity-0 translate-y-10 transition-all duration-1000 ease-[cubic-bezier(0.2, 0.8, 0.2, 1)];
+  @apply opacity-0 translate-y-10 transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)];
 }
 
 .scroll-reveal.visible {
