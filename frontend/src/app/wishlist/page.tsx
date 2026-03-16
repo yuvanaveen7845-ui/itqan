@@ -37,7 +37,6 @@ export default function WishlistPage() {
     if (!user) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#FAF9F6] text-center relative overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.02] scale-150 rotate-12 pointer-events-none font-playfair italic text-[300px] text-premium-gold select-none">Private</div>
                 <div className="w-24 h-24 border border-premium-gold/20 rounded-full flex items-center justify-center mb-10 text-premium-gold glass-panel shadow-2xl animate-pulse">
                     <FiHeart size={36} />
                 </div>
@@ -54,9 +53,6 @@ export default function WishlistPage() {
         <div className="bg-white min-h-screen">
             {/* Signature Header */}
             <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
-                <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
-                    <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Curates</span>
-                </div>
                 <div className="relative z-10 boutique-layout">
                     <div className="space-y-8">
                         <Editable id="wishlist_eyebrow" type="text" fallback="Signature Collection">

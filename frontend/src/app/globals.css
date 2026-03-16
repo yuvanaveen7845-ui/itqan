@@ -9,8 +9,8 @@
 }
 
 :root {
-  --luxury-gap: 15rem;
-  --boutique-gutter: 8rem;
+  --luxury-gap: 8rem;
+  --boutique-gutter: 4rem;
 }
 
 @layer base {

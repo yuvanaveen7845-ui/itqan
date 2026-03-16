@@ -49,97 +49,87 @@ export default function Header() {
       )}
 
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-[1.5s] ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
-          ? 'bg-black/80 backdrop-blur-3xl py-6 border-b border-white/5'
-          : 'bg-transparent py-16'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-[1s] ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
+          ? 'bg-black/95 backdrop-blur-3xl py-4 border-b border-white/5'
+          : 'bg-transparent py-10'
           }`}
       >
-        <div className="max-w-[1700px] mx-auto px-12 sm:px-24 flex items-center justify-center relative">
-          {/* Menu Trigger Pin */}
-          <div className="absolute left-12 sm:left-24">
-             <button
+        <div className="max-w-[1700px] mx-auto px-12 sm:px-24 flex items-center justify-between">
+          {/* Brand Identity - Center Link */}
+          <div className="flex items-center gap-12">
+              <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="flex items-center gap-6 group"
+                className="p-2 -ml-2 text-white/60 hover:text-premium-gold transition-colors block lg:hidden"
               >
-                <div className="w-12 h-[1px] bg-white group-hover:bg-premium-gold transition-all group-hover:w-16"></div>
-                <span className="text-[9px] font-black text-white/40 group-hover:text-premium-gold uppercase tracking-[0.6em]">Menu</span>
+                <FiMenu size={20} />
               </button>
+              
+              <Link href="/" className="flex flex-col items-start group">
+                <Editable id="header_logo" type="text" fallback="IQTAN">
+                  <span className="text-2xl sm:text-3xl imperial-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-700">IQTAN</span>
+                </Editable>
+              </Link>
+
+              <nav className="hidden lg:flex items-center gap-10 ml-8">
+                <Link href="/products" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Collections</Link>
+                <Link href="/about" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Atelier</Link>
+              </nav>
           </div>
 
-          <div className="absolute right-12 sm:right-24 flex items-center gap-12">
-            <Link href="/search" className="text-white/60 hover:text-premium-gold transition-colors"><FiSearch size={18} /></Link>
+          {/* Action Center - Unified Cluster */}
+          <div className="flex items-center gap-6 sm:gap-10">
+            <Link href="/search" className="text-white/60 hover:text-premium-gold transition-colors hidden sm:block"><FiSearch size={16} /></Link>
             
-            <div className="relative group/cart">
-               <Link href="/cart" className="text-white/60 hover:text-premium-gold transition-colors flex items-center gap-3">
-                 <FiShoppingBag size={18} />
-                 {itemCount > 0 && <span className="text-[8px] font-black bg-premium-gold text-premium-black w-4 h-4 rounded-full flex items-center justify-center">{itemCount}</span>}
-               </Link>
-            </div>
+            <Link href="/cart" className="text-white/60 hover:text-premium-gold transition-colors flex items-center gap-2">
+              <FiShoppingBag size={16} />
+              {itemCount > 0 && <span className="text-[8px] font-black text-premium-gold tracking-widest">{itemCount}</span>}
+            </Link>
 
             {user ? (
               <div className="relative group/user">
-                <button className="flex items-center gap-4 group/btn">
-                  <div className="flex flex-col items-end">
-                    <span className="text-[7px] font-black text-premium-gold uppercase tracking-[0.4em] opacity-60">Concierge</span>
-                    <span className="text-[9px] font-bold text-white uppercase tracking-[0.2em]">{user.name.split(' ')[0]}</span>
-                  </div>
-                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover/btn:border-premium-gold transition-all duration-700 bg-white/5">
-                     <span className="text-[10px] font-black text-premium-gold">{user.name.charAt(0)}</span>
+                <button className="flex items-center gap-3 py-2 pl-4 border-l border-white/10">
+                  <span className="text-[8px] font-black text-white uppercase tracking-widest hidden sm:block">{user.name.split(' ')[0]}</span>
+                  <div className="w-8 h-8 rounded-full border border-premium-gold/20 flex items-center justify-center bg-white/5">
+                     <span className="text-[9px] font-black text-premium-gold">{user.name.charAt(0)}</span>
                   </div>
                 </button>
 
-                {/* Secret Privileged Dropdown */}
-                <div className="absolute top-full right-0 mt-6 w-64 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-700 translate-y-4 group-hover/user:translate-y-0 z-50">
-                  <div className="bg-black/90 backdrop-blur-3xl border border-white/10 p-8 shadow-2xl relative overflow-hidden">
-                    <div className="absolute inset-0 gold-shimmer opacity-5 pointer-events-none"></div>
-                    <div className="relative z-10 space-y-6">
+                {/* Refined Dropdown */}
+                <div className="absolute top-full right-0 mt-2 w-56 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-500 translate-y-2 group-hover/user:translate-y-0 z-50">
+                  <div className="bg-premium-black border border-white/10 p-6 shadow-2xl skew-x-[-1deg]">
+                    <div className="space-y-4 skew-x-[1deg]">
                       <Link href="/profile" className="flex items-center justify-between group/link">
-                        <span className="text-[9px] font-black text-white hover:text-premium-gold uppercase tracking-[0.4em] transition-colors">Profile Portfolio</span>
-                        <FiChevronRight size={12} className="text-premium-gold translate-x-[-10px] opacity-0 group-hover/link:translate-x-0 group-hover/link:opacity-100 transition-all" />
+                        <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Portfolio</span>
+                        <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
                       <Link href="/wishlist" className="flex items-center justify-between group/link">
-                        <span className="text-[9px] font-black text-white hover:text-premium-gold uppercase tracking-[0.4em] transition-colors">Curated Likes</span>
-                        <FiChevronRight size={12} className="text-premium-gold translate-x-[-10px] opacity-0 group-hover/link:translate-x-0 group-hover/link:opacity-100 transition-all" />
+                        <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Sanctuary</span>
+                        <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
-                      <button onClick={logout} className="w-full pt-6 border-t border-white/10 text-left group/link flex items-center justify-between">
-                        <span className="text-[9px] font-black text-rose-500 uppercase tracking-[0.4em] transition-colors">Terminate Session</span>
-                        <FiLogOut size={12} className="text-rose-500 opacity-0 group-hover/link:opacity-100 transition-all" />
+                      {isAdmin && (
+                        <Link href="/admin" className="block text-[8px] font-black text-premium-gold uppercase tracking-widest pt-4 border-t border-white/5">Atelier Control</Link>
+                      )}
+                      <button onClick={logout} className="w-full pt-4 border-t border-white/5 text-left group/link flex items-center justify-between">
+                        <span className="text-[8px] font-black text-rose-500 uppercase tracking-widest">Terminate</span>
+                        <FiLogOut size={10} className="text-rose-500" />
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             ) : (
-              <Link href="/login" className="text-[8px] font-black text-white/40 hover:text-premium-gold uppercase tracking-[0.6em] transition-colors border border-white/10 px-6 py-3 hover:border-premium-gold">
-                Initiate Access
+              <Link href="/login" className="text-[8px] font-black text-white hover:text-premium-gold uppercase tracking-widest border border-premium-gold/20 px-5 py-2 hover:bg-premium-gold hover:text-black transition-all">
+                Login
               </Link>
             )}
+            
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 text-white/60 hover:text-premium-gold transition-colors hidden lg:block"
+            >
+              <FiMenu size={18} />
+            </button>
           </div>
-          <div className="flex items-center gap-12">
-              <Editable id="nav_links" type="richtext">
-                <nav className="hidden lg:flex items-center gap-12">
-                  <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Collections</Link>
-                  <Link href="/about" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Heritage</Link>
-                  <Link href="/bespoke" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Bespoke</Link>
-                </nav>
-              </Editable>
-
-              <Link href="/" className="flex flex-col items-center group">
-                <Editable id="header_logo" type="text" fallback="IQTAN">
-                  <span className="text-4xl imperial-serif text-white tracking-[1.2rem] group-hover:gold-luxury-text transition-all duration-1000">IQTAN</span>
-                </Editable>
-                <div className="h-px w-0 group-hover:w-full bg-premium-gold transition-all duration-1000 mt-2"></div>
-              </Link>
-
-              <div className="hidden lg:flex items-center gap-12">
-                <Editable id="nav_secondary" type="richtext">
-                  <div className="flex items-center gap-12">
-                    <Link href="/journal" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Journal</Link>
-                    <Link href="/login" className="text-[10px] font-black uppercase tracking-[0.6em] text-white hover:text-premium-gold transition-all">Concierge</Link>
-                  </div>
-                </Editable>
-              </div>
-            </div>
         </div>
       </header>
 

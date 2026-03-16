@@ -125,10 +125,6 @@ export default function HomePage() {
       {/* Featured Collection - Artistic Grid with Shine */}
       <section className="py-40 bg-white relative overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.03] scale-150 rotate-12 pointer-events-none">
-          <h2 className="text-[300px] imperial-serif leading-none">PARFUM</h2>
-        </div>
-
         <div className="max-w-[1800px] mx-auto px-8 mb-32 flex flex-col md:flex-row justify-between items-end gap-12 relative z-10">
           <div className="space-y-6">
             <Editable id="signature_edit_label" fallback="Privileged Selection">

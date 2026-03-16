@@ -180,9 +180,6 @@ export default function CheckoutPage() {
     <div className="bg-white min-h-screen">
       {/* Signature Header */}
       <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
-              <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Securing</span>
-          </div>
           <div className="relative z-10 boutique-layout">
               <div className="space-y-8">
                   <Editable id="checkout_eyebrow" type="text" fallback="Final Acquisition">

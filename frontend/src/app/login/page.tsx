@@ -80,9 +80,6 @@ function LoginContent() {
   return (
     <div className="bg-white min-h-screen">
       <section className="bg-premium-black pt-60 pb-40 px-12 sm:px-24 grain-overlay relative overflow-hidden">
-          <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
-              <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Entry</span>
-          </div>
           <div className="relative z-10 boutique-layout text-center">
               <div className="space-y-6">
                   <Editable id="login_eyebrow" type="text" fallback="Signature Authentication">
