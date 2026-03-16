@@ -69,8 +69,8 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto px-4 py-24 relative">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
         {/* Product Image Section */}
-        <div className="space-y-6">
-          <div className="relative overflow-hidden group border border-premium-gold/10 aspect-[4/5] bg-[#FAF9F6]">
+        <div className="space-y-8 scroll-reveal visible">
+          <div className="relative overflow-hidden group luxury-card-rich p-0 border-none aspect-[4/5] bg-[#FAF9F6] shadow-2xl rounded-[40px]">
             {productImages.length > 0 ? (
               <img
                 src={productImages[selectedImage]}
@@ -78,8 +78,9 @@ export default function ProductDetailPage() {
                 className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 grayscale brightness-90 hover:grayscale-0"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-premium-charcoal/40 font-black uppercase tracking-widest text-[10px]">No Image Found</div>
+              <div className="absolute inset-0 flex items-center justify-center text-premium-charcoal/40 font-black uppercase tracking-[0.4em] text-[10px]">No Image Found</div>
             )}
+            <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/10 via-transparent to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
           </div>
           {productImages.length > 1 && (
             <div className="grid grid-cols-4 gap-4">
@@ -97,11 +98,11 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Section */}
-        <div className="flex flex-col justify-center">
-          <div className="mb-6 flex items-center gap-3 text-[10px] uppercase font-black tracking-[0.4em] text-premium-charcoal/50">
-            <Link href="/" className="hover:text-premium-gold transition-colors">Boutique</Link> /
-            <Link href="/products" className="hover:text-premium-gold transition-colors">Reserve</Link> /
-            <span className="text-premium-gold">{product.fabric_type || 'Exclusif'}</span>
+        <div className="flex flex-col justify-center scroll-reveal visible">
+          <div className="mb-8 flex items-center gap-6 text-[11px] uppercase font-black tracking-[0.6em] text-premium-gold/60">
+            <Link href="/" className="hover:text-premium-gold transition-colors">Boutique</Link>
+            <div className="w-4 h-px bg-premium-gold/20"></div>
+            <Link href="/products" className="hover:text-premium-gold transition-colors">Reserve</Link>
           </div>
           <AttributeEditable
             productId={product.id}
@@ -109,7 +110,7 @@ export default function ProductDetailPage() {
             value={product.name}
             onUpdate={(val) => setProduct({ ...product, name: val })}
           >
-            <h1 className="text-5xl lg:text-7xl imperial-serif mb-6 text-premium-black leading-[1.1]">{product.name}</h1>
+            <h1 className="text-6xl lg:text-8xl imperial-serif mb-8 text-premium-black leading-[1] lowercase">{product.name}</h1>
           </AttributeEditable>
 
           <div className="flex items-center gap-6 mb-10">
@@ -189,40 +190,40 @@ export default function ProductDetailPage() {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className={`flex-[2] py-6 text-[10px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 transition-all duration-500 focus:outline-none ${product.stock === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-premium-black text-premium-gold hover:bg-premium-gold hover:text-black relative overflow-hidden group'}`}
+              className={`flex-[3] py-7 text-[11px] font-black uppercase tracking-[0.6em] flex items-center justify-center gap-6 transition-all duration-700 focus:outline-none rounded-none ${product.stock === 0 ? 'bg-premium-charcoal/10 text-premium-charcoal/30 cursor-not-allowed' : 'bg-premium-black text-premium-gold hover:bg-premium-gold hover:text-black relative overflow-hidden group shadow-2xl'}`}
             >
-              <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-500"></div>
-              <span className="relative z-10 flex items-center gap-3"><FiShoppingCart size={16} /> {product.stock === 0 ? 'Exhausted' : 'Acquire Artefact'}</span>
+              <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700"></div>
+              <span className="relative z-10 flex items-center gap-4"><FiShoppingCart size={18} /> {product.stock === 0 ? 'Allocation Exhausted' : 'Acquire Artefact'}</span>
             </button>
-            <button className="flex-1 py-6 border border-premium-black hover:border-premium-gold text-premium-black hover:text-premium-gold transition-all duration-500 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-3 group bg-transparent">
-              <FiHeart size={16} className="group-hover:fill-current" /> Vault
+            <button className="flex-1 py-7 border border-premium-black text-premium-black hover:bg-premium-black hover:text-premium-gold transition-all duration-700 text-[11px] font-black uppercase tracking-[0.4em] flex items-center justify-center gap-4 group bg-transparent shadow-lg">
+              <FiHeart size={18} className="group-hover:fill-current" /> Vault
             </button>
           </div>
 
-          <div className="bg-[#FAF9F6] border border-premium-gold/10 p-10 relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 opacity-[0.03] pointer-events-none scale-150 rotate-12 text-premium-gold">
-              <h2 className="text-9xl imperial-serif">IQTAN</h2>
+          <div className="luxury-card-rich p-12 relative overflow-hidden shadow-2xl rounded-[32px] border-none">
+            <div className="absolute -top-12 -right-12 opacity-[0.05] pointer-events-none scale-150 rotate-12 text-premium-gold select-none">
+              <h2 className="text-[120px] imperial-serif">IQTAN</h2>
             </div>
-            <h3 className="text-[11px] font-black mb-8 flex items-center gap-4 text-premium-black uppercase tracking-[0.4em]">
-              <span className="w-8 h-px bg-premium-gold"></span>
+            <h3 className="text-[12px] font-black mb-10 flex items-center gap-6 text-premium-black uppercase tracking-[0.5em]">
+              <span className="w-12 h-px bg-premium-gold/40"></span>
               Provenance
             </h3>
-            <div className="grid grid-cols-2 gap-y-8 gap-x-12">
-              <div className="space-y-2">
-                <p className="text-[9px] uppercase tracking-[0.3em] font-black text-premium-charcoal/50">Origin</p>
-                <p className="font-medium text-sm italic imperial-body text-premium-black">{product.fabric_type || 'Signature'}</p>
+            <div className="grid grid-cols-2 gap-y-12 gap-x-16 relative z-10">
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-premium-gold/60">Origin</p>
+                <p className="font-medium text-lg italic imperial-body text-premium-black">{product.fabric_type || 'Signature'}</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-[9px] uppercase tracking-[0.3em] font-black text-premium-charcoal/50">Allocation</p>
-                <p className={`font-medium text-sm imperial-body ${product.stock < 10 ? 'text-premium-gold font-bold italic' : 'text-premium-black'}`}>{product.stock > 0 ? `${product.stock} Flacons` : 'Currently Unavailable'}</p>
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-premium-gold/60">Allocation</p>
+                <p className={`font-medium text-lg imperial-body ${product.stock < 10 && product.stock > 0 ? 'gold-luxury-text font-black italic' : 'text-premium-black'}`}>{product.stock > 0 ? `${product.stock} Protected Units` : 'Private Reserve'}</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-[9px] uppercase tracking-[0.3em] font-black text-premium-charcoal/50">Logistics</p>
-                <p className="font-medium text-sm italic imperial-body text-premium-black">White Glove Delivery</p>
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-premium-gold/60">Logistics</p>
+                <p className="font-medium text-lg italic imperial-body text-premium-black">White Glove Delivery</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-[9px] uppercase tracking-[0.3em] font-black text-premium-charcoal/50">Assurance</p>
-                <p className="font-medium text-sm italic imperial-body text-premium-black">100% Guaranteed</p>
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.4em] font-black text-premium-gold/60">Assurance</p>
+                <p className="font-medium text-lg italic imperial-body text-premium-black">Masterpiece Certified</p>
               </div>
             </div>
           </div>

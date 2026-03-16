@@ -35,13 +35,14 @@ export default function WishlistPage() {
 
     if (!user) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#FAF9F6] text-center">
-                <div className="w-20 h-20 border border-premium-gold/20 rounded-full flex items-center justify-center mb-8 text-premium-gold">
-                    <FiHeart size={32} />
+            <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#FAF9F6] text-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.02] scale-150 rotate-12 pointer-events-none font-playfair italic text-[300px] text-premium-gold select-none">Private</div>
+                <div className="w-24 h-24 border border-premium-gold/20 rounded-full flex items-center justify-center mb-10 text-premium-gold glass-panel shadow-2xl animate-pulse">
+                    <FiHeart size={36} />
                 </div>
-                <h1 className="text-4xl imperial-serif mb-4 text-premium-black lowercase">Your Sanctuary</h1>
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-charcoal/40 mb-12 max-w-sm">Login to reveal your curated collection of olfactory masterpieces.</p>
-                <Link href="/login" className="secondary-button !bg-premium-black !text-premium-gold">
+                <h1 className="text-5xl lg:text-7xl imperial-serif mb-6 text-premium-black lowercase relative z-10">Your Sanctuary</h1>
+                <p className="text-[11px] font-black uppercase tracking-[0.6em] text-premium-gold/60 mb-14 max-w-sm relative z-10">Enter your private reserve to reveal your curated collection of masterpieces.</p>
+                <Link href="/login" className="secondary-button !bg-premium-black !text-premium-gold !px-16 !py-6 !text-[11px] hover:!bg-premium-gold hover:!text-black transition-all duration-700 relative z-10 shadow-2xl">
                     Divine Entry
                 </Link>
             </div>
@@ -51,14 +52,14 @@ export default function WishlistPage() {
     return (
         <div className="bg-[#FAF9F6]/50 min-h-screen py-32 sm:py-40">
             <div className="max-w-[1800px] mx-auto px-6 sm:px-12 lg:px-24">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-                    <div className="space-y-4">
-                        <h1 className="text-5xl lg:text-7xl imperial-serif text-premium-black leading-none lowercase">The Wishlist</h1>
-                        <p className="text-[10px] font-black uppercase tracking-[0.6em] text-premium-gold">Curated treasures ({items.length})</p>
+                <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
+                    <div className="space-y-6">
+                        <h1 className="text-6xl lg:text-8xl imperial-serif text-premium-black leading-none lowercase">The Wishlist</h1>
+                        <p className="text-[11px] font-black uppercase tracking-[0.8em] text-premium-gold">{items.length} Protected Artefacts</p>
                     </div>
                     {items.length > 0 && (
-                        <Link href="/products" className="text-[10px] font-black uppercase tracking-widest text-premium-black hover:text-premium-gold transition-colors flex items-center gap-4">
-                            Seek Further <FiArrowRight />
+                        <Link href="/products" className="text-[11px] font-black uppercase tracking-[0.4em] text-premium-black hover:text-premium-gold transition-colors flex items-center gap-6 group">
+                            Seek Further <FiArrowRight className="group-hover:translate-x-4 transition-transform duration-500" />
                         </Link>
                     )}
                 </div>
@@ -92,10 +93,10 @@ export default function WishlistPage() {
 
                                 <button
                                     onClick={() => handleMoveToCart(item)}
-                                    className="group relative w-full py-5 bg-premium-black text-premium-gold font-black text-[9px] uppercase tracking-[0.4em] overflow-hidden hover:bg-premium-gold hover:text-black transition-all duration-700"
+                                    className="group relative w-full py-6 bg-premium-black text-premium-gold font-black text-[10px] uppercase tracking-[0.5em] overflow-hidden hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-xl"
                                 >
                                     <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700"></div>
-                                    <span className="relative z-10 flex items-center justify-center gap-3"><FiShoppingBag /> Secure Artefact</span>
+                                    <span className="relative z-10 flex items-center justify-center gap-4"><FiShoppingBag /> Secure Artefact</span>
                                 </button>
                             </div>
                         ))}
