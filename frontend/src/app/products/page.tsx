@@ -45,9 +45,9 @@ export default function ProductsPage() {
     });
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-premium-black">
       {/* Radical Boutique Header Section */}
-      <section className="bg-white pt-60 pb-40 px-12 sm:px-24 boutique-layout border-b border-premium-gold/5">
+      <section className="bg-premium-black pt-36 sm:pt-60 pb-20 sm:pb-40 px-4 sm:px-12 md:px-24 boutique-layout border-b border-premium-gold/10">
         <div className="flex flex-col items-center text-center space-y-12">
           <Editable id="products_eyebrow" type="text" fallback="Curated Artisan Scents">
             <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Collections</span>
@@ -61,12 +61,12 @@ export default function ProductsPage() {
           <div className="w-24 h-px bg-premium-gold/30 animate-reveal" style={{ animationDelay: '0.4s' }}></div>
         </div>
       </section>
-      <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-12">
-        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 border-b border-gray-100 pb-8">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-8 md:px-12 py-12">
+        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 border-b border-premium-gold/10 pb-8">
           <div className="flex items-center gap-8">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-premium-black hover:text-premium-gold transition-colors"
+              className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white hover:text-premium-gold transition-colors"
             >
               <FiSliders size={16} />
               {isFilterOpen ? 'Close Filters' : 'Filter Selection'}
@@ -77,7 +77,7 @@ export default function ProductsPage() {
           <div className="flex items-center gap-6">
             <label className="text-[10px] font-black text-premium-charcoal/60 uppercase tracking-widest font-inter">Sort By</label>
             <select
-              className="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-premium-black focus:ring-0 cursor-pointer hover:text-premium-gold transition-colors"
+              className="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-white focus:ring-0 cursor-pointer hover:text-premium-gold transition-colors"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -91,15 +91,15 @@ export default function ProductsPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
           {/* Filters Sidebar */}
-          <div className={`${isFilterOpen ? 'block animate-in fade-in slide-in-from-left-8 duration-1000' : 'hidden'} lg:col-span-1 border-r border-gray-100 pr-10 sticky top-32 h-fit`}>
+          <div className={`${isFilterOpen ? 'block animate-in fade-in slide-in-from-left-8 duration-1000' : 'hidden'} lg:col-span-1 border-r border-premium-gold/10 pr-10 sticky top-32 h-fit`}>
             <div className="space-y-12 luxury-card-rich p-8 border-none shadow-xl">
               <div>
-                <h3 className="text-[11px] font-black text-premium-black uppercase tracking-[0.4em] mb-8 border-b border-premium-gold/20 pb-4 font-inter">Olfactive Search</h3>
+                <h3 className="text-[11px] font-black text-white uppercase tracking-[0.4em] mb-8 border-b border-premium-gold/20 pb-4 font-inter">Olfactive Search</h3>
                 <div className="relative group">
                   <input
                     type="text"
                     placeholder="Search essences..."
-                    className="w-full bg-[#FAF9F6] border-none px-6 py-5 text-xs font-bold focus:ring-1 focus:ring-premium-gold/30 transition-all placeholder:text-premium-charcoal/30 font-inter"
+                    className="w-full bg-white/5 border-none px-6 py-5 text-xs font-bold text-white focus:ring-1 focus:ring-premium-gold/30 transition-all placeholder:text-white/30 font-inter"
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                   />
@@ -108,13 +108,13 @@ export default function ProductsPage() {
               </div>
 
               <div>
-                <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Fragrance Families</h3>
+                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Fragrance Families</h3>
                 <div className="flex flex-col gap-1">
                   {['Oud', 'Floral', 'Spicy', 'Oriental', 'Fresh'].map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setFilters({ ...filters, Fragrance_type: filters.Fragrance_type === cat ? '' : cat })}
-                      className={`group flex items-center justify-between text-[11px] font-black uppercase tracking-[0.2em] py-3.5 px-2 rounded-lg transition-all ${filters.Fragrance_type === cat ? 'bg-premium-black text-premium-gold px-4' : 'text-premium-charcoal/40 hover:text-premium-black hover:bg-gray-50'
+                      className={`group flex items-center justify-between text-[11px] font-black uppercase tracking-[0.2em] py-3.5 px-2 rounded-lg transition-all ${filters.Fragrance_type === cat ? 'bg-premium-gold text-premium-black px-4' : 'text-white/40 hover:text-white hover:bg-white/5'
                         }`}
                     >
                       <span>{cat}</span>
@@ -125,7 +125,7 @@ export default function ProductsPage() {
               </div>
 
               <div>
-                <h3 className="text-[10px] font-black text-premium-black uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Price Reserve</h3>
+                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-6 border-b border-premium-gold/30 pb-3 font-inter">Price Reserve</h3>
                 <div className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
@@ -133,7 +133,7 @@ export default function ProductsPage() {
                       <input
                         type="number"
                         placeholder="0"
-                        className="w-full bg-[#FAF9F6] border-none p-4 text-xs font-black placeholder:text-premium-charcoal/20 focus:ring-1 focus:ring-premium-gold/30"
+                        className="w-full bg-white/5 border-none p-4 text-xs font-black text-white placeholder:text-white/20 focus:ring-1 focus:ring-premium-gold/30"
                         value={filters.price_min}
                         onChange={(e) => setFilters({ ...filters, price_min: e.target.value })}
                       />
@@ -143,7 +143,7 @@ export default function ProductsPage() {
                       <input
                         type="number"
                         placeholder="50,000"
-                        className="w-full bg-[#FAF9F6] border-none p-4 text-xs font-black placeholder:text-premium-charcoal/20 focus:ring-1 focus:ring-premium-gold/30"
+                        className="w-full bg-white/5 border-none p-4 text-xs font-black text-white placeholder:text-white/20 focus:ring-1 focus:ring-premium-gold/30"
                         value={filters.price_max}
                         onChange={(e) => setFilters({ ...filters, price_max: e.target.value })}
                       />
@@ -155,7 +155,7 @@ export default function ProductsPage() {
               <div className="pt-6">
                 <button
                   onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })}
-                  className="w-full py-5 bg-premium-black text-white text-[9px] font-black uppercase tracking-[0.4em] hover:bg-premium-gold transition-all duration-500 shadow-xl shadow-premium-black/10"
+                  className="w-full py-5 bg-premium-gold text-premium-black text-[9px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all duration-500 shadow-xl shadow-premium-gold/10"
                 >
                   Clear Selection
                 </button>
@@ -174,12 +174,12 @@ export default function ProductsPage() {
                 <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.6em] animate-pulse">Distilling Essence...</p>
               </div>
             ) : filteredAndSortedProducts.length === 0 ? (
-              <div className="text-center py-60 border border-premium-gold/10 bg-[#FAF9F6] rounded-3xl animate-in fade-in duration-700">
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
+              <div className="text-center py-60 border border-premium-gold/10 bg-white/[0.02] rounded-3xl animate-in fade-in duration-700">
+                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
                   <FiX className="text-premium-gold/30 w-8 h-8" />
                 </div>
-                <h3 className="text-3xl font-playfair italic text-premium-black mb-4">No matching signatures discovered</h3>
-                <p className="text-[10px] font-black text-premium-charcoal/40 uppercase tracking-[0.4em]">Refine your search parameters</p>
+                <h3 className="text-3xl font-playfair italic text-white mb-4">No matching signatures discovered</h3>
+                <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">Refine your search parameters</p>
               </div>
             ) : (
               <div className={`grid grid-cols-1 md:grid-cols-2 ${isFilterOpen ? 'xl:grid-cols-3' : 'xl:grid-cols-4'} gap-x-8 gap-y-16 animate-in fade-in duration-1000`}>

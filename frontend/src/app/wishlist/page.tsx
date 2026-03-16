@@ -36,13 +36,13 @@ export default function WishlistPage() {
 
     if (!user) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-[#FAF9F6] text-center relative overflow-hidden">
+            <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 bg-premium-black text-center relative overflow-hidden">
                 <div className="w-24 h-24 border border-premium-gold/20 rounded-full flex items-center justify-center mb-10 text-premium-gold glass-panel shadow-2xl animate-pulse">
                     <FiHeart size={36} />
                 </div>
-                <h1 className="text-5xl lg:text-7xl imperial-serif mb-6 text-premium-black lowercase relative z-10">Your Sanctuary</h1>
-                <p className="text-[11px] font-black uppercase tracking-[0.6em] text-premium-gold/60 mb-14 max-w-sm relative z-10">Enter your private reserve to reveal your curated collection of masterpieces.</p>
-                <Link href="/login" className="secondary-button !bg-premium-black !text-premium-gold !px-16 !py-6 !text-[11px] hover:!bg-premium-gold hover:!text-black transition-all duration-700 relative z-10 shadow-2xl">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl imperial-serif mb-6 text-white lowercase relative z-10">Your Sanctuary</h1>
+                <p className="text-[11px] font-black uppercase tracking-[0.4em] sm:tracking-[0.6em] text-premium-gold/60 mb-14 max-w-sm relative z-10">Enter your private reserve to reveal your curated collection of masterpieces.</p>
+                <Link href="/login" className="secondary-button !px-10 sm:!px-16 !py-6 !text-[11px] relative z-10 shadow-2xl">
                     Divine Entry
                 </Link>
             </div>
@@ -50,9 +50,9 @@ export default function WishlistPage() {
     }
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-premium-black min-h-screen">
             {/* Signature Header */}
-            <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+            <section className="bg-premium-black pt-36 sm:pt-60 pb-16 sm:pb-40 px-4 sm:px-12 md:px-24 grain-overlay relative overflow-hidden">
                 <div className="relative z-10 boutique-layout">
                     <div className="space-y-8">
                         <Editable id="wishlist_eyebrow" type="text" fallback="Signature Collection">
@@ -69,7 +69,7 @@ export default function WishlistPage() {
                 </div>
             </section>
 
-            <div className="boutique-layout px-12 sm:px-24 section-spacing">
+            <div className="boutique-layout px-4 sm:px-12 md:px-24 section-spacing">
                 {loading ? (
                     <div className="py-40 text-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold mx-auto"></div></div>
                 ) : items.length === 0 ? (

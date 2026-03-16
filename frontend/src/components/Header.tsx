@@ -50,11 +50,11 @@ export default function Header() {
 
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-[1s] ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
-          ? 'bg-black/95 backdrop-blur-3xl py-4 border-b border-white/5'
-          : 'bg-transparent py-10'
+          ? 'bg-black/95 backdrop-blur-3xl py-4 border-b border-premium-gold/20 shadow-[0_4px_30px_rgba(197,160,89,0.08)]'
+          : 'bg-transparent py-6 sm:py-10'
           }`}
       >
-        <div className="max-w-[1700px] mx-auto px-12 sm:px-24 flex items-center justify-between">
+        <div className="max-w-[1700px] mx-auto px-4 sm:px-12 md:px-24 flex items-center justify-between">
           {/* Brand Identity - Center Link */}
           <div className="flex items-center gap-12">
               <button
@@ -139,10 +139,10 @@ export default function Header() {
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 left-0 h-full w-full sm:w-[550px] bg-white z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl bg-white/98`}>
-        <div className="h-40 px-12 flex items-center justify-between border-b border-premium-gold/10 bg-premium-black/5">
+      <div className={`fixed top-0 left-0 h-full w-full sm:w-[550px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl border-r border-premium-gold/10`}>
+        <div className="h-40 px-6 sm:px-12 flex items-center justify-between border-b border-premium-gold/10">
           <div className="flex flex-col">
-            <span className="text-3xl imperial-serif text-premium-black italic lowercase">the atlas</span>
+            <span className="text-3xl imperial-serif text-white italic lowercase">the atlas</span>
             <span className="text-[8px] font-black text-premium-gold tracking-[0.8em] uppercase font-inter mt-1 opacity-70">Privileged Access Menu</span>
           </div>
           <button onClick={() => setIsSidebarOpen(false)} className="group w-14 h-14 bg-premium-black text-premium-gold flex items-center justify-center rounded-full hover:rotate-90 transition-all duration-700 border border-premium-gold/20 shadow-xl">
@@ -150,7 +150,7 @@ export default function Header() {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto py-12 px-12 space-y-12">
+        <div className="flex-1 overflow-y-auto py-12 px-6 sm:px-12 space-y-12">
           {/* Primary Navigation */}
           <div className="space-y-6">
             <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">Universe</h3>
@@ -163,10 +163,10 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.path}
-                  className="group flex items-center justify-between py-2 border-b border-gray-100 hover:border-premium-gold transition-colors"
+                  className="group flex items-center justify-between py-2 border-b border-white/5 hover:border-premium-gold transition-colors"
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  <span className="text-xl font-playfair italic text-premium-black group-hover:translate-x-4 transition-transform duration-500">{item.label}</span>
+                  <span className="text-xl font-playfair italic text-white group-hover:text-premium-gold group-hover:translate-x-4 transition-all duration-500">{item.label}</span>
                   <FiChevronRight className="text-premium-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               ))}
@@ -179,8 +179,8 @@ export default function Header() {
             <div className="grid grid-cols-1 gap-2">
               {user ? (
                 <>
-                  <Link href="/profile" className="text-sm font-bold text-premium-black hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Dashboard Overview</Link>
-                  <Link href="/wishlist" className="text-sm font-bold text-premium-black hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Signature Likes</Link>
+                  <Link href="/profile" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Dashboard Overview</Link>
+                  <Link href="/wishlist" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Signature Likes</Link>
                   {isAdmin && (
                     <Link href="/admin" className="mt-4 px-6 py-4 bg-premium-black text-premium-gold text-xs font-black tracking-widest text-center block rounded-none hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>
                       ACCESS SECURITY PANEL
@@ -189,21 +189,21 @@ export default function Header() {
                 </>
               ) : (
                 <div className="grid grid-cols-2 gap-4">
-                  <Link href="/login" className="px-6 py-4 border border-premium-black text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-black hover:text-premium-gold transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Login</Link>
-                  <Link href="/register" className="px-6 py-4 bg-premium-black text-premium-gold text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
+                  <Link href="/login" className="px-6 py-4 border border-premium-gold/30 text-premium-gold text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Login</Link>
+                  <Link href="/register" className="px-6 py-4 bg-premium-gold text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-white hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="p-12 border-t border-gray-50 flex justify-between items-center bg-gray-50/50">
-          <div className="text-[9px] font-black text-premium-charcoal tracking-widest uppercase font-inter">
+        <div className="p-6 sm:p-12 border-t border-premium-gold/10 flex justify-between items-center bg-white/[0.02]">
+          <div className="text-[9px] font-black text-white/40 tracking-widest uppercase font-inter">
             © {mounted ? new Date().getFullYear() : '2024'} {branding.name || 'IQTAN'}
           </div>
           <div className="flex gap-4">
-            <div className="w-6 h-6 rounded-full bg-premium-black/5"></div>
-            <div className="w-6 h-6 rounded-full bg-premium-black/5"></div>
+            <div className="w-6 h-6 rounded-full bg-premium-gold/10"></div>
+            <div className="w-6 h-6 rounded-full bg-premium-gold/10"></div>
           </div>
         </div>
       </div>

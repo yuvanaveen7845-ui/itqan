@@ -94,8 +94,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
-      <section className="bg-premium-black pt-60 pb-40 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+    <div className="bg-premium-black min-h-screen">
+      <section className="bg-premium-black pt-36 sm:pt-60 pb-16 sm:pb-40 px-4 sm:px-12 md:px-24 grain-overlay relative overflow-hidden">
           <div className="relative z-10 boutique-layout text-center">
               <div className="space-y-6">
                   <Editable id="register_eyebrow" type="text" fallback="Signature Enrollment">
@@ -106,10 +106,10 @@ export default function RegisterPage() {
           </div>
       </section>
 
-      <div className="boutique-layout px-12 sm:px-24 section-spacing flex justify-center">
+      <div className="boutique-layout px-4 sm:px-12 md:px-24 section-spacing flex justify-center">
         <div className="max-w-xl w-full space-y-16">
           {error && (
-            <div className="p-8 bg-rose-50 border border-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-widest text-center animate-reveal">
+            <div className="p-6 sm:p-8 bg-rose-900/20 border border-rose-500/20 text-rose-300 text-[10px] font-black uppercase tracking-widest text-center animate-reveal">
               × Error: {error}
             </div>
           )}
@@ -119,7 +119,7 @@ export default function RegisterPage() {
                 <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                   placeholder="Your Name..."
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -131,7 +131,7 @@ export default function RegisterPage() {
                 <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
                 <input
                   type="email"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                   placeholder="master@atelier.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                 <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
                 <input
                   type="password"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -155,7 +155,7 @@ export default function RegisterPage() {
                 <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Confirm Keyword</label>
                 <input
                   type="password"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors"
                   placeholder="••••••••"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                 <div className={`w-6 h-6 border ${agreedToTerms ? 'bg-premium-gold border-premium-gold' : 'border-premium-gold/20'} flex items-center justify-center transition-all`}>
                    {agreedToTerms && <span className="text-black text-[10px] font-bold">✓</span>}
                 </div>
-                <label className="text-[9px] font-black text-premium-charcoal/40 uppercase tracking-widest cursor-pointer group-hover:text-premium-gold transition-colors">
+                <label className="text-[9px] font-black text-white/40 uppercase tracking-widest cursor-pointer group-hover:text-premium-gold transition-colors">
                   I accept the <Link href="/terms" className="underline">Terms</Link> & <Link href="/privacy" className="underline">Sanctuary Privacy</Link>
                 </label>
              </div>
@@ -175,7 +175,7 @@ export default function RegisterPage() {
              <button
                 type="submit"
                 disabled={loading || !agreedToTerms}
-                className="w-full py-8 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-black transition-all shadow-2xl relative overflow-hidden group/btn disabled:opacity-20 grayscale"
+                className="w-full py-6 sm:py-8 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl relative overflow-hidden group/btn disabled:opacity-20 grayscale"
              >
                 <span className="relative z-10">{loading ? 'Creating...' : 'Establish Profile'}</span>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
@@ -185,12 +185,12 @@ export default function RegisterPage() {
           <div className="space-y-8">
              <div className="relative">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-premium-gold/10"></div></div>
-                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-white text-premium-charcoal/40 italic">Signature Providers</span></div>
+                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-premium-black text-white/40 italic">Signature Providers</span></div>
              </div>
              <div id="google-signup-button" className="w-full overflow-hidden luxury-card-rich outline-none"></div>
           </div>
 
-          <p className="text-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/60">
+          <p className="text-center text-[10px] font-black uppercase tracking-widest text-white/60">
             Already enrolled?{' '}
             <Link href="/login" className="text-premium-gold hover:underline">Entry Gateway</Link>
           </p>

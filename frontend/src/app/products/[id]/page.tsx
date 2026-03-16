@@ -88,7 +88,7 @@ export default function ProductDetailPage() {
   return (
     <div>
       {/* Breadcrumbs - Minimalist */}
-      <nav className="boutique-layout px-12 sm:px-24 py-16 flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-premium-charcoal/40">
+      <nav className="boutique-layout px-4 sm:px-12 md:px-24 py-8 sm:py-16 flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-white/40">
         <Link href="/" className="hover:text-premium-gold transition-colors">Atelier</Link>
         <FiChevronRight size={10} />
         <Link href="/products" className="hover:text-premium-gold transition-colors">Collections</Link>
@@ -96,12 +96,12 @@ export default function ProductDetailPage() {
         <span className="text-premium-gold">{product.name}</span>
       </nav>
 
-      <section className="boutique-layout px-12 sm:px-24 pb-40">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-40 items-start">
+      <section className="boutique-layout px-4 sm:px-12 md:px-24 pb-20 sm:pb-40">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-40 items-start">
           
           {/* Visual Showcase - Full Height Vertical */}
           <div className="lg:col-span-7 space-y-12">
-            <div className="relative group overflow-hidden bg-gray-50 luxury-card-rich rounded-none min-h-[900px] flex items-center justify-center">
+            <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[900px] flex items-center justify-center">
               <div className="absolute inset-0 bg-premium-black/5 z-10 group-hover:bg-transparent transition-all duration-1000"></div>
               <img
                 src={product.image_url}
@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
                 <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block">Olfactive Edition</span>
               </Editable>
               <Editable id={`product_title_${product.id}`} type="richtext" fallback={product.name}>
-                <h1 className="text-6xl md:text-8xl imperial-serif text-premium-black leading-none">{product.name}</h1>
+                <h1 className="text-4xl sm:text-6xl md:text-8xl imperial-serif text-white leading-none">{product.name}</h1>
               </Editable>
               <div className="flex items-center gap-8 pt-4">
                  <span className="text-3xl imperial-serif gold-luxury-text">₹{product.price.toLocaleString()}</span>
@@ -138,11 +138,11 @@ export default function ProductDetailPage() {
               <div className="grid grid-cols-2 gap-12 py-12 border-y border-premium-gold/10">
                  <div className="space-y-2">
                     <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Concentration</span>
-                    <p className="text-xs font-bold text-premium-black uppercase tracking-widest">Extrait de Parfum</p>
+                    <p className="text-xs font-bold text-white uppercase tracking-widest">Extrait de Parfum</p>
                  </div>
                  <div className="space-y-2">
                     <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Allocation</span>
-                    <p className={`font-medium text-lg imperial-body ${product.stock < 10 && product.stock > 0 ? 'gold-luxury-text font-black italic' : 'text-premium-black'}`}>{product.stock > 0 ? `${product.stock} Units` : 'Private Reserve'}</p>
+                    <p className={`font-medium text-lg imperial-body ${product.stock < 10 && product.stock > 0 ? 'gold-luxury-text font-black italic' : 'text-white'}`}>{product.stock > 0 ? `${product.stock} Units` : 'Private Reserve'}</p>
                  </div>
               </div>
             </div>
@@ -150,10 +150,10 @@ export default function ProductDetailPage() {
             {/* Interaction Suite */}
             <div className="space-y-8 pt-12">
                <div className="flex items-center gap-12">
-                  <div className="flex items-center border border-premium-gold/20 px-8 py-4 gap-12 bg-white shadow-sm">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-premium-black hover:text-premium-gold transition-colors"><FiMinus size={14}/></button>
-                    <span className="text-sm font-black w-4 text-center">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="text-premium-black hover:text-premium-gold transition-colors"><FiPlus size={14}/></button>
+                  <div className="flex items-center border border-premium-gold/20 px-6 sm:px-8 py-4 gap-8 sm:gap-12 bg-white/5 shadow-sm">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-white hover:text-premium-gold transition-colors"><FiMinus size={14}/></button>
+                    <span className="text-sm font-black w-4 text-center text-white">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)} className="text-white hover:text-premium-gold transition-colors"><FiPlus size={14}/></button>
                   </div>
                   <button 
                     onClick={handleAddToCart}
@@ -191,18 +191,18 @@ export default function ProductDetailPage() {
       {/* Recommended Section (Simplified for performance) */}
       <div className="boutique-layout px-12 sm:px-24 section-spacing">
         <div className="flex items-center justify-between mb-24 border-b border-premium-gold/10 pb-8">
-          <h2 className="text-5xl imperial-serif text-premium-black lowercase">Curated Portfolio</h2>
+          <h2 className="text-3xl sm:text-5xl imperial-serif text-white lowercase">Curated Portfolio</h2>
           <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.4em] text-premium-gold hover:underline">Full Collection</Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {relatedProducts.map(p => (
             <Link key={p.id} href={`/products/${p.id}`} className="group">
-              <div className="bg-white overflow-hidden border border-premium-gold/5 transition-all duration-1000 hover:border-premium-gold/30">
-                <div className="aspect-[3/4] relative overflow-hidden bg-gray-50 flex items-center justify-center">
+              <div className="bg-white/[0.02] overflow-hidden border border-premium-gold/5 transition-all duration-1000 hover:border-premium-gold/30">
+                <div className="aspect-[3/4] relative overflow-hidden bg-white/[0.02] flex items-center justify-center">
                   <img src={p.image_url} alt={p.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale brightness-95 group-hover:grayscale-0" />
                 </div>
                 <div className="p-8 text-center space-y-4">
-                  <h3 className="imperial-serif text-2xl text-premium-black group-hover:gold-luxury-text transition-all lowercase">{p.name}</h3>
+                  <h3 className="imperial-serif text-2xl text-white group-hover:gold-luxury-text transition-all lowercase">{p.name}</h3>
                   <p className="text-sm imperial-serif gold-luxury-text tracking-widest">₹{p.price.toLocaleString()}</p>
                 </div>
               </div>

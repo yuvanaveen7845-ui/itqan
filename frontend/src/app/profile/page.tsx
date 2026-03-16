@@ -93,9 +93,9 @@ export default function ProfilePage() {
   if (!user) return null;
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-premium-black min-h-screen">
       {/* Executive Boutique Header */}
-      <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+      <section className="bg-premium-black pt-36 sm:pt-60 pb-16 sm:pb-40 px-4 sm:px-12 md:px-24 grain-overlay relative overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
           <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal">Concierge</span>
         </div>
@@ -124,8 +124,8 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <div className="boutique-layout px-12 sm:px-24 section-spacing">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-40">
+      <div className="boutique-layout px-4 sm:px-12 md:px-24 section-spacing">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           
           {/* Navigation Dossier */}
           <div className="lg:col-span-3 space-y-12">
@@ -140,11 +140,11 @@ export default function ProfilePage() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as any)}
-                      className={`w-full flex items-center justify-between py-6 border-b border-gray-100 group transition-all ${activeTab === tab.id ? 'border-premium-gold' : 'hover:border-premium-gold/40'}`}
+                      className={`w-full flex items-center justify-between py-6 border-b border-white/5 group transition-all ${activeTab === tab.id ? 'border-premium-gold' : 'hover:border-premium-gold/40'}`}
                     >
                       <div className="flex items-center gap-6">
-                         <tab.icon size={18} className={activeTab === tab.id ? 'text-premium-gold' : 'text-premium-charcoal/40 group-hover:text-premium-gold transition-colors'} />
-                         <span className={`text-xl imperial-serif italic transition-all ${activeTab === tab.id ? 'text-premium-black translate-x-4' : 'text-premium-charcoal group-hover:translate-x-4'}`}>
+                         <tab.icon size={18} className={activeTab === tab.id ? 'text-premium-gold' : 'text-white/30 group-hover:text-premium-gold transition-colors'} />
+                         <span className={`text-xl imperial-serif italic transition-all ${activeTab === tab.id ? 'text-white translate-x-4' : 'text-white/50 group-hover:translate-x-4'}`}>
                             {tab.label}
                          </span>
                       </div>
@@ -160,7 +160,7 @@ export default function ProfilePage() {
             {activeTab === 'orders' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-5xl imperial-serif text-premium-black">The Order <span className="italic gold-luxury-text font-normal lowercase">Archive</span></h2>
+                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">The Order <span className="italic gold-luxury-text font-normal lowercase">Archive</span></h2>
                    <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">{orders.length} Records</span>
                 </div>
                 
@@ -169,23 +169,23 @@ export default function ProfilePage() {
                 ) : orders.length > 0 ? (
                   <div className="space-y-12">
                     {orders.map((order) => (
-                      <div key={order.id} className="relative group luxury-card-rich p-12 bg-[#FAF9F6]/50 border border-premium-gold/5 hover:border-premium-gold/30 transition-all duration-700">
+                      <div key={order.id} className="relative group luxury-card-rich p-8 sm:p-12 border border-premium-gold/5 hover:border-premium-gold/30 transition-all duration-700">
                         <div className="flex flex-col md:flex-row justify-between gap-12">
                            <div className="space-y-6">
                               <div className="flex items-center gap-6">
                                  <span className="text-[9px] font-black text-premium-gold uppercase tracking-[0.4em]">Allocation ID</span>
-                                 <span className="text-xs font-bold text-premium-black font-inter">#{order.id.slice(0, 8)}</span>
+                                 <span className="text-xs font-bold text-white font-inter">#{order.id.slice(0, 8)}</span>
                               </div>
-                              <h4 className="text-3xl imperial-serif text-premium-black">{new Date(order.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
+                              <h4 className="text-2xl sm:text-3xl imperial-serif text-white">{new Date(order.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
                               <div className="flex items-center gap-4">
                                  <div className={`w-2 h-2 rounded-full ${order.status === 'delivered' ? 'bg-emerald-500' : 'bg-premium-gold animate-pulse'}`}></div>
-                                 <span className="text-[10px] font-black uppercase tracking-widest text-premium-charcoal/60">{order.status}</span>
+                                 <span className="text-[10px] font-black uppercase tracking-widest text-white/40">{order.status}</span>
                               </div>
                            </div>
                            <div className="md:text-right space-y-4">
                               <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest block font-inter">Investment</span>
                               <span className="text-4xl imperial-serif gold-luxury-text block">₹{order.total_amount.toLocaleString()}</span>
-                              <div className="flex items-center md:justify-end gap-2 text-premium-charcoal/40 text-[9px] font-black uppercase tracking-tighter">
+                              <div className="flex items-center md:justify-end gap-2 text-white/30 text-[9px] font-black uppercase tracking-tighter">
                                  <FiPackage /> {order.items?.length || 0} Artefacts
                               </div>
                            </div>
@@ -196,8 +196,8 @@ export default function ProfilePage() {
                 ) : (
                   <div className="py-40 text-center space-y-8 border-2 border-dashed border-premium-gold/10">
                      <FiShoppingBag className="mx-auto text-premium-gold/20" size={60} />
-                     <p className="imperial-serif italic text-2xl text-premium-charcoal/40">The archive remains silent...</p>
-                     <Link href="/products" className="inline-block mt-8 px-12 py-5 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-premium-black transition-all">Begin Selection</Link>
+                     <p className="imperial-serif italic text-2xl text-white/30">The archive remains silent...</p>
+                     <Link href="/products" className="inline-block mt-8 px-12 py-5 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-premium-black transition-all">Begin Selection</Link>
                   </div>
                 )}
               </div>
@@ -206,7 +206,7 @@ export default function ProfilePage() {
             {activeTab === 'addresses' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-5xl imperial-serif text-premium-black">Signature <span className="italic gold-luxury-text font-normal lowercase">Locales</span></h2>
+                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Signature <span className="italic gold-luxury-text font-normal lowercase">Locales</span></h2>
                    <button className="flex items-center gap-4 text-premium-gold group">
                       <FiPlus className="group-hover:rotate-90 transition-transform" />
                       <span className="text-[10px] font-black uppercase tracking-widest">New Protocol</span>
@@ -215,14 +215,14 @@ export default function ProfilePage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                    {addresses.map((addr) => (
-                      <div key={addr.id} className="p-12 border border-premium-gold/10 bg-white luxury-card-rich space-y-8 group transition-all hover:border-premium-gold">
+                      <div key={addr.id} className="p-8 sm:p-12 border border-premium-gold/10 luxury-card-rich space-y-8 group transition-all hover:border-premium-gold">
                          <div className="flex justify-between items-start">
                             <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">{addr.is_default ? 'Primary Protocol' : 'Reserve Locale'}</span>
-                            <FiEdit2 className="text-premium-charcoal/20 hover:text-premium-gold cursor-pointer transition-colors" size={14} />
+                            <FiEdit2 className="text-white/20 hover:text-premium-gold cursor-pointer transition-colors" size={14} />
                          </div>
                          <div className="space-y-4">
-                            <h4 className="text-2xl imperial-serif italic text-premium-black">{addr.full_name}</h4>
-                            <p className="text-sm font-medium text-premium-charcoal/60 leading-relaxed font-inter">
+                            <h4 className="text-2xl imperial-serif italic text-white">{addr.full_name}</h4>
+                            <p className="text-sm font-medium text-white/50 leading-relaxed font-inter">
                                {addr.address_line1}<br />
                                {addr.city}, {addr.state} {addr.postal_code}<br />
                                {addr.country}
@@ -237,7 +237,7 @@ export default function ProfilePage() {
             {activeTab === 'settings' && (
               <div className="space-y-24">
                 <div className="flex justify-between items-end border-b border-premium-gold/10 pb-12">
-                   <h2 className="text-5xl imperial-serif text-premium-black">Security <span className="italic gold-luxury-text font-normal lowercase">Details</span></h2>
+                   <h2 className="text-3xl sm:text-5xl imperial-serif text-white">Security <span className="italic gold-luxury-text font-normal lowercase">Details</span></h2>
                 </div>
                 
                 <div className="max-w-xl space-y-12">
@@ -247,14 +247,14 @@ export default function ProfilePage() {
                         type="text" 
                         value={profileData.name} 
                         onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                        className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors"
                       />
                    </div>
                    <div className="space-y-2">
                       <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Encrypted Identity</label>
-                      <p className="text-xl imperial-serif text-premium-charcoal/40 italic">{user.email}</p>
+                      <p className="text-xl imperial-serif text-white/40 italic">{user.email}</p>
                    </div>
-                   <button onClick={handleSaveChanges} className="px-20 py-6 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-premium-black transition-all shadow-2xl">
+                   <button onClick={handleSaveChanges} className="px-12 sm:px-20 py-6 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl">
                       {updating ? 'Recording...' : 'Update Protocol'}
                    </button>
                 </div>

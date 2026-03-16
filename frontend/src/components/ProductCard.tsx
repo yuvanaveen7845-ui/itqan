@@ -84,7 +84,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                         </span>
                     )}
                     {product.stock <= 5 && product.stock > 0 && (
-                        <span className="bg-white/90 backdrop-blur-sm text-premium-charcoal text-[7px] font-black px-2 py-1 uppercase tracking-tighter border border-premium-gold/20 font-inter">
+                        <span className="bg-white/10 backdrop-blur-sm text-white text-[7px] font-black px-2 py-1 uppercase tracking-tighter border border-premium-gold/20 font-inter">
                             Limited Allocation
                         </span>
                     )}
@@ -95,7 +95,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                     onClick={toggleWishlist}
                     className={`absolute top-4 right-4 p-3 rounded-full z-20 transition-all duration-500 transform ${isWishlisted
                         ? 'bg-premium-gold text-premium-white scale-110 shadow-lg'
-                        : 'bg-white/80 text-premium-charcoal/40 hover:text-premium-gold hover:bg-white scale-100'
+                        : 'bg-white/10 backdrop-blur-sm text-white/60 hover:text-premium-gold hover:bg-white/20 scale-100'
                         } group-hover:scale-110`}
                 >
                     <FiHeart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
@@ -121,7 +121,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 )}
 
                 {/* Primary Image with Ken Burns & Shine Effect */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 shine-effect">
+                <div className="relative aspect-[4/5] overflow-hidden bg-white/[0.02] shine-effect">
                     <img
                         src={primaryImage || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800'}
                         alt={product.name}
@@ -138,7 +138,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 </div>
 
                 {/* Content Section */}
-                <div className="p-8 text-center bg-white relative">
+                <div className="p-8 text-center bg-white/[0.02] relative">
                     <div className="space-y-3">
                         <p className="text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] font-inter">
                             {product.Fragrance_type || 'Private Label'}
@@ -149,7 +149,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                             value={localProduct.name}
                             onUpdate={(val) => setLocalProduct({ ...localProduct, name: val })}
                         >
-                            <h3 className="text-2xl imperial-serif text-premium-black group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
+                            <h3 className="text-2xl imperial-serif text-white group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
                                 {localProduct.name}
                             </h3>
                         </AttributeEditable>
@@ -164,12 +164,12 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                                 type="number"
                                 onUpdate={(val) => setLocalProduct({ ...localProduct, price: Number(val) })}
                             >
-                                <span className="text-xl imperial-serif text-premium-black tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-1000">
+                                <span className="text-xl imperial-serif text-white tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-1000">
                                     ₹{localProduct.price.toLocaleString()}
                                 </span>
                             </AttributeEditable>
                             {localProduct.original_price && localProduct.original_price > localProduct.price && (
-                                <span className="text-[10px] text-premium-charcoal/30 font-light line-through tracking-[0.3em]">
+                                <span className="text-[10px] text-white/30 font-light line-through tracking-[0.3em]">
                                     ₹{localProduct.original_price.toLocaleString()}
                                 </span>
                             )}
@@ -178,8 +178,8 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                     </div>
 
                     {/* Quick Info / Stock */}
-                    <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        <span className="text-[8px] font-black text-premium-charcoal/40 tracking-[0.2em] uppercase font-inter">Inventory: {product.stock}</span>
+                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <span className="text-[8px] font-black text-white/30 tracking-[0.2em] uppercase font-inter">Inventory: {product.stock}</span>
                         <div className="flex gap-0.5">
                             {[...Array(5)].map((_, i) => (
                                 <div key={i} className="w-1 h-1 rounded-full bg-premium-gold"></div>

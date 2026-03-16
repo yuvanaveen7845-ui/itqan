@@ -177,9 +177,9 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-premium-black min-h-screen">
       {/* Signature Header */}
-      <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+      <section className="bg-premium-black pt-36 sm:pt-60 pb-16 sm:pb-40 px-4 sm:px-12 md:px-24 grain-overlay relative overflow-hidden">
           <div className="relative z-10 boutique-layout">
               <div className="space-y-8">
                   <Editable id="checkout_eyebrow" type="text" fallback="Final Acquisition">
@@ -192,17 +192,17 @@ export default function CheckoutPage() {
           </div>
       </section>
 
-      <div className="boutique-layout px-12 sm:px-24 section-spacing">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-40 items-start">
+      <div className="boutique-layout px-4 sm:px-12 md:px-24 section-spacing">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 lg:gap-24 items-start">
           {/* Form Side */}
           <div className="lg:col-span-7 space-y-16">
             <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
                <span className="text-4xl imperial-serif italic text-premium-gold">01</span>
-               <h2 className="text-3xl imperial-serif text-premium-black lowercase">Delivery Sanctuary</h2>
+               <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Delivery Sanctuary</h2>
             </div>
 
             {error && (
-              <div className="p-8 bg-rose-50 border border-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-widest animate-reveal">
+              <div className="p-6 sm:p-8 bg-rose-900/20 border border-rose-500/20 text-rose-300 text-[10px] font-black uppercase tracking-widest animate-reveal">
                 × Error: {error}
               </div>
             )}
@@ -211,7 +211,7 @@ export default function CheckoutPage() {
                <div className="space-y-2">
                   <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Street Locale</label>
                   <textarea
-                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors min-h-[120px]"
+                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors min-h-[100px] sm:min-h-[120px] placeholder:text-white/30"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     required
@@ -219,12 +219,12 @@ export default function CheckoutPage() {
                   />
                </div>
 
-               <div className="grid grid-cols-2 gap-20">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-20">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">City</label>
                     <input
                       type="text"
-                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       required
@@ -234,7 +234,7 @@ export default function CheckoutPage() {
                     <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">State</label>
                     <input
                       type="text"
-                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                       value={formData.state}
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                       required
@@ -246,7 +246,7 @@ export default function CheckoutPage() {
                   <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Postal Code</label>
                   <input
                     type="text"
-                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl sm:text-3xl font-bold tracking-[0.5em] sm:tracking-[1em] text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                     value={formData.zipcode}
                     onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
                     required
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
                <button
                   type="submit"
                   disabled={loading}
-                  className="w-full lg:w-max px-20 py-8 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-black transition-all shadow-2xl relative overflow-hidden group/btn"
+                  className="w-full lg:w-max px-10 sm:px-20 py-6 sm:py-8 bg-premium-gold text-premium-black text-[10px] font-black uppercase tracking-[0.6em] hover:bg-white hover:text-premium-black transition-all shadow-2xl relative overflow-hidden group/btn"
                >
                   <span className="relative z-10">{loading ? 'Acquiring...' : 'Finalize Acquisition'}</span>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
@@ -266,20 +266,20 @@ export default function CheckoutPage() {
           </div>
 
           {/* Detailed Summary Side */}
-          <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-16 lg:pl-20">
-            <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
+          <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-12 sm:space-y-16 lg:pl-8">
+            <div className="flex items-center gap-6 sm:gap-8 border-b border-premium-gold/10 pb-8">
                <span className="text-4xl imperial-serif italic text-premium-gold">02</span>
-               <h2 className="text-3xl imperial-serif text-premium-black lowercase">Acquisition Ledger</h2>
+               <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Acquisition Ledger</h2>
             </div>
 
             <div className="space-y-8">
                {items.map((item) => (
                  <div key={item.product_id} className="flex justify-between items-end group">
                     <div className="space-y-2">
-                       <p className="imperial-serif text-2xl italic text-premium-black lowercase">{item.name}</p>
+                       <p className="imperial-serif text-lg sm:text-2xl italic text-white lowercase">{item.name}</p>
                        <p className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Qty: {item.quantity}</p>
                     </div>
-                    <span className="text-xl imperial-serif text-premium-black">₹{(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="text-lg sm:text-xl imperial-serif text-white">₹{(item.price * item.quantity).toLocaleString()}</span>
                  </div>
                ))}
             </div>
@@ -298,7 +298,7 @@ export default function CheckoutPage() {
                   <button
                     onClick={applyCoupon}
                     disabled={couponLoading || couponApplied}
-                    className="text-[9px] font-black uppercase tracking-widest text-premium-gold hover:text-premium-black transition-colors"
+                    className="text-[9px] font-black uppercase tracking-widest text-premium-gold hover:text-white transition-colors"
                   >
                     {couponLoading ? '...' : couponApplied ? 'Applied' : 'Validate'}
                   </button>
@@ -307,11 +307,11 @@ export default function CheckoutPage() {
 
             {/* Totals */}
             <div className="space-y-6 pt-4">
-               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40">
+               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/40">
                   <span>Subtotal</span>
                   <span>₹{getTotal().toLocaleString()}</span>
                </div>
-               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40">
+               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/40">
                   <span>Logistics</span>
                   <span className="text-premium-gold">+{shippingCost === 0 ? 'Evaluating' : `₹${shippingCost}`}</span>
                </div>
@@ -323,7 +323,7 @@ export default function CheckoutPage() {
                )}
                <div className="flex justify-between items-center pt-8 border-t border-premium-gold">
                   <span className="text-[11px] font-black text-premium-gold uppercase tracking-[0.4em]">Investment</span>
-                  <span className="text-5xl imperial-serif text-premium-black">
+                  <span className="text-3xl sm:text-5xl imperial-serif text-white">
                     ₹{(confirmedTotal ?? (getTotal() + shippingCost - discountAmount)).toLocaleString()}
                   </span>
                </div>
