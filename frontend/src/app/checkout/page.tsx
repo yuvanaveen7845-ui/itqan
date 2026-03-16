@@ -7,6 +7,7 @@ import { useAuthStore } from '@/store/auth';
 
 import { orderAPI, couponAPI } from '@/lib/api';
 import { useNotificationStore } from '@/store/notification';
+import Editable from '@/components/Editable';
 
 declare global {
   interface Window {
@@ -176,147 +177,159 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-      <div className="mb-10">
-        <h1 className="text-4xl imperial-serif text-premium-black mb-1">Checkout</h1>
-        <p className="text-[9px] font-black uppercase tracking-[0.4em] text-premium-gold">Secure Acquisition</p>
-      </div>
+    <div className="bg-white min-h-screen">
+      {/* Signature Header */}
+      <section className="bg-premium-black pt-80 pb-60 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
+              <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Securing</span>
+          </div>
+          <div className="relative z-10 boutique-layout">
+              <div className="space-y-8">
+                  <Editable id="checkout_eyebrow" type="text" fallback="Final Acquisition">
+                      <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Secure Portal</span>
+                  </Editable>
+                  <h1 className="text-6xl md:text-9xl imperial-serif text-white animate-reveal lowercase" style={{ animationDelay: '0.2s' }}>
+                      The <span className="gold-luxury-text italic font-normal">Final Step</span>
+                  </h1>
+              </div>
+          </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Checkout Form */}
-        <div className="space-y-6">
-          {error && (
-            <div className="bg-red-50 border border-red-100 text-red-700 p-4 flex items-start gap-3">
-              <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
-              <p className="text-sm font-bold">{error}</p>
+      <div className="boutique-layout px-12 sm:px-24 section-spacing">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-40 items-start">
+          {/* Form Side */}
+          <div className="lg:col-span-7 space-y-16">
+            <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
+               <span className="text-4xl imperial-serif italic text-premium-gold">01</span>
+               <h2 className="text-3xl imperial-serif text-premium-black lowercase">Delivery Sanctuary</h2>
             </div>
-          )}
 
-          <div className="luxury-card-rich p-10 space-y-10 shadow-xl rounded-3xl border-none">
-            <h2 className="text-[12px] font-black text-premium-black uppercase tracking-[0.5em] border-b border-premium-gold/20 pb-6 text-center">Shipping Destination</h2>
-
-            <form onSubmit={handleCheckout} className="space-y-8">
-              <div>
-                <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">Street Address</label>
-                <textarea
-                  className="premium-input w-full rounded-xl min-h-[120px] normal-case font-medium text-sm"
-                  rows={3}
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  placeholder="House No, Building, Area..."
-                />
+            {error && (
+              <div className="p-8 bg-rose-50 border border-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-widest animate-reveal">
+                × Error: {error}
               </div>
+            )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">City</label>
+            <form onSubmit={handleCheckout} className="space-y-12">
+               <div className="space-y-2">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Street Locale</label>
+                  <textarea
+                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors min-h-[120px]"
+                    value={formData.address}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    required
+                    placeholder="Grand Avenue, Suite 101..."
+                  />
+               </div>
+
+               <div className="grid grid-cols-2 gap-20">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">City</label>
+                    <input
+                      type="text"
+                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                      value={formData.city}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">State</label>
+                    <input
+                      type="text"
+                      className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                      value={formData.state}
+                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                      required
+                    />
+                  </div>
+               </div>
+
+               <div className="space-y-2">
+                  <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Postal Code</label>
                   <input
                     type="text"
-                    className="premium-input w-full rounded-xl normal-case font-medium text-sm"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                    value={formData.zipcode}
+                    onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
                     required
-                    placeholder="e.g. Coimbatore"
+                    maxLength={6}
                   />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black text-premium-charcoal/50 mb-3 uppercase tracking-[0.2em] ml-1">State</label>
-                  <input
-                    type="text"
-                    className="premium-input w-full rounded-xl normal-case font-medium text-sm"
-                    value={formData.state}
-                    onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    required
-                    placeholder="e.g. Tamil Nadu"
-                  />
-                </div>
-              </div>
+               </div>
 
-              <div>
-                <label className="block text-[9px] font-black text-premium-charcoal/50 mb-2 uppercase tracking-widest">Pincode</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 bg-[#FAF9F6] border border-premium-gold/10 focus:border-premium-gold outline-none transition font-bold tracking-widest text-sm"
-                  value={formData.zipcode}
-                  onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
-                  required
-                  placeholder="641001"
-                  maxLength={6}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative w-full py-5 bg-premium-black text-premium-gold font-black text-[10px] uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-black transition-all duration-700 overflow-hidden disabled:opacity-50"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-x-[-101%] group-hover:translate-x-0 transition-transform duration-700"></div>
-                <span className="relative z-10">{loading ? 'Processing...' : 'Complete Acquisition'}</span>
-              </button>
+               <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full lg:w-max px-20 py-8 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-black transition-all shadow-2xl relative overflow-hidden group/btn"
+               >
+                  <span className="relative z-10">{loading ? 'Acquiring...' : 'Finalize Acquisition'}</span>
+                  <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
+               </button>
             </form>
           </div>
-        </div>
 
-        {/* Order Summary */}
-        <div className="space-y-6">
-          <div className="luxury-card-rich p-10 shadow-2xl rounded-3xl border-none">
-            <h2 className="text-[12px] font-black text-premium-black uppercase tracking-[0.5em] border-b border-premium-gold/20 pb-6 mb-8 text-center">Acquisition Details</h2>
-
-            <div className="space-y-3 mb-6 max-h-[260px] overflow-y-auto pr-1">
-              {items.map((item) => (
-                <div key={item.product_id} className="flex justify-between items-center py-3 border-b border-premium-gold/10">
-                  <div>
-                    <p className="font-bold text-premium-black text-sm">{item.name}</p>
-                    <p className="text-[9px] text-premium-charcoal/40 font-black uppercase tracking-widest">Qty: {item.quantity}</p>
-                  </div>
-                  <span className="font-black text-premium-black text-sm">₹{(item.price * item.quantity).toLocaleString()}</span>
-                </div>
-              ))}
+          {/* Detailed Summary Side */}
+          <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-16 lg:pl-20">
+            <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
+               <span className="text-4xl imperial-serif italic text-premium-gold">02</span>
+               <h2 className="text-3xl imperial-serif text-premium-black lowercase">Acquisition Ledger</h2>
             </div>
 
-            {/* Coupon */}
-            <div className="mb-6 p-4 bg-[#FAF9F6] border border-premium-gold/10">
-              <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest mb-3">Promo Code</p>
-              <div className="flex flex-wrap gap-2">
-                <input
-                  className="flex-1 min-w-0 px-3 py-2 bg-white border border-premium-gold/10 focus:border-premium-gold outline-none font-black uppercase text-xs"
-                  placeholder="Enter Code"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                  disabled={couponApplied}
-                />
-                <button
-                  onClick={applyCoupon}
-                  disabled={couponLoading || couponApplied}
-                  className="flex-shrink-0 px-4 py-2 bg-premium-black text-premium-gold text-[9px] font-black uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all disabled:opacity-40"
-                >
-                  {couponLoading ? '...' : couponApplied ? 'Applied' : 'Apply'}
-                </button>
-              </div>
-              {couponApplied && (
-                <p className="text-[9px] text-green-600 font-black mt-2 uppercase">✓ Promo Applied <button onClick={() => { setCouponApplied(false); setDiscountAmount(0); setCouponCode(''); }} className="underline ml-2">Remove</button></p>
-              )}
+            <div className="space-y-8">
+               {items.map((item) => (
+                 <div key={item.product_id} className="flex justify-between items-end group">
+                    <div className="space-y-2">
+                       <p className="imperial-serif text-2xl italic text-premium-black lowercase">{item.name}</p>
+                       <p className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Qty: {item.quantity}</p>
+                    </div>
+                    <span className="text-xl imperial-serif text-premium-black">₹{(item.price * item.quantity).toLocaleString()}</span>
+                 </div>
+               ))}
+            </div>
+
+            {/* Coupon Protocol */}
+            <div className="py-8 border-y border-premium-gold/10 space-y-4">
+               <label className="text-[8px] font-black text-premium-gold uppercase tracking-[0.4em] block">Signature Token</label>
+               <div className="flex gap-4">
+                  <input
+                    className="flex-1 bg-transparent border-b border-premium-gold/20 py-2 text-xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                    placeholder="Token Code..."
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    disabled={couponApplied}
+                  />
+                  <button
+                    onClick={applyCoupon}
+                    disabled={couponLoading || couponApplied}
+                    className="text-[9px] font-black uppercase tracking-widest text-premium-gold hover:text-premium-black transition-colors"
+                  >
+                    {couponLoading ? '...' : couponApplied ? 'Applied' : 'Validate'}
+                  </button>
+               </div>
             </div>
 
             {/* Totals */}
-            <div className="space-y-3 text-sm font-bold text-premium-charcoal/60">
-              <div className="flex justify-between"><span>Subtotal</span><span className="text-premium-black">₹{getTotal().toLocaleString()}</span></div>
-              <div className="flex justify-between">
-                <span>Shipping</span>
-                <span className={shippingCost === 0 ? 'text-premium-charcoal/30' : 'text-premium-gold font-black'}>
-                  {formData.zipcode.length === 6 ? `₹${shippingCost}` : '—'}
-                </span>
-              </div>
-              {discountAmount > 0 && (
-                <div className="flex justify-between text-green-600"><span>Discount</span><span>-₹{discountAmount.toLocaleString()}</span></div>
-              )}
-              <div className="flex justify-between items-center pt-4 border-t border-premium-gold/20">
-                <span className="text-[9px] font-black uppercase tracking-widest text-premium-gold">Total</span>
-                <span className="text-3xl imperial-serif text-premium-black">
-                  ₹{(confirmedTotal ?? (getTotal() + shippingCost - discountAmount)).toLocaleString()}
-                </span>
-              </div>
+            <div className="space-y-6 pt-4">
+               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40">
+                  <span>Subtotal</span>
+                  <span>₹{getTotal().toLocaleString()}</span>
+               </div>
+               <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/40">
+                  <span>Logistics</span>
+                  <span className="text-premium-gold">+{shippingCost === 0 ? 'Evaluating' : `₹${shippingCost}`}</span>
+               </div>
+               {discountAmount > 0 && (
+                 <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-600">
+                    <span>Token Credit</span>
+                    <span>-₹{discountAmount.toLocaleString()}</span>
+                 </div>
+               )}
+               <div className="flex justify-between items-center pt-8 border-t border-premium-gold">
+                  <span className="text-[11px] font-black text-premium-gold uppercase tracking-[0.4em]">Investment</span>
+                  <span className="text-5xl imperial-serif text-premium-black">
+                    ₹{(confirmedTotal ?? (getTotal() + shippingCost - discountAmount)).toLocaleString()}
+                  </span>
+               </div>
             </div>
           </div>
         </div>

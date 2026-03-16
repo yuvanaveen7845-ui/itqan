@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authAPI } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
-import { useEffect } from 'react';
+import Editable from '@/components/Editable';
 
 declare global {
   interface Window {
@@ -27,7 +27,7 @@ function GoogleLoader({ onSignIn }: { onSignIn: (credential: string) => void }) 
         });
         window.google.accounts.id.renderButton(
           document.getElementById('google-signup-button'),
-          { theme: 'outline', size: 'large', text: 'signup_with' }
+          { theme: 'outline', size: 'large', width: '100%', text: 'signup_with' }
         );
       }
     };
@@ -66,12 +66,12 @@ export default function RegisterPage() {
     setError('');
 
     if (!agreedToTerms) {
-      setError('Please agree to the Terms of Service and Privacy Policy');
+      setError('Agreement Protocol Required');
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError('Secret Keywords mismatch');
       return;
     }
 
@@ -87,144 +87,132 @@ export default function RegisterPage() {
       await Promise.all([fetchCart(), fetchWishlist()]);
       router.push('/');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Registration failed');
+      setError(err.response?.data?.error || 'Archive creation failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="card shadow-2xl border-0 p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-gray-900 mb-2">Create an Account</h1>
-          <p className="text-gray-500">Join us to access premium Perfume collections</p>
+    <div className="bg-white min-h-screen">
+      <section className="bg-premium-black pt-60 pb-40 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
+              <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Creation</span>
+          </div>
+          <div className="relative z-10 boutique-layout text-center">
+              <div className="space-y-6">
+                  <Editable id="register_eyebrow" type="text" fallback="Signature Enrollment">
+                      <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">New Archive</span>
+                  </Editable>
+                  <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Join the <span className="gold-luxury-text italic font-normal">Atelier</span></h1>
+              </div>
+          </div>
+      </section>
+
+      <div className="boutique-layout px-12 sm:px-24 section-spacing flex justify-center">
+        <div className="max-w-xl w-full space-y-16">
+          {error && (
+            <div className="p-8 bg-rose-50 border border-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-widest text-center animate-reveal">
+              × Error: {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-12">
+             <div className="space-y-2">
+                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Master Name</label>
+                <input
+                  type="text"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="Your Name..."
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+             </div>
+
+             <div className="space-y-2">
+                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                <input
+                  type="email"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="master@atelier.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                />
+             </div>
+
+             <div className="space-y-2">
+                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
+                <input
+                  type="password"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                />
+             </div>
+
+             <div className="space-y-2">
+                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Confirm Keyword</label>
+                <input
+                  type="password"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  required
+                />
+             </div>
+
+             <div className="flex items-center gap-6 group cursor-pointer" onClick={() => setAgreedToTerms(!agreedToTerms)}>
+                <div className={`w-6 h-6 border ${agreedToTerms ? 'bg-premium-gold border-premium-gold' : 'border-premium-gold/20'} flex items-center justify-center transition-all`}>
+                   {agreedToTerms && <span className="text-black text-[10px] font-bold">✓</span>}
+                </div>
+                <label className="text-[9px] font-black text-premium-charcoal/40 uppercase tracking-widest cursor-pointer group-hover:text-premium-gold transition-colors">
+                  I accept the <Link href="/terms" className="underline">Terms</Link> & <Link href="/privacy" className="underline">Sanctuary Privacy</Link>
+                </label>
+             </div>
+
+             <button
+                type="submit"
+                disabled={loading || !agreedToTerms}
+                className="w-full py-8 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-black transition-all shadow-2xl relative overflow-hidden group/btn disabled:opacity-20 grayscale"
+             >
+                <span className="relative z-10">{loading ? 'Creating...' : 'Establish Profile'}</span>
+                <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
+             </button>
+          </form>
+
+          <div className="space-y-8">
+             <div className="relative">
+                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-premium-gold/10"></div></div>
+                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-white text-premium-charcoal/40 italic">Signature Providers</span></div>
+             </div>
+             <div id="google-signup-button" className="w-full overflow-hidden luxury-card-rich outline-none"></div>
+          </div>
+
+          <p className="text-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/60">
+            Already enrolled?{' '}
+            <Link href="/login" className="text-premium-gold hover:underline">Entry Gateway</Link>
+          </p>
+
+          <GoogleLoader onSignIn={async (credential) => {
+            setLoading(true);
+            setError('');
+            try {
+              const { data } = await authAPI.googleLogin(credential);
+              login(data.user, data.token);
+              await Promise.all([fetchCart(), fetchWishlist()]);
+              router.push('/');
+            } catch (err: any) {
+              setError(err.response?.data?.error || 'Google verification failed');
+            } finally {
+              setLoading(false);
+            }
+          }} />
         </div>
-
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6 flex items-start gap-3">
-            <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
-            <p className="text-sm font-medium">{error}</p>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
-            <input
-              type="text"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="John Doe"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Confirm Password</label>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="••••••••"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              id="terms"
-              checked={agreedToTerms}
-              onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-1 w-4 h-4 text-premium-gold rounded border-gray-300 focus:ring-premium-cream0 cursor-pointer"
-            />
-            <label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
-              I agree to the{' '}
-              <Link href="/terms" className="text-premium-gold font-bold hover:underline" target="_blank">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="text-premium-gold font-bold hover:underline" target="_blank">
-                Privacy Policy
-              </Link>
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading || !agreedToTerms}
-            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading || !agreedToTerms ? 'bg-blue-300 cursor-not-allowed grayscale' : 'bg-premium-gold hover:bg-premium-black hover:shadow-lg'}`}
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Creating Account...
-              </>
-            ) : 'Sign Up'}
-          </button>
-        </form>
-
-        <div className="mt-8 mb-6 relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
-          </div>
-        </div>
-
-        <div className="flex justify-center w-full">
-          <div id="google-signup-button" className="w-full"></div>
-        </div>
-
-        <GoogleLoader onSignIn={async (credential) => {
-          setLoading(true);
-          setError('');
-          try {
-            const { data } = await authAPI.googleLogin(credential);
-            login(data.user, data.token);
-            await Promise.all([fetchCart(), fetchWishlist()]);
-            router.push('/');
-          } catch (err: any) {
-            setError(err.response?.data?.error || 'Google login failed');
-          } finally {
-            setLoading(false);
-          }
-        }} />
-
-        <p className="text-center mt-8 text-gray-600 font-medium">
-          Already have an account?{' '}
-          <Link href="/login" className="text-premium-gold hover:text-blue-800 hover:underline transition-colors font-bold">
-            Log in instead
-          </Link>
-        </p>
       </div>
     </div>
   );

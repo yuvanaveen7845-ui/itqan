@@ -7,6 +7,7 @@ import { authAPI } from '@/lib/api';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
+import Editable from '@/components/Editable';
 
 declare global {
   interface Window {
@@ -26,7 +27,7 @@ function GoogleLoader({ onSignIn }: { onSignIn: (credential: string) => void }) 
         });
         window.google.accounts.id.renderButton(
           document.getElementById('google-signin-button'),
-          { theme: 'outline', size: 'large' }
+          { theme: 'outline', size: 'large', width: '100%', shape: 'rectangular' }
         );
       }
     };
@@ -70,114 +71,102 @@ function LoginContent() {
       await Promise.all([fetchCart(), fetchWishlist()]);
       router.push(returnTo);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Login failed');
+      setError(err.response?.data?.error || 'Access denied');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="card shadow-2xl border-0 p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-500">Sign in to your account to continue</p>
-        </div>
-
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6 flex items-start gap-3">
-            <svg className="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
-            <p className="text-sm font-medium">{error}</p>
+    <div className="bg-white min-h-screen">
+      <section className="bg-premium-black pt-60 pb-40 px-12 sm:px-24 grain-overlay relative overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-10 scale-150 rotate-3 transform translate-x-20">
+              <span className="text-[300px] imperial-serif text-white pointer-events-none select-none italic font-normal lowercase">Entry</span>
           </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-            <input
-              type="email"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-            />
+          <div className="relative z-10 boutique-layout text-center">
+              <div className="space-y-6">
+                  <Editable id="login_eyebrow" type="text" fallback="Signature Authentication">
+                      <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">Private Gateway</span>
+                  </Editable>
+                  <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Welcome <span className="gold-luxury-text italic font-normal">Back</span></h1>
+              </div>
           </div>
+      </section>
 
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-bold text-gray-700">Password</label>
-              <Link href="/forgot-password" className="text-sm font-semibold text-premium-gold hover:text-blue-800 transition-colors">
-                Forgot password?
-              </Link>
+      <div className="boutique-layout px-12 sm:px-24 section-spacing flex justify-center">
+        <div className="max-w-xl w-full space-y-16">
+          {error && (
+            <div className="p-8 bg-rose-50 border border-rose-100 text-rose-800 text-[10px] font-black uppercase tracking-widest text-center animate-reveal">
+              × Error: {error}
             </div>
-            <input
-              type="password"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-premium-gold focus:border-transparent transition-all outline-none"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-            />
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-12">
+             <div className="space-y-2">
+                <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Digital Identity</label>
+                <input
+                  type="email"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-2xl imperial-serif italic focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="master@atelier.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                />
+             </div>
+
+             <div className="space-y-2">
+                <div className="flex justify-between items-end">
+                   <label className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Secret Keyword</label>
+                   <Link href="/forgot-password" className="text-[8px] font-black text-premium-charcoal/40 hover:text-premium-gold uppercase tracking-widest transition-colors mb-2">Forgot Protocol?</Link>
+                </div>
+                <input
+                  type="password"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-3xl font-bold tracking-[1em] focus:outline-none focus:border-premium-gold transition-colors"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                />
+             </div>
+
+             <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-8 bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-black transition-all shadow-2xl relative overflow-hidden group/btn"
+             >
+                <span className="relative z-10">{loading ? 'Verifying...' : 'Establish Session'}</span>
+                <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 opacity-10"></div>
+             </button>
+          </form>
+
+          <div className="space-y-8">
+             <div className="relative">
+                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-premium-gold/10"></div></div>
+                <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em]"><span className="px-6 bg-white text-premium-charcoal/40 italic">Signature Providers</span></div>
+             </div>
+             <div id="google-signin-button" className="w-full overflow-hidden luxury-card-rich outline-none"></div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 px-4 flex justify-center items-center gap-2 rounded-lg font-bold text-white transition-all shadow-md ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-premium-gold hover:bg-premium-black hover:shadow-lg'}`}
-          >
-            {loading ? (
-              <>
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                Processing...
-              </>
-            ) : 'Sign In'}
-          </button>
-        </form>
+          <p className="text-center text-[10px] font-black uppercase tracking-widest text-premium-charcoal/60">
+            No archives yet?{' '}
+            <Link href="/register" className="text-premium-gold hover:underline">Create Protocol</Link>
+          </p>
 
-        <div className="mt-8 mb-6 relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
-          </div>
-        </div>
-
-        <div className="flex justify-center w-full">
-          <div id="google-signin-button" className="w-full"></div>
-        </div>
-
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            function handleGoogleSignIn(response) {
-              const event = new CustomEvent('googleSignIn', { detail: response.credential });
-              window.dispatchEvent(event);
+          <GoogleLoader onSignIn={async (credential) => {
+            setLoading(true);
+            setError('');
+            try {
+              const { data } = await authAPI.googleLogin(credential);
+              login(data.user, data.token);
+              await Promise.all([fetchCart(), fetchWishlist()]);
+              router.push(returnTo);
+            } catch (err: any) {
+              setError(err.response?.data?.error || 'Google verification failed');
+            } finally {
+              setLoading(false);
             }
-          `
-        }} />
-
-        <GoogleLoader onSignIn={async (credential) => {
-          setLoading(true);
-          setError('');
-          try {
-            const { data } = await authAPI.googleLogin(credential);
-            login(data.user, data.token);
-            await Promise.all([fetchCart(), fetchWishlist()]);
-            router.push(returnTo);
-          } catch (err: any) {
-            setError(err.response?.data?.error || 'Google login failed');
-          } finally {
-            setLoading(false);
-          }
-        }} />
-
-        <p className="text-center mt-8 text-gray-600 font-medium">
-          Don't have an account?{' '}
-          <Link href="/register" className="text-premium-gold hover:text-blue-800 hover:underline transition-colors font-bold">
-            Create an account
-          </Link>
-        </p>
+          }} />
+        </div>
       </div>
     </div>
   );
@@ -185,7 +174,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="max-w-md mx-auto px-4 py-16 text-center">Loading...</div>}>
+    <Suspense fallback={<div className="py-60 text-center text-[10px] font-black uppercase tracking-[1rem] text-premium-gold animate-pulse">Establishing Connection...</div>}>
       <LoginContent />
     </Suspense>
   );
