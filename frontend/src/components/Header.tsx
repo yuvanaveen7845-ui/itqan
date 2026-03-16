@@ -47,8 +47,8 @@ export default function Header() {
       )}
 
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isScrolled
-          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-4 sm:mx-8 px-8 rounded-2xl'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
+          ? 'glass-panel py-3 shadow-2xl translate-y-2 mx-auto max-w-[98%] px-10 rounded-2xl'
           : 'bg-transparent py-10'
           }`}
       >
@@ -93,9 +93,9 @@ export default function Header() {
           </div>
 
           {/* Right: Icons & Profile */}
-          <div className="flex justify-end items-center gap-1 sm:gap-4">
-            <Link href="/search" className={`hidden md:block p-2 transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
-              <FiSearch size={20} />
+          <div className="flex justify-end items-center gap-3 sm:gap-6">
+            <Link href="/search" className={`hidden md:flex p-2 items-center justify-center transition-all ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Search">
+              <FiSearch size={22} />
             </Link>
 
             <Link href="/wishlist" className={`hidden sm:block p-2 transition-all relative group ${isScrolled ? 'text-premium-black' : 'text-white'} hover:text-premium-gold`} title="Wishlist">

@@ -70,7 +70,7 @@ export default function HomePage() {
 
             {/* Title with split font personality */}
             <Editable id="hero_title" fallback="The Art of Invisible Elegance">
-              <h1 className="text-7xl md:text-[120px] imperial-serif text-white leading-[0.9] mb-12 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_0.2s_forwards]">
+              <h1 className="text-7xl md:text-[120px] imperial-serif text-white leading-[1.1] mb-12 translate-y-8 opacity-0 animate-[fade-in-up_1s_ease-out_0.2s_forwards]">
                 The Art of <br />
                 <span className="gold-luxury-text italic lowercase font-normal">Invisible</span> Elegance
               </h1>
@@ -124,11 +124,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           <div className="relative group scroll-reveal visible">
             <div className="absolute -inset-12 border border-premium-gold/20 group-hover:inset-0 transition-all duration-1000 rounded-none transform rotate-3 group-hover:rotate-0"></div>
-            <div className="relative overflow-hidden luxury-card-rich p-0 border-none shadow-2xl group/img">
+            <div className="relative overflow-hidden luxury-card-rich p-0 border-none shadow-2xl group/img rounded-none min-h-[600px] flex items-center justify-center bg-premium-black/5">
               <img
                 src="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000"
                 alt="Perfume Craft"
-                className="relative z-10 w-full aspect-[4/5] object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]"
+                className="relative z-10 w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]"
               />
               <div className="absolute inset-0 bg-premium-black/20 group-hover:bg-transparent transition-all duration-1000 z-20"></div>
             </div>
@@ -197,7 +197,7 @@ export default function HomePage() {
             <div className="w-12 h-12 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8 min-h-[400px]">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8 min-h-[400px] ${featuredProducts.length < 4 ? 'justify-items-center' : ''}`}>
             {featuredProducts.length > 0 ? (
               featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
@@ -226,10 +226,10 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 h-[900px]">
-          <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5">
+          <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
-              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
             <div className="relative z-10">
               <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Sacred Earth</span>
@@ -238,10 +238,10 @@ export default function HomePage() {
             </div>
           </Link>
 
-          <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5">
+          <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[3s]" />
-              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
+              <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
             <div className="relative z-10">
               <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Royal Garden</span>
