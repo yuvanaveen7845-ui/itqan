@@ -2,31 +2,31 @@ import { FiMapPin, FiClock, FiPhone, FiNavigation } from 'react-icons/fi';
 
 export default function ShopDetailsPage() {
     return (
-        <div className="bg-gray-50 min-h-screen py-16">
-            <div className="max-w-4xl mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter mb-4">
-                        Visit <span className="text-premium-gold">Our Store</span>
+        <div className="bg-[#FAF9F6]/50 min-h-screen py-32 scroll-reveal visible">
+            <div className="max-w-6xl mx-auto px-6">
+                <div className="text-center mb-24 space-y-6">
+                    <h1 className="text-6xl md:text-8xl font-black text-premium-black tracking-tighter mb-4 imperial-serif lowercase">
+                        Visit <span className="gold-luxury-text">Our Atelier</span>
                     </h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Experience the essence of luxury fragrances in person. Our experts are here to help you find your signature scent.
+                    <p className="text-[11px] font-black uppercase tracking-[0.8em] text-premium-gold/60 max-w-2xl mx-auto font-inter">
+                        Experience olfactory excellence in its purest form
                     </p>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="luxury-card-rich shadow-2xl rounded-[40px] border-none overflow-hidden scroll-reveal visible">
                     <div className="grid grid-cols-1 md:grid-cols-2">
                         {/* Left Col: Info */}
-                        <div className="p-10 lg:p-12 flex flex-col justify-center">
-                            <h2 className="text-2xl font-bold mb-8 text-gray-900">Store Information</h2>
+                        <div className="p-12 lg:p-20 flex flex-col justify-center bg-white/40 backdrop-blur-md">
+                            <h2 className="text-[14px] font-black mb-12 text-premium-black uppercase tracking-[0.6em] border-b border-premium-gold/20 pb-6">Concierge Details</h2>
 
-                            <div className="space-y-8">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
-                                        <FiMapPin size={24} />
+                            <div className="space-y-12">
+                                <div className="flex items-start gap-8 group">
+                                    <div className="w-16 h-16 bg-premium-black text-premium-gold rounded-[20px] flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-700">
+                                        <FiMapPin size={28} />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-gray-900 mb-1">Location</h3>
-                                        <p className="text-gray-600 leading-relaxed">
+                                        <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-3">Location</h3>
+                                        <p className="text-premium-black text-lg imperial-serif leading-relaxed italic">
                                             IQTAN PERFUMES<br />
                                             M-SQUARE COMPLEX<br />
                                             Valparai MAIN Rd, Pollachi<br />
@@ -36,52 +36,56 @@ export default function ShopDetailsPage() {
                                             href="https://maps.app.goo.gl/TGSDjVVvMSgtNRC57?g_st=iw"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="mt-4 inline-flex items-center gap-2 bg-premium-gold text-white px-5 py-2.5 rounded-xl font-bold hover:bg-premium-black transition-colors shadow-lg shadow-blue-200"
+                                            className="mt-8 inline-flex items-center gap-4 bg-premium-black text-premium-gold px-8 py-4 rounded-full font-black text-[10px] uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-2xl group"
                                         >
-                                            <FiNavigation />
-                                            View on Google Maps
+                                            <FiNavigation className="group-hover:rotate-12 transition-transform" />
+                                            Plot Course
                                         </a>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
-                                        <FiClock size={24} />
+                                <div className="flex items-start gap-8 group">
+                                    <div className="w-16 h-16 bg-premium-black text-premium-gold rounded-[20px] flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-700">
+                                        <FiClock size={28} />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-gray-900 mb-1">Opening Hours</h3>
-                                        <p className="text-gray-600">Monday - Saturday: 10:00 AM - 9:00 PM</p>
-                                        <p className="text-gray-600">Sunday: Closed</p>
+                                        <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-3">Availability</h3>
+                                        <p className="text-premium-black text-lg imperial-serif italic">Monday - Saturday</p>
+                                        <p className="text-premium-charcoal/60 text-sm font-medium tracking-[0.2em] uppercase">10:00 AM - 9:00 PM</p>
+                                        <p className="text-premium-gold/40 text-[10px] font-black mt-2 uppercase tracking-widest">Sunday: By Appointment Only</p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-premium-cream text-premium-gold rounded-2xl flex items-center justify-center flex-shrink-0">
-                                        <FiPhone size={24} />
+                                <div className="flex items-start gap-8 group">
+                                    <div className="w-16 h-16 bg-premium-black text-premium-gold rounded-[20px] flex items-center justify-center flex-shrink-0 shadow-xl group-hover:scale-110 transition-transform duration-700">
+                                        <FiPhone size={28} />
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-gray-900 mb-1">Contact Us</h3>
-                                        <p className="text-gray-600">+91 98765 43210</p>
-                                        <p className="text-premium-gold font-medium mt-1">itqanperfumes@gmail.com</p>
+                                        <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mb-3">Direct Line</h3>
+                                        <p className="text-premium-black text-2xl font-light tracking-tighter">+91 98765 43210</p>
+                                        <p className="text-premium-gold font-black uppercase tracking-[0.3em] text-[10px] mt-2">itqanperfumes@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Col: Image block */}
-                        <div className="bg-gray-900 relative min-h-[300px] md:min-h-full flex items-center justify-center overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 to-black/80 z-10"></div>
+                        <div className="bg-premium-black relative min-h-[400px] md:min-h-full flex items-center justify-center overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/20 to-black/90 z-10 group-hover:opacity-40 transition-opacity duration-1000"></div>
                             <img
                                 src="https://images.unsplash.com/photo-1608698144186-07fbf6ed7264?auto=format&fit=crop&q=80&w=800"
                                 alt="Luxury Perfume Store"
-                                className="absolute inset-0 w-full h-full object-cover opacity-80"
+                                className="absolute inset-0 w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 group-hover:grayscale-0 transition-all duration-[3s]"
                             />
-                            <div className="relative z-20 text-center p-8">
-                                <div className="w-16 h-16 border-2 border-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm">
-                                    <FiMapPin className="text-white" size={24} />
+                            <div className="relative z-20 text-center p-12 space-y-8">
+                                <div className="w-20 h-20 border-2 border-premium-gold/30 rounded-full flex items-center justify-center mx-auto backdrop-blur-md shadow-2xl group-hover:border-premium-gold transition-colors duration-1000">
+                                    <FiMapPin className="text-premium-gold animate-bounce" size={32} />
                                 </div>
-                                <h3 className="text-3xl font-black text-white mb-2 tracking-widest">IQTAN</h3>
-                                <p className="text-blue-200 font-medium uppercase tracking-[0.3em] text-xs">Flagship Store</p>
+                                <div className="space-y-4">
+                                    <h3 className="text-4xl lg:text-5xl font-black text-premium-gold mb-2 tracking-[0.3em] imperial-serif select-none uppercase">IQTAN</h3>
+                                    <div className="h-px w-24 bg-premium-gold/40 mx-auto"></div>
+                                    <p className="text-premium-cream font-black uppercase tracking-[0.5em] text-[10px]">Flagship Atelier</p>
+                                </div>
                             </div>
                         </div>
                     </div>

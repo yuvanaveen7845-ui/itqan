@@ -87,11 +87,11 @@ export default function ProfilePage() {
   if (!user) return null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-gray-900">My Dashboard</h1>
-          <p className="text-gray-500 mt-1">Manage your account settings and orders</p>
+    <div className="max-w-7xl mx-auto px-6 py-24 scroll-reveal visible">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
+        <div className="space-y-4">
+          <h1 className="text-5xl lg:text-7xl font-black text-premium-black imperial-serif lowercase">The Dashboard</h1>
+          <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-[0.6em]">Executive Account Control</p>
         </div>
         <button
           onClick={() => {
@@ -107,38 +107,38 @@ export default function ProfilePage() {
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Navigation Sidebar */}
-        <div className="lg:w-1/4">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="p-6 border-b border-gray-100 bg-gray-50 flex items-center gap-4">
-              <div className="w-12 h-12 bg-premium-gold text-white rounded-full flex items-center justify-center text-xl font-bold shadow-inner">
+        <div className="lg:w-1/4 scroll-reveal visible">
+          <div className="luxury-card-rich shadow-2xl rounded-[32px] border-none overflow-hidden">
+            <div className="p-8 border-b border-premium-gold/10 bg-premium-black/5 flex items-center gap-6">
+              <div className="w-16 h-16 bg-premium-black text-premium-gold rounded-full flex items-center justify-center text-2xl font-black shadow-inner border border-premium-gold/20 italic imperial-serif">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <div>
-                <h3 className="font-bold text-gray-900">{user.name}</h3>
-                <span className="text-xs font-medium text-premium-gold bg-blue-100 px-2 py-0.5 rounded uppercase">{user.role}</span>
+              <div className="space-y-1">
+                <h3 className="font-bold text-premium-black text-lg">{user.name}</h3>
+                <span className="text-[9px] font-black text-premium-gold bg-premium-black/10 px-3 py-1 rounded-full uppercase tracking-widest">{user.role} Member</span>
               </div>
             </div>
-            <nav className="p-4 space-y-2">
+            <nav className="p-6 space-y-4">
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'profile' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'profile' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                Profile Information
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'profile' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
+                Profile details
               </button>
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'orders' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'orders' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-                Order History
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'orders' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
+                Order history
               </button>
               <button
                 onClick={() => setActiveTab('addresses')}
-                className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors flex items-center gap-3 ${activeTab === 'addresses' ? 'bg-premium-cream text-premium-black' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`w-full text-left px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center gap-4 ${activeTab === 'addresses' ? 'bg-premium-black text-premium-gold shadow-xl scale-[1.02]' : 'text-premium-charcoal/50 hover:bg-premium-cream hover:text-premium-black'}`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                Saved Addresses
+                <div className={`w-2 h-2 rounded-full transition-all duration-500 ${activeTab === 'addresses' ? 'bg-premium-gold' : 'bg-transparent'}`}></div>
+                Saved addresses
               </button>
             </nav>
           </div>
@@ -148,60 +148,60 @@ export default function ProfilePage() {
         <div className="lg:w-3/4">
           {/* Tab 1: Profile */}
           {activeTab === 'profile' && (
-            <div className="card shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold mb-6 border-b pb-4">Personal Details</h2>
+            <div className="luxury-card-rich p-10 md:p-14 shadow-2xl rounded-[40px] border-none scroll-reveal visible">
+              <h2 className="text-[14px] font-black mb-10 border-b border-premium-gold/20 pb-6 text-premium-black uppercase tracking-[0.5em]">Personal Dossier</h2>
 
               {message.text && (
-                <div className={`p-4 rounded-lg mb-6 ${message.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                <div className={`p-6 rounded-2xl mb-8 font-medium ${message.type === 'success' ? 'bg-premium-cream text-premium-black border border-premium-gold/20' : 'bg-red-50 text-red-700 border border-red-200'}`}>
                   {message.text}
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Full Name</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Appellation</label>
                   <input
                     type="text"
-                    className="input"
+                    className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg"
                     value={profileData.name}
                     onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Email Address</label>
-                  <input type="email" className="input bg-gray-50" value={user.email} disabled />
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Digital Signature</label>
+                  <input type="email" className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg bg-premium-cream/30 opacity-60" value={user.email} disabled />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-500 mb-1">Phone Number</label>
+                <div className="space-y-3">
+                  <label className="block text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] ml-2">Communication line</label>
                   <input
                     type="tel"
-                    className="input"
+                    className="premium-input w-full rounded-2xl px-6 py-5 font-medium text-lg"
                     placeholder="+91 98765 43210"
                     value={profileData.phone}
                     onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
                   />
                 </div>
-                <div className="md:col-span-2 mt-4 space-y-4">
-                  <h3 className="text-lg font-bold mb-4 border-t pt-6">Security</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2 mt-8 space-y-10">
+                  <h3 className="text-[14px] font-black mb-10 border-t border-premium-gold/20 pt-10 text-premium-black uppercase tracking-[0.5em]">Gate Security</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <input
                       type="password"
-                      placeholder="Current Password"
-                      className="input"
+                      placeholder="Current Key"
+                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
                       value={securityData.currentPassword}
                       onChange={(e) => setSecurityData({ ...securityData, currentPassword: e.target.value })}
                     />
                     <input
                       type="password"
-                      placeholder="New Password"
-                      className="input"
+                      placeholder="New Key"
+                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
                       value={securityData.newPassword}
                       onChange={(e) => setSecurityData({ ...securityData, newPassword: e.target.value })}
                     />
                     <input
                       type="password"
-                      placeholder="Confirm New Password"
-                      className="input"
+                      placeholder="Verify Key"
+                      className="premium-input w-full rounded-2xl px-6 py-5 text-sm"
                       value={securityData.confirmPassword}
                       onChange={(e) => setSecurityData({ ...securityData, confirmPassword: e.target.value })}
                     />
@@ -209,19 +209,20 @@ export default function ProfilePage() {
                   <button
                     onClick={handleChangePassword}
                     disabled={updating}
-                    className="btn btn-secondary border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
+                    className="group relative px-10 py-5 bg-transparent border border-premium-black text-premium-black rounded-full font-black text-[10px] uppercase tracking-[0.4em] hover:bg-premium-black hover:text-premium-gold transition-all duration-700 overflow-hidden"
                   >
-                    Change Password
+                    <div className="absolute inset-0 bg-premium-black translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
+                    <span className="relative z-10">Rotate Credentials</span>
                   </button>
                 </div>
               </div>
-              <div className="mt-8 flex justify-end">
+              <div className="mt-16 flex justify-end">
                 <button
                   onClick={handleSaveChanges}
                   disabled={updating}
-                  className="btn btn-primary px-8"
+                  className="bg-premium-black text-premium-gold px-16 py-6 rounded-full font-black text-[11px] uppercase tracking-[0.5em] hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-2xl scale-110 active:scale-95"
                 >
-                  {updating ? 'Saving...' : 'Save Changes'}
+                  {updating ? 'Recording...' : 'Finalize dossier'}
                 </button>
               </div>
             </div>
@@ -229,11 +230,11 @@ export default function ProfilePage() {
 
           {/* Tab 2: Orders */}
           {activeTab === 'orders' && (
-            <div className="card shadow-sm border border-gray-200 p-0 overflow-hidden">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
-                <h2 className="text-xl font-bold">Order History</h2>
+            <div className="luxury-card-rich shadow-2xl rounded-[40px] border-none overflow-hidden scroll-reveal visible">
+              <div className="p-10 border-b border-premium-gold/10 flex justify-between items-center bg-premium-black/5">
+                <h2 className="text-[14px] font-black text-premium-black uppercase tracking-[0.5em]">Investment Archive</h2>
               </div>
-              <div className="p-6 bg-gray-50 min-h-[400px]">
+              <div className="p-10 min-h-[400px]">
                 {loading ? (
                   <div className="flex justify-center items-center h-48">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-premium-gold"></div>
@@ -248,45 +249,45 @@ export default function ProfilePage() {
                     </Link>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="space-y-10">
                     {orders.map((order: any) => (
-                      <div key={order.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                        <div className="p-5 border-b border-gray-100 flex flex-wrap justify-between items-center gap-4 bg-gray-50">
-                          <div className="flex gap-8">
+                      <div key={order.id} className="bg-white/40 backdrop-blur-md border border-premium-gold/10 rounded-[32px] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-700 group">
+                        <div className="p-8 border-b border-premium-gold/5 flex flex-wrap justify-between items-center gap-6 bg-premium-black/5">
+                          <div className="flex gap-12">
                             <div>
-                              <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Order Placed</p>
-                              <p className="font-semibold text-gray-900">{new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Acquisition Date</p>
+                              <p className="font-bold text-premium-black text-lg imperial-serif italic">{new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Total</p>
-                              <p className="font-semibold text-gray-900">₹{order.total_amount}</p>
+                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Total Value</p>
+                              <p className="font-bold text-premium-black text-lg">₹{order.total_amount.toLocaleString()}</p>
                             </div>
                             <div className="hidden sm:block">
-                              <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Order #</p>
-                              <p className="font-mono text-sm text-gray-900">{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}</p>
+                              <p className="text-[9px] text-premium-gold/60 uppercase font-black tracking-widest mb-2">Ledger #</p>
+                              <p className="font-mono text-sm text-premium-charcoal/60">{(order.display_id || order.id)?.slice(0, 12).toUpperCase() || 'N/A'}</p>
                             </div>
                           </div>
                           <div>
-                            <span className={`px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase ${order.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                              order.status === 'shipped' ? 'bg-blue-100 text-premium-black' :
-                                order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                                  'bg-yellow-100 text-yellow-700'
+                            <span className={`px-6 py-2 rounded-full text-[9px] font-black tracking-[0.2em] uppercase shadow-inner ${order.status === 'delivered' ? 'bg-green-50 text-green-700 border border-green-200' :
+                              order.status === 'shipped' ? 'bg-premium-gold text-premium-black' :
+                                order.status === 'cancelled' ? 'bg-red-50 text-red-700 border border-red-200' :
+                                  'bg-premium-cream/50 text-premium-black border border-premium-gold/10'
                               }`}>
                               {order.status}
                             </span>
                           </div>
                         </div>
 
-                        <div className="p-5 flex justify-between items-center">
-                          <div className="flex -space-x-2">
+                        <div className="p-8 flex justify-between items-center group-hover:bg-premium-cream/20 transition-colors duration-700">
+                          <div className="flex -space-x-4">
                             {/* Placeholder for order item images */}
-                            <div className="w-12 h-12 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs text-gray-500">Item</div>
-                            {order.items?.length > 1 && <div className="w-12 h-12 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600">+{order.items.length - 1}</div>}
+                            <div className="w-16 h-16 rounded-full border-4 border-white bg-premium-cream flex items-center justify-center text-[10px] font-black text-premium-gold uppercase tracking-tighter shadow-xl">Item</div>
+                            {order.items?.length > 1 && <div className="w-16 h-16 rounded-full border-4 border-white bg-premium-black flex items-center justify-center text-[10px] font-black text-premium-gold shadow-xl">+{order.items.length - 1}</div>}
                           </div>
-                          <div className="flex gap-3">
-                            <button className="px-4 py-2 border border-gray-300 rounded font-medium text-gray-700 hover:bg-gray-50 transition-colors hidden sm:block">Track Order</button>
-                            <Link href={`/orders/${order.id}`} className="px-4 py-2 bg-premium-cream text-premium-black rounded font-bold hover:bg-blue-100 transition-colors">
-                              View Details
+                          <div className="flex gap-6">
+                            <button className="px-8 py-3 border border-premium-gold/20 rounded-full text-[10px] font-black text-premium-black uppercase tracking-[0.3em] hover:bg-premium-black hover:text-premium-gold transition-all duration-700 hidden sm:block">Intercept Parcel</button>
+                            <Link href={`/orders/${order.id}`} className="px-8 py-3 bg-premium-gold text-premium-black rounded-full text-[10px] font-black uppercase tracking-[0.3em] hover:shadow-2xl transition-all duration-700 group/btn overflow-hidden relative">
+                              <span className="relative z-10">Review Ledger</span>
                             </Link>
                           </div>
                         </div>
@@ -300,38 +301,38 @@ export default function ProfilePage() {
 
           {/* Tab 3: Addresses */}
           {activeTab === 'addresses' && (
-            <div className="card shadow-sm border border-gray-200">
-              <div className="flex justify-between items-center mb-6 border-b pb-4">
-                <h2 className="text-xl font-bold">Saved Addresses</h2>
-                <button className="flex items-center gap-1 text-sm font-bold text-premium-gold hover:text-blue-800 transition-colors">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                  Add New
+            <div className="luxury-card-rich p-10 md:p-14 shadow-2xl rounded-[40px] border-none scroll-reveal visible">
+              <div className="flex justify-between items-center mb-10 border-b border-premium-gold/20 pb-6">
+                <h2 className="text-[14px] font-black text-premium-black uppercase tracking-[0.5em]">Delivery Sanctuaries</h2>
+                <button className="flex items-center gap-3 text-[10px] font-black text-premium-gold hover:text-premium-black uppercase tracking-[0.3em] transition-all duration-500 group">
+                  <span className="w-6 h-6 rounded-full border border-premium-gold/30 flex items-center justify-center group-hover:bg-premium-gold group-hover:text-black transition-all">+</span>
+                  New Arrival Point
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {/* Mock Default Address */}
-                <div className="border-2 border-premium-cream0 rounded-xl p-5 relative bg-premium-cream">
-                  <span className="absolute top-3 right-3 bg-premium-gold text-white text-xs font-bold px-2 py-1 rounded">Default</span>
-                  <h4 className="font-bold text-gray-900 mb-1">{user.name}</h4>
-                  <p className="text-sm text-gray-600 mb-4">123 Perfume Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
-                  <p className="text-sm text-gray-600 mb-4">Phone: +91 98765 43210</p>
-                  <div className="flex gap-3 text-sm font-medium">
-                    <button className="text-premium-gold hover:underline">Edit</button>
-                    <span className="text-gray-300">|</span>
-                    <button className="text-red-500 hover:underline">Remove</button>
+                <div className="bg-premium-black/5 border border-premium-gold/30 rounded-[32px] p-8 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 py-2 px-6 bg-premium-gold text-black text-[9px] font-black uppercase tracking-widest rounded-bl-[20px]">Primary</div>
+                   <h4 className="font-bold text-premium-black text-xl mb-4 italic imperial-serif">{user.name}</h4>
+                  <p className="text-sm text-premium-charcoal/70 mb-6 leading-relaxed font-medium">123 Perfume Hub, Silk Road<br />Fashion District<br />Mumbai, Maharashtra 400001<br />India</p>
+                  <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-widest mb-6">Contact: +91 98765 43210</p>
+                  <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.3em]">
+                    <button className="text-premium-gold hover:text-premium-black transition-colors">Edit point</button>
+                    <span className="text-premium-gold/20">|</span>
+                    <button className="text-red-500/60 hover:text-red-600 transition-colors">Decommission</button>
                   </div>
                 </div>
 
                 {/* Mock Secondary Address */}
-                <div className="border border-gray-200 rounded-xl p-5 relative hover:border-gray-300 transition-colors">
-                  <h4 className="font-bold text-gray-900 mb-1">{user.name} (Office)</h4>
-                  <p className="text-sm text-gray-600 mb-4">456 Corporate Park, Tower B<br />Business District<br />New Delhi, Delhi 110001<br />India</p>
-                  <p className="text-sm text-gray-600 mb-4">Phone: +91 98765 43210</p>
-                  <div className="flex gap-3 text-sm font-medium">
-                    <button className="text-premium-gold hover:underline">Edit</button>
-                    <span className="text-gray-300">|</span>
-                    <button className="text-gray-500 hover:underline">Set as Default</button>
+                <div className="bg-white/40 backdrop-blur-md border border-premium-gold/10 rounded-[32px] p-8 relative hover:border-premium-gold/40 transition-all duration-700 group">
+                  <h4 className="font-bold text-premium-black text-xl mb-4 italic imperial-serif">{user.name} (Office)</h4>
+                  <p className="text-sm text-premium-charcoal/70 mb-6 leading-relaxed font-medium">456 Corporate Park, Tower B<br />Business District<br />New Delhi, Delhi 110001<br />India</p>
+                  <p className="text-[11px] font-black text-premium-gold/60 uppercase tracking-widest mb-6">Contact: +91 98765 43210</p>
+                  <div className="flex gap-6 text-[10px] font-black uppercase tracking-[0.3em]">
+                    <button className="text-premium-gold hover:text-premium-black transition-colors">Edit point</button>
+                    <span className="text-premium-gold/20">|</span>
+                    <button className="text-premium-charcoal/40 hover:text-premium-black transition-colors">Set as Primary</button>
                   </div>
                 </div>
               </div>

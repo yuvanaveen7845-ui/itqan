@@ -52,28 +52,28 @@ export default function SearchPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-16 min-h-[70vh]">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold mb-4">What are you looking for?</h1>
-                <p className="text-gray-600">Search through our premium perfume collection for every occasion.</p>
+        <div className="max-w-4xl mx-auto px-6 py-24 min-h-[70vh] scroll-reveal visible">
+            <div className="text-center mb-16 space-y-4">
+                <h1 className="text-5xl lg:text-7xl font-black mb-4 imperial-serif text-premium-black lowercase">Seek the Essence</h1>
+                <p className="text-[11px] font-black uppercase tracking-[0.6em] text-premium-gold/60 max-w-2xl mx-auto font-inter">Explore our private reserve and signature blends</p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12 border border-premium-cream">
-                <form onSubmit={handleSearch} className="relative">
+            <div className="luxury-card-rich p-8 md:p-12 mb-16 shadow-2xl rounded-[40px] border-none">
+                <form onSubmit={handleSearch} className="relative group">
                     <input
                         type="text"
-                        className="w-full text-xl p-4 pl-12 border-2 border-gray-200 rounded-xl focus:border-premium-gold focus:ring-0 outline-none transition-colors"
+                        className="premium-input w-full text-2xl p-8 pl-16 rounded-[24px] normal-case font-medium placeholder:italic placeholder:font-light"
                         placeholder="Search for 'Silk', 'Cotton', 'Blue'..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         autoFocus
                     />
-                    <svg className="w-6 h-6 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-premium-gold/40 absolute left-6 top-1/2 transform -translate-y-1/2 group-focus-within:text-premium-gold transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <button
                         type="submit"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-premium-gold text-white px-6 py-2 rounded-lg font-bold hover:bg-premium-black transition"
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-premium-black text-premium-gold px-10 py-4 rounded-[16px] font-black text-[11px] uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-xl"
                     >
                         Search
                     </button>
@@ -81,50 +81,52 @@ export default function SearchPage() {
 
                 {/* Instant Suggestions Dropdown area */}
                 {query.length >= 2 && (
-                    <div className="mt-4 border-t pt-4">
+                    <div className="mt-10 border-t border-premium-gold/10 pt-10">
                         {loading ? (
-                            <p className="text-gray-500 text-center py-4">Searching...</p>
+                            <div className="flex justify-center py-8">
+                                <div className="animate-pulse text-[10px] font-black uppercase tracking-[0.6em] text-premium-gold">Querying the Archive...</div>
+                            </div>
                         ) : suggestions.length > 0 ? (
-                            <ul className="space-y-2">
+                            <ul className="space-y-4">
                                 {suggestions.map(product => (
                                     <li key={product.id}>
-                                        <Link href={`/products/${product.id}`} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg group transition">
+                                        <Link href={`/products/${product.id}`} className="flex items-center gap-8 p-6 hover:bg-premium-cream/50 rounded-[20px] group transition-all duration-700">
                                             {product.image_url ? (
-                                                <img src={product.image_url} alt={product.name} className="w-12 h-12 object-cover rounded" />
+                                                <img src={product.image_url} alt={product.name} className="w-16 h-16 object-cover rounded-xl border border-premium-gold/10 grayscale group-hover:grayscale-0 transition-all duration-1000" />
                                             ) : (
-                                                <div className="w-12 h-12 bg-gray-200 rounded flex-shrink-0"></div>
+                                                <div className="w-16 h-16 bg-premium-cream rounded-xl flex-shrink-0"></div>
                                             )}
                                             <div>
-                                                <h4 className="font-bold text-gray-800 group-hover:text-premium-gold">{product.name}</h4>
-                                                <p className="text-sm text-gray-500">{product.Fragrance_type} • ₹{product.price}</p>
+                                                <h4 className="font-bold text-premium-black text-lg group-hover:text-premium-gold transition-colors duration-500">{product.name}</h4>
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-premium-gold/60">{product.Fragrance_type} • ₹{product.price.toLocaleString()}</p>
                                             </div>
                                         </Link>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-gray-500 text-center py-4">No specific products found matching "{query}"</p>
+                            <p className="text-premium-charcoal/40 text-center py-8 text-[10px] font-black uppercase tracking-[0.4em]">No specific products found matching "{query}"</p>
                         )}
                     </div>
                 )}
             </div>
 
             {query.length < 2 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 scroll-reveal visible">
                     {/* Trending Searches */}
-                    <div>
-                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                            <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="luxury-card-rich p-10 shadow-xl rounded-[32px] border-none">
+                        <h3 className="text-[12px] font-black mb-8 flex items-center gap-4 text-premium-black uppercase tracking-[0.4em]">
+                            <svg className="w-4 h-4 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
-                            Trending Searches
+                            Trending Queries
                         </h3>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3">
                             {trendingSearches.map(term => (
                                 <button
                                     key={term}
                                     onClick={() => handleSuggestionClick(term)}
-                                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm transition"
+                                    className="bg-premium-cream/50 hover:bg-premium-gold hover:text-black text-premium-black px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border border-premium-gold/10"
                                 >
                                     {term}
                                 </button>
@@ -133,19 +135,19 @@ export default function SearchPage() {
                     </div>
 
                     {/* Popular Categories */}
-                    <div>
-                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                            <svg className="w-5 h-5 text-premium-cream0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="luxury-card-rich p-10 shadow-xl rounded-[32px] border-none">
+                        <h3 className="text-[12px] font-black mb-8 flex items-center gap-4 text-premium-black uppercase tracking-[0.4em]">
+                            <svg className="w-4 h-4 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                             </svg>
-                            Popular Categories
+                            Olfactive Tiers
                         </h3>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3">
                             {categorySuggestions.map(term => (
                                 <button
                                     key={term}
                                     onClick={() => router.push(`/products?Fragrance_type=${term}`)}
-                                    className="border border-blue-200 text-premium-black hover:bg-premium-cream px-4 py-2 rounded-full text-sm transition"
+                                    className="bg-transparent hover:bg-premium-black hover:text-premium-gold text-premium-black border border-premium-gold/20 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500"
                                 >
                                     {term}
                                 </button>
