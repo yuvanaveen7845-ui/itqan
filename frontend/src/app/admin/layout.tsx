@@ -17,7 +17,8 @@ import {
     FiGrid,
     FiTag,
     FiLayout,
-    FiActivity
+    FiActivity,
+    FiZap
 } from 'react-icons/fi';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -33,8 +34,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     if (!isInitialized) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold"></div>
+            <div className="min-h-screen bg-premium-black flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold shadow-[0_0_20px_rgba(234,179,8,0.3)]"></div>
             </div>
         );
     }
@@ -59,52 +60,53 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     ].filter(item => item.roles.includes(user.role));
 
     return (
-        <div className="flex min-h-screen bg-gray-50 pt-20">
-            {/* Admin Sidebar */}
-            <aside className="w-72 bg-white border-r border-gray-200 hidden md:flex flex-col sticky top-20 h-[calc(100vh-80px)] z-40 overflow-y-auto">
+        <div className="flex min-h-screen bg-premium-black pt-20">
+            {/* Dark Admin Sidebar */}
+            <aside className="w-72 bg-[#111] border-r border-white/5 hidden md:flex flex-col sticky top-20 h-[calc(100vh-80px)] z-40 overflow-y-auto">
 
-                <div className="p-8 border-b border-gray-100">
-                    <Link href="/" className="text-2xl font-black text-premium-gold flex items-center gap-2">
-                        <FiBarChart2 className="text-premium-gold" />
-                        <span>AdminHub</span>
+                <div className="p-10 border-b border-white/5 bg-gradient-to-br from-premium-gold/5">
+                    <Link href="/" className="text-2xl font-black text-premium-gold flex items-center gap-3 group">
+                        <FiZap className="text-premium-gold group-hover:scale-125 transition-transform" />
+                        <span className="font-playfair italic tracking-tighter">Command</span>
                     </Link>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 px-1">Control Panel</p>
+                    <p className="text-[9px] text-white/20 font-black uppercase tracking-[0.4em] mt-3 px-1">Executive Interface</p>
                 </div>
 
-                <nav className="flex-grow p-4 space-y-2 mt-4">
+                <nav className="flex-grow p-6 space-y-3 mt-4">
                     {menuItems.map((item) => {
                         const isActive = pathname === item.path;
                         return (
                             <Link
                                 key={item.path}
                                 href={item.path}
-                                className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-200 group ${isActive
-                                    ? 'bg-premium-gold text-white shadow-lg shadow-blue-100'
-                                    : 'text-gray-500 hover:bg-premium-cream hover:text-premium-gold'
+                                className={`flex items-center justify-between px-6 py-4 rounded-none transition-all duration-300 group relative ${isActive
+                                    ? 'bg-premium-gold/10 text-premium-gold shadow-[inset_0_0_20px_rgba(234,179,8,0.05)]'
+                                    : 'text-white/40 hover:text-white hover:bg-white/5'
                                     }`}
                             >
-                                <div className="flex items-center gap-4">
-                                    <span className={`text-xl ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-premium-gold'}`}>
+                                {isActive && <div className="absolute left-0 top-0 bottom-0 w-1 bg-premium-gold shadow-[0_0_15px_rgba(234,179,8,0.5)]"></div>}
+                                <div className="flex items-center gap-5">
+                                    <span className={`text-xl transition-colors ${isActive ? 'text-premium-gold' : 'text-white/20 group-hover:text-premium-gold'}`}>
                                         {item.icon}
                                     </span>
-                                    <span className="font-bold">{item.name}</span>
+                                    <span className={`text-[11px] font-black uppercase tracking-widest ${isActive ? 'text-white' : ''}`}>{item.name}</span>
                                 </div>
-                                {isActive && <FiChevronRight className="animate-pulse" />}
+                                {isActive && <FiChevronRight className="animate-pulse text-premium-gold" />}
                             </Link>
                         );
                     })}
                 </nav>
 
-                <div className="p-4 border-t border-gray-100">
-                    <div className="bg-gray-50 rounded-2xl p-4 mb-4">
-                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Logged in as</p>
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-premium-gold font-black">
+                <div className="p-6 border-t border-white/5">
+                    <div className="bg-black/40 border border-white/5 p-6 mb-6">
+                        <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em] mb-4 text-center">Active Operative</p>
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-premium-black border border-premium-gold/30 flex items-center justify-center text-premium-gold font-playfair font-black text-xl shadow-inner group-hover:scale-110 transition-transform">
                                 {user.name.charAt(0)}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="font-bold text-gray-900 truncate">{user.name}</p>
-                                <p className="text-xs text-gray-500 truncate capitalize">{user.role.replace('_', ' ')}</p>
+                                <p className="font-playfair font-black text-premium-cream truncate text-base">{user.name}</p>
+                                <p className="text-[9px] text-premium-gold/50 font-mono tracking-widest uppercase truncate">{user.role.replace('_', ' ')}</p>
                             </div>
                         </div>
                     </div>
@@ -113,17 +115,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             logout();
                             router.push('/');
                         }}
-                        className="w-full flex items-center gap-4 px-4 py-3 text-red-500 font-bold hover:bg-red-50 rounded-xl transition-colors"
+                        className="w-full flex items-center justify-center gap-4 px-6 py-4 text-rose-500/60 font-black text-[10px] uppercase tracking-widest hover:bg-rose-500/10 hover:text-rose-400 transition-all border border-transparent hover:border-rose-500/20"
                     >
-                        <FiLogOut size={20} />
-                        <span>Sign Out</span>
+                        <FiLogOut size={16} />
+                        <span>Sever Session</span>
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content */}
-            <main className="flex-grow p-8">
-                <div className="max-w-6xl mx-auto">
+            {/* Main Content Area */}
+            <main className="flex-grow p-12 bg-premium-black relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
+                <div className="max-w-[1600px] mx-auto relative z-10">
                     {children}
                 </div>
             </main>
