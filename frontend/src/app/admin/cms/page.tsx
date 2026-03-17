@@ -3,16 +3,21 @@
 import { useEffect, useState } from 'react';
 import { cmsAPI, adminAPI } from '@/lib/api';
 import { useCMSStore } from '@/store/cms';
-import { FiLayout, FiImage, FiEdit3, FiGlobe, FiInstagram, FiFacebook, FiTwitter, FiPlus, FiTrash2, FiSave, FiCheckCircle, FiBell, FiSettings, FiCopy, FiUploadCloud } from 'react-icons/fi';
+import { FiLayout, FiImage, FiEdit3, FiGlobe, FiInstagram, FiFacebook, FiTwitter, FiPlus, FiTrash2, FiSave, FiCheckCircle, FiBell, FiSettings, FiCopy, FiUploadCloud, FiSearch, FiMonitor, FiSmartphone, FiEye, FiSettings as FiCog } from 'react-icons/fi';
 
 export default function CMSPage() {
-    const [activeTab, setActiveTab] = useState<'branding' | 'banners' | 'pages' | 'media'>('branding');
+    const [activeTab, setActiveTab] = useState<'branding' | 'banners' | 'pages' | 'media' | 'editorial'>('branding');
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState<any>({});
     const [banners, setBanners] = useState<any[]>([]);
     const [pages, setPages] = useState<any[]>([]);
     const [mediaItems, setMediaItems] = useState<any[]>([]);
     const [saveStatus, setSaveStatus] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const inlineContent = useCMSStore(state => state.inlineContent);
+    const updateInlineContent = useCMSStore(state => state.updateInlineContent);
+    const editorialKeys = Object.keys(inlineContent).filter(k => !k.includes('__'));
 
     useEffect(() => {
         fetchCMSData();
@@ -43,8 +48,7 @@ export default function CMSPage() {
     const handleUpdateBranding = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            setSaveStatus('Saving...');
-            // In a real app we'd batch these or have a better UI, but keeping it simple for now
+            setSaveStatus('Saving changes...');
             await Promise.all([
                 cmsAPI.updateSetting('branding', settings.branding),
                 cmsAPI.updateSetting('social_links', settings.social_links),
@@ -52,10 +56,9 @@ export default function CMSPage() {
                 cmsAPI.updateSetting('footer', settings.footer)
             ]);
 
-            // Update global store
             useCMSStore.getState().fetchCMS();
 
-            setSaveStatus('Master Configuration Saved!');
+            setSaveStatus('Identity Reconfigured Successfully');
             setTimeout(() => setSaveStatus(null), 3000);
         } catch (error) {
             setSaveStatus('Failed to Persist Configuration');
@@ -67,157 +70,171 @@ export default function CMSPage() {
         if (!file) return;
 
         try {
-            setSaveStatus('Uploading Image...');
+            setSaveStatus('Uploading into Sanctuary...');
             const formData = new FormData();
             formData.append('image', file);
             
             await adminAPI.uploadImage(formData);
             
-            // Refresh media list
             const mediaRes = await adminAPI.getUploadedImages();
             if (mediaRes?.data?.success) {
                 setMediaItems(mediaRes.data.data);
             }
-            setSaveStatus('Image Uploaded Successfully!');
+            setSaveStatus('Asset Synchronized Successfully');
             setTimeout(() => setSaveStatus(null), 3000);
         } catch (error) {
             console.error('Upload Error:', error);
-            setSaveStatus('Upload Failed');
+            setSaveStatus('Asset Synthesis Failed');
             setTimeout(() => setSaveStatus(null), 3000);
         }
     };
 
     const handleDeleteMedia = async (filename: string) => {
-        if (!confirm('Are you sure you want to delete this image? If it is currently used on the site, it will break those links.')) {
+        if (!confirm('Eradicate this asset from the sanctuary? Links across the storefront will be severed.')) {
             return;
         }
         try {
-            setSaveStatus('Deleting Image...');
+            setSaveStatus('Eradicating Asset...');
             await adminAPI.deleteUploadedImage(filename);
             
-            // Refresh media list
             const mediaRes = await adminAPI.getUploadedImages();
             if (mediaRes?.data?.success) {
                 setMediaItems(mediaRes.data.data);
             }
-            setSaveStatus('Image Deleted Successfully!');
+            setSaveStatus('Asset Purged Successfully');
             setTimeout(() => setSaveStatus(null), 3000);
         } catch (error) {
             console.error('Delete Error:', error);
-            setSaveStatus('Delete Failed');
+            setSaveStatus('Purge Operation Failed');
             setTimeout(() => setSaveStatus(null), 3000);
         }
     };
 
     const copyToClipboard = (url: string) => {
         navigator.clipboard.writeText(url);
-        setSaveStatus('URL Copied to Clipboard!');
+        setSaveStatus('Vector URL Copied');
         setTimeout(() => setSaveStatus(null), 3000);
     };
 
-    if (loading) return <div className="p-20 text-center animate-pulse font-black text-premium-gold tracking-widest uppercase">Initializing Elite CMS...</div>;
+    if (loading) return (
+        <div className="flex flex-col justify-center items-center h-[70vh] space-y-8">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-premium-gold shadow-[0_0_30px_rgba(234,179,8,0.3)]"></div>
+            <p className="text-premium-gold font-black uppercase text-[10px] tracking-[0.5em] animate-pulse">Initializing The Atelier Console</p>
+        </div>
+    );
 
     return (
-        <div className="space-y-12 max-w-[1400px] mx-auto pb-20">
-            <div className="flex justify-between items-end border-b border-gray-100 pb-12">
+        <div className="space-y-12 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-premium-gold/20 pb-12 gap-8">
                 <div>
-                    <h1 className="text-5xl font-playfair font-black text-premium-black tracking-tight">The Atelier</h1>
-                    <p className="text-premium-gold font-black uppercase text-[10px] tracking-[0.5em] mt-3 flex items-center gap-3">
-                        <FiGlobe /> Global Aesthetics Configuration
+                    <h1 className="text-6xl font-playfair font-black text-premium-cream tracking-tighter">The Atelier</h1>
+                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.6em] mt-4 flex items-center gap-4">
+                        <FiGlobe className="animate-spin-slow" /> Global Aesthetic & Content Sovereignty
                     </p>
                 </div>
-                {saveStatus && (
-                    <div className="flex items-center gap-3 px-6 py-3 bg-premium-black text-premium-gold border border-premium-gold/30 font-black text-[10px] uppercase tracking-widest animate-fade-in">
-                        <FiCheckCircle /> {saveStatus}
-                    </div>
-                )}
+                <div className="flex items-center gap-6">
+                    {saveStatus && (
+                        <div className="flex items-center gap-3 px-8 py-4 bg-premium-black border border-premium-gold/30 text-premium-gold font-black text-[10px] uppercase tracking-[0.3em] shadow-[0_0_20px_rgba(234,179,8,0.1)] animate-in fade-in slide-in-from-right-4 duration-500">
+                            <FiCheckCircle size={16} className="text-green-400" /> {saveStatus}
+                        </div>
+                    )}
+                </div>
             </div>
 
-            <div className="flex gap-2 p-1 bg-gray-50 border border-gray-100 w-fit">
+            {/* Navigation Tabs */}
+            <div className="flex flex-wrap gap-2 p-1 bg-[#1A1A1A] border border-white/5 shadow-2xl w-fit">
                 {[
-                    { id: 'branding', label: 'Identity & Atmosphere', icon: FiGlobe },
-                    { id: 'banners', label: 'Visual Experience', icon: FiImage },
-                    { id: 'pages', label: 'Editorial Content', icon: FiEdit3 },
-                    { id: 'media', label: 'Media Library', icon: FiImage },
+                    { id: 'branding', label: 'Core Identity', icon: FiGlobe },
+                    { id: 'banners', label: 'The Theatre', icon: FiImage },
+                    { id: 'pages', label: 'Manuscripts', icon: FiEdit3 },
+                    { id: 'media', label: 'The Sanctuary', icon: FiUploadCloud },
+                    { id: 'editorial', label: 'Editorial Room', icon: FiCog },
                 ].map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as any)}
-                        className={`px-10 py-4 font-black text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 transition-all ${activeTab === tab.id ? 'bg-premium-black text-premium-gold' : 'text-premium-charcoal/40 hover:text-premium-black'
-                            }`}
+                        className={`px-10 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 transition-all duration-500 border-none ${activeTab === tab.id 
+                            ? 'bg-premium-black text-premium-gold shadow-[inset_0_0_20px_rgba(234,179,8,0.1)] relative overflow-hidden' 
+                            : 'text-white/30 hover:text-white/60 hover:bg-white/5'
+                        }`}
                     >
+                        {activeTab === tab.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-premium-gold"></div>}
                         <tab.icon size={14} /> {tab.label}
                     </button>
                 ))}
             </div>
 
-            <div className="bg-white p-12 border border-gray-100 shadow-sm min-h-[700px]">
+            <div className="bg-[#1A1A1A] p-10 md:p-16 border border-white/5 shadow-2xl relative min-h-[700px] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none opacity-50"></div>
+                
                 {activeTab === 'branding' && (
-                    <form onSubmit={handleUpdateBranding} className="space-y-20">
-                        {/* Core Identity Section */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                            <div className="space-y-10">
-                                <h3 className="text-xs font-black text-premium-black border-b border-premium-gold/20 pb-4 uppercase tracking-[0.4em] flex items-center gap-3">
-                                    <FiSettings className="text-premium-gold" /> Core Brand Architecture
+                    <form onSubmit={handleUpdateBranding} className="space-y-24 animate-in fade-in duration-700 relative z-10">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+                            {/* Branding Configuration */}
+                            <div className="space-y-12">
+                                <h3 className="text-[11px] font-black text-premium-cream border-b border-premium-gold/20 pb-6 uppercase tracking-[0.4em] flex items-center gap-4">
+                                    <FiSettings className="text-premium-gold" /> Brand Architecture
                                 </h3>
-                                <div className="space-y-6">
-                                    <div>
-                                        <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Maison Name</label>
+                                <div className="space-y-8">
+                                    <div className="group">
+                                        <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4 group-focus-within:text-premium-gold transition-colors">Maison Denomination</label>
                                         <input
                                             type="text"
-                                            className="w-full p-5 bg-premium-cream/30 border border-gray-50 focus:border-premium-gold outline-none font-playfair italic text-xl text-premium-black transition-colors"
+                                            className="w-full px-8 py-6 bg-premium-black border border-white/5 focus:border-premium-gold/50 outline-none font-playfair italic text-3xl text-premium-cream transition-all shadow-inner placeholder:text-white/10"
                                             value={settings.branding?.name || ''}
                                             onChange={e => setSettings({ ...settings, branding: { ...settings.branding, name: e.target.value } })}
                                         />
                                     </div>
-                                    <div>
-                                        <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Signature Color</label>
-                                        <div className="flex gap-6 items-center">
+                                    <div className="pt-4">
+                                        <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-6">Signature Aesthetic Token</label>
+                                        <div className="flex gap-10 items-center bg-black/40 p-8 border border-white/5 group">
                                             <input
                                                 type="color"
-                                                className="w-20 h-20 cursor-pointer border-4 border-white shadow-lg p-0 bg-transparent"
+                                                className="w-24 h-24 cursor-pointer border-8 border-premium-black shadow-2xl p-0 bg-transparent rounded-none"
                                                 value={settings.branding?.primary_color || '#C5A059'}
                                                 onChange={e => setSettings({ ...settings, branding: { ...settings.branding, primary_color: e.target.value } })}
                                             />
-                                            <div className="flex-1">
-                                                <p className="text-[10px] font-black uppercase tracking-widest text-premium-black">{settings.branding?.primary_color || '#C5A059'}</p>
-                                                <p className="text-[8px] text-premium-charcoal/40 uppercase mt-1">Global Accent Token</p>
+                                            <div className="space-y-2">
+                                                <p className="text-xl font-mono font-black text-premium-cream uppercase tracking-widest">{settings.branding?.primary_color || '#C5A059'}</p>
+                                                <p className="text-[9px] text-premium-gold uppercase tracking-[0.3em] font-bold">Primary Visual Accent</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-10">
-                                <h3 className="text-xs font-black text-premium-black border-b border-premium-gold/20 pb-4 uppercase tracking-[0.4em] flex items-center gap-3">
-                                    <FiBell className="text-premium-gold" /> Announcement Theatre
+                            {/* Announcement Matrix */}
+                            <div className="space-y-12">
+                                <h3 className="text-[11px] font-black text-premium-cream border-b border-premium-gold/20 pb-6 uppercase tracking-[0.4em] flex items-center gap-4">
+                                    <FiBell className="text-premium-gold" /> Awareness Protocol
                                 </h3>
-                                <div className="space-y-6">
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <label className="text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em]">Display Status</label>
+                                <div className="space-y-8 bg-black/40 p-10 border border-white/5">
+                                    <div className="flex items-center justify-between py-2">
+                                        <label className="text-[10px] font-black text-white/50 uppercase tracking-[0.4em]">Active Visibility</label>
                                         <button
                                             type="button"
                                             onClick={() => setSettings({ ...settings, announcement: { ...settings.announcement, is_active: !settings.announcement?.is_active } })}
-                                            className={`w-12 h-6 rounded-full transition-colors relative ${settings.announcement?.is_active ? 'bg-premium-gold' : 'bg-gray-200'}`}
+                                            className={`w-14 h-7 rounded-none transition-all relative border ${settings.announcement?.is_active ? 'bg-premium-gold border-premium-gold/50' : 'bg-white/5 border-white/10'}`}
                                         >
-                                            <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${settings.announcement?.is_active ? 'left-7' : 'left-1'}`}></div>
+                                            <div className={`absolute top-1 w-4 h-4 transition-all ${settings.announcement?.is_active ? 'left-8 bg-black shadow-lg' : 'left-1 bg-white/20'}`}></div>
                                         </button>
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Manifesto Message</label>
+                                        <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">Transmission Content</label>
                                         <input
                                             type="text"
-                                            className="w-full p-5 bg-premium-cream/30 border border-gray-50 focus:border-premium-gold outline-none font-bold text-xs text-premium-black transition-colors"
+                                            className="w-full px-6 py-5 bg-premium-black border border-white/5 focus:border-premium-gold/30 outline-none font-bold text-xs text-premium-cream transition-all uppercase tracking-widest"
                                             value={settings.announcement?.text || ''}
                                             onChange={e => setSettings({ ...settings, announcement: { ...settings.announcement, text: e.target.value } })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Privileged Link (Optional)</label>
+                                        <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">Redirection Vector (Link)</label>
                                         <input
                                             type="text"
-                                            placeholder="e.g. /products/signature-oud"
-                                            className="w-full p-5 bg-premium-cream/30 border border-gray-50 focus:border-premium-gold outline-none font-bold text-xs text-premium-black transition-colors"
+                                            placeholder="/products/signature-collection"
+                                            className="w-full px-6 py-5 bg-premium-black border border-white/5 focus:border-premium-gold/30 outline-none font-mono text-[10px] text-white/50 transition-all uppercase tracking-widest"
                                             value={settings.announcement?.link || ''}
                                             onChange={e => setSettings({ ...settings, announcement: { ...settings.announcement, link: e.target.value } })}
                                         />
@@ -226,37 +243,37 @@ export default function CMSPage() {
                             </div>
                         </div>
 
-                        {/* Footer & Social Section */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-                            <div className="space-y-10">
-                                <h3 className="text-xs font-black text-premium-black border-b border-premium-gold/20 pb-4 uppercase tracking-[0.4em] flex items-center gap-3">
-                                    <FiLayout className="text-premium-gold" /> Footer Narratives
+                        {/* Social & Contact */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+                            <div className="space-y-12">
+                                <h3 className="text-[11px] font-black text-premium-cream border-b border-premium-gold/20 pb-6 uppercase tracking-[0.4em] flex items-center gap-4">
+                                    <FiLayout className="text-premium-gold" /> Footer Narrative
                                 </h3>
-                                <div className="space-y-6">
+                                <div className="space-y-8">
                                     <div>
-                                        <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Maison Philosophy (Footer About)</label>
+                                        <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">Philosophy Excerpt</label>
                                         <textarea
-                                            rows={3}
-                                            className="w-full p-5 bg-premium-cream/30 border border-gray-50 focus:border-premium-gold outline-none font-bold text-xs text-premium-black transition-colors"
+                                            rows={4}
+                                            className="w-full px-8 py-6 bg-premium-black border border-white/5 focus:border-premium-gold/30 outline-none font-medium text-xs text-white/80 transition-all leading-relaxed"
                                             value={settings.footer?.about_text || ''}
                                             onChange={e => setSettings({ ...settings, footer: { ...settings.footer, about_text: e.target.value } })}
                                         ></textarea>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-2 gap-8">
                                         <div>
-                                            <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Concierge Email</label>
+                                            <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">Concierge Email</label>
                                             <input
                                                 type="text"
-                                                className="w-full p-4 bg-premium-cream/30 border border-gray-50 font-bold text-xs"
+                                                className="w-full px-6 py-5 bg-premium-black border border-white/5 text-xs text-premium-cream font-mono font-bold tracking-tight outline-none focus:border-premium-gold/20"
                                                 value={settings.footer?.contact_email || ''}
                                                 onChange={e => setSettings({ ...settings, footer: { ...settings.footer, contact_email: e.target.value } })}
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-[9px] font-black text-premium-charcoal/40 uppercase tracking-[0.3em] mb-3">Privileged Line</label>
+                                            <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4">Private Line</label>
                                             <input
                                                 type="text"
-                                                className="w-full p-4 bg-premium-cream/30 border border-gray-50 font-bold text-xs"
+                                                className="w-full px-6 py-5 bg-premium-black border border-white/5 text-xs text-premium-cream font-mono font-bold tracking-tight outline-none focus:border-premium-gold/20"
                                                 value={settings.footer?.contact_phone || ''}
                                                 onChange={e => setSettings({ ...settings, footer: { ...settings.footer, contact_phone: e.target.value } })}
                                             />
@@ -265,26 +282,26 @@ export default function CMSPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-10">
-                                <h3 className="text-xs font-black text-premium-black border-b border-premium-gold/20 pb-4 uppercase tracking-[0.4em] flex items-center gap-3">
+                            <div className="space-y-12">
+                                <h3 className="text-[11px] font-black text-premium-cream border-b border-premium-gold/20 pb-6 uppercase tracking-[0.4em] flex items-center gap-4">
                                     <FiInstagram className="text-premium-gold" /> Social Coordinates
                                 </h3>
-                                <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-1 gap-6">
                                     {[
-                                        { key: 'instagram', icon: FiInstagram },
-                                        { key: 'facebook', icon: FiFacebook },
-                                        { key: 'twitter', icon: FiTwitter },
+                                        { key: 'instagram', icon: FiInstagram, color: 'text-pink-500' },
+                                        { key: 'facebook', icon: FiFacebook, color: 'text-blue-500' },
+                                        { key: 'twitter', icon: FiTwitter, color: 'text-sky-400' },
                                     ].map(social => (
-                                        <div key={social.key} className="flex items-center gap-6 bg-premium-cream/10 p-4 border border-gray-50 transition-all group">
-                                            <div className="p-4 bg-white border border-premium-gold/10 text-premium-gold group-hover:bg-premium-black group-hover:text-premium-gold transition-all">
-                                                <social.icon size={18} />
+                                        <div key={social.key} className="flex items-center gap-8 bg-black/40 p-6 border border-white/5 group transition-all hover:border-premium-gold/20">
+                                            <div className="p-5 bg-premium-black border border-white/10 group-hover:border-premium-gold/40 group-hover:bg-premium-gold/5 transition-all shadow-xl">
+                                                <social.icon size={20} className={social.color} />
                                             </div>
                                             <div className="flex-1">
-                                                <label className="block text-[7px] font-black text-premium-charcoal/30 uppercase tracking-[0.3em] mb-1">{social.key} Mastery URL</label>
+                                                <label className="block text-[8px] font-black text-white/20 uppercase tracking-[0.4em] mb-2">{social.key} Signature URL</label>
                                                 <input
                                                     type="text"
-                                                    placeholder={`Exquisite ${social.key} profile...`}
-                                                    className="w-full bg-transparent border-none outline-none font-bold text-xs text-premium-black"
+                                                    placeholder={`Protocol://${social.key}.com/archives`}
+                                                    className="w-full bg-transparent border-none outline-none font-mono text-[11px] font-bold text-premium-cream/70 focus:text-premium-gold transition-colors"
                                                     value={settings.social_links?.[social.key] || ''}
                                                     onChange={e => setSettings({ ...settings, social_links: { ...settings.social_links, [social.key]: e.target.value } })}
                                                 />
@@ -295,51 +312,50 @@ export default function CMSPage() {
                             </div>
                         </div>
 
-                        <div className="pt-12 border-t border-gray-50 flex justify-end">
+                        <div className="pt-16 border-t border-white/5 flex justify-end">
                             <button
                                 type="submit"
-                                className="bg-premium-black text-premium-gold px-20 py-6 font-black flex items-center gap-4 hover:bg-premium-gold hover:text-white transition-all shadow-2xl uppercase text-[10px] tracking-[0.4em]"
+                                className="bg-premium-black text-premium-gold px-24 py-7 font-black flex items-center gap-5 hover:bg-premium-gold hover:text-white transition-all shadow-[0_0_30px_rgba(234,179,8,0.15)] uppercase text-[11px] tracking-[0.5em] border border-premium-gold/30 hover:scale-105 active:scale-95"
                             >
-                                <FiSave size={18} /> Commit Master Changes
+                                <FiSave size={20} /> Commit Brand Sequence
                             </button>
                         </div>
                     </form>
                 )}
 
                 {activeTab === 'banners' && (
-                    <div className="space-y-12">
-                        <div className="flex justify-between items-center bg-premium-cream/30 p-8 border-l-4 border-premium-gold">
+                    <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-xl font-playfair font-black text-premium-black">Visual Symphony</h3>
-                                <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest mt-1">Hero Banners & Seasonal Visuals</p>
+                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Visual Theatre</h3>
+                                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Curate the primary narrative visual experience.</p>
                             </div>
-                            <button className="bg-premium-black text-premium-gold px-10 py-4 font-black text-[10px] uppercase tracking-widest flex items-center gap-3 hover:bg-premium-gold hover:text-white transition-all">
-                                <FiPlus /> Provision New Frame
+                            <button className="bg-premium-black text-premium-gold px-12 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 border border-premium-gold/30 hover:bg-premium-gold hover:text-white transition-all shadow-xl">
+                                <FiPlus size={16} /> Provision New Act
                             </button>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                             {banners.map((banner, idx) => (
-                                <div key={banner.id} className="group bg-white border border-gray-100 overflow-hidden hover:border-premium-gold/30 transition-all relative">
-                                    <div className="h-64 bg-gray-100 relative overflow-hidden">
-                                        <img src={banner.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[4s] ease-out" alt="" />
-                                        <div className="absolute inset-0 bg-premium-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center gap-4">
-                                            <p className="text-white text-xs font-black uppercase tracking-widest">Active Experience</p>
-                                            <div className="flex gap-4">
-                                                <button className="px-6 py-3 bg-white text-premium-black font-black text-[9px] uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-colors">Edit Frame</button>
-                                                <button className="p-3 bg-rose-600 text-white hover:bg-rose-700 transition-colors"><FiTrash2 /></button>
+                                <div key={banner.id} className="group bg-premium-black border border-white/5 overflow-hidden hover:border-premium-gold/50 transition-all duration-700 relative shadow-2xl">
+                                    <div className="h-80 bg-black relative overflow-hidden">
+                                        <img src={banner.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[6s] ease-out opacity-60 group-hover:opacity-100 transition-opacity" alt="" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center gap-6 backdrop-blur-[2px]">
+                                            <div className="flex gap-6">
+                                                <button className="px-8 py-4 bg-premium-gold text-white font-black text-[10px] uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all shadow-2xl">Edit Experience</button>
+                                                <button className="p-4 bg-rose-600/20 text-rose-500 hover:bg-rose-600 hover:text-white border border-rose-500/30 transition-all"><FiTrash2 size={18} /></button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="p-10 text-center">
-                                        <p className="text-[9px] font-black text-premium-gold uppercase tracking-[0.4em] mb-2">{banner.subtitle || `FRAME 0${idx + 1}`}</p>
-                                        <p className="text-2xl font-playfair font-black text-premium-black mb-3">{banner.title || 'Exquisite Scent'}</p>
-                                        <div className="w-12 h-px bg-premium-gold/20 mx-auto"></div>
+                                        <div className="absolute bottom-10 left-10 text-left">
+                                            <p className="text-[9px] font-black text-premium-gold uppercase tracking-[0.5em] mb-3">{banner.subtitle || `EXPERIENCE 0${idx + 1}`}</p>
+                                            <p className="text-3xl font-playfair font-black text-premium-cream tracking-tight max-w-[300px] leading-none">{banner.title || 'Exquisite Narrative'}</p>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                             {banners.length === 0 && (
-                                <div className="col-span-2 p-32 text-center bg-premium-cream/20 border-2 border-dashed border-premium-gold/10 text-premium-charcoal/40 font-black uppercase text-[10px] tracking-[0.5em]">
-                                    No visual frames provisioned for the hero theatre
+                                <div className="col-span-2 py-48 text-center bg-black/40 border-2 border-dashed border-white/5 text-white/20 font-playfair italic text-2xl tracking-wide">
+                                    No visual acts have been provisioned for the main stage.
                                 </div>
                             )}
                         </div>
@@ -347,33 +363,40 @@ export default function CMSPage() {
                 )}
 
                 {activeTab === 'pages' && (
-                    <div className="space-y-12">
-                        <div className="flex justify-between items-center bg-premium-cream/30 p-8 border-l-4 border-premium-gold">
+                    <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-xl font-playfair font-black text-premium-black">The Archives</h3>
-                                <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest mt-1">Legal Manuscripts & Brand Storytelling</p>
+                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Library of Manuscripts</h3>
+                                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Static Chapters, Core Ethos, and Legal Mandates.</p>
                             </div>
-                            <button className="bg-premium-black text-premium-gold px-10 py-4 font-black text-[10px] uppercase tracking-widest flex items-center gap-3 hover:bg-premium-gold hover:text-white transition-all">
-                                <FiPlus /> Scribe New Chapter
+                            <button className="bg-premium-black text-premium-gold px-12 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 border border-premium-gold/30 hover:bg-premium-gold hover:text-white transition-all shadow-xl">
+                                <FiPlus size={16} /> Instantiate Manuscript
                             </button>
                         </div>
-                        <div className="space-y-6">
+                        <div className="grid grid-cols-1 gap-6">
                             {pages.map(page => (
-                                <div key={page.id} className="flex items-center justify-between p-8 bg-white border border-gray-100 hover:border-premium-gold/30 hover:shadow-xl transition-all cursor-pointer group">
-                                    <div className="flex items-center gap-10">
-                                        <div className="w-16 h-16 bg-premium-cream border border-premium-gold/10 flex items-center justify-center text-premium-black font-playfair italic text-2xl group-hover:bg-premium-black group-hover:text-premium-gold transition-all duration-500">
+                                <div key={page.id} className="flex flex-col md:flex-row items-center justify-between p-10 bg-[#1A1A1A] border border-white/5 hover:border-premium-gold/40 hover:bg-premium-black transition-all duration-500 group relative">
+                                    <div className="absolute inset-y-0 left-0 w-1 bg-premium-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="flex items-center gap-12 w-full md:w-auto">
+                                        <div className="w-20 h-20 bg-black border border-white/5 flex items-center justify-center text-premium-gold font-playfair italic text-4xl group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] transition-all duration-700">
                                             {page.title.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="font-playfair font-black text-premium-black text-xl group-hover:text-premium-gold transition-colors">{page.title}</p>
-                                            <p className="text-[8px] text-premium-charcoal/40 font-black uppercase tracking-[0.3em] mt-2">Access Slug: /{page.slug} — Manuscript Updated {new Date(page.updated_at).toLocaleDateString()}</p>
+                                            <p className="font-playfair font-black text-premium-cream text-3xl tracking-tight group-hover:text-premium-gold transition-colors">{page.title}</p>
+                                            <div className="flex items-center gap-6 mt-4">
+                                                <p className="text-[9px] text-white/30 font-mono tracking-widest uppercase italic">PATH: /{page.slug}</p>
+                                                <div className="w-1 h-1 bg-white/10 rounded-full"></div>
+                                                <p className="text-[9px] text-white/30 font-mono tracking-widest uppercase">MODIFIED: {new Date(page.updated_at).toLocaleDateString()}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-12">
-                                        <span className={`px-6 py-2 text-[8px] font-black uppercase tracking-widest border ${page.is_published ? 'bg-premium-black text-premium-gold border-premium-gold/30' : 'bg-white text-premium-charcoal/30 border-gray-100'}`}>
-                                            {page.is_published ? 'Publicly Released' : 'Private Draft'}
+                                    <div className="flex items-center gap-10 mt-8 md:mt-0">
+                                        <span className={`px-6 py-3 text-[9px] font-black uppercase tracking-widest border transition-all ${page.is_published ? 'bg-transparent text-green-400 border-green-500/20' : 'bg-white/5 text-white/20 border-white/10'}`}>
+                                            {page.is_published ? 'RELEASED' : 'QUARANTINED'}
                                         </span>
-                                        <FiEdit3 className="text-premium-gold group-hover:scale-125 transition-transform" />
+                                        <button className="text-white/20 group-hover:text-premium-gold transition-colors p-4 hover:bg-white/5 border border-transparent hover:border-white/10">
+                                            <FiEdit3 size={24} />
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -382,74 +405,184 @@ export default function CMSPage() {
                 )}
 
                 {activeTab === 'media' && (
-                    <div className="space-y-12 animate-fade-in">
-                        <div className="flex justify-between items-center bg-premium-cream/30 p-8 border-l-4 border-premium-gold">
+                    <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-xl font-playfair font-black text-premium-black">Media Sanctuary</h3>
-                                <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest mt-1">Global Static Asset Management</p>
+                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Asset Sanctuary</h3>
+                                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Encrypted Cloud Storage for Global Visual Nodes.</p>
                             </div>
                             <div className="relative">
                                 <input 
                                     type="file" 
-                                    id="media-upload"
+                                    id="media-upload-pro"
                                     className="hidden" 
                                     accept="image/*"
                                     onChange={handleFileUpload} 
                                 />
                                 <label 
-                                    htmlFor="media-upload"
-                                    className="bg-premium-black text-premium-gold px-10 py-4 font-black text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-premium-gold hover:text-white transition-all cursor-pointer"
+                                    htmlFor="media-upload-pro"
+                                    className="bg-premium-black text-premium-gold px-12 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 hover:bg-premium-gold hover:text-white transition-all cursor-pointer border border-premium-gold/30 shadow-2xl hover:scale-105 active:scale-95"
                                 >
-                                    <FiUploadCloud size={16} /> Mint New Asset
+                                    <FiUploadCloud size={18} /> Ingest New Vector
                                 </label>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-8">
                             {mediaItems.map(item => (
-                                <div key={item.filename} className="group bg-white border border-gray-100 hover:border-premium-gold/30 transition-all shadow-sm">
-                                    <div className="aspect-square bg-gray-50 relative overflow-hidden flex items-center justify-center p-4">
-                                        {/* Grid background for transparency */}
-                                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                                <div key={item.filename} className="group bg-black/40 border border-white/5 hover:border-premium-gold/50 transition-all duration-500 shadow-2xl relative">
+                                    <div className="aspect-square relative overflow-hidden flex items-center justify-center p-6">
+                                        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle, #C5A059 1px, transparent 1px)', backgroundSize: '15px 15px' }}></div>
                                         <img 
                                             src={item.url} 
                                             alt={item.filename} 
-                                            className="max-w-full max-h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-500"
+                                            className="max-w-full max-h-full object-contain relative z-10 group-hover:scale-110 transition-transform duration-700"
                                         />
-                                        <div className="absolute inset-0 bg-premium-black/60 opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col justify-center items-center gap-3">
+                                        <div className="absolute inset-0 bg-premium-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 flex flex-col justify-center items-center gap-4 backdrop-blur-[2px]">
                                             <button 
                                                 onClick={() => copyToClipboard(item.url)}
-                                                className="px-6 py-2 bg-white text-premium-black font-black text-[9px] uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-colors flex items-center gap-2"
+                                                className="px-8 py-3 bg-premium-gold text-white font-black text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-2xl w-2/3"
                                             >
-                                                <FiCopy /> Copy Vector
+                                                Copy Path
                                             </button>
                                             <button 
                                                 onClick={() => handleDeleteMedia(item.filename)}
-                                                className="w-10 h-10 flex text-rose-500 bg-white/10 hover:bg-rose-600 hover:text-white rounded-full items-center justify-center transition-all"
+                                                className="px-8 py-3 bg-white/10 text-white/50 font-black text-[10px] uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-all w-2/3 border border-white/10"
                                             >
-                                                <FiTrash2 />
+                                                Eradicate
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="p-4 border-t border-gray-50 flex justify-between items-center text-[8px] font-black uppercase text-premium-charcoal/40 tracking-widest">
-                                        <span className="truncate max-w-[120px]" title={item.filename}>{item.filename}</span>
-                                        <span>{(item.size / 1024).toFixed(0)} KB</span>
+                                    <div className="p-6 border-t border-white/5 bg-black/20 flex flex-col gap-2">
+                                        <span className="truncate text-[10px] font-mono font-bold text-white/50 tracking-tight uppercase" title={item.filename}>{item.filename}</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[9px] font-black text-premium-gold/50 uppercase tracking-widest">WEIGHT: {(item.size / 1024).toFixed(0)} KB</span>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
                         {mediaItems.length === 0 && (
-                            <div className="p-32 text-center bg-gray-50 border border-dashed border-gray-200">
-                                <div className="w-20 h-20 bg-white shadow-xl mx-auto flex items-center justify-center text-premium-gold mb-6 rotate-3">
-                                    <FiImage size={32} />
+                            <div className="py-64 text-center bg-black/40 border-2 border-dashed border-white/5 relative group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="w-24 h-24 bg-white/5 border border-white/10 shadow-2xl mx-auto flex items-center justify-center text-premium-gold/20 mb-10 rotate-12 group-hover:rotate-0 transition-transform duration-700 group-hover:text-premium-gold">
+                                    <FiImage size={40} />
                                 </div>
-                                <h4 className="text-xl font-playfair font-black text-premium-black mb-2">The Sanctuary is Empty</h4>
-                                <p className="text-[10px] font-black text-premium-charcoal/40 uppercase tracking-widest">Upload global assets here to utilize them across the storefront.</p>
+                                <h4 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Sanctuary Observes Persistence</h4>
+                                <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mt-6">Ingest global assets to facilitate site-wide distribution.</p>
                             </div>
                         )}
                     </div>
                 )}
+
+                {activeTab === 'editorial' && (
+                    <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
+                        <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
+                            <div className="flex-1">
+                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">Modular Control Terminal</h3>
+                                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Direct Manipulation of Inline Dynamic Variables.</p>
+                            </div>
+                            <div className="w-full md:w-1/3 group relative">
+                                <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-premium-gold transition-colors" />
+                                <input
+                                    type="text"
+                                    placeholder="Filter Intelligence Map..."
+                                    className="w-full bg-premium-black border border-white/10 pl-16 pr-8 py-5 font-black text-[10px] tracking-widest uppercase outline-none focus:border-premium-gold/50 transition-all text-premium-cream shadow-2xl"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="bg-black/20 border border-white/5 overflow-hidden shadow-2xl">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <thead>
+                                        <tr className="bg-black/60 text-premium-gold/40 text-[9px] font-black uppercase tracking-[0.4em] border-b border-white/5">
+                                            <th className="px-10 py-8">Variable Node</th>
+                                            <th className="px-10 py-8">Absolute Data Payload</th>
+                                            <th className="px-10 py-8">Styling Array</th>
+                                            <th className="px-10 py-8 text-right">Visibility State</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-white/5 font-mono text-[10px]">
+                                        {editorialKeys
+                                            .filter(k => k.toLowerCase().includes(searchQuery.toLowerCase()))
+                                            .map(key => {
+                                                const stylesKey = `${key}__styles`;
+                                                const visibleKey = `${key}__visible`;
+                                                const value = inlineContent[key] || '';
+                                                const styles = inlineContent[stylesKey] || '';
+                                                const isVisible = inlineContent[visibleKey] !== 'false';
+
+                                                return (
+                                                    <tr key={key} className="hover:bg-premium-gold/5 transition-colors group">
+                                                        <td className="px-10 py-8 w-1/4">
+                                                            <div className="flex flex-col gap-2">
+                                                                <span className="text-premium-cream font-black tracking-widest group-hover:text-premium-gold transition-colors">{key}</span>
+                                                                <span className="text-[8px] text-white/20 uppercase tracking-[0.2em]">NODE_IDENTIFIER</span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-10 py-8 w-1/3">
+                                                            <textarea
+                                                                className="w-full bg-black/40 border border-white/5 hover:border-white/10 focus:border-premium-gold/50 focus:bg-black p-5 text-white/70 font-medium outline-none transition-all resize-none shadow-xl h-24 text-xs leading-relaxed"
+                                                                value={value}
+                                                                onChange={(e) => updateInlineContent(key, e.target.value)}
+                                                                placeholder="[NULL_PAYLOAD]"
+                                                            />
+                                                        </td>
+                                                        <td className="px-10 py-8">
+                                                            <div className="relative">
+                                                                <input
+                                                                    className="w-full bg-black/40 border border-white/5 hover:border-white/10 focus:border-premium-gold/50 focus:bg-black px-6 py-4 text-[10px] font-mono text-premium-gold/70 outline-none transition-all shadow-xl"
+                                                                    value={styles}
+                                                                    onChange={(e) => updateInlineContent(stylesKey, e.target.value)}
+                                                                    placeholder="No custom tokens"
+                                                                />
+                                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-20 group-hover:opacity-100 transition-opacity">
+                                                                    <FiCog size={12} className="text-premium-gold animate-spin-slow" />
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-10 py-8 text-right">
+                                                            <button
+                                                                onClick={() => updateInlineContent(visibleKey, isVisible ? 'false' : 'true')}
+                                                                className={`px-6 py-3 text-[8px] font-black uppercase tracking-widest border transition-all ${isVisible 
+                                                                    ? 'bg-green-500/10 text-green-400 border-green-500/30 hover:bg-rose-600/20 hover:text-rose-400 hover:border-rose-500/30' 
+                                                                    : 'bg-white/5 text-white/20 border-white/10 hover:bg-green-600/20 hover:text-green-400 hover:border-green-500/30'}`}
+                                                            >
+                                                                {isVisible ? 'TRANSMITTING' : 'ENCRYPTED'}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        {editorialKeys.filter(k => k.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                                            <tr>
+                                                <td colSpan={4} className="py-48 text-center text-white/10 font-playfair italic text-2xl tracking-[0.2em]">
+                                                    Zero intelligence nodes detected within filter parameters.
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+            
+            {/* Global Preview Overlay */}
+            <div className="fixed bottom-10 right-10 flex flex-col gap-4 z-50">
+                <button className="w-16 h-16 bg-premium-black border border-premium-gold/30 text-premium-gold shadow-[0_0_30px_rgba(234,179,8,0.2)] flex items-center justify-center hover:bg-premium-gold hover:text-white transition-all group overflow-hidden relative">
+                    <FiEye size={24} className="relative z-10 group-hover:scale-125 transition-transform" />
+                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                </button>
+                <div className="hidden md:flex flex-col gap-2 scale-75 opacity-50 hover:opacity-100 transition-opacity">
+                    <button className="w-12 h-12 bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10 transition-all"><FiMonitor size={20} /></button>
+                    <button className="w-12 h-12 bg-white/5 border border-white/10 text-white flex items-center justify-center hover:bg-white/10 transition-all"><FiSmartphone size={20} /></button>
+                </div>
             </div>
         </div>
     );

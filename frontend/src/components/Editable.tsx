@@ -35,13 +35,44 @@ const COLOR_PRESETS = [
     { name: 'Luxury Gradient', class: 'gold-luxury-text' },
 ];
 
+const DISPLAY_PRESETS = [
+    { name: 'Block', class: 'block' },
+    { name: 'Inline', class: 'inline-block' },
+    { name: 'Flex Row', class: 'flex flex-row items-center gap-4' },
+    { name: 'Flex Col', class: 'flex flex-col gap-4' },
+    { name: 'Grid Cols-2', class: 'grid grid-cols-2 gap-6' },
+];
+
+const SPACING_PRESETS = [
+    { name: 'P-None', class: 'p-0' },
+    { name: 'P-Small', class: 'p-4' },
+    { name: 'P-Large', class: 'p-12' },
+    { name: 'M-Auto', class: 'mx-auto' },
+    { name: 'M-Bottom', class: 'mb-12' },
+];
+
+const BORDER_PRESETS = [
+    { name: 'No Border', class: 'border-0' },
+    { name: 'Gold Border', class: 'border border-premium-gold/30' },
+    { name: 'Soft Radius', class: 'rounded-2xl' },
+    { name: 'Circle', class: 'rounded-full' },
+];
+
+const EFFECT_PRESETS = [
+    { name: 'No Shadow', class: 'shadow-none' },
+    { name: 'Soft Shadow', class: 'shadow-2xl' },
+    { name: 'Gold Glow', class: 'shadow-[0_0_30px_rgba(197,160,89,0.3)]' },
+    { name: 'Glass Panel', class: 'bg-white/5 backdrop-blur-md border border-white/10' },
+    { name: 'Hover Scale', class: 'hover:scale-105 transition-transform duration-500' },
+];
+
 export default function Editable({ id, children, type = 'text', className = '', fallback = '', href = '' }: EditableProps) {
     const isDevMode = useDevStore((state) => state.isDevMode);
     const inlineContent = useCMSStore((state) => state.inlineContent);
     const updateInlineContent = useCMSStore((state) => state.updateInlineContent);
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editTab, setEditTab] = useState<'content' | 'appearance' | 'logic'>('content');
+    const [editTab, setEditTab] = useState<'content' | 'appearance' | 'layout' | 'logic'>('content');
     const [tempValue, setTempValue] = useState('');
     const [tempStyle, setTempStyle] = useState('');
     const [tempHref, setTempHref] = useState('');
@@ -144,7 +175,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
                             {/* Editor Header */}
                             <div className="flex justify-between items-center border-b border-white/5 pb-4">
                                 <div className="flex gap-6">
-                                    {['content', 'appearance', 'logic'].map((tab) => (
+                                    {['content', 'appearance', 'layout', 'logic'].map((tab) => (
                                         <button
                                             key={tab}
                                             onClick={() => setEditTab(tab as any)}
@@ -260,12 +291,57 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                         </div>
                                         {/* Custom Classes */}
                                         <div className="space-y-2 pt-4 border-t border-white/5">
-                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest">Expert Stylings (Tailwind)</label>
-                                            <input
-                                                className="w-full bg-white/5 border border-white/10 p-2 text-[10px] focus:border-premium-gold/50 outline-none"
+                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest flex justify-between">
+                                                <span>Expert Stylings (Tailwind CSS)</span>
+                                                <button onClick={() => setTempStyle('')} className="text-rose-500 hover:text-rose-400">Clear All</button>
+                                            </label>
+                                            <textarea
+                                                className="w-full bg-white/5 border border-white/10 p-3 text-[10px] focus:border-premium-gold/50 outline-none font-mono text-premium-gold h-20"
                                                 value={tempStyle}
-                                                onChange={(e) => setTempStyle(e.target.value)}
+                                                onChange={(e) => { setTempStyle(e.target.value); addToHistory(); }}
+                                                placeholder="e.g., mt-4 bg-red-500 hover:opacity-80"
                                             />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {editTab === 'layout' && (
+                                    <div className="space-y-6">
+                                        {/* Display Toggle */}
+                                        <div className="space-y-3">
+                                            <span className="text-[7px] font-black uppercase text-white/40 tracking-widest block">Structural Display</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {DISPLAY_PRESETS.map(d => (
+                                                    <button key={d.name} onClick={() => { setTempStyle(`${tempStyle} ${d.class}`.trim()); addToHistory(); }} className="px-3 py-1.5 border border-white/10 text-[7px] font-black uppercase tracking-widest hover:border-premium-gold transition-all">{d.name}</button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        {/* Spacing Toggle */}
+                                        <div className="space-y-3">
+                                            <span className="text-[7px] font-black uppercase text-white/40 tracking-widest block">Padding & Margins</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {SPACING_PRESETS.map(s => (
+                                                    <button key={s.name} onClick={() => { setTempStyle(`${tempStyle} ${s.class}`.trim()); addToHistory(); }} className="px-3 py-1.5 border border-white/10 text-[7px] font-black uppercase tracking-widest hover:border-premium-gold transition-all">{s.name}</button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        {/* Borders Toggle */}
+                                        <div className="space-y-3">
+                                            <span className="text-[7px] font-black uppercase text-white/40 tracking-widest block">Borders & Radius</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {BORDER_PRESETS.map(b => (
+                                                    <button key={b.name} onClick={() => { setTempStyle(`${tempStyle} ${b.class}`.trim()); addToHistory(); }} className="px-3 py-1.5 border border-white/10 text-[7px] font-black uppercase tracking-widest hover:border-premium-gold transition-all">{b.name}</button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        {/* Effects Toggle */}
+                                        <div className="space-y-3">
+                                            <span className="text-[7px] font-black uppercase text-white/40 tracking-widest block">Visual Effects & Shadows</span>
+                                            <div className="flex flex-wrap gap-2">
+                                                {EFFECT_PRESETS.map(e => (
+                                                    <button key={e.name} onClick={() => { setTempStyle(`${tempStyle} ${e.class}`.trim()); addToHistory(); }} className="px-3 py-1.5 border border-white/10 text-[7px] font-black uppercase tracking-widest hover:border-premium-gold transition-all bg-white/5">{e.name}</button>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 )}

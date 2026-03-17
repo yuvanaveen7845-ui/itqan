@@ -46,116 +46,122 @@ export default function AdminOrdersPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-black text-gray-900">Order Management</h1>
-        <div className="flex gap-3">
+    <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-premium-gold/20 pb-8">
+        <div>
+          <h1 className="text-4xl font-playfair font-black text-premium-cream mb-2 tracking-tight">Order Manifesto</h1>
+          <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em]">Oversee global dispatches and command customer fulfillment.</p>
+        </div>
+        <div className="flex gap-4">
           <div className="relative">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
             <input
               type="text"
-              placeholder="Search orders..."
-              className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-premium-gold transition"
+              placeholder="Search manifests..."
+              className="pl-12 pr-6 py-3 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all placeholder-white/30 min-w-[250px] text-sm font-medium"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <select
-            className="bg-white border border-gray-200 px-4 py-2 rounded-xl outline-none font-bold text-gray-700"
+            className="bg-[#1A1A1A] border border-white/10 px-6 py-3 font-black text-[9px] uppercase tracking-widest text-premium-cream focus:border-premium-gold/50 outline-none appearance-none cursor-pointer"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
+            <option value="all">All Directives</option>
+            <option value="pending">Pending Validation</option>
             <option value="confirmed">Confirmed</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
+            <option value="shipped">In Transit (Shipped)</option>
+            <option value="delivered">Fulfilled (Delivered)</option>
+            <option value="cancelled">Voided</option>
           </select>
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
         {loading ? (
-          <div className="p-20 text-center">
+          <div className="p-20 text-center relative z-10">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-premium-gold mx-auto"></div>
           </div>
         ) : (
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-gray-50 text-gray-400 text-xs font-black uppercase tracking-widest border-b border-gray-100">
-                <th className="px-8 py-4">Order ID</th>
-                <th className="px-8 py-4">Customer ID</th>
-                <th className="px-8 py-4">Status</th>
-                <th className="px-8 py-4">Total</th>
-                <th className="px-8 py-4">Date & Time</th>
-                <th className="px-8 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {filteredOrders.map((order: any) => (
-                <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-8 py-4 font-bold text-gray-900 leading-tight">
-                    #{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}
-                  </td>
-                  <td className="px-8 py-4 font-semibold text-gray-600">{order.user_id}</td>
-                  <td className="px-8 py-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide border ${order.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' :
-                      order.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                        order.status === 'shipped' ? 'bg-premium-cream text-premium-black border-blue-200' :
-                          order.status === 'cancelled' ? 'bg-red-50 text-red-700 border-red-200' :
-                            'bg-gray-50 text-gray-700 border-gray-200'
-                      }`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-8 py-4 font-black">₹{order.total_amount.toLocaleString()}</td>
-                  <td className="px-8 py-4 text-sm font-medium text-gray-600">
-                    {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}<br />
-                    <span className="text-gray-400 text-xs">{new Date(order.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-                  </td>
-                  <td className="px-8 py-4">
-                    <div className="flex justify-end gap-2">
-                      {order.status === 'confirmed' && (
-                        <button
-                          onClick={() => handleUpdateStatus(order.id, 'shipped')}
-                          className="p-2 bg-premium-cream text-premium-gold rounded-lg hover:bg-premium-gold hover:text-white transition" title="Mark Shipped">
-                          <FiBox />
-                        </button>
-                      )}
-                      {order.status === 'shipped' && (
-                        <button
-                          onClick={() => handleUpdateStatus(order.id, 'delivered')}
-                          className="p-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition" title="Mark Delivered">
-                          <FiCheck />
-                        </button>
-                      )}
-                      {['pending', 'confirmed'].includes(order.status) && (
-                        <button
-                          onClick={() => handleUpdateStatus(order.id, 'cancelled')}
-                          className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition" title="Cancel Order">
-                          <FiX />
-                        </button>
-                      )}
-                      <button className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-200 transition" title="Print Invoice">
-                        <FiPrinter />
-                      </button>
-                      <button
-                        onClick={() => router.push(`/admin/orders/${order.id}`)}
-                        className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-premium-gold hover:text-white transition" title="View Details"
-                      >
-                        <FiEye />
-                      </button>
-                    </div>
-                  </td>
+          <div className="overflow-x-auto relative z-10">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="bg-black/40 text-premium-gold/60 text-[9px] font-black uppercase tracking-[0.3em]">
+                  <th className="px-8 py-6">Manifest ID</th>
+                  <th className="px-8 py-6">Target Client</th>
+                  <th className="px-8 py-6">Operations Status</th>
+                  <th className="px-8 py-6">Valuation</th>
+                  <th className="px-8 py-6">Timestamp</th>
+                  <th className="px-8 py-6 text-right">Directives</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {filteredOrders.map((order: any) => (
+                  <tr key={order.id} className="hover:bg-premium-gold/5 transition-colors group">
+                    <td className="px-8 py-6 font-mono text-premium-cream tracking-widest text-sm">
+                      #{(order.display_id || order.id)?.slice(0, 8) || 'N/A'}
+                    </td>
+                    <td className="px-8 py-6 font-semibold text-white/50">{order.user_id}</td>
+                    <td className="px-8 py-6">
+                      <span className={`px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] border ${order.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                        order.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                          order.status === 'shipped' ? 'bg-premium-gold/10 text-premium-gold border-premium-gold/30' :
+                            order.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                              'bg-white/5 text-white/50 border-white/10'
+                        }`}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="px-8 py-6 font-black text-white text-base">₹{Number(order.total_amount).toLocaleString()}</td>
+                    <td className="px-8 py-6 text-sm font-medium text-white/70">
+                      {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}<br />
+                      <span className="text-premium-gold/50 text-[10px] uppercase font-mono tracking-widest">{new Date(order.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
+                    </td>
+                    <td className="px-8 py-6">
+                      <div className="flex justify-end gap-3">
+                        {order.status === 'confirmed' && (
+                          <button
+                            onClick={() => handleUpdateStatus(order.id, 'shipped')}
+                            className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-premium-gold hover:border-premium-gold hover:text-white transition-all shadow-sm" title="Dispatch order">
+                            <FiBox size={16} />
+                          </button>
+                        )}
+                        {order.status === 'shipped' && (
+                          <button
+                            onClick={() => handleUpdateStatus(order.id, 'delivered')}
+                            className="p-3 bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-600 hover:text-white transition-all shadow-sm" title="Confirm Fulfillment">
+                            <FiCheck size={16} />
+                          </button>
+                        )}
+                        {['pending', 'confirmed'].includes(order.status) && (
+                          <button
+                            onClick={() => handleUpdateStatus(order.id, 'cancelled')}
+                            className="p-3 bg-rose-500/5 border border-rose-500/20 text-rose-400 hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="Void Manifest">
+                            <FiX size={16} />
+                          </button>
+                        )}
+                        <button className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-white/10 hover:text-white transition-all shadow-sm" title="Mint Invoice">
+                          <FiPrinter size={16} />
+                        </button>
+                        <button
+                          onClick={() => router.push(`/admin/orders/${order.id}`)}
+                          className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-premium-gold hover:border-premium-gold hover:text-white transition-all shadow-sm" title="Review Intelligence"
+                        >
+                          <FiEye size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         {!loading && filteredOrders.length === 0 && (
-          <div className="p-20 text-center text-gray-500">
-            No orders matching your criteria.
+          <div className="p-20 text-center text-white/30 font-playfair italic text-xl">
+            No active manifestations matching your query.
           </div>
         )}
       </div>

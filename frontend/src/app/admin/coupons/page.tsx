@@ -67,17 +67,17 @@ export default function AdminCouponsPage() {
             });
             fetchCoupons();
         } catch (error) {
-            alert('Failed to create coupon. Code might already exist.');
+            alert('Failed to establish promotion. Cipher might already exist.');
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (confirm('Deactivate and delete this promotional code?')) {
+        if (confirm('Deactivate and eradicate this promotional cipher?')) {
             try {
                 await couponAPI.delete(id);
                 fetchCoupons();
             } catch (error) {
-                alert('Failed to delete coupon');
+                alert('Failed to eradicate cipher');
             }
         }
     };
@@ -89,212 +89,215 @@ export default function AdminCouponsPage() {
     );
 
     return (
-        <div className="space-y-8 pb-20">
-            <div className="flex justify-between items-center">
+        <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-premium-gold/20 pb-8">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 mb-2">Promotional Engine</h1>
-                    <p className="text-gray-500 font-medium text-sm">Create and monitor discount sequences and customer incentives.</p>
+                    <h1 className="text-4xl font-playfair font-black text-premium-cream mb-2 tracking-tight">Promotional Engine</h1>
+                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em]">Construct and monitor elite discount sequences and client incentives.</p>
                 </div>
                 <button
                     onClick={() => setShowForm(!showForm)}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black transition-all shadow-lg ${showForm ? 'bg-gray-100 text-gray-700' : 'bg-rose-600 text-white shadow-rose-100 hover:bg-rose-700'
+                    className={`flex items-center gap-3 px-8 py-4 font-black text-[10px] uppercase tracking-widest transition-all duration-300 shadow-xl border ${showForm ? 'bg-[#1A1A1A] text-white/50 border-white/10 hover:border-premium-gold' : 'bg-premium-black text-premium-gold border-premium-gold/30 hover:bg-premium-gold hover:text-white hover:scale-105 active:scale-95'
                         }`}
                 >
-                    {showForm ? <><FiX /> Cancel</> : <><FiPlus /> New Campaign</>}
+                    {showForm ? <><FiX size={16} /> Abort Campaign</> : <><FiPlus size={16} /> Mint Campaign</>}
                 </button>
             </div>
 
             {showForm && (
-                <div className="bg-white rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-in slide-in-from-top-4 duration-500">
-                    <div className="bg-rose-50/50 p-8 border-b border-rose-100">
-                        <h2 className="text-xl font-black text-rose-900 flex items-center gap-2">
-                            <FiTag className="text-rose-600" /> Campaign Configuration
+                <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-premium-gold/5 pointer-events-none"></div>
+                    <div className="bg-premium-gold/5 px-10 py-6 border-b border-premium-gold/10 relative z-10">
+                        <h2 className="text-xl font-playfair font-black text-premium-cream tracking-wide flex items-center gap-4">
+                            <FiTag className="text-premium-gold" /> Cipher Configuration Array
                         </h2>
                     </div>
-                    <form onSubmit={handleSubmit} className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <form onSubmit={handleSubmit} className="p-10 grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
                         <div className="md:col-span-2">
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Coupon Code</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Campaign Cipher Designation</label>
                             <input
                                 type="text"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-black text-lg uppercase"
-                                placeholder="e.g. FESTIVE50"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all font-mono font-black text-xl uppercase tracking-widest"
+                                placeholder="E.G. LUXURY2026"
                                 value={formData.code}
                                 onChange={(e) => setFormData({ ...formData, code: e.target.value })}
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Type</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Algorithmic Type</label>
                             <select
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-bold"
+                                className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all appearance-none cursor-pointer font-bold"
                                 value={formData.discount_type}
                                 onChange={(e) => setFormData({ ...formData, discount_type: e.target.value })}
                             >
-                                <option value="percentage">Percentage (%)</option>
-                                <option value="fixed">Fixed Amount (₹)</option>
+                                <option value="percentage">Relative Yield (%)</option>
+                                <option value="fixed">Absolute Value (₹)</option>
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Discount Value</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Reduction Magnitude</label>
                             <input
                                 type="number"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-black"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-gold focus:border-premium-gold/50 outline-none transition-all font-black text-lg"
                                 value={formData.discount_value}
                                 onChange={(e) => setFormData({ ...formData, discount_value: e.target.value })}
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Min Order (₹)</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Validation Floor (₹)</label>
                             <input
                                 type="number"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-black text-indigo-600"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all font-mono font-bold"
                                 value={formData.min_order_amount}
                                 onChange={(e) => setFormData({ ...formData, min_order_amount: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Max Discount (₹)</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Maximum Ceiling (₹)</label>
                             <input
                                 type="number"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-black text-indigo-600"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all font-mono font-bold"
                                 value={formData.max_discount_amount}
                                 onChange={(e) => setFormData({ ...formData, max_discount_amount: e.target.value })}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Start Date</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Epoch Commencement</label>
                             <input
                                 type="date"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-bold"
+                                className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all font-mono text-sm"
                                 value={formData.start_date}
                                 onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Expiry Date</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Epoch Termination</label>
                             <input
                                 type="date"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-bold text-rose-600"
+                                className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-rose-500/50 outline-none transition-all font-mono text-sm"
                                 value={formData.end_date}
                                 onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-widest">Usage Limit</label>
+                            <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Distribution Quota</label>
                             <input
                                 type="number"
-                                className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-rose-50 outline-none transition font-bold"
-                                placeholder="Unlimited"
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all font-mono"
+                                placeholder="Absolute Infinity (Blank)"
                                 value={formData.usage_limit}
                                 onChange={(e) => setFormData({ ...formData, usage_limit: e.target.value })}
                             />
                         </div>
 
-                        <div className="md:col-span-3 flex justify-end gap-4 mt-6">
-                            <button type="submit" className="px-10 py-4 bg-rose-600 text-white rounded-2xl font-black shadow-xl shadow-rose-100 hover:bg-rose-700 transition transform active:scale-95">
-                                Initialize Global Coupon
+                        <div className="md:col-span-3 mt-8 pt-8 border-t border-white/10">
+                            <button type="submit" className="w-full py-6 bg-premium-black border border-premium-gold/30 text-premium-gold font-black uppercase text-[10px] tracking-[0.3em] shadow-[0_0_20px_rgba(234,179,8,0.15)] hover:bg-premium-gold hover:text-white transition-all">
+                                Deploy Global Intel Cipher
                             </button>
                         </div>
                     </form>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {coupons.length === 0 ? (
-                    <div className="md:col-span-3 py-20 text-center bg-white rounded-3xl border-2 border-dashed border-gray-100 text-gray-400 font-bold">
-                        No active campaigns. Start by creating your first coupon.
+                    <div className="md:col-span-3 py-24 text-center bg-[#1A1A1A] border border-white/5">
+                        <p className="text-white/30 font-playfair italic text-xl">The promotional matrix observes zero active anomalies.</p>
                     </div>
                 ) : coupons.map(c => (
-                    <div key={c.id} className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-rose-50 transition-all relative group overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => handleDelete(c.id)} className="p-3 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition shadow-sm">
-                                <FiTrash2 />
+                    <div key={c.id} className="bg-[#1A1A1A] border border-white/5 p-8 relative group hover:border-premium-gold/50 transition-all overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                            <button onClick={() => handleDelete(c.id)} className="p-3 bg-white/5 border border-white/10 hover:bg-rose-600 hover:border-rose-600 hover:text-white text-white/50 transition-all shadow-sm">
+                                <FiTrash2 size={16} />
                             </button>
                         </div>
 
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center font-black text-xl border border-rose-100">
-                                <FiTag />
+                        <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                        <div className="flex items-center gap-5 mb-8 relative z-10">
+                            <div className="w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center text-premium-gold group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0)] group-hover:shadow-[0_0_15px_rgba(234,179,8,0.2)]">
+                                <FiTag size={20} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-gray-900 tracking-tighter uppercase">{c.code}</h3>
-                                <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Campaign Reference</p>
+                                <h3 className="text-2xl font-black font-mono text-premium-cream tracking-widest uppercase">{c.code}</h3>
+                                <p className="text-[9px] font-black uppercase text-white/40 tracking-[0.3em] mt-1">Campaign Signature</p>
                             </div>
                         </div>
 
-                        <div className="space-y-4 mb-8">
-                            <div className="flex justify-between items-center bg-gray-50 p-3 rounded-xl">
-                                <span className="text-xs font-bold text-gray-500">Incentive</span>
-                                <span className="font-black text-indigo-600">{c.discount_type === 'percentage' ? `${c.discount_value}% OFF` : `₹${c.discount_value} OFF`}</span>
+                        <div className="space-y-4 mb-8 relative z-10 font-mono text-xs">
+                            <div className="flex justify-between items-center bg-black/40 border border-white/5 p-4">
+                                <span className="text-white/50 font-bold uppercase tracking-widest">Yield Vector</span>
+                                <span className="font-black text-premium-gold text-sm">{c.discount_type === 'percentage' ? `${c.discount_value}% RELATIVE` : `₹${c.discount_value} ABSOLUTE`}</span>
                             </div>
-                            <div className="flex justify-between items-center bg-gray-50 p-3 rounded-xl text-[10px] font-bold uppercase tracking-widest overflow-hidden">
-                                <span className="text-gray-400 shrink-0">Validity Period</span>
-                                <span className="truncate ml-4">{c.start_date ? new Date(c.start_date).toLocaleDateString() : 'N/A'} — {c.end_date ? new Date(c.end_date).toLocaleDateString() : 'Forever'}</span>
+                            <div className="flex justify-between items-center bg-black/40 border border-white/5 p-4 overflow-hidden">
+                                <span className="text-white/50 font-bold uppercase tracking-widest shrink-0">Validity Horizon</span>
+                                <span className="truncate ml-4 text-white/70">{c.start_date ? new Date(c.start_date).toLocaleDateString() : 'T=0'} → {c.end_date ? new Date(c.end_date).toLocaleDateString() : 'T=∞'}</span>
                             </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-xs font-bold text-gray-400">Total Usage</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-rose-500 rounded-full" style={{ width: c.usage_limit ? `${(c.usage_count / c.usage_limit) * 100}%` : '10%' }}></div>
+                            <div className="flex justify-between items-center bg-black/40 border border-white/5 p-4">
+                                <span className="text-white/50 font-bold uppercase tracking-widest">Telemetry Limit</span>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-24 h-1 bg-white/10 overflow-hidden">
+                                        <div className="h-full bg-premium-gold shadow-[0_0_10px_rgba(234,179,8,0.8)]" style={{ width: c.usage_limit ? `${(c.usage_count / c.usage_limit) * 100}%` : '5%' }}></div>
                                     </div>
-                                    <span className="text-[10px] font-black">{c.usage_count}/{c.usage_limit || '∞'}</span>
+                                    <span className="font-black text-white">{c.usage_count}/{c.usage_limit || '∞'}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className={`py-2 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest inline-block ${c.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                            {c.is_active ? 'Active Now' : 'Draft / Disabled'}
+                        <div className={`py-2 px-4 text-[9px] font-black uppercase tracking-[0.3em] inline-block relative z-10 border ${c.is_active ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-white/5 text-white/30 border-white/10'}`}>
+                            {c.is_active ? 'Status: Active' : 'Status: Dormant'}
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="bg-indigo-900 rounded-[2.5rem] p-12 text-white shadow-2xl relative overflow-hidden">
-                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="bg-[#1A1A1A] border border-white/5 p-12 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div>
-                        <div className="w-16 h-16 bg-white/10 rounded-3xl flex items-center justify-center mb-6 backdrop-blur-md">
-                            <FiActivity className="text-3xl text-indigo-300" />
+                        <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+                            <FiActivity className="text-3xl text-premium-gold" />
                         </div>
-                        <h2 className="text-4xl font-black mb-6">Promotional Intelligence</h2>
-                        <p className="text-indigo-200 font-medium leading-relaxed text-lg">
-                            Coupons are automatically validated against order totals and customer segments. Use **Fixed Amount** for new user acquisition and **Percentage** for festive sales.
+                        <h2 className="text-4xl font-playfair font-black text-premium-cream mb-6 tracking-tight">Intelligence <span className="font-light italic text-premium-gold">Protocols</span></h2>
+                        <p className="text-white/60 font-medium leading-relaxed text-sm">
+                            Ciphers are autonomously cross-referenced against global transactions. Deploy **Absolute Value (₹)** vectors for cold-start client acquisition or **Relative Yield (%)** during high-volume seasonal fluxes.
                         </p>
-                        <div className="mt-10 flex gap-6">
-                            <div className="text-center">
-                                <p className="text-3xl font-black">{coupons.filter(c => c.is_active).length}</p>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Live Codes</p>
+                        <div className="mt-12 flex gap-10">
+                            <div>
+                                <p className="text-4xl font-playfair font-black text-white">{coupons.filter(c => c.is_active).length}</p>
+                                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mt-2">Active Matrices</p>
                             </div>
-                            <div className="w-px h-12 bg-white/10"></div>
-                            <div className="text-center">
-                                <p className="text-3xl font-black">₹{coupons.reduce((sum, c) => sum + (c.usage_count * (c.discount_type === 'fixed' ? c.discount_value : 100)), 0).toLocaleString()}</p>
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Savings Generated</p>
+                            <div className="w-px h-16 bg-white/10"></div>
+                            <div>
+                                <p className="text-4xl font-playfair font-black text-premium-gold shadow-premium-gold/20 text-shadow-sm">₹{coupons.reduce((sum, c) => sum + (c.usage_count * (c.discount_type === 'fixed' ? c.discount_value : 100)), 0).toLocaleString()}</p>
+                                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 mt-2">Value Dispensed</p>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white/5 rounded-3xl p-8 backdrop-blur-sm border border-white/10">
-                        <h4 className="font-black text-sm uppercase tracking-widest mb-6 flex items-center gap-2">
-                            <FiInfo className="text-indigo-400" /> Best Practice
+                    <div className="bg-black/40 border border-white/5 p-10">
+                        <h4 className="font-black text-[10px] uppercase tracking-[0.3em] text-white mb-8 flex items-center gap-4">
+                            <FiInfo className="text-premium-gold text-lg" /> Strategic Constraints
                         </h4>
-                        <ul className="space-y-4 font-medium text-indigo-100 text-sm">
-                            <li className="flex items-start gap-3">
-                                <FiCheckCircle className="text-green-400 mt-1 shrink-0" />
-                                Coupons are case-insensitive and globally unique.
+                        <ul className="space-y-6 font-mono text-xs text-white/50">
+                            <li className="flex items-start gap-4">
+                                <FiCheckCircle className="text-premium-gold mt-0.5 shrink-0" />
+                                Ciphers possess global case-insensitivity traits.
                             </li>
-                            <li className="flex items-start gap-3">
-                                <FiCheckCircle className="text-green-400 mt-1 shrink-0" />
-                                Usage limits prevent over-spending on massive campaigns.
+                            <li className="flex items-start gap-4">
+                                <FiCheckCircle className="text-premium-gold mt-0.5 shrink-0" />
+                                Distribution quotas intercept destructive viral campaigns.
                             </li>
-                            <li className="flex items-start gap-3">
-                                <FiCheckCircle className="text-green-400 mt-1 shrink-0" />
-                                Stacking is disabled by default (one code per order).
+                            <li className="flex items-start gap-4">
+                                <FiCheckCircle className="text-premium-gold mt-0.5 shrink-0" />
+                                Recursive stacking is globally nullified (One cipher per vector).
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"></div>
             </div>
         </div>
     );

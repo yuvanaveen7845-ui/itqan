@@ -88,19 +88,19 @@ export default function AdminCategoriesPage() {
     };
 
     const handleDelete = async (id: string) => {
-        if (confirm('Are you sure you want to delete this category? Products in this category may become uncategorized.')) {
+        if (confirm('Eradicating this map node? Masterpieces within may fall to the unordered abyss.')) {
             try {
                 await categoryAPI.delete(id);
                 fetchCategories();
             } catch (error) {
-                alert('Failed to delete category');
+                alert('Failed to eradicate node');
             }
         }
     };
 
     // Helper to find parent name
     const getParentName = (parentId: string) => {
-        return categories.find(c => c.id === parentId)?.name || 'Root';
+        return categories.find(c => c.id === parentId)?.name || 'Root Vector';
     };
 
     if (loading) return (
@@ -110,34 +110,37 @@ export default function AdminCategoriesPage() {
     );
 
     return (
-        <div className="space-y-8 pb-20">
-            <div className="flex justify-between items-center">
+        <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-premium-gold/20 pb-8">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 mb-2">Category Architecture</h1>
-                    <p className="text-gray-500 font-medium">Define your store hierarchy and SEO landing pages.</p>
+                    <h1 className="text-4xl font-playfair font-black text-premium-cream mb-2 tracking-tight">Taxonomy Architecture</h1>
+                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em]">Design the navigational framework and strategic landing indices.</p>
                 </div>
                 <button
-                    onClick={() => setShowForm(!showForm)}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition shadow-lg ${showForm ? 'bg-gray-100 text-gray-700' : 'bg-indigo-600 text-white shadow-indigo-200 hover:bg-indigo-700'
+                    onClick={() => {
+                        if (showForm) resetForm();
+                        else setShowForm(!showForm);
+                    }}
+                    className={`flex items-center gap-3 px-8 py-4 font-black text-[10px] uppercase tracking-widest transition-all duration-300 shadow-xl border ${showForm ? 'bg-[#1A1A1A] text-white/50 border-white/10 hover:border-premium-gold' : 'bg-premium-black text-premium-gold border-premium-gold/30 hover:bg-premium-gold hover:text-white hover:scale-105 active:scale-95'
                         }`}
                 >
-                    {showForm ? <><FiX /> Cancel</> : <><FiPlus /> New Category</>}
+                    {showForm ? <><FiX size={16} /> Discard Blueprint</> : <><FiPlus size={16} /> Mint New Sector</>}
                 </button>
             </div>
 
             {showForm && (
-                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                    <div className="bg-gray-50 px-8 py-4 border-b border-gray-100 flex items-center justify-between">
-                        <h2 className="text-xl font-black text-gray-800">{editingId ? 'Edit Structural Node' : 'Initialize New Category'}</h2>
+                <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 relative">
+                    <div className="bg-premium-gold/5 px-10 py-6 border-b border-premium-gold/10 flex items-center justify-between">
+                        <h2 className="text-xl font-playfair font-black text-premium-cream tracking-wide">{editingId ? 'Recalibrate Sector Node' : 'Initialize Sector Matrix'}</h2>
                         <div className="flex gap-2">
                             {[
-                                { id: 'general', label: 'Identity', icon: <FiFolder /> },
-                                { id: 'seo', label: 'SEO & Visuals', icon: <FiGlobe /> }
+                                { id: 'general', label: 'Hierarchy Identity', icon: <FiFolder /> },
+                                { id: 'seo', label: 'Global Aesthetics', icon: <FiGlobe /> }
                             ].map(tab => (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm transition ${activeTab === tab.id ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'
+                                    className={`flex items-center gap-3 px-6 py-2 border font-black text-[9px] uppercase tracking-[0.2em] transition-all ${activeTab === tab.id ? 'bg-premium-black text-premium-gold border-premium-gold/30' : 'bg-transparent text-white/30 border-transparent hover:text-white/80'
                                         }`}
                                 >
                                     {tab.icon}
@@ -147,39 +150,39 @@ export default function AdminCategoriesPage() {
                         </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-8">
+                    <form onSubmit={handleSubmit} className="p-10">
                         {activeTab === 'general' && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-300">
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Category Name</label>
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Sector Notation</label>
                                     <input
                                         type="text"
-                                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition"
-                                        placeholder="e.g. Concentrated Oils"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all font-playfair text-xl italic"
+                                        placeholder="Dominion of Velvet..."
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         required
                                     />
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Parent Category</label>
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Inheritance Anchor</label>
                                     <select
-                                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition appearance-none"
+                                        className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all appearance-none cursor-pointer"
                                         value={formData.parent_id}
                                         onChange={(e) => setFormData({ ...formData, parent_id: e.target.value })}
                                     >
-                                        <option value="">None (Top Level)</option>
+                                        <option value="">Absolute Genesis (Root)</option>
                                         {categories.filter(c => c.id !== editingId).map(cat => (
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Description</label>
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Thematic Narrative</label>
                                     <textarea
-                                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white/80 focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-medium"
                                         rows={3}
-                                        placeholder="Short description for display..."
+                                        placeholder="The tale woven through these articles..."
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     />
@@ -188,38 +191,38 @@ export default function AdminCategoriesPage() {
                         )}
 
                         {activeTab === 'seo' && (
-                            <div className="grid grid-cols-1 gap-6 animate-in fade-in duration-300">
+                            <div className="grid grid-cols-1 gap-8 animate-in fade-in duration-300">
                                 <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Landing Banner URL</label>
-                                    <div className="flex gap-2">
-                                        <div className="bg-gray-100 p-3 rounded-xl text-gray-400">
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Omni-Banner Asset URL</label>
+                                    <div className="flex gap-4">
+                                        <div className="bg-white/5 border border-white/10 p-5 text-premium-gold/50 flex items-center justify-center shadow-inner">
                                             <FiImage size={24} />
                                         </div>
                                         <input
                                             type="url"
-                                            className="flex-grow px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition"
-                                            placeholder="https://images.unsplash.com/..."
+                                            className="flex-grow px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-mono"
+                                            placeholder="https://content.asset/.../banner.jpg"
                                             value={formData.banner_url}
                                             onChange={(e) => setFormData({ ...formData, banner_url: e.target.value })}
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Custom Meta Title</label>
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Network Directory Title</label>
                                     <input
                                         type="text"
-                                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition"
-                                        placeholder="SEO title for search results"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm"
+                                        placeholder="Optimized sector title..."
                                         value={formData.meta_title}
                                         onChange={(e) => setFormData({ ...formData, meta_title: e.target.value })}
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-widest">Custom Meta Description</label>
+                                    <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Metadata Inscription</label>
                                     <textarea
-                                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-indigo-50 outline-none transition"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm font-medium"
                                         rows={2}
-                                        placeholder="Search engine snippet..."
+                                        placeholder="Global dispatch script..."
                                         value={formData.meta_description}
                                         onChange={(e) => setFormData({ ...formData, meta_description: e.target.value })}
                                     />
@@ -227,45 +230,51 @@ export default function AdminCategoriesPage() {
                             </div>
                         )}
 
-                        <div className="mt-10 pt-6 border-t border-gray-100 flex gap-4">
-                            <button type="submit" className="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition">
-                                {editingId ? 'Update Global Category' : 'Provision New Category'}
+                        <div className="mt-12 pt-8 border-t border-white/10 flex gap-4">
+                            <button type="submit" className="flex-1 bg-premium-black border border-premium-gold/30 text-premium-gold py-5 font-black uppercase text-[10px] tracking-widest hover:bg-premium-gold hover:text-white transition-all shadow-xl">
+                                {editingId ? 'Commit Structural Axiom' : 'Instantiate Neural Sector'}
                             </button>
+                            {editingId && (
+                                <button type="button" onClick={resetForm} className="px-12 bg-white/5 border border-white/10 text-white/50 py-5 font-black uppercase text-[10px] tracking-widest hover:bg-white/10 hover:text-white transition-all">
+                                    Void Edits
+                                </button>
+                            )}
                         </div>
                     </form>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden self-start">
-                    <div className="p-8 border-b border-gray-100">
-                        <h3 className="text-xl font-black text-gray-900">Current Map</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden relative self-start">
+                    <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
+                    <div className="p-10 border-b border-white/5 relative z-10">
+                        <h3 className="text-2xl font-playfair font-black text-premium-cream">Sector Topography</h3>
                     </div>
-                    <div className="p-4 space-y-2">
+                    <div className="p-6 space-y-3 relative z-10">
                         {categories.length === 0 ? (
-                            <p className="p-8 text-center text-gray-400 font-medium italic">No categories mapped yet.</p>
+                            <p className="p-10 text-center text-white/30 font-playfair italic text-xl">The taxonomy remains void.</p>
                         ) : categories.map(cat => (
                             <div key={cat.id} className="group relative">
-                                <div className={`p-5 rounded-2xl border transition-all flex items-center justify-between ${editingId === cat.id ? 'bg-indigo-50 border-indigo-200 shadow-inner' : 'bg-white border-gray-50 hover:border-indigo-100 hover:shadow-sm'
+                                <div className={`p-6 border transition-all flex items-center justify-between ${editingId === cat.id ? 'bg-premium-gold/5 border-premium-gold shadow-inner' : 'bg-black/40 border-white/5 hover:border-premium-gold/50 hover:bg-white/5'
                                     }`}>
-                                    <div className="flex items-center gap-4">
-                                        <div className="p-3 bg-gray-50 rounded-xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
-                                            <FiFolder />
+                                    <div className="flex items-center gap-6">
+                                        <div className="p-4 bg-white/5 border border-white/10 text-white/50 group-hover:bg-premium-gold group-hover:text-premium-black group-hover:border-premium-gold transition-all shadow-[0_0_15px_rgba(234,179,8,0)] group-hover:shadow-[0_0_15px_rgba(234,179,8,0.3)]">
+                                            <FiFolder size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-gray-900">{cat.name}</h4>
+                                            <h4 className="font-playfair font-black text-lg text-premium-cream tracking-wide">{cat.name}</h4>
                                             {cat.parent_id && (
-                                                <div className="flex items-center gap-1 text-[10px] font-black uppercase text-gray-400">
-                                                    <span>Subcategory of</span>
-                                                    <FiChevronRight size={10} />
-                                                    <span className="text-indigo-400">{getParentName(cat.parent_id)}</span>
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/30 mt-1">
+                                                    <span>Origin Anchor</span>
+                                                    <FiChevronRight size={10} className="text-premium-gold/50" />
+                                                    <span className="text-premium-gold/80">{getParentName(cat.parent_id)}</span>
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button onClick={() => handleEditClick(cat)} className="p-2 text-gray-400 hover:text-indigo-600 transition"><FiEdit2 /></button>
-                                        <button onClick={() => handleDelete(cat.id)} className="p-2 text-gray-400 hover:text-red-600 transition"><FiTrash2 /></button>
+                                    <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button onClick={() => handleEditClick(cat)} className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-premium-gold hover:border-premium-gold hover:text-white transition-all shadow-sm" title="Reconfigure Sequence"><FiEdit2 size={16} /></button>
+                                        <button onClick={() => handleDelete(cat.id)} className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-rose-600 hover:border-rose-600 hover:text-white transition-all shadow-sm" title="Purge Topology"><FiTrash2 size={16} /></button>
                                     </div>
                                 </div>
                             </div>
@@ -273,30 +282,31 @@ export default function AdminCategoriesPage() {
                     </div>
                 </div>
 
-                <div className="hidden lg:block bg-gradient-to-br from-indigo-600 to-premium-black rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
+                <div className="hidden lg:block bg-premium-black border border-premium-gold/20 p-12 shadow-2xl relative overflow-hidden self-start">
                     <div className="relative z-10">
-                        <h3 className="text-4xl font-black mb-6">Hierarchy Insight</h3>
-                        <p className="text-indigo-100 font-medium leading-relaxed mb-8">
-                            Nested categories allow you to build a powerful navigation system. Use Parent Categories to group related products (e.g., "Seasonals") and subcategories for specific items (e.g., "Winter Oud").
+                        <h3 className="text-4xl font-playfair font-black text-premium-cream mb-8 tracking-tight">System<br /><span className="text-premium-gold italic font-light">Elegance</span></h3>
+                        <p className="text-white/60 font-medium leading-relaxed mb-10 text-sm">
+                            Forging nested sequences permits the construction of vast, elegant navigations. Interlink grand sectors ("Spring '28 Premiere") with localized chapters ("Nocturnal Essences") to guide the patron's eye.
                         </p>
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-md">
-                                <FiGlobe className="text-2xl" />
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-6 bg-white/5 border border-white/10 p-6 shadow-inner">
+                                <FiGlobe className="text-3xl text-premium-gold" />
                                 <div>
-                                    <p className="font-bold">SEO Ready</p>
-                                    <p className="text-sm text-indigo-100">Every category generates a dedicated SEO landing page.</p>
+                                    <p className="font-black text-[10px] tracking-[0.2em] text-white uppercase mb-2">Omnipresent Discovery</p>
+                                    <p className="text-xs text-white/50 leading-relaxed font-medium">Each sector autonomously instantiates an indexed portal to captivate global search telemetry.</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4 bg-white/10 p-4 rounded-2xl backdrop-blur-md">
-                                <FiImage className="text-2xl" />
+                            <div className="flex items-start gap-6 bg-white/5 border border-white/10 p-6 shadow-inner">
+                                <FiImage className="text-3xl text-premium-gold" />
                                 <div>
-                                    <p className="font-bold">Dynamic Banners</p>
-                                    <p className="text-sm text-indigo-100">Add URLs to customize the visual feel of each department.</p>
+                                    <p className="font-black text-[10px] tracking-[0.2em] text-white uppercase mb-2">Visual Supremacy</p>
+                                    <p className="text-xs text-white/50 leading-relaxed font-medium">Inject tailored master assets to dominate the aesthetic narrative of individual departments.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-premium-gold/10 rounded-full blur-[100px] mix-blend-screen pointer-events-none"></div>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none"></div>
                 </div>
             </div>
         </div>
