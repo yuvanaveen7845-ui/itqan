@@ -166,13 +166,55 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                 {editTab === 'content' && (
                                     <div className="space-y-6">
                                         <div className="space-y-2">
-                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest">Master Value</label>
-                                            <textarea
-                                                className="w-full bg-white/5 border border-white/10 p-4 text-xs font-medium focus:border-premium-gold/50 outline-none transition-all h-28"
-                                                value={tempValue}
-                                                onChange={(e) => { setTempValue(e.target.value); addToHistory(); }}
-                                                placeholder="Enter content..."
-                                            />
+                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest flex items-center gap-2">
+                                                {type === 'image' ? <FiImage size={8}/> : <FiType size={8}/>} 
+                                                Master {type === 'image' ? 'Image URL' : 'Value'}
+                                            </label>
+                                            {type === 'image' ? (
+                                                <div className="space-y-4">
+                                                    <textarea
+                                                        className="w-full bg-white/5 border border-white/10 p-4 text-[10px] focus:border-premium-gold/50 outline-none transition-all h-20"
+                                                        value={tempValue}
+                                                        onChange={(e) => { setTempValue(e.target.value); addToHistory(); }}
+                                                        placeholder="Enter image URL..."
+                                                    />
+                                                    <div className="flex justify-between items-center bg-white/5 p-3 border border-white/10">
+                                                        <span className="text-[8px] font-black text-white/50 uppercase tracking-widest">Or upload direct</span>
+                                                        <label className="px-4 py-2 bg-premium-gold text-premium-black text-[8px] font-black uppercase tracking-widest cursor-pointer hover:bg-white transition-colors">
+                                                            Upload Asset
+                                                            <input 
+                                                                type="file" 
+                                                                className="hidden" 
+                                                                accept="image/*"
+                                                                onChange={async (e) => {
+                                                                    const file = e.target.files?.[0];
+                                                                    if (!file) return;
+                                                                    try {
+                                                                        const formData = new FormData();
+                                                                        formData.append('image', file);
+                                                                        // Import needed here dynamically to avoid Circular Dep or use global api
+                                                                        const { adminAPI } = await import('@/lib/api');
+                                                                        const res = await adminAPI.uploadImage(formData);
+                                                                        if (res.data?.success) {
+                                                                            setTempValue(res.data.data.url);
+                                                                            addToHistory();
+                                                                        }
+                                                                    } catch (err) {
+                                                                        alert('Upload failed');
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <textarea
+                                                    className="w-full bg-white/5 border border-white/10 p-4 text-xs font-medium focus:border-premium-gold/50 outline-none transition-all h-28"
+                                                    value={tempValue}
+                                                    onChange={(e) => { setTempValue(e.target.value); addToHistory(); }}
+                                                    placeholder="Enter content..."
+                                                />
+                                            )}
                                         </div>
                                         {(type === 'link' || href) && (
                                             <div className="space-y-2">

@@ -68,6 +68,14 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/cms', cmsRoutes);
 
+// Static file serving for uploads
+import path from 'path';
+app.use('/uploads', express.static(path.join(__dirname, '../../public/uploads')));
+
+// Image Upload Routes
+import uploadRoutes from './routes/upload';
+app.use('/api/admin/upload', uploadRoutes);
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });

@@ -1,16 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cmsAPI } from '@/lib/api';
+import { cmsAPI, adminAPI } from '@/lib/api';
 import { useCMSStore } from '@/store/cms';
-import { FiLayout, FiImage, FiEdit3, FiGlobe, FiInstagram, FiFacebook, FiTwitter, FiPlus, FiTrash2, FiSave, FiCheckCircle, FiBell, FiSettings } from 'react-icons/fi';
+import { FiLayout, FiImage, FiEdit3, FiGlobe, FiInstagram, FiFacebook, FiTwitter, FiPlus, FiTrash2, FiSave, FiCheckCircle, FiBell, FiSettings, FiCopy, FiUploadCloud } from 'react-icons/fi';
 
 export default function CMSPage() {
-    const [activeTab, setActiveTab] = useState<'branding' | 'banners' | 'pages'>('branding');
+    const [activeTab, setActiveTab] = useState<'branding' | 'banners' | 'pages' | 'media'>('branding');
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState<any>({});
     const [banners, setBanners] = useState<any[]>([]);
     const [pages, setPages] = useState<any[]>([]);
+    const [mediaItems, setMediaItems] = useState<any[]>([]);
     const [saveStatus, setSaveStatus] = useState<string | null>(null);
 
     useEffect(() => {
@@ -20,14 +21,18 @@ export default function CMSPage() {
     const fetchCMSData = async () => {
         try {
             setLoading(true);
-            const [settingsRes, bannersRes, pagesRes] = await Promise.all([
+            const [settingsRes, bannersRes, pagesRes, mediaRes] = await Promise.all([
                 cmsAPI.getSettings(),
                 cmsAPI.getBanners(),
-                cmsAPI.getPages()
+                cmsAPI.getPages(),
+                adminAPI.getUploadedImages().catch(e => ({ data: { data: [] } }))
             ]);
             setSettings(settingsRes.data);
             setBanners(bannersRes.data);
             setPages(pagesRes.data);
+            if (mediaRes?.data?.success) {
+                setMediaItems(mediaRes.data.data);
+            }
         } catch (error) {
             console.error('Failed to fetch CMS data:', error);
         } finally {
@@ -57,6 +62,59 @@ export default function CMSPage() {
         }
     };
 
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+            setSaveStatus('Uploading Image...');
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            await adminAPI.uploadImage(formData);
+            
+            // Refresh media list
+            const mediaRes = await adminAPI.getUploadedImages();
+            if (mediaRes?.data?.success) {
+                setMediaItems(mediaRes.data.data);
+            }
+            setSaveStatus('Image Uploaded Successfully!');
+            setTimeout(() => setSaveStatus(null), 3000);
+        } catch (error) {
+            console.error('Upload Error:', error);
+            setSaveStatus('Upload Failed');
+            setTimeout(() => setSaveStatus(null), 3000);
+        }
+    };
+
+    const handleDeleteMedia = async (filename: string) => {
+        if (!confirm('Are you sure you want to delete this image? If it is currently used on the site, it will break those links.')) {
+            return;
+        }
+        try {
+            setSaveStatus('Deleting Image...');
+            await adminAPI.deleteUploadedImage(filename);
+            
+            // Refresh media list
+            const mediaRes = await adminAPI.getUploadedImages();
+            if (mediaRes?.data?.success) {
+                setMediaItems(mediaRes.data.data);
+            }
+            setSaveStatus('Image Deleted Successfully!');
+            setTimeout(() => setSaveStatus(null), 3000);
+        } catch (error) {
+            console.error('Delete Error:', error);
+            setSaveStatus('Delete Failed');
+            setTimeout(() => setSaveStatus(null), 3000);
+        }
+    };
+
+    const copyToClipboard = (url: string) => {
+        navigator.clipboard.writeText(url);
+        setSaveStatus('URL Copied to Clipboard!');
+        setTimeout(() => setSaveStatus(null), 3000);
+    };
+
     if (loading) return <div className="p-20 text-center animate-pulse font-black text-premium-gold tracking-widest uppercase">Initializing Elite CMS...</div>;
 
     return (
@@ -80,6 +138,7 @@ export default function CMSPage() {
                     { id: 'branding', label: 'Identity & Atmosphere', icon: FiGlobe },
                     { id: 'banners', label: 'Visual Experience', icon: FiImage },
                     { id: 'pages', label: 'Editorial Content', icon: FiEdit3 },
+                    { id: 'media', label: 'Media Library', icon: FiImage },
                 ].map(tab => (
                     <button
                         key={tab.id}
@@ -319,6 +378,76 @@ export default function CMSPage() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                )}
+
+                {activeTab === 'media' && (
+                    <div className="space-y-12 animate-fade-in">
+                        <div className="flex justify-between items-center bg-premium-cream/30 p-8 border-l-4 border-premium-gold">
+                            <div>
+                                <h3 className="text-xl font-playfair font-black text-premium-black">Media Sanctuary</h3>
+                                <p className="text-[9px] font-black text-premium-gold uppercase tracking-widest mt-1">Global Static Asset Management</p>
+                            </div>
+                            <div className="relative">
+                                <input 
+                                    type="file" 
+                                    id="media-upload"
+                                    className="hidden" 
+                                    accept="image/*"
+                                    onChange={handleFileUpload} 
+                                />
+                                <label 
+                                    htmlFor="media-upload"
+                                    className="bg-premium-black text-premium-gold px-10 py-4 font-black text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-premium-gold hover:text-white transition-all cursor-pointer"
+                                >
+                                    <FiUploadCloud size={16} /> Mint New Asset
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-6">
+                            {mediaItems.map(item => (
+                                <div key={item.filename} className="group bg-white border border-gray-100 hover:border-premium-gold/30 transition-all shadow-sm">
+                                    <div className="aspect-square bg-gray-50 relative overflow-hidden flex items-center justify-center p-4">
+                                        {/* Grid background for transparency */}
+                                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                                        <img 
+                                            src={item.url} 
+                                            alt={item.filename} 
+                                            className="max-w-full max-h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-premium-black/60 opacity-0 group-hover:opacity-100 transition-opacity z-20 flex flex-col justify-center items-center gap-3">
+                                            <button 
+                                                onClick={() => copyToClipboard(item.url)}
+                                                className="px-6 py-2 bg-white text-premium-black font-black text-[9px] uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-colors flex items-center gap-2"
+                                            >
+                                                <FiCopy /> Copy Vector
+                                            </button>
+                                            <button 
+                                                onClick={() => handleDeleteMedia(item.filename)}
+                                                className="w-10 h-10 flex text-rose-500 bg-white/10 hover:bg-rose-600 hover:text-white rounded-full items-center justify-center transition-all"
+                                            >
+                                                <FiTrash2 />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="p-4 border-t border-gray-50 flex justify-between items-center text-[8px] font-black uppercase text-premium-charcoal/40 tracking-widest">
+                                        <span className="truncate max-w-[120px]" title={item.filename}>{item.filename}</span>
+                                        <span>{(item.size / 1024).toFixed(0)} KB</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {mediaItems.length === 0 && (
+                            <div className="p-32 text-center bg-gray-50 border border-dashed border-gray-200">
+                                <div className="w-20 h-20 bg-white shadow-xl mx-auto flex items-center justify-center text-premium-gold mb-6 rotate-3">
+                                    <FiImage size={32} />
+                                </div>
+                                <h4 className="text-xl font-playfair font-black text-premium-black mb-2">The Sanctuary is Empty</h4>
+                                <p className="text-[10px] font-black text-premium-charcoal/40 uppercase tracking-widest">Upload global assets here to utilize them across the storefront.</p>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

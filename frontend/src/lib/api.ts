@@ -52,6 +52,11 @@ export const adminAPI = {
   deleteAdmin: (id: string) => api.delete(`/admin/delete-admin/${id}`),
   getSettings: () => api.get('/admin/settings'),
   updateSettings: (data: any) => api.post('/admin/settings', data),
+  uploadImage: (formData: FormData) => api.post('/admin/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  getUploadedImages: () => api.get('/admin/upload'),
+  deleteUploadedImage: (filename: string) => api.delete(`/admin/upload/${filename}`),
 };
 
 export const wishlistAPI = {

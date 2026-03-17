@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Editable from '@/components/Editable';
 
 export default function TermsOfService() {
     return (
@@ -12,69 +13,99 @@ export default function TermsOfService() {
                     <span className="text-gray-900 font-medium">Terms of Service</span>
                 </nav>
 
-                <h1 className="text-4xl font-black text-gray-900 mb-8">Terms of Service</h1>
+                <Editable id="terms_title" fallback="Terms of Service">
+                    <h1 className="text-4xl font-black text-gray-900 mb-8">Terms of Service</h1>
+                </Editable>
 
                 <div className="prose prose-blue max-w-none space-y-8 text-gray-600 leading-relaxed">
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Agreement to Terms</h2>
-                        <p>
-                            By accessing or using the iqtanperfumes website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
-                        </p>
+                        <Editable id="terms_sec1_title" fallback="1. Agreement to Terms">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Agreement to Terms</h2>
+                        </Editable>
+                        <Editable id="terms_sec1_text" type="richtext" fallback="By accessing or using the iqtanperfumes website, you agree to be bound by these Terms of Service...">
+                            <p>
+                                By accessing or using the iqtanperfumes website, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.
+                            </p>
+                        </Editable>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Use License</h2>
-                        <p>
-                            Permission is granted to temporarily download one copy of the materials (information or software) on iqtanperfumes's website for personal, non-commercial transitory viewing only.
-                        </p>
-                        <p>
-                            This is the grant of a license, not a transfer of title, and under this license you may not:
-                        </p>
-                        <ul className="list-disc pl-6 space-y-2">
-                            <li>Modify or copy the materials.</li>
-                            <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial).</li>
-                            <li>Attempt to decompile or reverse engineer any software contained on the website.</li>
-                            <li>Remove any copyright or other proprietary notations from the materials.</li>
-                        </ul>
+                        <Editable id="terms_sec2_title" fallback="2. Use License">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Use License</h2>
+                        </Editable>
+                        <Editable id="terms_sec2_text" type="richtext" fallback="Permission is granted to temporarily download one copy of the materials...">
+                            <p>
+                                Permission is granted to temporarily download one copy of the materials (information or software) on iqtanperfumes's website for personal, non-commercial transitory viewing only.
+                            </p>
+                            <p>
+                                This is the grant of a license, not a transfer of title, and under this license you may not:
+                            </p>
+                            <ul className="list-disc pl-6 space-y-2">
+                                <li>Modify or copy the materials.</li>
+                                <li>Use the materials for any commercial purpose, or for any public display (commercial or non-commercial).</li>
+                                <li>Attempt to decompile or reverse engineer any software contained on the website.</li>
+                                <li>Remove any copyright or other proprietary notations from the materials.</li>
+                            </ul>
+                        </Editable>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Disclaimer</h2>
-                        <p>
-                            The materials on iqtanperfumes's website are provided on an 'as is' basis. iqtanperfumes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
-                        </p>
+                        <Editable id="terms_sec3_title" fallback="3. Disclaimer">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Disclaimer</h2>
+                        </Editable>
+                        <Editable id="terms_sec3_text" type="richtext" fallback="The materials on iqtanperfumes's website are provided on an 'as is' basis...">
+                            <p>
+                                The materials on iqtanperfumes's website are provided on an 'as is' basis. iqtanperfumes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                            </p>
+                        </Editable>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Limitations</h2>
-                        <p>
-                            In no event shall iqtanperfumes or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on iqtanperfumes's website.
-                        </p>
+                        <Editable id="terms_sec4_title" fallback="4. Limitations">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Limitations</h2>
+                        </Editable>
+                        <Editable id="terms_sec4_text" type="richtext" fallback="In no event shall iqtanperfumes or its suppliers be liable for any damages...">
+                            <p>
+                                In no event shall iqtanperfumes or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on iqtanperfumes's website.
+                            </p>
+                        </Editable>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Accuracy of Materials</h2>
-                        <p>
-                            The materials appearing on iqtanperfumes's website could include technical, typographical, or photographic errors. iqtanperfumes does not warrant that any of the materials on its website are accurate, complete or current. iqtanperfumes may make changes to the materials contained on its website at any time without notice.
-                        </p>
+                        <Editable id="terms_sec5_title" fallback="5. Accuracy of Materials">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Accuracy of Materials</h2>
+                        </Editable>
+                        <Editable id="terms_sec5_text" type="richtext" fallback="The materials appearing on iqtanperfumes's website could include technical, typographical, or photographic errors...">
+                            <p>
+                                The materials appearing on iqtanperfumes's website could include technical, typographical, or photographic errors. iqtanperfumes does not warrant that any of the materials on its website are accurate, complete or current. iqtanperfumes may make changes to the materials contained on its website at any time without notice.
+                            </p>
+                        </Editable>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Governing Law</h2>
-                        <p>
-                            These terms and conditions are governed by and construed in accordance with the laws of India and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
-                        </p>
+                        <Editable id="terms_sec6_title" fallback="6. Governing Law">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Governing Law</h2>
+                        </Editable>
+                        <Editable id="terms_sec6_text" type="richtext" fallback="These terms and conditions are governed by and construed in accordance with the laws of India...">
+                            <p>
+                                These terms and conditions are governed by and construed in accordance with the laws of India and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
+                            </p>
+                        </Editable>
                     </section>
 
                     <section className="bg-gray-50 p-6 rounded-2xl border border-gray-100 italic">
-                        <p className="mb-0">
-                            iqtanperfumes reserves the right to revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.
-                        </p>
+                        <Editable id="terms_revision_text" type="richtext" fallback="iqtanperfumes reserves the right to revise these terms of service for its website at any time without notice...">
+                            <p className="mb-0">
+                                iqtanperfumes reserves the right to revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.
+                            </p>
+                        </Editable>
                     </section>
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-gray-100 text-sm text-gray-400">
-                    Last updated: March 09, 2026
+                    <Editable id="terms_last_updated" fallback="Last updated: March 09, 2026">
+                        Last updated: March 09, 2026
+                    </Editable>
                 </div>
             </div>
         </div>
