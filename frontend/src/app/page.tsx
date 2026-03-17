@@ -46,11 +46,11 @@ export default function HomePage() {
       {/* Ultra-Premium Cinematic Hero - Full Bleed */}
       <section className="relative h-screen overflow-hidden bg-premium-black grain-overlay group">
         <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-[10s] ease-out">
-          <Editable id="hero_image" type="image" fallback="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&q=80&w=2500">
+          <Editable id="hero_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/hero_luxury_fragrance_1773744726056.png">
             <img
-              src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&q=80&w=2500"
+              src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/hero_luxury_fragrance_1773744726056.png"
               alt="Luxury Perfume"
-              className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-[3s]"
+              className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-[3s]"
             />
           </Editable>
         </div>
@@ -82,9 +82,9 @@ export default function HomePage() {
           <div className="relative group scroll-reveal visible order-2 lg:order-1">
             <div className="absolute -inset-24 border border-premium-gold/10 group-hover:inset-0 transition-all duration-[2s] rounded-none"></div>
             <div className="relative overflow-hidden p-0 border-none shadow-[0_60px_100px_rgba(0,0,0,0.1)] group/img rounded-none min-h-[900px] flex items-center justify-center bg-gray-50">
-              <Editable id="story_image" type="image" fallback="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000">
+              <Editable id="story_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/perfume_artisanship_1773744744094.png">
                 <img
-                  src="https://images.unsplash.com/photo-1594035910387-fea47794268f?auto=format&fit=crop&q=80&w=1000"
+                  src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/perfume_artisanship_1773744744094.png"
                   alt="Perfume Craft"
                   className="relative z-10 w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3s]"
                 />
@@ -180,8 +180,8 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 h-[900px]">
           <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_oud_image" type="image" fallback="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000">
-                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1000" alt="Oud" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <Editable id="gallery_oud_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/majestic_oud_display_1773744760816.png">
+                <img src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/majestic_oud_display_1773744760816.png" alt="Oud" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
@@ -200,8 +200,8 @@ export default function HomePage() {
 
           <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/10 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_floral_image" type="image" fallback="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000">
-                <img src="https://images.unsplash.com/photo-1595428774751-2292f398782a?auto=format&fit=crop&q=80&w=1000" alt="Floral" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
+              <Editable id="gallery_floral_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/velvet_rose_fragrance_1773744778901.png">
+                <img src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/velvet_rose_fragrance_1773744778901.png" alt="Floral" className="w-full h-full object-cover grayscale brightness-75 group-hover:brightness-90 group-hover:scale-110 transition-all duration-[3s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/30 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
@@ -243,17 +243,20 @@ export default function HomePage() {
       {/* Trust & Services - Minimal Excellence */}
       <section className="py-20 sm:py-40 bg-premium-black">
         <div className="max-w-[1800px] mx-auto px-4 sm:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-20">
-          {[
-            { icon: FiStar, title: 'Authenticity', desc: 'Crafted with rare essences from royal reserves.' },
-            { icon: FiTruck, title: 'White Glove', desc: 'Global climate-controlled concierge delivery.' },
-            { icon: FiShield, title: 'Secure Vault', desc: 'Protected by high-tier encrypted privilege.' },
-            { icon: FiShoppingBag, title: 'Atelier Gift', desc: 'Unveiled in our signature gold-sealed box.' },
+           {[
+            { icon: FiStar, title: 'Authenticity', desc: 'Crafted with rare essences from royal reserves.', img: 'https://images.unsplash.com/photo-1588612141525-4556488c935d?auto=format&fit=crop&q=80&w=800' },
+            { icon: FiTruck, title: 'White Glove', desc: 'Global climate-controlled concierge delivery.', img: 'https://images.unsplash.com/photo-1531303435785-3853ba035cda?auto=format&fit=crop&q=80&w=800' },
+            { icon: FiShield, title: 'Secure Vault', desc: 'Protected by high-tier encrypted privilege.', img: 'https://images.unsplash.com/photo-1512428559083-a401c338cf89?auto=format&fit=crop&q=80&w=800' },
+            { icon: FiShoppingBag, title: 'Atelier Gift', desc: 'Unveiled in our signature gold-sealed box.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800' },
           ].map((item, idx) => (
-            <div key={idx} className="group text-center space-y-8">
-              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-premium-gold/10 group-hover:border-premium-gold/30 group-hover:shadow-xl transition-all duration-700">
+            <div key={idx} className="group text-center space-y-8 relative overflow-hidden p-10 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent hover:border-premium-gold/20 transition-all duration-700">
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 z-0">
+                <img src={item.img} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[4s]" />
+              </div>
+              <div className="relative z-10 w-20 h-20 bg-white/5 rounded-none flex items-center justify-center mx-auto border border-premium-gold/10 group-hover:border-premium-gold/30 group-hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] transition-all duration-700">
                 <item.icon className="text-premium-gold w-7 h-7" />
               </div>
-              <div className="space-y-3">
+              <div className="relative z-10 space-y-3">
                 <Editable id={`trust_title_${idx}`} fallback={item.title}>
                   <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{item.title}</h4>
                 </Editable>

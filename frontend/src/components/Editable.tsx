@@ -197,9 +197,11 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                 {editTab === 'content' && (
                                     <div className="space-y-6">
                                         <div className="space-y-2">
-                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest flex items-center gap-2">
-                                                {type === 'image' ? <FiImage size={8}/> : <FiType size={8}/>} 
-                                                Master {type === 'image' ? 'Image URL' : 'Value'}
+                                            <label className="text-[7px] font-black uppercase text-white/40 tracking-widest flex items-center justify-between gap-2">
+                                                <div className="flex items-center gap-2">
+                                                    {type === 'image' ? <FiImage size={8}/> : <FiType size={8}/>} 
+                                                    Master {type === 'image' ? 'Image URL' : 'Value'}
+                                                </div>
                                             </label>
                                             {type === 'image' ? (
                                                 <div className="space-y-4">
@@ -209,9 +211,32 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                                         onChange={(e) => { setTempValue(e.target.value); addToHistory(); }}
                                                         placeholder="Enter image URL..."
                                                     />
-                                                    <div className="flex justify-between items-center bg-white/5 p-3 border border-white/10">
-                                                        <span className="text-[8px] font-black text-white/50 uppercase tracking-widest">Or upload direct</span>
-                                                        <label className="px-4 py-2 bg-premium-gold text-premium-black text-[8px] font-black uppercase tracking-widest cursor-pointer hover:bg-white transition-colors">
+                                                    
+                                                    {/* Media Sanctuary Quick Pick */}
+                                                    <div className="space-y-4">
+                                                        <div className="flex justify-between items-center bg-white/10 p-4 border border-premium-gold/30">
+                                                             <span className="text-[9px] font-black text-premium-gold uppercase tracking-[0.2em] animate-pulse">Select from Sanctuary</span>
+                                                        </div>
+                                                        <div className="grid grid-cols-4 gap-2 max-h-[120px] overflow-y-auto pr-2 custom-scrollbar border border-white/5 p-2 bg-black/20">
+                                                            {useCMSStore.getState().inlineContent['__sanctuary_media'] ? JSON.parse(useCMSStore.getState().inlineContent['__sanctuary_media']).map((img: any) => (
+                                                                <button 
+                                                                    key={img.url}
+                                                                    onClick={() => { setTempValue(img.url); addToHistory(); }}
+                                                                    className={`aspect-square border transition-all overflow-hidden group/thumb ${tempValue === img.url ? 'border-premium-gold scale-95' : 'border-white/5 hover:border-white/20'}`}
+                                                                >
+                                                                    <img src={img.url} alt="" className="w-full h-full object-cover group-hover/thumb:scale-125 transition-transform" />
+                                                                </button>
+                                                            )) : (
+                                                                <div className="col-span-full py-6 text-center text-[8px] text-white/20 font-black uppercase">
+                                                                    The sanctuary is empty. Use the upload vector protocol.
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex justify-between items-center bg-white/5 p-3 border border-white/10 group">
+                                                        <span className="text-[8px] font-black text-white/50 uppercase tracking-widest group-hover:text-premium-gold transition-colors">Ingest New Vector</span>
+                                                        <label className="px-4 py-2 bg-premium-gold text-premium-black text-[8px] font-black uppercase tracking-widest cursor-pointer hover:bg-white transition-colors shadow-xl">
                                                             Upload Asset
                                                             <input 
                                                                 type="file" 
@@ -223,15 +248,17 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                                                     try {
                                                                         const formData = new FormData();
                                                                         formData.append('image', file);
-                                                                        // Import needed here dynamically to avoid Circular Dep or use global api
                                                                         const { adminAPI } = await import('@/lib/api');
                                                                         const res = await adminAPI.uploadImage(formData);
                                                                         if (res.data?.success) {
                                                                             setTempValue(res.data.data.url);
                                                                             addToHistory();
+                                                                            // Update sanctuary local cache
+                                                                            const oldMedia = JSON.parse(useCMSStore.getState().inlineContent['__sanctuary_media'] || '[]');
+                                                                            updateInlineContent('__sanctuary_media', JSON.stringify([res.data.data, ...oldMedia]));
                                                                         }
                                                                     } catch (err) {
-                                                                        alert('Upload failed');
+                                                                        alert('Vector Ingestion Failure');
                                                                     }
                                                                 }}
                                                             />
