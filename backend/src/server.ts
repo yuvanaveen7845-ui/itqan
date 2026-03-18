@@ -81,6 +81,17 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Payment Diagnostics (Securely verify environment)
+app.get('/api/health/payment', (req, res) => {
+  res.json({
+    env: process.env.NODE_ENV,
+    razorpay_key_prefix: (process.env.RAZORPAY_KEY_ID || 'missing').substring(0, 8),
+    razorpay_initialized: !!process.env.RAZORPAY_KEY_ID && !!process.env.RAZORPAY_KEY_SECRET,
+    is_live: (process.env.RAZORPAY_KEY_ID || '').startsWith('rzp_live'),
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Global Error Handler (Ensures CORS headers even on crash)
 app.use((err: any, req: any, res: any, next: any) => {
   console.error('SERVER ERROR:', err);
