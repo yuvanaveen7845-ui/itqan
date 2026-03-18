@@ -1,3 +1,4 @@
+// Imperial Scent UI Deploy: Phase 14 - Exotic Gold Header Overhaul
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,7 +8,7 @@ import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { useCMSStore } from '@/store/cms';
 import Editable from '@/components/Editable';
-import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight, FiShoppingBag } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight, FiShoppingBag, FiLayers } from 'react-icons/fi';
 
 export default function Header() {
   const { user, logout } = useAuthStore();
@@ -35,96 +36,107 @@ export default function Header() {
 
   return (
     <>
-      {/* Premium Announcement Bar */}
+      {/* Premium Announcement Bar - Liquid Gold Flow */}
       {announcement.is_active && (
-        <div className="bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.3em] py-3 text-center border-b border-premium-gold/10 font-inter">
+        <div className="bg-premium-black text-premium-gold text-[10px] font-black uppercase tracking-[0.4rem] py-4 text-center relative overflow-hidden group">
+          <div className="absolute inset-0 bg-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
           {announcement.link ? (
-            <Link href={announcement.link} className="hover:opacity-80 transition-opacity">
+            <Link href={announcement.link} className="hover:text-white transition-colors relative z-10">
               {announcement.text}
             </Link>
           ) : (
             <Editable id="header_announcement" fallback={announcement.text}>
-              {announcement.text}
+              <span className="relative z-10">{announcement.text}</span>
             </Editable>
           )}
+          <div className="liquid-gold-divider absolute bottom-0 left-0 opacity-40"></div>
         </div>
       )}
 
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-[1s] ease-[cubic-bezier(0.19,1,0.22,1)] ${isScrolled
-          ? 'bg-black/95 backdrop-blur-3xl py-4 border-b border-premium-gold/20 shadow-[0_4px_30px_rgba(197,160,89,0.08)]'
-          : 'bg-transparent py-6 sm:py-10'
+          ? 'bg-black/90 backdrop-blur-3xl py-4 border-b border-white/5 shadow-[0_10px_40px_rgba(0,0,0,0.5)]'
+          : 'bg-transparent py-8 sm:py-12'
           }`}
       >
         <div className="max-w-[1700px] mx-auto px-4 sm:px-12 md:px-24 flex items-center justify-between">
-          {/* Brand Identity - Center Link */}
+          {/* Brand Identity */}
           <div className="flex items-center gap-12">
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2 -ml-2 text-white/60 hover:text-premium-gold transition-colors block lg:hidden"
+                className="p-3 text-premium-gold/60 hover:text-premium-gold transition-all block lg:hidden glass-panel rounded-full"
               >
-                <FiMenu size={20} />
+                <FiMenu size={18} />
               </button>
               
-              <Link href="/" className="flex flex-col items-start group">
+              <Link href="/" className="flex flex-col items-start group relative">
                 <Editable id="header_logo" type="text" fallback="IQTAN">
-                  <span className="text-2xl sm:text-3xl imperial-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-700">IQTAN</span>
+                  <span className="text-3xl sm:text-4xl imperial-serif text-white tracking-[1rem] group-hover:gold-luxury-text transition-all duration-1000">IQTAN</span>
                 </Editable>
+                <div className="w-0 group-hover:w-full h-px bg-premium-gold absolute -bottom-2 transition-all duration-700 opacity-50"></div>
               </Link>
 
-              <nav className="hidden lg:flex items-center gap-10 ml-8">
+              <nav className="hidden lg:flex items-center gap-12 ml-12">
                 <Editable id="header_nav_collections" fallback="Collections">
-                  <Link href="/products" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Collections</Link>
+                  <Link href="/products" className="group text-[9px] font-black uppercase tracking-[0.5em] text-white/40 hover:text-premium-gold transition-all flex items-center gap-2">
+                    <span className="w-1 h-1 bg-premium-gold/0 group-hover:bg-premium-gold transition-all rounded-full"></span>
+                    Collections
+                  </Link>
                 </Editable>
                 <Editable id="header_nav_atelier" fallback="Atelier">
-                  <Link href="/about" className="text-[9px] font-black uppercase tracking-[0.4em] text-white/60 hover:text-premium-gold transition-all">Atelier</Link>
+                  <Link href="/about" className="group text-[9px] font-black uppercase tracking-[0.5em] text-white/40 hover:text-premium-gold transition-all flex items-center gap-2">
+                    <span className="w-1 h-1 bg-premium-gold/0 group-hover:bg-premium-gold transition-all rounded-full"></span>
+                    Atelier
+                  </Link>
                 </Editable>
               </nav>
           </div>
 
-          {/* Action Center - Unified Cluster */}
-          <div className="flex items-center gap-6 sm:gap-10">
-            <Link href="/search" className="text-white/60 hover:text-premium-gold transition-colors hidden sm:block"><FiSearch size={16} /></Link>
+          {/* Action Center - Unified Boutique Cluster */}
+          <div className="flex items-center gap-6 sm:gap-12">
+            <Link href="/search" className="text-white/40 hover:text-premium-gold transition-all p-2 glass-panel rounded-full hidden sm:block">
+              <FiSearch size={16} />
+            </Link>
             
-            <Link href="/cart" className="text-white/60 hover:text-premium-gold transition-colors flex items-center gap-2">
-              <FiShoppingBag size={16} />
-              {itemCount > 0 && <span className="text-[8px] font-black text-premium-gold tracking-widest">{itemCount}</span>}
+            <Link href="/cart" className="relative group p-2 text-white/40 hover:text-premium-gold transition-all glass-panel rounded-full">
+              <FiShoppingBag size={18} />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-premium-gold text-black text-[9px] font-black rounded-full flex items-center justify-center animate-bounce-slow">
+                  {itemCount}
+                </span>
+              )}
             </Link>
 
             {user ? (
               <div className="relative group/user">
-                <button className="flex items-center gap-3 py-2 pl-4 border-l border-white/10">
-                  <span className="text-[8px] font-black text-white uppercase tracking-widest hidden sm:block">{user.name.split(' ')[0]}</span>
-                  <div className="w-8 h-8 rounded-full border border-premium-gold/20 flex items-center justify-center bg-white/5">
-                     <span className="text-[9px] font-black text-premium-gold">{user.name.charAt(0)}</span>
+                <button className="flex items-center gap-4 py-2 pl-6 border-l border-white/10 group-hover/user:border-premium-gold transition-colors duration-700">
+                  <div className="w-10 h-10 rounded-full arabesque-border p-[1px]">
+                     <div className="w-full h-full bg-zinc-900 flex items-center justify-center text-[11px] font-black text-premium-gold">
+                       {user.name.charAt(0)}
+                     </div>
                   </div>
+                  <span className="text-[9px] font-black text-white/60 group-hover/user:text-premium-gold uppercase tracking-[0.3em] hidden sm:block transition-colors">{user.name.split(' ')[0]}</span>
                 </button>
 
-                {/* Refined Dropdown */}
-                <div className="absolute top-full right-0 mt-2 w-56 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-500 translate-y-2 group-hover/user:translate-y-0 z-50">
-                  <div className="bg-premium-black border border-white/10 p-6 shadow-2xl skew-x-[-1deg]">
-                    <div className="space-y-4 skew-x-[1deg]">
+                {/* Refined Exotic Dropdown */}
+                <div className="absolute top-full right-0 mt-4 w-64 opacity-0 invisible group-hover/user:opacity-100 group-hover/user:visible transition-all duration-700 translate-y-4 group-hover/user:translate-y-0 z-50">
+                  <div className="bg-zinc-950 border border-white/5 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.8)] arabesque-border">
+                    <div className="space-y-6">
                       <Link href="/profile" className="flex items-center justify-between group/link">
-                        <Editable id="header_dropdown_portfolio" fallback="Portfolio">
-                          <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Portfolio</span>
-                        </Editable>
+                        <span className="text-[9px] font-black text-white/40 group-hover/link:text-premium-gold group-hover/link:translate-x-2 transition-all uppercase tracking-[0.4em]">Portfolio</span>
                         <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
                       <Link href="/wishlist" className="flex items-center justify-between group/link">
-                        <Editable id="header_dropdown_sanctuary" fallback="Sanctuary">
-                          <span className="text-[8px] font-black text-white/60 hover:text-premium-gold uppercase tracking-widest transition-colors">Sanctuary</span>
-                        </Editable>
+                        <span className="text-[9px] font-black text-white/40 group-hover/link:text-premium-gold group-hover/link:translate-x-2 transition-all uppercase tracking-[0.4em]">Sanctuary</span>
                         <FiChevronRight size={10} className="text-premium-gold opacity-0 group-hover/link:opacity-100" />
                       </Link>
                       {isAdmin && (
-                        <Editable id="header_dropdown_admin" fallback="Atelier Control">
-                          <Link href="/admin" className="block text-[8px] font-black text-premium-gold uppercase tracking-widest pt-4 border-t border-white/5">Atelier Control</Link>
-                        </Editable>
+                        <Link href="/admin" className="block text-[9px] font-black text-premium-gold uppercase tracking-[0.4em] pt-6 border-t border-white/5 group/link hover:translate-x-2 transition-all">
+                          Atelier Control
+                        </Link>
                       )}
-                      <button onClick={logout} className="w-full pt-4 border-t border-white/5 text-left group/link flex items-center justify-between">
-                        <Editable id="header_dropdown_logout" fallback="Terminate">
-                          <span className="text-[8px] font-black text-rose-500 uppercase tracking-widest">Terminate</span>
-                        </Editable>
+                      <button onClick={logout} className="w-full pt-6 border-t border-white/5 text-left group/link flex items-center justify-between">
+                        <span className="text-[9px] font-black text-rose-500/60 group-hover/link:text-rose-500 uppercase tracking-[0.4em] group-hover/link:translate-x-2 transition-all">Terminate</span>
                         <FiLogOut size={10} className="text-rose-500" />
                       </button>
                     </div>
@@ -133,7 +145,7 @@ export default function Header() {
               </div>
             ) : (
               <Editable id="header_login_btn" fallback="Login">
-                <Link href="/login" className="text-[8px] font-black text-white hover:text-premium-gold uppercase tracking-widest border border-premium-gold/20 px-5 py-2 hover:bg-premium-gold hover:text-black transition-all">
+                <Link href="/login" className="text-[9px] font-black text-white/80 hover:text-black uppercase tracking-[0.4em] border border-premium-gold/30 px-8 py-3 hover:bg-premium-gold transition-all duration-700 signature-shimmer">
                   Login
                 </Link>
               </Editable>
@@ -141,106 +153,105 @@ export default function Header() {
             
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 text-white/60 hover:text-premium-gold transition-colors hidden lg:block"
+              className="p-3 text-white/40 hover:text-premium-gold transition-all glass-panel rounded-full hidden lg:block"
             >
-              <FiMenu size={18} />
+              <FiMenu size={20} />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Navigation Sidebar Drawer */}
+      {/* Exotic Navigation Sidebar Drawer */}
       <div
-        className={`fixed inset-0 bg-premium-black/60 backdrop-blur-sm z-[200] transition-opacity duration-700 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/80 backdrop-blur-md z-[200] transition-opacity duration-1000 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 left-0 h-full w-full sm:w-[550px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col backdrop-blur-3xl border-r border-premium-gold/10`}>
-        <div className="h-40 px-6 sm:px-12 flex items-center justify-between border-b border-premium-gold/10">
-          <div className="flex flex-col">
-            <Editable id="sidebar_title" fallback="the atlas">
-              <span className="text-3xl imperial-serif text-white italic lowercase">the atlas</span>
-            </Editable>
-            <Editable id="sidebar_subtitle" fallback="Privileged Access Menu">
-              <span className="text-[8px] font-black text-premium-gold tracking-[0.8em] uppercase font-inter mt-1 opacity-70">Privileged Access Menu</span>
-            </Editable>
-          </div>
-          <button onClick={() => setIsSidebarOpen(false)} className="group w-14 h-14 bg-premium-black text-premium-gold flex items-center justify-center rounded-full hover:rotate-90 transition-all duration-700 border border-premium-gold/20 shadow-xl">
-            <FiX size={24} />
+      <div className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col gold-dust-overlay border-l border-white/5`}>
+        <div className="h-56 px-12 flex flex-col justify-center border-b border-white/5 relative">
+          <Editable id="sidebar_title" fallback="the atlas">
+            <span className="text-5xl imperial-serif text-white italic lowercase">the atlas</span>
+          </Editable>
+          <Editable id="sidebar_subtitle" fallback="Privileged Access Menu">
+            <span className="text-[9px] font-black text-premium-gold tracking-[1rem] uppercase font-inter mt-3 opacity-60">Control Console</span>
+          </Editable>
+          
+          <button onClick={() => setIsSidebarOpen(false)} className="absolute top-12 right-12 w-14 h-14 bg-white/5 text-premium-gold flex items-center justify-center rounded-full hover:rotate-90 hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-2xl border border-white/10 group">
+            <FiX size={20} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto py-12 px-6 sm:px-12 space-y-12">
+        <div className="flex-1 overflow-y-auto py-20 px-12 space-y-20">
           {/* Primary Navigation */}
-          <div className="space-y-6">
+          <div className="space-y-10">
             <Editable id="sidebar_universe_heading" fallback="Universe">
-              <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">Universe</h3>
+              <h3 className="text-[10px] font-black text-premium-gold/40 tracking-[0.6em] uppercase font-inter flex items-center gap-4">
+                <FiLayers size={12} /> The Universe
+              </h3>
             </Editable>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-10">
               {[
-                { label: 'The Collection', path: '/products', icon: FiGrid },
-                { label: 'Fragrance Houses', path: '/products?category=Oud', icon: FiHome },
-                { label: 'Scent Discovery', path: '/about', icon: FiInfo },
+                { label: 'Exclusif Collection', path: '/products', icon: FiGrid },
+                { label: 'Olfactive Tiers', path: '/products?category=Oud', icon: FiHome },
+                { label: 'The Secret Atelier', path: '/about', icon: FiInfo },
               ].map((item, idx) => (
                 <Link
                   key={item.label}
                   href={item.path}
-                  className="group flex items-center justify-between py-2 border-b border-white/5 hover:border-premium-gold transition-colors"
+                  className="group flex items-center justify-between py-2 border-b border-white/5 hover:border-premium-gold transition-all duration-700"
                   onClick={() => setIsSidebarOpen(false)}
                 >
                   <Editable id={`sidebar_universe_link_${idx}`} fallback={item.label}>
-                    <span className="text-xl font-playfair italic text-white group-hover:text-premium-gold group-hover:translate-x-4 transition-all duration-500">{item.label}</span>
+                    <span className="text-4xl imperial-serif text-white/60 group-hover:text-white group-hover:translate-x-6 transition-all duration-700">{item.label}</span>
                   </Editable>
-                  <FiChevronRight className="text-premium-gold opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <FiChevronRight className="text-premium-gold opacity-0 group-hover:opacity-100 transition-all duration-700 translate-x-10 group-hover:translate-x-0" />
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Account & Administration */}
-          <div className="space-y-6">
+          <div className="space-y-10">
             <Editable id="sidebar_myspace_heading" fallback="My Space">
-              <h3 className="text-[10px] font-black text-premium-gold tracking-[0.4em] uppercase font-inter">My Space</h3>
+              <h3 className="text-[10px] font-black text-premium-gold/40 tracking-[0.6em] uppercase font-inter">Personal Sanctuary</h3>
             </Editable>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-4">
               {user ? (
                 <>
-                  <Editable id="sidebar_myspace_dashboard" fallback="Dashboard Overview">
-                    <Link href="/profile" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Dashboard Overview</Link>
-                  </Editable>
-                  <Editable id="sidebar_myspace_wishlist" fallback="Signature Likes">
-                    <Link href="/wishlist" className="text-sm font-bold text-white/70 hover:text-premium-gold py-2 block font-inter" onClick={() => setIsSidebarOpen(false)}>Signature Likes</Link>
-                  </Editable>
+                  <Link href="/profile" className="group flex items-center justify-between p-6 bg-white/5 border border-white/5 hover:border-premium-gold/40 transition-all duration-700" onClick={() => setIsSidebarOpen(false)}>
+                    <span className="text-[11px] font-black text-white/80 uppercase tracking-widest">Profile Portfolio</span>
+                    <FiUser className="text-premium-gold opacity-40 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link href="/wishlist" className="group flex items-center justify-between p-6 bg-white/5 border border-white/5 hover:border-premium-gold/40 transition-all duration-700" onClick={() => setIsSidebarOpen(false)}>
+                    <span className="text-[11px] font-black text-white/80 uppercase tracking-widest">Scent Sanctuary</span>
+                    <FiHeart className="text-premium-gold opacity-40 group-hover:opacity-100 transition-opacity" />
+                  </Link>
                   {isAdmin && (
-                    <Editable id="sidebar_myspace_admin" fallback="ACCESS SECURITY PANEL">
-                      <Link href="/admin" className="mt-4 px-6 py-4 bg-premium-black text-premium-gold text-xs font-black tracking-widest text-center block rounded-none hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>
-                        ACCESS SECURITY PANEL
-                      </Link>
-                    </Editable>
+                    <Link href="/admin" className="p-6 bg-premium-black border border-premium-gold/30 text-premium-gold text-[11px] font-black tracking-[0.4em] text-center uppercase hover:bg-premium-gold hover:text-black transition-all duration-700 signature-shimmer" onClick={() => setIsSidebarOpen(false)}>
+                      Atelier Security Terminal
+                    </Link>
                   )}
                 </>
               ) : (
-                <div className="grid grid-cols-2 gap-4">
-                  <Editable id="sidebar_myspace_login" fallback="Login">
-                    <Link href="/login" className="px-6 py-4 border border-premium-gold/30 text-premium-gold text-[10px] font-black tracking-widest text-center uppercase hover:bg-premium-gold hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Login</Link>
-                  </Editable>
-                  <Editable id="sidebar_myspace_register" fallback="Join Us">
-                    <Link href="/register" className="px-6 py-4 bg-premium-gold text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-white hover:text-premium-black transition-all font-inter" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
-                  </Editable>
+                <div className="grid grid-cols-2 gap-6">
+                  <Link href="/login" className="px-8 py-6 border border-white/10 text-white text-[10px] font-black tracking-widest text-center uppercase hover:border-premium-gold transition-all duration-700" onClick={() => setIsSidebarOpen(false)}>Login</Link>
+                  <Link href="/register" className="px-8 py-6 bg-premium-gold text-premium-black text-[10px] font-black tracking-widest text-center uppercase hover:bg-white transition-all duration-700 signature-shimmer" onClick={() => setIsSidebarOpen(false)}>Join Us</Link>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="p-6 sm:p-12 border-t border-premium-gold/10 flex justify-between items-center bg-white/[0.02]">
-          <div className="text-[9px] font-black text-white/40 tracking-widest uppercase font-inter">
-            © {mounted ? new Date().getFullYear() : '2024'} {branding.name || 'IQTAN'}
-          </div>
-          <div className="flex gap-4">
-            <div className="w-6 h-6 rounded-full bg-premium-gold/10"></div>
-            <div className="w-6 h-6 rounded-full bg-premium-gold/10"></div>
-          </div>
+        <div className="p-12 border-t border-white/5 flex flex-col gap-6 bg-black/40">
+           <div className="liquid-gold-divider opacity-20"></div>
+           <div className="flex justify-between items-center">
+              <div className="text-[10px] font-black text-white/20 tracking-[0.4em] uppercase">
+                © {mounted ? new Date().getFullYear() : '2024'} {branding.name || 'IQTAN'} ATELIER
+              </div>
+              <div className="flex gap-6">
+                <div className="w-8 h-[0.5px] bg-premium-gold/40"></div>
+                <div className="w-8 h-[0.5px] bg-premium-gold/40"></div>
+              </div>
+           </div>
         </div>
       </div>
     </>

@@ -158,22 +158,85 @@
   }
 }
 
-.grain-overlay {
+/* Exotic Gold Treatments */
+.gold-dust-overlay {
   position: relative;
 }
 
-.grain-overlay::before {
+.gold-dust-overlay::after {
   content: "";
   position: absolute;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+  background-color: transparent;
+  opacity: 0.15;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+  z-index: 15;
+  animation: move-dust 60s linear infinite;
+}
+
+@keyframes move-dust {
+  from { background-position: 0 0; }
+  to { background-position: 100% 100%; }
+}
+
+.liquid-gold-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(197, 160, 89, 0.1) 20%, 
+    #C5A059 50%, 
+    rgba(197, 160, 89, 0.1) 80%, 
+    transparent 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-gold-divider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: translateX(-100%);
+  animation: liquid-flow 4s infinite linear;
+}
+
+@keyframes liquid-flow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.signature-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.signature-shimmer::before {
+  content: '';
+  position: absolute;
   top: 0;
-  left: 0;
+  left: -150%;
   width: 100%;
   height: 100%;
-  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-  opacity: 0.03;
-  z-index: 10;
-  pointer-events: none;
-  mix-blend-mode: overlay;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(234, 179, 8, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: 0.8s;
+}
+
+.signature-shimmer:hover::before {
+  left: 150%;
+}
+
+.arabesque-border {
+  @apply relative p-[1px] bg-gradient-to-br from-premium-gold/40 via-transparent to-premium-gold/40;
 }
 
 /* Scroll Customization */

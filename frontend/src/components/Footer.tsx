@@ -1,9 +1,10 @@
+// Imperial Scent UI Deploy: Phase 14 - Exotic Gold Footer Overhaul
 'use client';
 
 import Link from 'next/link';
 import { useCMSStore } from '@/store/cms';
 import Editable from '@/components/Editable';
-import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone, FiArrowUp } from 'react-icons/fi';
+import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone, FiArrowUp, FiShield, FiGlobe, FiLayers } from 'react-icons/fi';
 
 export default function Footer() {
   const branding = useCMSStore((state) => state.branding);
@@ -15,115 +16,153 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-premium-black border-t border-premium-gold/10">
-      <div className="max-w-[1800px] mx-auto px-8 md:px-12 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
+    <footer className="bg-premium-black relative overflow-hidden gold-dust-overlay border-t border-white/5">
+      <div className="liquid-gold-divider absolute top-0 left-0"></div>
+      
+      <div className="max-w-[1800px] mx-auto px-8 md:px-24 py-32 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-20 lg:gap-32">
 
-          {/* Brand Info */}
-          <div className="lg:col-span-2 space-y-8">
-            <Link href="/" className="group flex flex-col">
-              <span className="text-3xl font-playfair font-black text-white tracking-[0.1em] lowercase group-hover:text-premium-gold transition-colors">
-                {branding.name?.split(' ')[0] || 'iqtan'}
-              </span>
-              <span className="text-[10px] font-inter font-black text-premium-gold tracking-[0.5em] uppercase -mt-1">
-                {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
-              </span>
+          {/* Brand Logic & Identity */}
+          <div className="lg:col-span-2 space-y-12">
+            <Link href="/" className="group flex flex-col items-start gap-2 relative">
+              <Editable id="footer_logo_main" fallback={branding.name?.split(' ')[0] || 'iqtan'}>
+                <span className="text-4xl sm:text-5xl imperial-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-1000 uppercase">
+                  {branding.name?.split(' ')[0] || 'iqtan'}
+                </span>
+              </Editable>
+              <Editable id="footer_logo_sub" fallback={branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}>
+                <span className="text-[10px] font-black text-premium-gold/60 tracking-[1rem] uppercase">
+                  {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
+                </span>
+              </Editable>
+              <div className="w-0 group-hover:w-full h-px bg-premium-gold transition-all duration-700 opacity-40"></div>
             </Link>
-            <Editable id="footer_about" fallback="Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.">
-              <p className="text-white/60 text-sm leading-relaxed max-w-sm italic">
-                {footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}
-              </p>
-            </Editable>
-            <div className="flex gap-10">
-              {socials.instagram && (
-                <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
-                  <FiInstagram size={20} />
+            
+            <div className="space-y-6">
+               <Editable id="footer_about" fallback="Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.">
+                 <p className="imperial-body text-sm leading-[2] max-w-sm">
+                   "{footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}"
+                 </p>
+               </Editable>
+            </div>
+
+            <div className="flex gap-8">
+              {[
+                { icon: FiInstagram, link: socials.instagram },
+                { icon: FiFacebook, link: socials.facebook },
+                { icon: FiTwitter, link: socials.twitter },
+              ].map((social, idx) => social.link && (
+                <a key={idx} href={social.link} target="_blank" rel="noopener noreferrer" className="p-4 border border-white/5 bg-white/5 text-white/40 hover:text-premium-gold hover:border-premium-gold transition-all duration-700 transform hover:-translate-y-2 rounded-full glass-panel">
+                  <social.icon size={18} />
                 </a>
-              )}
-              {socials.facebook && (
-                <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
-                  <FiFacebook size={20} />
-                </a>
-              )}
-              {socials.twitter && (
-                <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-premium-gold transition-all transform hover:-translate-y-1">
-                  <FiTwitter size={20} />
-                </a>
-              )}
+              ))}
             </div>
           </div>
 
-          {/* Navigation Groups */}
-          <div>
-            <Editable id="footer_collections_header" fallback="Collections">
-              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8 font-inter">Collections</h3>
+          {/* Navigation Vaults */}
+          <div className="space-y-10">
+            <Editable id="footer_collections_header" fallback="The Archive">
+              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">The Archive</h3>
             </Editable>
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               {['Private Reserve', 'Oud Masters', 'Floral Bloom', 'The Classics'].map((item, idx) => (
-                <li key={item}>
+                <li key={item} className="group">
                   <Editable id={`footer_collections_link_${idx}`} fallback={item}>
-                    <Link href="/products" className="text-[11px] font-bold text-white/60 hover:text-premium-gold transition-colors uppercase tracking-widest font-inter">{item}</Link>
+                    <Link href="/products" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-inter flex items-center gap-3">
+                      <span className="w-0 group-hover:w-4 h-px bg-premium-gold transition-all"></span>
+                      {item}
+                    </Link>
                   </Editable>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
+          <div className="space-y-10">
             <Editable id="footer_maison_header" fallback="Maison">
-              <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8 font-inter">Maison</h3>
+              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">Maison</h3>
             </Editable>
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               {['Our Heritage', 'Scent Discovery', 'Private Atelier', 'Legal Notice'].map((item, idx) => (
-                <li key={item}>
+                <li key={item} className="group">
                   <Editable id={`footer_maison_link_${idx}`} fallback={item}>
-                    <Link href="/about" className="text-[11px] font-bold text-white/60 hover:text-premium-gold transition-colors uppercase tracking-widest font-inter">{item}</Link>
+                    <Link href="/about" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-inter flex items-center gap-3">
+                      <span className="w-0 group-hover:w-4 h-px bg-premium-gold transition-all"></span>
+                      {item}
+                    </Link>
                   </Editable>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact & Support */}
-          <div className="space-y-8">
-            <div>
-              <Editable id="footer_contact_header" fallback="Experience">
-                <h3 className="text-[10px] font-black text-white uppercase tracking-[0.3em] mb-8 font-inter">Experience</h3>
+          {/* Concierge & Support */}
+          <div className="space-y-12">
+            <div className="space-y-10">
+              <Editable id="footer_contact_header" fallback="Concierge">
+                <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">Concierge</h3>
               </Editable>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <Editable id="footer_contact_email" fallback="concierge@iqtan.com">
-                  <p className="text-[11px] text-white/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
-                    <FiMail className="text-premium-gold" /> {footer.contact_email || 'concierge@iqtan.com'}
-                  </p>
+                  <div className="flex items-center gap-4 group cursor-pointer">
+                    <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
+                      <FiMail size={12} className="text-premium-gold" />
+                    </div>
+                    <span className="text-[11px] text-white/40 group-hover:text-premium-gold font-black uppercase tracking-widest transition-colors">{footer.contact_email || 'concierge@iqtan.com'}</span>
+                  </div>
                 </Editable>
                 <Editable id="footer_contact_phone" fallback="+91 XXXX XXXX XX">
-                  <p className="text-[11px] text-white/60 font-bold flex items-center gap-3 uppercase tracking-widest font-inter">
-                    <FiPhone className="text-premium-gold" /> {footer.contact_phone || '+91 XXXX XXXX XX'}
-                  </p>
+                  <div className="flex items-center gap-4 group cursor-pointer">
+                     <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
+                        <FiPhone size={12} className="text-premium-gold" />
+                     </div>
+                     <span className="text-[11px] text-white/40 group-hover:text-premium-gold font-black uppercase tracking-widest transition-colors">{footer.contact_phone || '+91 XXXX XXXX XX'}</span>
+                  </div>
                 </Editable>
               </div>
             </div>
-            <Editable id="footer_backtotop" fallback="Back to Apex">
+            
+            <Editable id="footer_backtotop" fallback="Ascend to Apex">
               <button
                 onClick={scrollToTop}
-                className="group flex items-center gap-3 text-[9px] font-black text-premium-gold uppercase tracking-[0.4em] font-inter"
+                className="group flex items-center gap-4 text-[9px] font-black text-premium-gold p-4 border border-premium-gold/10 hover:border-premium-gold/100 uppercase tracking-[0.6em] font-inter transition-all duration-700 signature-shimmer"
               >
-                Back to Apex <FiArrowUp className="group-hover:-translate-y-1 transition-transform" />
+                Ascend to Apex <FiArrowUp className="group-hover:-translate-y-2 transition-transform duration-700" size={12} />
               </button>
             </Editable>
           </div>
 
         </div>
 
-        <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-          <Editable id="footer_copyright" fallback="All rights reserved.">
-            <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] font-inter">
-              &copy; {new Date().getFullYear()} {branding.name}. {footer.copyright_text || 'All rights reserved.'}
-            </p>
-          </Editable>
-          <div className="flex gap-1">
+        {/* Dynamic Boutique Footer Bottom */}
+        <div className="mt-40 pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent"></div>
+          
+          <div className="flex flex-col gap-4 text-center md:text-left">
+              <Editable id="footer_copyright" fallback="All rights reserved.">
+                <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] font-inter">
+                  &copy; {new Date().getFullYear()} {branding.name}. ALL RIGHTS RESERVED.
+                </p>
+              </Editable>
+              <div className="flex items-center justify-center md:justify-start gap-6 opacity-30 group">
+                <div className="flex items-center gap-2 text-[8px] font-black text-white uppercase tracking-widest">
+                  <FiGlobe className="text-premium-gold" /> Global Concierge
+                </div>
+                <div className="w-px h-3 bg-white/10"></div>
+                <div className="flex items-center gap-2 text-[8px] font-black text-white uppercase tracking-widest">
+                  <FiShield className="text-premium-gold" /> Encrypted Privilege
+                </div>
+              </div>
+          </div>
+
+          <div className="flex gap-4">
             {[1, 2, 3, 4].map(idx => (
-              <div key={idx} className="w-8 h-5 bg-premium-cream rounded-sm border border-premium-gold/5"></div>
+              <div key={idx} className="w-12 h-7 bg-zinc-950 border border-white/5 relative group cursor-pointer transition-all hover:border-premium-gold/40">
+                <div className="absolute inset-0 bg-premium-gold/0 group-hover:bg-premium-gold/5 transition-all"></div>
+                <div className="w-full h-full flex items-center justify-center">
+                  <FiLayers size={10} className="text-premium-gold/10 group-hover:text-premium-gold/40 transition-colors" />
+                </div>
+              </div>
             ))}
           </div>
         </div>

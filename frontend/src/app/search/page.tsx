@@ -1,9 +1,11 @@
+// Imperial Scent UI Deploy: Phase 14 - Exotic Gold Search Overhaul
 'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { productAPI } from '@/lib/api';
+import { FiSearch, FiTrendingUp, FiTag, FiWind, FiX } from 'react-icons/fi';
 
 export default function SearchPage() {
     const router = useRouter();
@@ -11,10 +13,8 @@ export default function SearchPage() {
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
 
-    // Mock trending searches
-    const trendingSearches = ['Premium Silk', 'Summer Cotton', 'Floral Pattern', 'Linen Suits'];
-    // Mock categories
-    const categorySuggestions = ['Cotton', 'Silk', 'Linen', 'Wool', 'Perfume'];
+    const trendingSearches = ['Majestic Oud', 'Velvet Rose', 'Amber Spice', 'Saffron Gold'];
+    const categorySuggestions = ['Oud', 'Floral', 'Spicy', 'Oriental', 'Fresh'];
 
     useEffect(() => {
         const fetchSuggestions = async () => {
@@ -25,7 +25,6 @@ export default function SearchPage() {
 
             setLoading(true);
             try {
-                // In a real app, this might be a dedicated auto-complete endpoint
                 const { data } = await productAPI.getAll({ search: query, limit: 5 });
                 setSuggestions(data.products);
             } catch (error) {
@@ -52,110 +51,119 @@ export default function SearchPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-24 min-h-[70vh] scroll-reveal visible">
-            <div className="text-center mb-16 space-y-4">
-                <h1 className="text-5xl lg:text-7xl font-black mb-4 imperial-serif text-premium-black lowercase">Seek the Essence</h1>
-                <p className="text-[11px] font-black uppercase tracking-[0.6em] text-premium-gold/60 max-w-2xl mx-auto font-inter">Explore our private reserve and signature blends</p>
-            </div>
+        <div className="min-h-screen bg-premium-black gold-dust-overlay pt-32 sm:pt-48 pb-24 px-6 relative selection:bg-premium-gold selection:text-black">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-premium-black z-10 pointer-events-none"></div>
+            
+            <div className="max-w-4xl mx-auto relative z-20">
+                <div className="text-center mb-20 space-y-6">
+                    <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block animate-reveal">Discovery Room</span>
+                    <h1 className="text-6xl lg:text-9xl imperial-serif text-white leading-none animate-reveal" style={{ animationDelay: '0.2s' }}>
+                        Seek the <br/>
+                        <span className="gold-luxury-text italic font-normal lowercase">Essence</span>
+                    </h1>
+                    <div className="w-24 h-px bg-gradient-to-r from-transparent via-premium-gold to-transparent mx-auto mt-8 opacity-40"></div>
+                </div>
 
-            <div className="luxury-card-rich p-8 md:p-12 mb-16 shadow-2xl rounded-[40px] border-none">
-                <form onSubmit={handleSearch} className="relative group">
-                    <input
-                        type="text"
-                        className="premium-input w-full text-2xl p-8 pl-16 rounded-[24px] normal-case font-medium placeholder:italic placeholder:font-light"
-                        placeholder="Search for 'Silk', 'Cotton', 'Blue'..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        autoFocus
-                    />
-                    <svg className="w-6 h-6 text-premium-gold/40 absolute left-6 top-1/2 transform -translate-y-1/2 group-focus-within:text-premium-gold transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <button
-                        type="submit"
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-premium-black text-premium-gold px-10 py-4 rounded-[16px] font-black text-[11px] uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-black transition-all duration-700 shadow-xl"
-                    >
-                        Search
-                    </button>
-                </form>
+                <div className="arabesque-border glass-panel p-2 mb-20 shadow-2xl">
+                    <form onSubmit={handleSearch} className="relative group flex items-center bg-zinc-950 p-4">
+                        <div className="pl-6 pr-4 border-r border-white/5">
+                            <FiSearch className="w-6 h-6 text-premium-gold animate-pulse" />
+                        </div>
+                        <input
+                            type="text"
+                            className="bg-transparent w-full text-2xl p-6 text-white outline-none placeholder:text-white/10 font-bold tracking-tight lowercase"
+                            placeholder="Enter notes, families, or collections..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            autoFocus
+                        />
+                        <button
+                            type="submit"
+                            className="bg-premium-gold text-premium-black px-12 py-5 font-black text-[11px] uppercase tracking-[0.4em] hover:bg-white transition-all duration-700 signature-shimmer"
+                        >
+                            Execute
+                        </button>
+                    </form>
 
-                {/* Instant Suggestions Dropdown area */}
-                {query.length >= 2 && (
-                    <div className="mt-10 border-t border-premium-gold/10 pt-10">
-                        {loading ? (
-                            <div className="flex justify-center py-8">
-                                <div className="animate-pulse text-[10px] font-black uppercase tracking-[0.6em] text-premium-gold">Querying the Archive...</div>
-                            </div>
-                        ) : suggestions.length > 0 ? (
-                            <ul className="space-y-4">
-                                {suggestions.map(product => (
-                                    <li key={product.id}>
-                                        <Link href={`/products/${product.id}`} className="flex items-center gap-8 p-6 hover:bg-premium-cream/50 rounded-[20px] group transition-all duration-700">
-                                            {product.image_url ? (
-                                                <img src={product.image_url} alt={product.name} className="w-16 h-16 object-cover rounded-xl border border-premium-gold/10 grayscale group-hover:grayscale-0 transition-all duration-1000" />
-                                            ) : (
-                                                <div className="w-16 h-16 bg-premium-cream rounded-xl flex-shrink-0"></div>
-                                            )}
-                                            <div>
-                                                <h4 className="font-bold text-premium-black text-lg group-hover:text-premium-gold transition-colors duration-500">{product.name}</h4>
-                                                <p className="text-[10px] font-black uppercase tracking-widest text-premium-gold/60">{product.Fragrance_type} • ₹{product.price.toLocaleString()}</p>
-                                            </div>
-                                        </Link>
-                                    </li>
+                    {/* Instant Suggestions Dropdown area */}
+                    {query.length >= 2 && (
+                        <div className="bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 p-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                            {loading ? (
+                                <div className="flex justify-center py-10">
+                                    <div className="w-8 h-8 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                            ) : suggestions.length > 0 ? (
+                                <ul className="space-y-2">
+                                    {suggestions.map(product => (
+                                        <li key={product.id}>
+                                            <Link href={`/products/${product.id}`} className="flex items-center gap-8 p-4 hover:bg-white/5 group transition-all duration-500">
+                                                <div className="w-16 h-16 relative overflow-hidden arabesque-border bg-black">
+                                                    <img src={product.image_url} alt={product.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h4 className="font-bold text-white text-lg group-hover:text-premium-gold transition-colors">{product.name}</h4>
+                                                    <div className="flex items-center gap-4 mt-1 opacity-40">
+                                                        <span className="text-[9px] font-black uppercase tracking-widest">{product.Fragrance_type}</span>
+                                                        <span className="w-1 h-1 bg-white rounded-full"></span>
+                                                        <span className="text-[9px] font-black uppercase tracking-widest">₹{product.price.toLocaleString()}</span>
+                                                    </div>
+                                                </div>
+                                                <FiTrendingUp className="text-premium-gold/0 group-hover:text-premium-gold/100 transition-all duration-500" />
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div className="text-center py-12">
+                                    <p className="text-premium-gold/30 text-[10px] font-black uppercase tracking-[0.5em]">The archive remains silent for "{query}"</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                {query.length < 2 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-in fade-in duration-1000">
+                        {/* Trending Searches */}
+                        <div className="glass-panel p-10 border-white/10 group hover:border-premium-gold/40 transition-all">
+                            <h3 className="text-[11px] font-black mb-10 flex items-center gap-4 text-premium-gold uppercase tracking-[0.5em]">
+                                <FiTrendingUp className="text-premium-gold animate-bounce" />
+                                Trending Essences
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {trendingSearches.map(term => (
+                                    <button
+                                        key={term}
+                                        onClick={() => handleSuggestionClick(term)}
+                                        className="bg-white/5 hover:bg-premium-gold hover:text-black text-white/60 hover:text-black px-6 py-4 rounded-none text-[10px] font-black uppercase tracking-widest transition-all duration-500 border border-white/5 hover:border-premium-gold signature-shimmer"
+                                    >
+                                        {term}
+                                    </button>
                                 ))}
-                            </ul>
-                        ) : (
-                            <p className="text-premium-charcoal/40 text-center py-8 text-[10px] font-black uppercase tracking-[0.4em]">No specific products found matching "{query}"</p>
-                        )}
+                            </div>
+                        </div>
+
+                        {/* Popular Categories */}
+                        <div className="glass-panel p-10 border-white/10 group hover:border-premium-gold/40 transition-all">
+                            <h3 className="text-[11px] font-black mb-10 flex items-center gap-4 text-premium-gold uppercase tracking-[0.5em]">
+                                <FiTag className="text-premium-gold" />
+                                Olfactive Families
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                                {categorySuggestions.map(term => (
+                                    <button
+                                        key={term}
+                                        onClick={() => router.push(`/products?Fragrance_type=${term}`)}
+                                        className="bg-transparent hover:bg-white text-premium-gold border border-premium-gold/30 px-6 py-4 rounded-none text-[10px] font-black uppercase tracking-widest transition-all duration-500 signature-shimmer"
+                                    >
+                                        {term}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
-
-            {query.length < 2 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 scroll-reveal visible">
-                    {/* Trending Searches */}
-                    <div className="luxury-card-rich p-10 shadow-xl rounded-[32px] border-none">
-                        <h3 className="text-[12px] font-black mb-8 flex items-center gap-4 text-premium-black uppercase tracking-[0.4em]">
-                            <svg className="w-4 h-4 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                            Trending Queries
-                        </h3>
-                        <div className="flex flex-wrap gap-3">
-                            {trendingSearches.map(term => (
-                                <button
-                                    key={term}
-                                    onClick={() => handleSuggestionClick(term)}
-                                    className="bg-premium-cream/50 hover:bg-premium-gold hover:text-black text-premium-black px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500 border border-premium-gold/10"
-                                >
-                                    {term}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Popular Categories */}
-                    <div className="luxury-card-rich p-10 shadow-xl rounded-[32px] border-none">
-                        <h3 className="text-[12px] font-black mb-8 flex items-center gap-4 text-premium-black uppercase tracking-[0.4em]">
-                            <svg className="w-4 h-4 text-premium-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                            </svg>
-                            Olfactive Tiers
-                        </h3>
-                        <div className="flex flex-wrap gap-3">
-                            {categorySuggestions.map(term => (
-                                <button
-                                    key={term}
-                                    onClick={() => router.push(`/products?Fragrance_type=${term}`)}
-                                    className="bg-transparent hover:bg-premium-black hover:text-premium-gold text-premium-black border border-premium-gold/20 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-500"
-                                >
-                                    {term}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
