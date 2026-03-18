@@ -17,7 +17,7 @@ export const createRazorpayOrder = async (amount: number, orderId: string) => {
   try {
     if (!razorpay) {
       console.log('⚠️  Razorpay not available - returning mock order');
-      return { id: `order_${orderId}`, amount, currency: 'INR' };
+      return { id: `mock_order_${orderId}`, amount, currency: 'INR' };
     }
     console.log(`--- Razorpay: Initiating order creation for ₹${amount} (Order: ${orderId}) ---`);
     const order = await razorpay.orders.create({

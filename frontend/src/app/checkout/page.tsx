@@ -84,8 +84,11 @@ export default function CheckoutPage() {
       const backendTotal = orderData.order?.total_amount || (getTotal() + shippingCost - discountAmount);
       setConfirmedTotal(backendTotal);
 
-      // Mock order in dev mode
-      if (!orderData.razorpayOrder || orderData.razorpayOrder.id?.startsWith('mock_order')) {
+      // Mock order in dev mode or if backend explicitly sent a mock/id-mismatch
+      if (!orderData.razorpayOrder || 
+          orderData.razorpayOrder.id?.startsWith('mock_order') || 
+          !orderData.razorpayOrder.id?.startsWith('order_')) {
+        console.warn('⚠️  Handling payment as MOCK/INTERNAL order:', orderData.razorpayOrder?.id);
         setTimeout(async () => {
           try {
             await orderAPI.verifyPayment({
