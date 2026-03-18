@@ -114,11 +114,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <p className="text-[9px] font-black text-premium-gold/30 uppercase tracking-[0.6em] mb-6">Operative</p>
                         <div className="flex items-center gap-5">
                             <div className="w-14 h-14 bg-zinc-900 border border-premium-gold/20 flex items-center justify-center text-premium-gold imperial-serif text-2xl group-hover:border-premium-gold transition-colors">
-                                {user.name.charAt(0)}
+                                {(user?.name || 'A').charAt(0)}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="imperial-serif text-white truncate text-lg group-hover:gold-luxury-text transition-all">{user.name}</p>
-                                <p className="text-[10px] text-premium-gold/40 font-black tracking-widest uppercase truncate mt-1">{user.role.replace('_', ' ')}</p>
+                                <p className="imperial-serif text-white truncate text-lg group-hover:gold-luxury-text transition-all">{user?.name || 'Administrator'}</p>
+                                <p className="text-[10px] text-premium-gold/40 font-black tracking-widest uppercase truncate mt-1">{(user?.role || 'admin').replace('_', ' ')}</p>
                             </div>
                         </div>
                     </div>
