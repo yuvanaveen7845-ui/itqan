@@ -108,8 +108,9 @@ export default function ProductDetailPage() {
             <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[900px] flex items-center justify-center">
               <div className="absolute inset-0 bg-premium-black/5 z-10 group-hover:bg-transparent transition-all duration-1000"></div>
               <img
-                src={product.image_url}
+                src={product.image_url || '/images/exotic/hero.png'}
                 alt={product.name}
+                onError={(e) => (e.currentTarget.src = '/images/exotic/hero.png')}
                 className="relative z-0 w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3s]"
               />
               <div className="absolute top-12 left-12 z-20">

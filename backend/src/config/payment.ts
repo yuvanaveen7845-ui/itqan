@@ -19,17 +19,26 @@ export const createRazorpayOrder = async (amount: number, orderId: string) => {
       console.log('⚠️  Razorpay not available - returning mock order');
       return { id: `mock_order_${orderId}`, amount, currency: 'INR' };
     }
-    console.log(`--- Razorpay: Initiating order creation for ₹${amount} (Order: ${orderId}) ---`);
-    const order = await razorpay.orders.create({
+    const payload = {
       amount: Math.round(amount * 100),
       currency: 'INR',
       receipt: orderId,
-      notes: { orderId },
-    });
-    console.log('✓ Razorpay order created successfully:', order.id);
+      notes: { orderId, env: process.env.NODE_ENV },
+    };
+    console.log('[RAZORPAY] Creating order with payload:', JSON.stringify(payload, null, 2));
+    
+    const order = await razorpay.orders.create(payload);
+    console.log('[RAZORPAY] Success! Order ID:', order.id);
     return order;
-  } catch (error) {
-    console.error('✗ Razorpay order creation failed:', error);
+  } catch (error: any) {
+    console.error('[RAZORPAY] Order creation failed. Error details:', {
+      message: error.message,
+      description: error.description,
+      code: error.code,
+      metadata: error.metadata,
+      env: process.env.NODE_ENV,
+      key_prefix: (process.env.RAZORPAY_KEY_ID || '').substring(0, 8)
+    });
     // If we're using mock DB or development environment, return a mock order to prevent 500 error
     if (process.env.SUPABASE_URL?.includes('placeholder') || process.env.NODE_ENV === 'development') {
       console.log('⚠️  Returning mock order due to Razorpay error in development mode.');
