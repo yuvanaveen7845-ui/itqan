@@ -289,8 +289,13 @@ html {
   background-image: radial-gradient(circle at top right, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
 }
 
+.vogue-text {
+  @apply text-premium-gold text-[11px] font-black uppercase tracking-[0.8em] mb-8 block;
+  text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
 .luxury-card-rich {
-  @apply bg-white/[0.03] border border-premium-gold/10 p-10 transition-all duration-1000 overflow-hidden relative;
+  @apply bg-white/[0.03] border border-premium-gold/10 p-10 transition-all duration-1000 overflow-hidden relative rounded-none;
   background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(197,160,89,0.03) 100%);
 }
 

@@ -85,12 +85,12 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-60 items-center">
           <div className="relative group scroll-reveal visible order-2 lg:order-1">
             <div className="absolute -inset-24 border border-premium-gold/10 group-hover:border-premium-gold/30 transition-all duration-[2s] rounded-none"></div>
-            <div className="relative arabesque-border shadow-[0_60px_100px_rgba(0,0,0,0.3)] group/img rounded-none min-h-[900px] flex items-center justify-center bg-zinc-900">
+            <div className="relative arabesque-border shadow-[0_60px_100px_rgba(0,0,0,0.3)] group/img rounded-none h-[600px] lg:h-[900px] overflow-hidden bg-zinc-900">
               <Editable id="story_image" type="image" fallback="/images/exotic/saffron_gold.png">
                 <img
                   src="/images/exotic/saffron_gold.png"
                   alt="Saffron Gold"
-                  className="relative z-10 w-full h-full object-cover group-hover:scale-105 transition-all duration-[4s]"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]"
                 />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/20 group-hover:bg-transparent transition-all duration-1000 z-20"></div>
@@ -172,6 +172,74 @@ export default function HomePage() {
 
       <div className="liquid-gold-divider"></div>
 
+      {/* NEW: Ingredient Spotlight - Filling 'Empty Image' spaces */}
+      <section className="py-40 bg-premium-black overflow-hidden px-6 sm:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
+          <div className="relative group min-h-[600px] bg-zinc-900 overflow-hidden">
+            <Editable id="ingredient_1_img" type="image" fallback="/images/exotic/oud_gold.png">
+              <img src="/images/exotic/oud_gold.png" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Rare Oud" />
+            </Editable>
+            <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black to-transparent">
+              <Editable id="ingredient_1_title" fallback="Madagascan Vanilla">
+                <h3 className="text-3xl imperial-serif text-white mb-4">Madagascan <span className="gold-luxury-text italic">Vanilla</span></h3>
+              </Editable>
+              <Editable id="ingredient_1_desc" fallback="Sourced from the heart of the SAVA region, cured for six months to reveal smoky, dark orchid undertones.">
+                <p className="text-[10px] text-white/40 uppercase tracking-widest max-w-sm">Sourced from the heart of the SAVA region, cured for six months to reveal smoky, dark orchid undertones.</p>
+              </Editable>
+            </div>
+          </div>
+          <div className="relative group min-h-[600px] bg-zinc-900 overflow-hidden border-l border-white/5">
+            <Editable id="ingredient_2_img" type="image" fallback="/images/exotic/rose_gold.png">
+              <img src="/images/exotic/rose_gold.png" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Damask Rose" />
+            </Editable>
+            <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black to-transparent">
+              <Editable id="ingredient_2_title" fallback="Taif Rose">
+                <h3 className="text-3xl imperial-serif text-white mb-4">Taif <span className="gold-luxury-text italic">Rose</span></h3>
+              </Editable>
+              <Editable id="ingredient_2_desc" fallback="Hand-picked at dawn in the high-altitude gardens of Saudi Arabia, distilled in silver-lined copper vats.">
+                <p className="text-[10px] text-white/40 uppercase tracking-widest max-w-sm">Hand-picked at dawn in the high-altitude gardens of Saudi Arabia, distilled in silver-lined copper vats.</p>
+              </Editable>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="liquid-gold-divider"></div>
+
+      {/* NEW: The Process - Filling 'No Image but Text' spaces */}
+      <section className="py-40 bg-premium-black px-6 sm:px-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 sm:gap-40">
+          <div className="space-y-12 arabesque-border p-16 glass-panel">
+            <Editable id="process_1_num" fallback="01">
+              <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">Stage 01</span>
+            </Editable>
+            <Editable id="process_1_title" fallback="Molecular Sculpting">
+              <h3 className="text-4xl imperial-serif text-white uppercase tracking-widest">Molecular <span className="gold-luxury-text italic">Sculpting</span></h3>
+            </Editable>
+            <Editable id="process_1_desc" fallback="Our artisans dismantle traditional notes into individual molecules, reassembling them to create entirely non-existent olfactive landscapes.">
+              <p className="imperial-body text-xl text-white/60 leading-relaxed">
+                Our artisans dismantle traditional notes into individual molecules, reassembling them to create entirely non-existent olfactive landscapes that defy classification.
+              </p>
+            </Editable>
+          </div>
+          <div className="space-y-12 arabesque-border p-16 glass-panel">
+            <Editable id="process_2_num" fallback="02">
+              <span className="text-[10px] font-black text-premium-gold tracking-widest uppercase">Stage 02</span>
+            </Editable>
+            <Editable id="process_2_title" fallback="Atmospheric Maturation">
+              <h3 className="text-4xl imperial-serif text-white uppercase tracking-widest">Atmospheric <span className="gold-luxury-text italic">Maturation</span></h3>
+            </Editable>
+            <Editable id="process_2_desc" fallback="Each vintage is aged in controlled chambers that simulate specific geographic altitudes, allowing the fragrance to bond with the air itself.">
+              <p className="imperial-body text-xl text-white/60 leading-relaxed">
+                Each vintage is aged in controlled chambers that simulate specific geographic altitudes, allowing the fragrance to bond with the air itself before being bottled.
+              </p>
+            </Editable>
+          </div>
+        </div>
+      </section>
+
+      <div className="liquid-gold-divider"></div>
+
       {/* The Olfactive Experience - Exotic Oud Display */}
       <section className="py-40 bg-premium-black text-white relative">
         <div className="max-w-7xl mx-auto px-8 text-center mb-32">
@@ -184,63 +252,63 @@ export default function HomePage() {
           <div className="w-40 h-px bg-gradient-to-r from-transparent via-premium-gold to-transparent mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 h-[900px] border-y border-white/5">
-          <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5 min-h-[500px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 h-auto lg:h-[900px] border-y border-white/5">
+          <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-end justify-center p-16 text-center border-r border-white/5 min-h-[600px]">
             <div className="absolute inset-0 z-0">
               <Editable id="gallery_oud_image" type="image" fallback="/images/exotic/oud_gold.png">
-                <img src="/images/exotic/oud_gold.png" alt="Oud Smoke Gold" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
+                <img src="/images/exotic/oud_gold.png" alt="Oud Smoke Gold" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
-            <div className="relative z-10">
+            <div className="relative z-10 pb-12">
               <Editable id="gallery_oud_eyebrow" fallback="Sacred Earth">
-                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Sacred Earth</span>
+                <span className="text-[10px] font-black text-premium-gold tracking-[0.8em] uppercase block mb-6 drop-shadow-lg">Sacred Earth</span>
               </Editable>
               <Editable id="gallery_oud_title" fallback="Majestic Oud">
-                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Majestic Oud</h3>
+                <h3 className="text-7xl imperial-serif mb-6 text-white group-hover:gold-luxury-text transition-all duration-700 drop-shadow-2xl">Majestic Oud</h3>
               </Editable>
               <Editable id="gallery_oud_cta" fallback="Explore the Origins">
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Origins</p>
+                <p className="text-white text-[10px] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all duration-700 font-bold">Explore the Origins</p>
               </Editable>
             </div>
           </Link>
 
-          <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5 min-h-[500px]">
+          <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-end justify-center p-16 text-center border-r border-white/5 min-h-[600px]">
             <div className="absolute inset-0 z-0">
               <Editable id="gallery_floral_image" type="image" fallback="/images/exotic/rose_gold.png">
-                <img src="/images/exotic/rose_gold.png" alt="Rose Gold Dew" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
+                <img src="/images/exotic/rose_gold.png" alt="Rose Gold Dew" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
-            <div className="relative z-10">
+            <div className="relative z-10 pb-12">
               <Editable id="gallery_floral_eyebrow" fallback="Royal Garden">
-                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Royal Garden</span>
+                <span className="text-[10px] font-black text-premium-gold tracking-[0.8em] uppercase block mb-6 drop-shadow-lg">Royal Garden</span>
               </Editable>
               <Editable id="gallery_floral_title" fallback="Velvet Rose">
-                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Velvet Rose</h3>
+                <h3 className="text-7xl imperial-serif mb-6 text-white group-hover:gold-luxury-text transition-all duration-700 drop-shadow-2xl">Velvet Rose</h3>
               </Editable>
               <Editable id="gallery_floral_cta" fallback="Explore the Garden">
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Garden</p>
+                <p className="text-white text-[10px] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all duration-700 font-bold">Explore the Garden</p>
               </Editable>
             </div>
           </Link>
 
-          <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-16 text-center">
+          <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-end justify-center p-16 text-center min-h-[600px]">
             <div className="absolute inset-0 z-0">
               <Editable id="gallery_spicy_image" type="image" fallback="/images/exotic/saffron_gold.png">
-                <img src="/images/exotic/saffron_gold.png" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[4s]" />
+                <img src="/images/exotic/saffron_gold.png" alt="Spicy" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
-              <div className="absolute inset-0 bg-premium-black/50 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
+              <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
-            <div className="relative z-10">
+            <div className="relative z-10 pb-12">
               <Editable id="gallery_spicy_eyebrow" fallback="Midnight Dune">
-                <span className="text-[9px] font-black text-premium-gold tracking-[0.6em] uppercase block mb-6">Midnight Dune</span>
+                <span className="text-[10px] font-black text-premium-gold tracking-[0.8em] uppercase block mb-6 drop-shadow-lg">Midnight Dune</span>
               </Editable>
               <Editable id="gallery_spicy_title" fallback="Amber Spice">
-                <h3 className="text-5xl imperial-serif mb-6 group-hover:gold-luxury-text transition-all duration-700">Amber Spice</h3>
+                <h3 className="text-7xl imperial-serif mb-6 text-white group-hover:gold-luxury-text transition-all duration-700 drop-shadow-2xl">Amber Spice</h3>
               </Editable>
               <Editable id="gallery_spicy_cta" fallback="Explore the Night">
-                <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">Explore the Night</p>
+                <p className="text-white text-[10px] uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all duration-700 font-bold">Explore the Night</p>
               </Editable>
             </div>
           </Link>

@@ -74,7 +74,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
     return (
         <Link href={`/products/${product.id}`} className="group block relative perspective-1000">
-            <div className="relative overflow-hidden luxury-card-rich transition-all duration-1000 group-hover:shadow-[0_40px_80px_rgba(197,160,89,0.15)] rounded-2xl">
+            <div className="relative overflow-hidden luxury-card-rich transition-all duration-1000 group-hover:shadow-[0_40px_80px_rgba(197,160,89,0.15)] rounded-none">
 
                 {/* Status Badges */}
                 <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
