@@ -218,15 +218,26 @@ export default function Editable({ id, children, type = 'text', className = '', 
                                                              <span className="text-[9px] font-black text-premium-gold uppercase tracking-[0.2em] animate-pulse">Select from Sanctuary</span>
                                                         </div>
                                                         <div className="grid grid-cols-4 gap-2 max-h-[120px] overflow-y-auto pr-2 custom-scrollbar border border-white/5 p-2 bg-black/20">
-                                                            {useCMSStore.getState().inlineContent['__sanctuary_media'] ? JSON.parse(useCMSStore.getState().inlineContent['__sanctuary_media']).map((img: any) => (
-                                                                <button 
-                                                                    key={img.url}
-                                                                    onClick={() => { setTempValue(img.url); addToHistory(); }}
-                                                                    className={`aspect-square border transition-all overflow-hidden group/thumb ${tempValue === img.url ? 'border-premium-gold scale-95' : 'border-white/5 hover:border-white/20'}`}
-                                                                >
-                                                                    <img src={img.url} alt="" className="w-full h-full object-cover group-hover/thumb:scale-125 transition-transform" />
-                                                                </button>
-                                                            )) : (
+                                                            {(() => {
+                                                                try {
+                                                                    const mediaJson = useCMSStore.getState().inlineContent['__sanctuary_media'];
+                                                                    if (!mediaJson) return null;
+                                                                    const media = JSON.parse(mediaJson);
+                                                                    if (!Array.isArray(media)) return null;
+                                                                    return media.map((img: any) => (
+                                                                        <button 
+                                                                            key={img.url}
+                                                                            onClick={() => { setTempValue(img.url); addToHistory(); }}
+                                                                            className={`aspect-square border transition-all overflow-hidden group/thumb ${tempValue === img.url ? 'border-premium-gold scale-95' : 'border-white/5 hover:border-white/20'}`}
+                                                                        >
+                                                                            <img src={img.url} alt="" className="w-full h-full object-cover group-hover/thumb:scale-125 transition-transform" />
+                                                                        </button>
+                                                                    ));
+                                                                } catch (e) {
+                                                                    console.error('Sanctuary Parse Error:', e);
+                                                                    return null;
+                                                                }
+                                                            })() || (
                                                                 <div className="col-span-full py-6 text-center text-[8px] text-white/20 font-black uppercase">
                                                                     The sanctuary is empty. Use the upload vector protocol.
                                                                 </div>

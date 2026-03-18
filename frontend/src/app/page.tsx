@@ -243,20 +243,17 @@ export default function HomePage() {
       {/* Trust & Services - Minimal Excellence */}
       <section className="py-20 sm:py-40 bg-premium-black">
         <div className="max-w-[1800px] mx-auto px-4 sm:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-20">
-           {[
-            { icon: FiStar, title: 'Authenticity', desc: 'Crafted with rare essences from royal reserves.', img: 'https://images.unsplash.com/photo-1588612141525-4556488c935d?auto=format&fit=crop&q=80&w=800' },
-            { icon: FiTruck, title: 'White Glove', desc: 'Global climate-controlled concierge delivery.', img: 'https://images.unsplash.com/photo-1531303435785-3853ba035cda?auto=format&fit=crop&q=80&w=800' },
-            { icon: FiShield, title: 'Secure Vault', desc: 'Protected by high-tier encrypted privilege.', img: 'https://images.unsplash.com/photo-1512428559083-a401c338cf89?auto=format&fit=crop&q=80&w=800' },
-            { icon: FiShoppingBag, title: 'Atelier Gift', desc: 'Unveiled in our signature gold-sealed box.', img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800' },
+          {[
+            { icon: FiStar, title: 'Authenticity', desc: 'Crafted with rare essences from royal reserves.' },
+            { icon: FiTruck, title: 'White Glove', desc: 'Global climate-controlled concierge delivery.' },
+            { icon: FiShield, title: 'Secure Vault', desc: 'Protected by high-tier encrypted privilege.' },
+            { icon: FiShoppingBag, title: 'Atelier Gift', desc: 'Unveiled in our signature gold-sealed box.' },
           ].map((item, idx) => (
-            <div key={idx} className="group text-center space-y-8 relative overflow-hidden p-10 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent hover:border-premium-gold/20 transition-all duration-700">
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-1000 z-0">
-                <img src={item.img} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[4s]" />
-              </div>
-              <div className="relative z-10 w-20 h-20 bg-white/5 rounded-none flex items-center justify-center mx-auto border border-premium-gold/10 group-hover:border-premium-gold/30 group-hover:shadow-[0_0_30px_rgba(197,160,89,0.2)] transition-all duration-700">
+            <div key={idx} className="group text-center space-y-8">
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-premium-gold/10 group-hover:border-premium-gold/30 group-hover:shadow-xl transition-all duration-700">
                 <item.icon className="text-premium-gold w-7 h-7" />
               </div>
-              <div className="relative z-10 space-y-3">
+              <div className="space-y-3">
                 <Editable id={`trust_title_${idx}`} fallback={item.title}>
                   <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white">{item.title}</h4>
                 </Editable>
