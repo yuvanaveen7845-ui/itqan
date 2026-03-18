@@ -25,14 +25,14 @@ export default function Footer() {
           {/* Brand Logic & Identity */}
           <div className="lg:col-span-2 space-y-12">
             <Link href="/" className="group flex flex-col items-start gap-2 relative">
-              <Editable id="footer_logo_main" fallback={branding.name?.split(' ')[0] || 'iqtan'}>
+              <Editable id="footer_logo_main" fallback={(branding.name || 'iqtan').split(' ')[0]}>
                 <span className="text-4xl sm:text-5xl imperial-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-1000 uppercase">
-                  {branding.name?.split(' ')[0] || 'iqtan'}
+                  {(branding.name || 'iqtan').split(' ')[0]}
                 </span>
               </Editable>
-              <Editable id="footer_logo_sub" fallback={branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}>
+              <Editable id="footer_logo_sub" fallback={(branding.name || 'perfumes').split(' ').slice(1).join(' ')}>
                 <span className="text-[10px] font-black text-premium-gold/60 tracking-[1rem] uppercase">
-                  {branding.name?.split(' ').slice(1).join(' ') || 'perfumes'}
+                  {(branding.name || 'perfumes').split(' ').slice(1).join(' ')}
                 </span>
               </Editable>
               <div className="w-0 group-hover:w-full h-px bg-premium-gold transition-all duration-700 opacity-40"></div>

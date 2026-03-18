@@ -40,9 +40,9 @@ export default function HomePage() {
       {/* Ultra-Premium Cinematic Hero - Exotic Gold Dust */}
       <section className="relative h-screen overflow-hidden bg-premium-black gold-dust-overlay group">
         <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-[10s] ease-out">
-          <Editable id="hero_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/hero_luxury_fragrance_1773744726056.png">
+          <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png">
             <img
-              src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/hero_luxury_fragrance_1773744726056.png"
+              src="/images/exotic/hero.png"
               alt="Luxury Perfume"
               className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-[3s]"
             />
@@ -86,9 +86,9 @@ export default function HomePage() {
           <div className="relative group scroll-reveal visible order-2 lg:order-1">
             <div className="absolute -inset-24 border border-premium-gold/10 group-hover:border-premium-gold/30 transition-all duration-[2s] rounded-none"></div>
             <div className="relative arabesque-border shadow-[0_60px_100px_rgba(0,0,0,0.3)] group/img rounded-none min-h-[900px] flex items-center justify-center bg-zinc-900">
-              <Editable id="story_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_saffron_gold_1773728554930_1773810888425.png">
+              <Editable id="story_image" type="image" fallback="/images/exotic/saffron_gold.png">
                 <img
-                  src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_saffron_gold_1773728554930_1773810888425.png"
+                  src="/images/exotic/saffron_gold.png"
                   alt="Saffron Gold"
                   className="relative z-10 w-full h-full object-cover group-hover:scale-105 transition-all duration-[4s]"
                 />
@@ -187,8 +187,8 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 h-[900px] border-y border-white/5">
           <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_oud_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_oud_gold_1773728554931_1773810904760.png">
-                <img src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_oud_gold_1773728554931_1773810904760.png" alt="Oud Smoke Gold" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_oud_image" type="image" fallback="/images/exotic/oud_gold.png">
+                <img src="/images/exotic/oud_gold.png" alt="Oud Smoke Gold" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
@@ -207,8 +207,8 @@ export default function HomePage() {
 
           <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-center justify-center p-16 text-center border-r border-white/5 min-h-[500px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_floral_image" type="image" fallback="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_rose_gold_1773728554932_1773810919596.png">
-                <img src="/brain/0dac1144-36b7-4806-a87c-fb8d261a7feb/exotic_rose_gold_1773728554932_1773810919596.png" alt="Rose Gold Dew" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_floral_image" type="image" fallback="/images/exotic/rose_gold.png">
+                <img src="/images/exotic/rose_gold.png" alt="Rose Gold Dew" className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
