@@ -85,7 +85,12 @@ export default function CartPage() {
           {items.map((item) => (
             <div key={item.product_id} className="group relative flex flex-col sm:flex-row items-center gap-10 py-12 px-8 border border-premium-gold/5 hover:border-premium-gold/20 luxury-card-rich shadow-none hover:shadow-2xl transition-all duration-1000 rounded-2xl">
               <div className="w-44 aspect-[4/5] bg-gray-50 overflow-hidden rounded-lg border border-premium-gold/10">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" />
+                <img 
+                  src={item.image || '/images/exotic/hero.png'} 
+                  alt={item.name} 
+                  onError={(e) => (e.currentTarget.src = '/images/exotic/hero.png')}
+                  className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
+                />
               </div>
 
               <div className="flex-1 space-y-4 text-center sm:text-left">

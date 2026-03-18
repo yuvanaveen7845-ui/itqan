@@ -5,11 +5,12 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { productAPI } from '@/lib/api';
 import { useCartStore } from '@/store/cart';
-import { FiChevronRight, FiHeart, FiShoppingBag, FiTruck, FiShield, FiPlus, FiMinus } from 'react-icons/fi';
+import { FiShoppingBag, FiHeart, FiShare2, FiShield, FiTruck, FiRefreshCw, FiStar, FiChevronRight, FiChevronLeft, FiBox, FiArchive, FiPlus, FiMinus } from 'react-icons/fi';
 import { useNotificationStore } from '@/store/notification';
 import { useAuthStore } from '@/store/auth';
 import { useWishlistStore } from '@/store/wishlist';
 import Editable from '@/components/Editable';
+import AttributeEditable from '@/components/AttributeEditable';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -107,12 +108,21 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 space-y-12">
             <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[900px] flex items-center justify-center">
               <div className="absolute inset-0 bg-premium-black/5 z-10 group-hover:bg-transparent transition-all duration-1000"></div>
-              <img
-                src={product.image_url || '/images/exotic/hero.png'}
-                alt={product.name}
-                onError={(e) => (e.currentTarget.src = '/images/exotic/hero.png')}
-                className="relative z-0 w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3s]"
-              />
+              <AttributeEditable
+                productId={product.id}
+                field="image_url"
+                value={product.image_url}
+                type="image"
+                onUpdate={(val) => { /* State is handled by parent re-fetch usually, but we can optimistically update if needed */ window.location.reload(); }}
+                className="w-full h-full"
+              >
+                <img
+                  src={product.image_url || '/images/exotic/hero.png'}
+                  alt={product.name}
+                  onError={(e) => (e.currentTarget.src = '/images/exotic/hero.png')}
+                  className="relative z-0 w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3s]"
+                />
+              </AttributeEditable>
               <div className="absolute top-12 left-12 z-20">
                 <Editable id="product_detail_badge" fallback="Signature Reserve">
                   <span className="bg-premium-black text-premium-gold text-[8px] font-black uppercase tracking-[0.6em] px-6 py-3 shadow-2xl">Signature Reserve</span>

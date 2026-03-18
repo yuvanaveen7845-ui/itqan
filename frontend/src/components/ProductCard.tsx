@@ -122,11 +122,21 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
 
                 {/* Primary Image with Ken Burns & Shine Effect */}
                 <div className="relative aspect-[4/5] overflow-hidden bg-white/[0.02] shine-effect">
-                    <img
-                        src={primaryImage || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800'}
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-[2s] cubic-bezier(0.25, 0.46, 0.45, 0.94) group-hover:scale-110"
-                    />
+                    <AttributeEditable
+                        productId={localProduct.id}
+                        field="image_url"
+                        value={localProduct.image_url}
+                        type="image"
+                        onUpdate={(val) => setLocalProduct({ ...localProduct, image_url: val })}
+                        className="w-full h-full"
+                    >
+                        <img
+                            src={primaryImage || '/images/exotic/hero.png'}
+                            alt={product.name}
+                            onError={(e) => (e.currentTarget.src = '/images/exotic/hero.png')}
+                            className="w-full h-full object-cover transition-transform duration-[2s] cubic-bezier(0.25, 0.46, 0.45, 0.94) group-hover:scale-110"
+                        />
+                    </AttributeEditable>
 
                     {/* Hover Overlay - Light Leak Style */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center p-8 text-center pointer-events-none">
