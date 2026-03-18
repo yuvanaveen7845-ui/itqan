@@ -227,8 +227,8 @@ export default function HomePage() {
 
           <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-center justify-center p-16 text-center">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_spicy_image" type="image" fallback="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000">
-                <img src="https://images.unsplash.com/photo-1587017739510-983625add83d?auto=format&fit=crop&q=80&w=1000" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_spicy_image" type="image" fallback="/images/exotic/saffron_gold.png">
+                <img src="/images/exotic/saffron_gold.png" alt="Spicy" className="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/50 group-hover:bg-premium-black/20 transition-colors duration-1000"></div>
             </div>

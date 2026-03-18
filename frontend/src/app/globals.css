@@ -160,10 +160,15 @@
 
 /* Exotic Gold Treatments */
 .gold-dust-overlay {
-  position: relative;
+  @apply relative;
 }
 
-.gold-dust-overlay::after {
+.gold-dust-overlay-static {
+  /* Version for already positioned elements like fixed/absolute */
+}
+
+.gold-dust-overlay::after,
+.gold-dust-overlay-static::after {
   content: "";
   position: absolute;
   inset: 0;

@@ -112,10 +112,10 @@ export default function Header() {
                 <button className="flex items-center gap-4 py-2 pl-6 border-l border-white/10 group-hover/user:border-premium-gold transition-colors duration-700">
                   <div className="w-10 h-10 rounded-full arabesque-border p-[1px]">
                      <div className="w-full h-full bg-zinc-900 flex items-center justify-center text-[11px] font-black text-premium-gold">
-                       {user.name.charAt(0)}
+                       {(user?.name || 'U').charAt(0)}
                      </div>
                   </div>
-                  <span className="text-[9px] font-black text-white/60 group-hover/user:text-premium-gold uppercase tracking-[0.3em] hidden sm:block transition-colors">{user.name.split(' ')[0]}</span>
+                  <span className="text-[9px] font-black text-white/60 group-hover/user:text-premium-gold uppercase tracking-[0.3em] hidden sm:block transition-colors">{(user?.name || 'Guest').split(' ')[0]}</span>
                 </button>
 
                 {/* Refined Exotic Dropdown */}
@@ -167,7 +167,7 @@ export default function Header() {
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col gold-dust-overlay border-l border-white/5`}>
+      <div className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col gold-dust-overlay-static border-l border-white/5`}>
         <div className="h-56 px-12 flex flex-col justify-center border-b border-white/5 relative">
           <Editable id="sidebar_title" fallback="the atlas">
             <span className="text-5xl imperial-serif text-white italic lowercase">the atlas</span>
