@@ -185,7 +185,7 @@ export default function ProfilePage() {
                            <div className="space-y-6">
                               <div className="flex items-center gap-6">
                                  <span className="text-[9px] font-black text-premium-gold uppercase tracking-[0.4em]">Allocation ID</span>
-                                 <span className="text-xs font-bold text-white font-inter">#{order.id.slice(0, 8)}</span>
+                                 <span className="text-xs font-bold text-white font-inter">#{order.id?.slice(0, 8) || 'N/A'}</span>
                               </div>
                               <h4 className="text-2xl sm:text-3xl imperial-serif text-white">{new Date(order.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
                               <div className="flex items-center gap-4">

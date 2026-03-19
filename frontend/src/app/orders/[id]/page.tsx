@@ -70,7 +70,7 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                 <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
                     <Link href="/profile" className="hover:text-blue-600 transition-colors">My Dashboard</Link>
                     <span>/</span>
-                    <span className="text-gray-900 font-medium">Order #{order.id.slice(0, 8)}</span>
+                    <span className="text-gray-900 font-medium">Order #{order.id?.slice(0, 8) || 'N/A'}</span>
                 </div>
 
                 <div className="flex justify-between items-end mb-8">
