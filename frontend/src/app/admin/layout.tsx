@@ -60,6 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'Audit Logs', icon: <FiActivity />, path: '/admin/audit', roles: ['super_admin'] },
         { name: 'Customers', icon: <FiUsers />, path: '/admin/customers', roles: ['admin', 'super_admin'] },
         { name: 'Reviews', icon: <FiMessageSquare />, path: '/admin/reviews', roles: ['admin', 'super_admin'] },
+        { name: 'Staff Management', icon: <FiUsers />, path: '/admin/staff', roles: ['super_admin'] },
         { name: 'Settings', icon: <FiSettings />, path: '/admin/settings', roles: ['super_admin'] },
     ].filter(item => item.roles.includes(user.role));
 

@@ -102,66 +102,19 @@ export default function AdminSettingsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 {/* System Vitals */}
                 <div className="lg:col-span-2 space-y-10">
-                    <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden relative">
+                    <div className="bg-[#1A1A1A] p-10 border border-white/5 shadow-2xl relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
-                        <div className="p-10 border-b border-white/5 flex items-center gap-4 relative z-10">
-                            <FiShield className="text-premium-gold text-2xl" />
-                            <h2 className="text-2xl font-playfair font-black text-premium-cream tracking-wide">
-                                Operative Hierarchy
-                            </h2>
-                        </div>
-                        <div className="overflow-x-auto relative z-10 p-6">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-black/40 text-premium-gold/60 text-[9px] font-black uppercase tracking-[0.3em]">
-                                        <th className="px-8 py-6">Operative Asset</th>
-                                        <th className="px-8 py-6">Clearance Directive</th>
-                                        <th className="px-8 py-6">Network Traces</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-white/5">
-                                    {admins.map((admin) => (
-                                        <tr key={admin.id} className="group hover:bg-white/5 transition-colors">
-                                            <td className="px-8 py-6">
-                                                <div className="flex items-center gap-5">
-                                                    <div className="w-12 h-12 bg-premium-black border border-premium-gold/30 text-premium-gold rounded-full flex items-center justify-center font-playfair font-black text-xl shadow-[0_0_15px_rgba(234,179,8,0.15)] group-hover:scale-110 transition-transform">
-                                                        {admin.name.charAt(0)}
-                                                    </div>
-                                                    <div>
-                                                        <p className="font-playfair font-black text-premium-cream text-lg group-hover:text-premium-gold transition-colors">{admin.name}</p>
-                                                        <p className="text-[10px] text-white/40 font-mono tracking-widest mt-1 uppercase">{admin.email}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-8 py-6">
-                                                <span className={`px-4 py-2 rounded-none text-[9px] font-black uppercase tracking-[0.2em] border ${admin.role === 'super_admin' ? 'bg-premium-gold/10 text-premium-gold border-premium-gold/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]' :
-                                                        admin.role === 'admin' ? 'bg-white/10 text-white border-white/20' :
-                                                            'bg-transparent text-white/50 border-white/10'
-                                                    }`}>
-                                                    {admin.role.replace('_', ' ')}
-                                                </span>
-                                            </td>
-                                            <td className="px-8 py-6">
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-3 text-green-400 font-mono font-black text-[10px] uppercase">
-                                                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]"></div>
-                                                        ONLINE
-                                                    </div>
-                                                    {currentUser?.role === 'super_admin' && currentUser?.id !== admin.id && (
-                                                        <button 
-                                                            onClick={() => handleDeleteAdmin(admin.id)} 
-                                                            className="p-3 bg-white/5 border border-white/10 text-white/50 hover:bg-rose-600 hover:border-rose-600 hover:text-white transition-all shadow-sm opacity-0 group-hover:opacity-100"
-                                                            title="Purge Operative"
-                                                        >
-                                                            <FiTrash2 size={16} />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="relative z-10">
+                            <h2 className="text-2xl font-playfair font-black text-premium-cream mb-6 italic">Administrative Portal</h2>
+                            <p className="text-white/50 leading-relaxed mb-10 max-w-xl font-medium">
+                                The administrative hierarchy and operative profiles are now managed through the dedicated **Staff Management** directive. This allows for more granular oversight and secure provisioning of clearance levels across the network.
+                            </p>
+                            <button 
+                                onClick={() => router.push('/admin/staff')}
+                                className="px-10 py-5 bg-premium-black border border-premium-gold/30 text-premium-gold font-black text-[10px] uppercase tracking-widest hover:bg-premium-gold hover:text-white transition-all duration-500 shadow-xl"
+                            >
+                                Re-route to Staff Management
+                            </button>
                         </div>
                     </div>
                 </div>
