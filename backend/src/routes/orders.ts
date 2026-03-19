@@ -40,22 +40,22 @@ router.post('/estimate-delivery', async (req, res) => {
       zone = 'Zone A (Coimbatore Region)';
       minDays = 1;
       maxDays = 2;
-      shippingCost = 150;
+      shippingCost = 1;
     } else if (prefix1 === '6') {
       zone = 'Zone B (Tamil Nadu & Kerala)';
       minDays = 2;
       maxDays = 3;
-      shippingCost = 150;
+      shippingCost = 1;
     } else if (['4', '5', '7'].includes(prefix1)) {
       zone = 'Zone C (Neighboring States)';
       minDays = 3;
       maxDays = 5;
-      shippingCost = 150;
+      shippingCost = 1;
     } else {
       zone = 'Zone D (Rest of India)';
       minDays = 5;
       maxDays = 7;
-      shippingCost = 200;
+      shippingCost = 1;
     }
 
     // Add 1 day warehouse processing time
@@ -237,14 +237,8 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     }
 
     // Calculate shipping — MUST match estimate-delivery endpoint exactly
-    let shippingCost = 200; // Default (Zone D: Rest of India)
+    const shippingCost = 1; // Standardized pricing for all regions
     const targetZip = address?.zipcode || '000000';
-    const zip1 = targetZip.substring(0, 1);
-    const zip2 = targetZip.substring(0, 2);
-    if (zip2 === '64') shippingCost = 150;           // Zone A: Coimbatore
-    else if (zip1 === '6') shippingCost = 150;       // Zone B: Tamil Nadu & Kerala
-    else if (['4', '5', '7'].includes(zip1)) shippingCost = 150; // Zone C: Neighboring states
-    // else ₹200 (Zone D)
     console.log(`Shipping calc: zip=${targetZip}, cost=₹${shippingCost}`);
 
     const total = subtotal + shippingCost - discountAmount;
