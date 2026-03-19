@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { adminAPI } from '@/lib/api';
 import { FiShield, FiUserPlus, FiTrash2, FiKey, FiCpu, FiActivity, FiUserCheck, FiX } from 'react-icons/fi';
 import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'next/navigation';
 
 export default function AdminSettingsPage() {
     const { user: currentUser } = useAuthStore();
+    const router = useRouter();
     const [admins, setAdmins] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showAddModal, setShowAddModal] = useState(false);
