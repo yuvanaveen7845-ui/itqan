@@ -92,7 +92,7 @@ export default function AdminCustomerDetailsPage({ params }: { params: { id: str
                                         <FiPackage size={20} />
                                     </div>
                                     <div>
-                                        <p className="font-black text-gray-900">Order #{(order.display_id || order.id).slice(0, 12)}</p>
+                                        <p className="font-black text-gray-900">Order #{(order.display_id || order.id)?.slice(0, 12)}</p>
                                         <p className="text-xs text-gray-400 font-bold uppercase">{new Date(order.created_at).toLocaleString()}</p>
                                     </div>
                                 </div>

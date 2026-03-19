@@ -222,7 +222,7 @@ export default function AdminDashboard() {
               {stats.recentOrders.map((order: any) => (
                 <tr key={order.id} className="hover:bg-premium-gold/[0.03] transition-colors group">
                   <td className="px-12 py-8 font-black text-premium-cream group-hover:text-premium-gold transition-colors tracking-widest whitespace-nowrap">
-                    #{order.display_id || order.id.slice(0, 10).toUpperCase()}
+                    #{order.display_id || order.id?.slice(0, 10).toUpperCase()}
                   </td>
                   <td className="px-12 py-8 font-bold text-white/40 truncate max-w-[200px]">{order.user_id}</td>
                   <td className="px-12 py-8">

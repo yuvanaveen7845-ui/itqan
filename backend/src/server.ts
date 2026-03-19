@@ -19,6 +19,9 @@ import cmsRoutes from './routes/cms';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Correctly handle X-Forwarded-For headers when behind a proxy (Vercel, Railway, etc.)
+app.set('trust proxy', 1);
+
 // Manual CORS and Logger Middleware (First in chain)
 app.use((req, res, next) => {
   const origin = req.headers.origin || '*';

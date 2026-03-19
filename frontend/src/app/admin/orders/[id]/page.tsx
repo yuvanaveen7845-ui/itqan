@@ -64,7 +64,7 @@ export default function AdminOrderDetailsPage({ params }: { params: { id: string
 
             <div className="flex justify-between items-start">
                 <div>
-                    <h1 className="text-4xl font-black text-gray-900 mb-2">Order #{(order.display_id || order.id).slice(0, 12)}</h1>
+                    <h1 className="text-4xl font-black text-gray-900 mb-2">Order #{(order.display_id || order.id)?.slice(0, 12)}</h1>
                     <div className="flex items-center gap-4 text-gray-500 font-medium">
                         <span className="flex items-center gap-1"><FiCalendar /> {new Date(order.created_at).toLocaleString()}</span>
                         <span className={`px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest border ${order.status === 'confirmed' ? 'bg-green-50 text-green-700 border-green-200' :
