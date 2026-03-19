@@ -457,7 +457,7 @@ export default function AdminProductsPage() {
                       </div>
                       <div>
                         <p className="font-playfair font-black text-lg text-premium-cream group-hover:text-premium-gold transition-colors">{product.name}</p>
-                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest mt-1">ID: {product.sku || product.id.slice(0, 8)}</p>
+                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest mt-1">ID: {product.sku || product.id?.slice(0, 8) || 'N/A'}</p>
                       </div>
                     </div>
                   </td>
