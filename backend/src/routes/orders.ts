@@ -34,28 +34,18 @@ router.post('/estimate-delivery', async (req, res) => {
     let shippingCost = 0;
 
     const prefix2 = pincode.substring(0, 2);
-    const prefix1 = pincode.substring(0, 1);
+    const tnPrefixes = ['60', '61', '62', '63', '64'];
 
-    if (prefix2 === '64') {
-      zone = 'Zone A (Coimbatore Region)';
-      minDays = 1;
-      maxDays = 2;
-      shippingCost = 1;
-    } else if (prefix1 === '6') {
-      zone = 'Zone B (Tamil Nadu & Kerala)';
+    if (tnPrefixes.includes(prefix2)) {
+      zone = 'Tamil Nadu (Free Delivery)';
       minDays = 2;
-      maxDays = 3;
-      shippingCost = 1;
-    } else if (['4', '5', '7'].includes(prefix1)) {
-      zone = 'Zone C (Neighboring States)';
-      minDays = 3;
-      maxDays = 5;
-      shippingCost = 1;
+      maxDays = 4;
+      shippingCost = 0;
     } else {
-      zone = 'Zone D (Rest of India)';
+      zone = 'Rest of India';
       minDays = 5;
       maxDays = 7;
-      shippingCost = 1;
+      shippingCost = 150;
     }
 
     // Add 1 day warehouse processing time
@@ -237,8 +227,11 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     }
 
     // Calculate shipping — MUST match estimate-delivery endpoint exactly
-    const shippingCost = 1; // Standardized pricing for all regions
     const targetZip = address?.zipcode || '000000';
+    const zip2 = targetZip.substring(0, 2);
+    const tnPrefixes = ['60', '61', '62', '63', '64'];
+    const shippingCost = tnPrefixes.includes(zip2) ? 0 : 150;
+    
     console.log(`Shipping calc: zip=${targetZip}, cost=₹${shippingCost}`);
 
     const total = subtotal + shippingCost - discountAmount;
