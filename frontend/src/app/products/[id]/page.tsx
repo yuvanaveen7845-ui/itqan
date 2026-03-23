@@ -101,12 +101,12 @@ export default function ProductDetailPage() {
         <span className="text-premium-gold">{product.name}</span>
       </nav>
 
-      <section className="boutique-layout px-4 sm:px-12 md:px-24 pb-20 sm:pb-40">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-40 items-start">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 md:px-16 pb-20 sm:pb-40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-24 items-start">
           
-          {/* Visual Showcase - Full Height Vertical */}
-          <div className="lg:col-span-7 space-y-12">
-            <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[900px] flex items-center justify-center">
+          {/* Visual Showcase */}
+          <div className="space-y-6">
+            <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[700px] flex items-center justify-center">
               <div className="absolute inset-0 bg-premium-black/5 z-10 group-hover:bg-transparent transition-all duration-1000"></div>
               <AttributeEditable
                 productId={product.id}
@@ -131,30 +131,30 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Product Dossier - Sticky Details */}
-          <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-20 min-w-0">
-            <div className="space-y-8">
+          {/* Product Dossier */}
+          <div className="lg:sticky lg:top-24 space-y-10 min-w-0 w-full">
+            <div className="space-y-6">
               <Editable id={`product_eyebrow_${product.id}`} type="text" fallback={product.category || 'Extract'}>
-                <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block">Olfactive Edition</span>
+                <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.4em] block">Olfactive Edition</span>
               </Editable>
               <h1 className="product-title text-3xl sm:text-4xl lg:text-4xl xl:text-5xl text-white w-full">
                 <Editable id={`product_title_v2_${product.id}`} type="text" fallback={product.name}>
                   {product.name}
                 </Editable>
               </h1>
-              <div className="flex items-center gap-8 pt-4">
-                 <span className="text-3xl imperial-serif gold-luxury-text">₹{product.price.toLocaleString()}</span>
+              <div className="flex items-center gap-6 pt-2">
+                 <span className="text-2xl imperial-serif gold-luxury-text">₹{product.price.toLocaleString()}</span>
                  <div className="h-px flex-1 bg-premium-gold/10"></div>
               </div>
             </div>
 
-            <div className="space-y-12">
+            <div className="space-y-8">
               <Editable id={`product_desc_${product.id}`} type="richtext" fallback={product.description}>
                 <p className="imperial-body text-xl max-w-lg">{product.description}</p>
               </Editable>
 
               {/* Attributes - Boutique Grid */}
-              <div className="grid grid-cols-2 gap-12 py-12 border-y border-premium-gold/10">
+              <div className="grid grid-cols-2 gap-8 py-8 border-y border-premium-gold/10">
                  <div className="space-y-2">
                     <Editable id="product_detail_spec_1_label" fallback="Concentration">
                       <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest">Concentration</span>
@@ -173,16 +173,16 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Interaction Suite */}
-            <div className="space-y-8 pt-12">
-               <div className="flex items-center gap-12">
-                  <div className="flex items-center border border-premium-gold/20 px-6 sm:px-8 py-4 gap-8 sm:gap-12 bg-white/5 shadow-sm">
+            <div className="space-y-4 w-full">
+               <div className="flex items-center gap-6 w-full">
+                  <div className="flex items-center border border-premium-gold/20 px-5 py-4 gap-6 bg-white/5 shadow-sm shrink-0">
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-white hover:text-premium-gold transition-colors"><FiMinus size={14}/></button>
                     <span className="text-sm font-black w-4 text-center text-white">{quantity}</span>
                     <button onClick={() => setQuantity(quantity + 1)} className="text-white hover:text-premium-gold transition-colors"><FiPlus size={14}/></button>
                   </div>
                   <button 
                     onClick={handleAddToCart}
-                    className="flex-1 bg-premium-black text-premium-gold py-6 text-[10px] font-black uppercase tracking-[0.6em] hover:bg-premium-gold hover:text-premium-black transition-all duration-700 shadow-2xl relative overflow-hidden group/add"
+                    className="flex-1 min-w-0 bg-premium-black text-premium-gold py-5 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-premium-gold hover:text-premium-black transition-all duration-700 shadow-2xl relative overflow-hidden group/add"
                   >
                     <Editable id="product_detail_add_to_cart_btn" fallback="Allocate to Vault">
                       <span className="relative z-10">Allocate to Vault</span>
@@ -193,7 +193,7 @@ export default function ProductDetailPage() {
                
                <button 
                 onClick={handleToggleWishlist}
-                className="w-full py-5 border border-premium-gold/10 flex items-center justify-center gap-4 group/wish hover:border-premium-gold transition-all"
+                className="w-full py-4 border border-premium-gold/10 flex items-center justify-center gap-4 group/wish hover:border-premium-gold transition-all"
                >
                  <FiHeart className={isInWishlist ? 'fill-premium-gold text-premium-gold' : 'text-premium-charcoal group-hover/wish:text-premium-gold'} size={18} />
                  <Editable id="product_detail_wishlist_btn" fallback="Curate to Likes">
@@ -203,7 +203,7 @@ export default function ProductDetailPage() {
             </div>
             
             {/* Boutique Guarantees */}
-            <div className="pt-12 space-y-6">
+            <div className="space-y-4">
                <div className="flex items-center gap-6 group">
                   <FiTruck className="text-premium-gold group-hover:scale-110 transition-transform" />
                   <Editable id="product_detail_guarantee_1" fallback="Complimentary Global Courier">
