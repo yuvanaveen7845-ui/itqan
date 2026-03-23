@@ -98,7 +98,7 @@ export default function CheckoutPage() {
               signature: 'sig_mock_' + Math.random().toString(36).substr(2, 9),
             });
             clearCart();
-            window.location.href = `/order-confirmation/${orderData.order.id}`;
+            router.push(`/order-confirmation/${orderData.order.id}`);
           } catch (mockErr) {
             console.error('Mock payment error:', mockErr);
             showNotification('Mock payment verification failed', 'error');
@@ -129,7 +129,7 @@ export default function CheckoutPage() {
                 signature: response.razorpay_signature,
               });
               clearCart();
-              window.location.href = `/order-confirmation/${orderData.order.id}`;
+              router.push(`/order-confirmation/${orderData.order.id}`);
             } catch (verifyErr) {
               console.error('Payment verification error:', verifyErr);
               showNotification('Payment verification failed. Contact support.', 'error');

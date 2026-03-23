@@ -55,7 +55,7 @@ export default function ProductsPage() {
             <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1.2rem] block animate-reveal">Collections</span>
           </Editable>
           <Editable id="products_title" type="richtext" fallback="Specialist Editions">
-            <h1 className="text-7xl md:text-[140px] imperial-serif text-white animate-reveal leading-none" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-5xl sm:text-6xl md:text-[100px] lg:text-[140px] imperial-serif text-white animate-reveal leading-none" style={{ animationDelay: '0.2s' }}>
               Specialist <br />
               <span className="gold-luxury-text italic lowercase font-normal">Editions</span>
             </h1>

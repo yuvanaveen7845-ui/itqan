@@ -56,14 +56,14 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-[1800px] mx-auto px-6 py-32 sm:px-12 lg:px-24">
-      <section className="pt-60 pb-40 px-12 sm:px-24 boutique-layout border-b border-premium-gold/5">
+    <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-24 sm:py-32 lg:px-24">
+      <section className="pt-24 pb-16 sm:pt-60 sm:pb-40 px-6 sm:px-24 boutique-layout border-b border-premium-gold/5">
         <div className="flex flex-col items-center text-center space-y-12">
           <Editable id="cart_eyebrow" type="text" fallback="Selected Artefacts">
             <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Your Selection</span>
           </Editable>
           <Editable id="cart_title" type="richtext" fallback="Shopping Bag">
-            <h1 className="text-7xl md:text-9xl imperial-serif text-premium-black animate-reveal" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-5xl sm:text-7xl md:text-9xl imperial-serif text-premium-black animate-reveal" style={{ animationDelay: '0.2s' }}>
               Vault <br />
               <span className="gold-luxury-text italic lowercase font-normal">Allocation</span>
             </h1>

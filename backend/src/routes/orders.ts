@@ -386,21 +386,25 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
 
     // Send confirmation email — using the new sendOrderEmails
     const customerEmail = order.users?.email || req.user?.email;
-    const customerName = order.users?.name || 'Valued Customer';
-    const productStr = order.order_items?.map((item: any) => `${item.products?.name} (x${item.quantity})`).join(', ') || 'Perfume';
+    try {
+      const customerName = order.users?.name || 'Valued Customer';
+      const productStr = order.order_items?.map((item: any) => `${item.products?.name} (x${item.quantity})`).join(', ') || 'Perfume';
 
-    if (customerEmail) {
-      console.log(`Sending new format order confirmation to: ${customerEmail}`);
-      await sendOrderEmails({
-        name: customerName,
-        email: customerEmail,
-        address: shipping_address,
-        phone: 'Not provided', // Telephone numbers not currently implemented in Address model
-        product: productStr,
-        display_id: order.display_id || orderId
-      });
-    } else {
-      console.warn('⚠️  No customer email found — skipping order confirmation email');
+      if (customerEmail) {
+        console.log(`Sending new format order confirmation to: ${customerEmail}`);
+        await sendOrderEmails({
+          name: customerName,
+          email: customerEmail,
+          address: shipping_address,
+          phone: 'Not provided', // Telephone numbers not currently implemented in Address model
+          product: productStr,
+          display_id: order.display_id || orderId
+        });
+      } else {
+        console.warn('⚠️  No customer email found — skipping order confirmation email');
+      }
+    } catch (emailError: any) {
+      console.error('⚠️ Failed to send order confirmation email:', emailError.message);
     }
 
     // --- DECREMENT STOCK FOR EACH ITEM ---

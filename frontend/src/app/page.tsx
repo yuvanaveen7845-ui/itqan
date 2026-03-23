@@ -66,14 +66,14 @@ export default function HomePage() {
            </Editable>
 
            <Editable id="hero_title" type="richtext" fallback="The Art of Invisible Elegance">
-              <h1 className="text-8xl md:text-[160px] imperial-serif text-white leading-none mb-16 animate-reveal" style={{ animationDelay: '0.2s' }}>
+              <h1 className="text-6xl sm:text-8xl md:text-[130px] lg:text-[160px] imperial-serif text-white leading-none mb-10 md:mb-16 animate-reveal" style={{ animationDelay: '0.2s' }}>
                 Invisible <br />
                 <span className="gold-luxury-text italic lowercase font-normal">Elegance</span>
               </h1>
            </Editable>
 
            <Editable id="hero_cta" type="link" href="/products">
-              <button className="px-20 py-8 border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.8rem] signature-shimmer hover:border-premium-gold transition-all duration-1000 animate-reveal" style={{ animationDelay: '0.4s' }}>
+              <button className="px-12 py-6 sm:px-20 sm:py-8 border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.8rem] signature-shimmer hover:border-premium-gold transition-all duration-1000 animate-reveal" style={{ animationDelay: '0.4s' }}>
                 Discover
               </button>
            </Editable>
@@ -113,7 +113,7 @@ export default function HomePage() {
                 <span className="vogue-text">The Artisanship</span>
               </Editable>
               <Editable id="story_title" type="richtext" fallback="The Spirit of Creation">
-                <h2 className="text-5xl md:text-7xl lg:text-9xl imperial-serif text-white">The Spirit <br /> of <span className="italic gold-luxury-text font-normal">Creation</span></h2>
+                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl imperial-serif text-white">The Spirit <br /> of <span className="italic gold-luxury-text font-normal">Creation</span></h2>
               </Editable>
               <Editable id="story_body" type="richtext" fallback="Every drop is a whispered secret, condensed into a symphony of molecules that dance upon the skin.">
                 <p className="imperial-body text-2xl max-w-xl">
@@ -146,7 +146,7 @@ export default function HomePage() {
               <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.6em]">Les Exclusifs</p>
             </Editable>
             <Editable id="signature_edit_title" fallback="The Signature Edit">
-              <h2 className="text-5xl md:text-8xl imperial-serif text-white leading-none">The <span className="gold-luxury-text italic">Signature</span> Edit</h2>
+              <h2 className="text-4xl sm:text-5xl md:text-8xl imperial-serif text-white leading-none">The <span className="gold-luxury-text italic">Signature</span> Edit</h2>
             </Editable>
           </div>
           <Editable id="discovery_cta" fallback="View All Artifacts">

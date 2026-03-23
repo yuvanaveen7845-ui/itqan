@@ -29,7 +29,7 @@ export default function Toast() {
     if (!mounted) return null;
 
     return (
-        <div className="fixed top-24 right-8 z-[2000] flex flex-col gap-4 w-full max-w-sm pointer-events-none">
+        <div className="fixed top-24 right-4 left-4 sm:left-auto sm:right-8 z-[2000] flex flex-col gap-4 sm:w-full sm:max-w-sm pointer-events-none">
             {notifications.map((n) => {
                 const Icon = icons[n.type];
                 return (
