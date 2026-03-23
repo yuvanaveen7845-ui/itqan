@@ -101,8 +101,8 @@ export default function ProductDetailPage() {
         <span className="text-premium-gold">{product.name}</span>
       </nav>
 
-      <section className="boutique-layout px-4 sm:px-12 md:px-24 pb-20 sm:pb-40">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-40 items-start">
+      <section className="boutique-layout px-4 sm:px-12 md:px-24 pb-20 sm:pb-40 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-40 items-start overflow-hidden">
           
           {/* Visual Showcase - Full Height Vertical */}
           <div className="lg:col-span-7 space-y-12">
@@ -137,7 +137,7 @@ export default function ProductDetailPage() {
               <Editable id={`product_eyebrow_${product.id}`} type="text" fallback={product.category || 'Extract'}>
                 <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block">Olfactive Edition</span>
               </Editable>
-              <h1 className="text-4xl sm:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl imperial-serif text-white leading-tight break-words break-all whitespace-normal overflow-wrap-anywhere w-full">
+              <h1 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl imperial-serif text-white leading-tight break-words w-full [letter-spacing:0.05em]">
                 <Editable id={`product_title_v2_${product.id}`} type="text" fallback={product.name}>
                   {product.name}
                 </Editable>

@@ -48,12 +48,12 @@ export default function HomePage() {
             aria-hidden="true"
           />
           {/* Main Fitted Image */}
-          <div className="relative z-10 w-full h-full flex items-center justify-center">
-            <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-[3s]">
+          <div className="relative z-10 w-full h-full">
+            <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png" className="w-full h-full">
               <img
                 src="/images/exotic/hero.png"
                 alt="Luxury Perfume"
-                className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-[3s]"
+                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[3s]"
               />
             </Editable>
           </div>
