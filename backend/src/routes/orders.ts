@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { supabase } from '../config/database';
 import { verifyToken, requireRole, AuthRequest } from '../middleware/auth';
 import { createRazorpayOrder, verifyPaymentSignature } from '../config/payment';
-import { sendEmail, emailTemplates } from '../config/email';
+import sendOrderEmails from '../utils/mailer';
 import axios from 'axios';
 
 const OPAL_AUTOMATION_URL = 'https://opal.google/app/1VyMrnma3KQcM91M0CPdrlbZXf2ZGdu_e';
@@ -373,26 +373,32 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
       },
     ]);
 
-    // Send confirmation email — use the email from the order's joined user data
-    // This is more reliable than re-querying by req.user.id which may differ for OAuth users
+    // --- PREPARE DATA FOR EMAIL AND AUTOMATION ---
+    const { data: address } = await supabase
+      .from('addresses')
+      .select('*')
+      .eq('id', order.address_id)
+      .maybeSingle();
+
+    const shipping_address = address ?
+      `${address.address_line1}, ${address.city}, ${address.state} - ${address.zipcode}` :
+      'Not provided';
+
+    // Send confirmation email — using the new sendOrderEmails
     const customerEmail = order.users?.email || req.user?.email;
     const customerName = order.users?.name || 'Valued Customer';
-    const shopEmail = process.env.SMTP_FROM || 'itqanperfumes@gmail.com';
+    const productStr = order.order_items?.map((item: any) => `${item.products?.name} (x${item.quantity})`).join(', ') || 'Perfume';
 
     if (customerEmail) {
-      console.log(`Sending order confirmation to: ${customerEmail}`);
-      // Email to customer
-      await sendEmail(
-        customerEmail,
-        'Order Confirmed — Itqan Perfumes',
-        emailTemplates.orderConfirmation(order.display_id || orderId, order.total_amount, customerName)
-      );
-      // Notify shop owner
-      await sendEmail(
-        shopEmail,
-        `New Order Paid: ${order.display_id || orderId}`,
-        emailTemplates.shopOwnerNotification(order.display_id || orderId, customerEmail, customerName, order.total_amount, order.order_items)
-      );
+      console.log(`Sending new format order confirmation to: ${customerEmail}`);
+      await sendOrderEmails({
+        name: customerName,
+        email: customerEmail,
+        address: shipping_address,
+        phone: 'Not provided', // Telephone numbers not currently implemented in Address model
+        product: productStr,
+        display_id: order.display_id || orderId
+      });
     } else {
       console.warn('⚠️  No customer email found — skipping order confirmation email');
     }
@@ -422,19 +428,11 @@ router.post('/verify-payment', verifyToken, async (req: AuthRequest, res) => {
     }
 
     // --- TRIGGER OPAL AUTOMATION ---
-    const { data: address } = await supabase
-      .from('addresses')
-      .select('*')
-      .eq('id', order.address_id)
-      .maybeSingle();
-
     const automationData = {
       customer_email: order.users?.email || customerEmail,
       order_id: order.id,
       total_amount: order.total_amount,
-      shipping_address: address ?
-        `${address.address_line1}, ${address.city}, ${address.state} - ${address.zipcode}` :
-        'Not provided',
+      shipping_address: shipping_address,
       order_details: order.order_items?.map((item: any) => ({
         name: item.products?.name,
         quantity: item.quantity,
