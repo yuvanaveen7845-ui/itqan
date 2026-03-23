@@ -138,7 +138,7 @@ export default function ProductDetailPage() {
                 <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block">Olfactive Edition</span>
               </Editable>
               <Editable id={`product_title_${product.id}`} type="richtext" fallback={product.name}>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl imperial-serif text-white leading-none break-words">{product.name}</h1>
+                <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl imperial-serif text-white leading-none break-all">{product.name}</h1>
               </Editable>
               <div className="flex items-center gap-8 pt-4">
                  <span className="text-3xl imperial-serif gold-luxury-text">₹{product.price.toLocaleString()}</span>

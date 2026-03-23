@@ -72,7 +72,7 @@ export default function Header() {
               
               <Link href="/" legacyBehavior passHref>
                 <a className="flex flex-col items-start group relative">
-                  <Editable id="header_logo" type="image" fallback="/logo.png" className="w-[160px] md:w-[180px] h-auto object-contain">
+                  <Editable id="header_logo" type="image" fallback="/logo.png" className="w-[160px] md:w-[180px] h-[53px] md:h-[60px] object-contain">
                     <Image src="/logo.png" alt="IQTAN Logo" width={180} height={60} priority className="object-contain group-hover:brightness-125 transition-all duration-1000" />
                   </Editable>
                   <div className="w-0 group-hover:w-full h-px bg-premium-gold absolute -bottom-2 transition-all duration-700 opacity-50"></div>

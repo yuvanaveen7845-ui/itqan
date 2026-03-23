@@ -138,7 +138,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
             if (!finalSrc.startsWith('http') && !finalSrc.startsWith('/') && !finalSrc.startsWith('data:')) {
                 finalSrc = '/' + finalSrc;
             }
-            return <img src={finalSrc} alt="Editable" className={combinedClass} />;
+            return <img src={finalSrc} alt="Editable" className={combinedClass} onError={(e) => { e.currentTarget.src = fallback || '/logo.png'; }} />;
         }
 
         if (type === 'link' || href) {
@@ -176,7 +176,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
                     if (previewSrc && typeof previewSrc === 'string' && !previewSrc.startsWith('http') && !previewSrc.startsWith('/') && !previewSrc.startsWith('data:')) {
                         previewSrc = '/' + previewSrc;
                     }
-                    return <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />;
+                    return <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" onError={(e) => { e.currentTarget.src = fallback || '/logo.png'; }} />;
                 })() : (
                     savedValue || children
                 )}
