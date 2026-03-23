@@ -8,6 +8,11 @@ const router = Router();
 router.get('/', verifyToken, async (req: AuthRequest, res) => {
     try {
         const userId = req.user?.id;
+        
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!userId || !uuidRegex.test(userId)) {
+            return res.status(400).json({ error: 'Invalid user session. Please sign in again (UUID format required).' });
+        }
 
         if (process.env.SUPABASE_URL?.includes('placeholder')) {
             return res.json([]);
@@ -30,6 +35,15 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
     try {
         const { product_id } = req.body;
         const userId = req.user?.id;
+
+        if (!product_id) {
+            return res.status(400).json({ error: 'Product ID is required' });
+        }
+
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!userId || !uuidRegex.test(userId)) {
+            return res.status(400).json({ error: 'Invalid user session. Please sign in again (UUID format required).' });
+        }
 
         if (process.env.SUPABASE_URL?.includes('placeholder')) {
             return res.status(201).json({ message: 'Added to wishlist (mock)' });
@@ -68,6 +82,11 @@ router.delete('/:productId', verifyToken, async (req: AuthRequest, res) => {
     try {
         const { productId } = req.params;
         const userId = req.user?.id;
+
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!userId || !uuidRegex.test(userId)) {
+            return res.status(400).json({ error: 'Invalid user session. Please sign in again (UUID format required).' });
+        }
 
         if (process.env.SUPABASE_URL?.includes('placeholder')) {
             return res.json({ message: 'Removed from wishlist (mock)' });
