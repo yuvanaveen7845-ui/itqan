@@ -27,6 +27,16 @@
   @apply tracking-[0.4em] font-normal uppercase leading-[1.1];
 }
 
+/* Product title variant — overrides the global 0.4em tracking so long product
+   names do not horizontally overflow the grid column */
+.product-title {
+  font-family: var(--font-playfair), serif;
+  letter-spacing: 0.06em;
+  @apply font-normal uppercase leading-tight;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
 .imperial-body {
   font-family: var(--font-inter), sans-serif;
   @apply tracking-wider font-extralight leading-[2] text-white/60;
