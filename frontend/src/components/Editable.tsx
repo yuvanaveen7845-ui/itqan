@@ -133,7 +133,12 @@ export default function Editable({ id, children, type = 'text', className = '', 
         const combinedClass = `${className} ${savedStyle}`.trim();
 
         if (type === 'image' && savedValue) {
-            return <img src={savedValue} alt="Editable" className={combinedClass} />;
+            let finalSrc = savedValue;
+            // Normalize relative paths like 'logo.png' to '/logo.png' 
+            if (!finalSrc.startsWith('http') && !finalSrc.startsWith('/') && !finalSrc.startsWith('data:')) {
+                finalSrc = '/' + finalSrc;
+            }
+            return <img src={finalSrc} alt="Editable" className={combinedClass} />;
         }
 
         if (type === 'link' || href) {
@@ -166,9 +171,13 @@ export default function Editable({ id, children, type = 'text', className = '', 
 
             {/* Display Component */}
             <div className={`${className} ${savedStyle} ${!savedVisible ? 'line-through' : ''}`}>
-                {type === 'image' ? (
-                    <img src={savedValue || fallback || (typeof children === 'string' ? children : '')} alt="Preview" className="w-full h-full object-contain" />
-                ) : (
+                {type === 'image' ? (() => {
+                    let previewSrc = savedValue || fallback || (typeof children === 'string' ? children : '');
+                    if (previewSrc && typeof previewSrc === 'string' && !previewSrc.startsWith('http') && !previewSrc.startsWith('/') && !previewSrc.startsWith('data:')) {
+                        previewSrc = '/' + previewSrc;
+                    }
+                    return <img src={previewSrc} alt="Preview" className="w-full h-full object-contain" />;
+                })() : (
                     savedValue || children
                 )}
             </div>
