@@ -36,8 +36,8 @@ router.post('/', verifyToken, async (req: AuthRequest, res) => {
         const { product_id } = req.body;
         const userId = req.user?.id;
 
-        if (!product_id) {
-            return res.status(400).json({ error: 'Product ID is required' });
+        if (!product_id || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(product_id)) {
+            return res.status(400).json({ error: 'Valid Product ID (UUID) is required' });
         }
 
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

@@ -137,9 +137,11 @@ export default function ProductDetailPage() {
               <Editable id={`product_eyebrow_${product.id}`} type="text" fallback={product.category || 'Extract'}>
                 <span className="text-premium-gold text-[10px] font-black uppercase tracking-[0.8rem] block">Olfactive Edition</span>
               </Editable>
-              <Editable id={`product_title_${product.id}`} type="richtext" fallback={product.name}>
-                <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl imperial-serif text-white leading-none break-all">{product.name}</h1>
-              </Editable>
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl imperial-serif text-white leading-none [word-break:break-word] max-w-full overflow-hidden">
+                <Editable id={`product_title_v2_${product.id}`} type="text" fallback={product.name}>
+                  {product.name}
+                </Editable>
+              </h1>
               <div className="flex items-center gap-8 pt-4">
                  <span className="text-3xl imperial-serif gold-luxury-text">₹{product.price.toLocaleString()}</span>
                  <div className="h-px flex-1 bg-premium-gold/10"></div>
