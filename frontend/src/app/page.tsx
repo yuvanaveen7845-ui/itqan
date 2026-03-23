@@ -14,7 +14,7 @@ export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const branding = useCMSStore((state) => state.branding);
-
+  const heroImageUrl = useCMSStore((state) => state.inlineContent['hero_image']) || "/images/exotic/hero.png";
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,13 +40,23 @@ export default function HomePage() {
       {/* Ultra-Premium Cinematic Hero - Exotic Gold Dust */}
       <section className="relative h-screen overflow-hidden bg-premium-black gold-dust-overlay group">
         <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-[10s] ease-out">
-          <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png">
-            <img
-              src="/images/exotic/hero.png"
-              alt="Luxury Perfume"
-              className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-[3s]"
-            />
-          </Editable>
+          {/* Blurred Background to fill spaces */}
+          <img
+            src={heroImageUrl}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-30 transition-all duration-[3s]"
+            aria-hidden="true"
+          />
+          {/* Main Fitted Image */}
+          <div className="relative z-10 w-full h-full flex items-center justify-center">
+            <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-[3s]">
+              <img
+                src="/images/exotic/hero.png"
+                alt="Luxury Perfume"
+                className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-[3s]"
+              />
+            </Editable>
+          </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-premium-black via-transparent to-transparent z-10"></div>
         

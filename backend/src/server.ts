@@ -22,19 +22,17 @@ const PORT = process.env.PORT || 5000;
 // Correctly handle X-Forwarded-For headers when behind a proxy (Vercel, Railway, etc.)
 app.set('trust proxy', 1);
 
-// Manual CORS and Logger Middleware (First in chain)
+// Enhanced robust CORS and Logger Middleware
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['X-Requested-With', 'Content-Type', 'Authorization', 'Accept', 'Origin']
+}));
+
 app.use((req, res, next) => {
   const origin = req.headers.origin || '*';
-  res.setHeader('Access-Control-Allow-Origin', origin);
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, Accept, Origin');
-
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${origin}`);
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
   next();
 });
 

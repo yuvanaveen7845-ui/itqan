@@ -77,6 +77,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
     const [tempStyle, setTempStyle] = useState('');
     const [tempHref, setTempHref] = useState('');
     const [tempVisible, setTempVisible] = useState(true);
+    const [alignRight, setAlignRight] = useState(false);
     
     // Undo Support
     const [history, setHistory] = useState<{ value: string; style: string }[]>([]);
@@ -95,6 +96,11 @@ export default function Editable({ id, children, type = 'text', className = '', 
             setTempHref(savedHref);
             setTempVisible(savedVisible);
             setHistory([{ value: savedValue || '', style: savedStyle || '' }]);
+
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setAlignRight(rect.left > window.innerWidth / 2);
+            }
         }
     }, [isEditing]);
 
@@ -161,7 +167,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
             {/* Display Component */}
             <div className={`${className} ${savedStyle} ${!savedVisible ? 'line-through' : ''}`}>
                 {type === 'image' ? (
-                    <img src={savedValue || fallback || (typeof children === 'string' ? children : '')} alt="Preview" />
+                    <img src={savedValue || fallback || (typeof children === 'string' ? children : '')} alt="Preview" className="w-full h-full object-contain" />
                 ) : (
                     savedValue || children
                 )}
@@ -169,7 +175,7 @@ export default function Editable({ id, children, type = 'text', className = '', 
 
             {/* Premium Property Editor */}
             {isEditing && (
-                <div className="absolute top-full left-0 mt-4 min-w-[380px] z-[501] animate-reveal">
+                <div className={`absolute top-full mt-4 w-[380px] max-w-[95vw] z-[501] animate-reveal ${alignRight ? 'right-0' : 'left-0'}`}>
                     <div className="bg-[#1A1A1A] text-white p-6 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)] border border-white/10 skew-x-[-1deg]">
                         <div className="skew-x-[1deg] space-y-8">
                             {/* Editor Header */}

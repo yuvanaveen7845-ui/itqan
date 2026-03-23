@@ -103,22 +103,22 @@ export default function Footer() {
                 <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">Concierge</h3>
               </Editable>
               <div className="space-y-6">
-                <Editable id="footer_contact_email" fallback="concierge@iqtan.com">
-                  <div className="flex items-center gap-4 group cursor-pointer">
-                    <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
-                      <FiMail size={12} className="text-premium-gold" />
-                    </div>
+                <div className="flex items-center gap-4 group cursor-pointer relative">
+                  <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
+                    <FiMail size={12} className="text-premium-gold" />
+                  </div>
+                  <Editable id="footer_contact_email" fallback="concierge@iqtan.com">
                     <span className="text-[11px] text-white/40 group-hover:text-premium-gold font-black uppercase tracking-widest transition-colors">{footer.contact_email || 'concierge@iqtan.com'}</span>
-                  </div>
-                </Editable>
-                <Editable id="footer_contact_phone" fallback="+91 XXXX XXXX XX">
-                  <div className="flex items-center gap-4 group cursor-pointer">
-                     <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
-                        <FiPhone size={12} className="text-premium-gold" />
-                     </div>
+                  </Editable>
+                </div>
+                <div className="flex items-center gap-4 group cursor-pointer relative">
+                   <div className="p-3 border border-white/5 rounded-full group-hover:border-premium-gold/40 transition-all shadow-sm">
+                      <FiPhone size={12} className="text-premium-gold" />
+                   </div>
+                   <Editable id="footer_contact_phone" fallback="+91 XXXX XXXX XX">
                      <span className="text-[11px] text-white/40 group-hover:text-premium-gold font-black uppercase tracking-widest transition-colors">{footer.contact_phone || '+91 XXXX XXXX XX'}</span>
-                  </div>
-                </Editable>
+                   </Editable>
+                </div>
               </div>
             </div>
             

@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuthStore } from '@/store/auth';
 import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
@@ -69,11 +70,13 @@ export default function Header() {
                 <FiMenu size={18} />
               </button>
               
-              <Link href="/" className="flex flex-col items-start group relative">
-                <Editable id="header_logo" type="text" fallback="IQTAN">
-                  <span className="text-3xl sm:text-4xl imperial-serif text-white tracking-[1rem] group-hover:gold-luxury-text transition-all duration-1000">IQTAN</span>
-                </Editable>
-                <div className="w-0 group-hover:w-full h-px bg-premium-gold absolute -bottom-2 transition-all duration-700 opacity-50"></div>
+              <Link href="/" legacyBehavior passHref>
+                <a className="flex flex-col items-start group relative">
+                  <Editable id="header_logo" type="image" fallback="/logo.png" className="w-[160px] md:w-[180px] h-auto object-contain">
+                    <Image src="/logo.png" alt="IQTAN Logo" width={180} height={60} priority className="object-contain group-hover:brightness-125 transition-all duration-1000" />
+                  </Editable>
+                  <div className="w-0 group-hover:w-full h-px bg-premium-gold absolute -bottom-2 transition-all duration-700 opacity-50"></div>
+                </a>
               </Link>
 
               <nav className="hidden lg:flex items-center gap-12 ml-12">
