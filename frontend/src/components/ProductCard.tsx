@@ -121,7 +121,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                 )}
 
                 {/* Primary Image with Ken Burns & Shine Effect */}
-                <div className="relative aspect-[4/5] overflow-hidden bg-white/[0.02] shine-effect">
+                <div className="relative aspect-[4/5] overflow-hidden bg-white/[0.02] shine-effect glass-refraction">
                     <AttributeEditable
                         productId={localProduct.id}
                         field="image_url"

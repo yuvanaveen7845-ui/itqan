@@ -8,6 +8,7 @@ import { productAPI, cmsAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 import { useCMSStore } from '@/store/cms';
 import Editable from '@/components/Editable';
+import MistBackground from '@/components/MistBackground';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
@@ -38,7 +39,8 @@ export default function HomePage() {
     <div className="bg-premium-black min-h-screen selection:bg-premium-gold selection:text-black">
 
       {/* Ultra-Premium Cinematic Hero - Exotic Gold Dust */}
-      <section className="relative h-screen overflow-hidden bg-premium-black gold-dust-overlay group">
+      <section className="relative h-screen overflow-hidden bg-premium-black group">
+        <MistBackground />
         <div className="absolute inset-0 z-0 scale-110 group-hover:scale-100 transition-transform duration-[10s] ease-out">
           {/* Blurred Background to fill spaces */}
           <img
@@ -95,11 +97,11 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-60 items-center">
           <div className="relative group scroll-reveal visible order-2 lg:order-1">
             <div className="absolute -inset-24 border border-premium-gold/10 group-hover:border-premium-gold/30 transition-all duration-[2s] rounded-none"></div>
-            <div className="relative arabesque-border shadow-[0_60px_100px_rgba(0,0,0,0.3)] group/img rounded-none h-[600px] lg:h-[900px] overflow-hidden bg-zinc-900">
+            <div className="relative arabesque-border glass-refraction shadow-[0_60px_100px_rgba(0,0,0,0.3)] group/img rounded-none h-[600px] lg:h-[900px] overflow-hidden bg-zinc-900">
               <Editable id="story_image" type="image" fallback="/images/exotic/saffron_gold.png">
                 <img
                   src="/images/exotic/saffron_gold.png"
-                  alt="Saffron Gold"
+                  alt="Scent Extraction"
                   className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]"
                 />
               </Editable>

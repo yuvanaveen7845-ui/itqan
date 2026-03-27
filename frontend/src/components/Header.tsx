@@ -9,6 +9,7 @@ import { useCartStore } from '@/store/cart';
 import { useWishlistStore } from '@/store/wishlist';
 import { useCMSStore } from '@/store/cms';
 import Editable from '@/components/Editable';
+import MistBackground from '@/components/MistBackground';
 import { FiShoppingCart, FiUser, FiLogOut, FiSearch, FiHeart, FiShield, FiMenu, FiX, FiHome, FiInfo, FiGrid, FiChevronRight, FiShoppingBag, FiLayers } from 'react-icons/fi';
 
 export default function Header() {
@@ -170,7 +171,9 @@ export default function Header() {
         onClick={() => setIsSidebarOpen(false)}
       ></div>
 
-      <div className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col gold-dust-overlay-static border-l border-white/5`}>
+      <div className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-premium-black z-[201] shadow-2xl transition-all duration-1000 cubic-bezier(0.19, 1, 0.22, 1) ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col border-l border-white/5 overflow-hidden`}>
+        <MistBackground />
+        <div className="relative z-10 flex flex-col h-full">
         <div className="h-56 px-12 flex flex-col justify-center border-b border-white/5 relative">
           <Editable id="sidebar_title" fallback="the atlas">
             <span className="text-5xl imperial-serif text-white italic lowercase">the atlas</span>
@@ -257,6 +260,7 @@ export default function Header() {
            </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

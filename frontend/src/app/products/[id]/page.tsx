@@ -11,6 +11,8 @@ import { useAuthStore } from '@/store/auth';
 import { useWishlistStore } from '@/store/wishlist';
 import Editable from '@/components/Editable';
 import AttributeEditable from '@/components/AttributeEditable';
+import MistBackground from '@/components/MistBackground';
+import FragrancePyramid from '@/components/FragrancePyramid';
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -87,7 +89,8 @@ export default function ProductDetailPage() {
   if (!product) return <div className="text-center py-40 text-2xl imperial-serif text-premium-black">Artifact not found</div>;
 
   return (
-    <div>
+    <div className="relative overflow-hidden">
+      <MistBackground />
       {/* Breadcrumbs - Minimalist */}
       <nav className="boutique-layout px-4 sm:px-12 md:px-24 py-8 sm:py-16 flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-white/40">
         <Editable id="product_detail_breadcrumb_home" fallback="Atelier">
@@ -105,8 +108,8 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-24 items-start">
           
           {/* Visual Showcase */}
-          <div className="space-y-6">
-            <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich rounded-none min-h-[400px] sm:min-h-[700px] flex items-center justify-center">
+          <div className="space-y-6 relative z-10">
+            <div className="relative group overflow-hidden bg-white/[0.02] luxury-card-rich glass-refraction rounded-none min-h-[400px] sm:min-h-[700px] flex items-center justify-center">
               <div className="absolute inset-0 bg-premium-black/5 z-10 group-hover:bg-transparent transition-all duration-1000"></div>
               <AttributeEditable
                 productId={product.id}
@@ -152,6 +155,49 @@ export default function ProductDetailPage() {
               <Editable id={`product_desc_${product.id}`} type="richtext" fallback={product.description}>
                 <p className="imperial-body text-xl max-w-lg">{product.description}</p>
               </Editable>
+
+              {/* Fragrance Pyramid - Innovative Component */}
+              <div className="pt-8">
+                <Editable id="fragrance_pyramid_title" fallback="The Olfactive Manuscript">
+                  <h3 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.5rem] mb-8">The Olfactive Manuscript</h3>
+                </Editable>
+                <FragrancePyramid 
+                  top={[
+                    { name: 'Bergamot', description: 'Crisp, citrusy sparkle that provides the initial invitation.' },
+                    { name: 'Saffron', description: 'Leathery, golden spice that adds immediate luxury.' }
+                  ]}
+                  heart={[
+                    { name: 'Taif Rose', description: 'Deep, honeyed floral soul captured at dawn.' },
+                    { name: 'Jasmine Sambac', description: 'Intense, nocturnal sweetness.' }
+                  ]}
+                  base={[
+                    { name: 'Cambodian Oud', description: 'Resinous, woody foundation with endless sillage.' },
+                    { name: 'White Musk', description: 'Clean, skin-like finish that lingers for days.' }
+                  ]}
+                />
+              </div>
+
+              {/* Sillage & Longevity - Sensory Indicators */}
+              <div className="grid grid-cols-2 gap-12 py-10 border-t border-premium-gold/10">
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Sillage</span>
+                    <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest">Intense</span>
+                  </div>
+                  <div className="h-0.5 w-full bg-white/5 relative">
+                    <div className="absolute inset-y-0 left-0 bg-premium-gold w-[85%] shadow-[0_0_10px_rgba(197,160,89,0.5)]"></div>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">Longevity</span>
+                    <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest">12+ Hours</span>
+                  </div>
+                  <div className="h-0.5 w-full bg-white/5 relative">
+                    <div className="absolute inset-y-0 left-0 bg-premium-gold w-[95%] shadow-[0_0_10px_rgba(197,160,89,0.5)]"></div>
+                  </div>
+                </div>
+              </div>
 
               {/* Attributes - Boutique Grid */}
               <div className="grid grid-cols-2 gap-8 py-8 border-y border-premium-gold/10">
