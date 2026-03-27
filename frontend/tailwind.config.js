@@ -19,6 +19,8 @@ module.exports = {
       fontFamily: {
         playfair: ['var(--font-playfair)', 'serif'],
         inter: ['var(--font-inter)', 'sans-serif'],
+        noto: ['var(--font-noto-serif)', 'serif'],
+        manrope: ['var(--font-manrope)', 'sans-serif'],
       },
       letterSpacing: {
         elite: '0.2em',

@@ -141,7 +141,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                     {/* Hover Overlay - Light Leak Style */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-premium-gold/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center p-8 text-center pointer-events-none">
                         <div className="border border-premium-gold/30 w-full h-full flex flex-col items-center justify-center translate-y-8 group-hover:translate-y-0 transition-transform duration-1000 backdrop-blur-[2px]">
-                            <span className="text-white text-[10px] font-black tracking-[0.8em] uppercase mb-4 font-inter text-shadow-lg">Discover</span>
+                            <span className="text-white text-[10px] font-black tracking-[0.8em] uppercase mb-4 font-inter text-shadow-lg">View Details</span>
                             <div className="w-12 h-px bg-premium-gold/50"></div>
                         </div>
                     </div>
@@ -159,7 +159,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                             value={localProduct.name}
                             onUpdate={(val) => setLocalProduct({ ...localProduct, name: val })}
                         >
-                            <h3 className="text-2xl imperial-serif text-white group-hover:gold-luxury-text transition-all duration-700 truncate lowercase font-normal">
+                            <h3 className="text-2xl imperial-serif text-white group-hover:text-premium-gold transition-all duration-700 truncate lowercase font-normal">
                                 {localProduct.name}
                             </h3>
                         </AttributeEditable>
@@ -174,7 +174,7 @@ export default function ProductCard({ product, badge }: ProductCardProps) {
                                 type="number"
                                 onUpdate={(val) => setLocalProduct({ ...localProduct, price: Number(val) })}
                             >
-                                <span className="text-xl imperial-serif text-white tracking-[0.2em] group-hover:gold-luxury-text transition-all duration-1000">
+                                <span className="text-xl imperial-serif text-premium-gold tracking-[0.2em]">
                                     ₹{localProduct.price.toLocaleString()}
                                 </span>
                             </AttributeEditable>
