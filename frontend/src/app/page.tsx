@@ -35,7 +35,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-premium-black min-h-screen font-inter selection:bg-premium-gold selection:text-black">
+    <div className="bg-premium-black min-h-screen selection:bg-premium-gold selection:text-black">
 
       {/* Ultra-Premium Cinematic Hero - Exotic Gold Dust */}
       <section className="relative h-screen overflow-hidden bg-premium-black gold-dust-overlay group">
@@ -66,7 +66,7 @@ export default function HomePage() {
            </Editable>
 
            <Editable id="hero_title" type="richtext" fallback="The Art of Invisible Elegance">
-              <h1 className="text-6xl sm:text-8xl md:text-[130px] lg:text-[160px] imperial-serif text-white leading-none mb-10 md:mb-16 animate-reveal" style={{ animationDelay: '0.2s' }}>
+              <h1 className="text-6xl sm:text-8xl md:text-[130px] lg:text-[160px] noto-serif text-white leading-none mb-10 md:mb-16 animate-reveal" style={{ animationDelay: '0.2s' }}>
                 Invisible <br />
                 <span className="gold-luxury-text italic lowercase font-normal">Elegance</span>
               </h1>
@@ -113,7 +113,7 @@ export default function HomePage() {
                 <span className="vogue-text">The Artisanship</span>
               </Editable>
               <Editable id="story_title" type="richtext" fallback="The Spirit of Creation">
-                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl imperial-serif text-white">The Spirit <br /> of <span className="italic gold-luxury-text font-normal">Creation</span></h2>
+                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl noto-serif text-white">The Spirit <br /> of <span className="italic gold-luxury-text font-normal">Creation</span></h2>
               </Editable>
               <Editable id="story_body" type="richtext" fallback="Every drop is a whispered secret, condensed into a symphony of molecules that dance upon the skin.">
                 <p className="imperial-body text-2xl max-w-xl">
@@ -146,7 +146,7 @@ export default function HomePage() {
               <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.6em]">Les Exclusifs</p>
             </Editable>
             <Editable id="signature_edit_title" fallback="The Signature Edit">
-              <h2 className="text-4xl sm:text-5xl md:text-8xl imperial-serif text-white leading-none">The <span className="gold-luxury-text italic">Signature</span> Edit</h2>
+              <h2 className="text-4xl sm:text-5xl md:text-8xl noto-serif text-white leading-none">The <span className="gold-luxury-text italic">Signature</span> Edit</h2>
             </Editable>
           </div>
           <Editable id="discovery_cta" fallback="View All Artifacts">
@@ -257,7 +257,7 @@ export default function HomePage() {
             <p className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] mb-6">The Gallery</p>
           </Editable>
           <Editable id="gallery_title" fallback="Elevate Your Senses">
-            <h2 className="text-6xl md:text-9xl imperial-serif mb-12 leading-tight">The <span className="gold-luxury-text italic lowercase font-normal">Symphony</span> of Scents</h2>
+            <h2 className="text-6xl md:text-9xl noto-serif mb-12 leading-tight">The <span className="gold-luxury-text italic lowercase font-normal">Symphony</span> of Scents</h2>
           </Editable>
           <div className="w-40 h-px bg-gradient-to-r from-transparent via-premium-gold to-transparent mx-auto"></div>
         </div>
@@ -364,7 +364,7 @@ export default function HomePage() {
               <p className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] animate-pulse">A Legacy of Privileged Updates</p>
             </Editable>
             <Editable id="newsletter_title" fallback="The Inner Circle">
-              <h2 className="text-5xl sm:text-7xl md:text-9xl imperial-serif text-white leading-none">The <span className="gold-luxury-text italic">Inner</span> Circle</h2>
+              <h2 className="text-5xl sm:text-7xl md:text-9xl noto-serif text-white leading-none">The <span className="gold-luxury-text italic">Inner</span> Circle</h2>
             </Editable>
           </div>
           
