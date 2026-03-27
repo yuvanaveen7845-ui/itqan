@@ -16,9 +16,9 @@ interface EditableProps {
 }
 
 const FONT_PRESETS = [
-    { name: 'Imperial Serif', class: 'imperial-serif' },
-    { name: 'Lux Sans', class: 'font-inter' },
-    { name: 'Black Caps', class: 'font-black uppercase tracking-widest' },
+    { name: 'Noto Serif (Head)', class: 'noto-serif' },
+    { name: 'Manrope (Body)', class: 'font-manrope' },
+    { name: 'Noir Caps', class: 'font-manrope font-black uppercase tracking-[0.4em]' },
 ];
 
 const SIZE_PRESETS = [
@@ -29,9 +29,9 @@ const SIZE_PRESETS = [
 ];
 
 const COLOR_PRESETS = [
-    { name: 'Atelier White', class: 'text-white' },
-    { name: 'Onyx', class: 'text-premium-black' },
-    { name: 'Signature Gold', class: 'text-premium-gold' },
+    { name: 'Obsidian White', class: 'text-white' },
+    { name: 'Liquid Gold', class: 'text-premium-gold' },
+    { name: 'Muted Gold', class: 'text-premium-gold/40' },
     { name: 'Luxury Gradient', class: 'gold-luxury-text' },
 ];
 

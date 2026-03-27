@@ -50,7 +50,7 @@ export default function AdminDashboard() {
       {/* Dashboard Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-premium-gold/20 pb-12 gap-8">
         <div>
-            <h1 className="text-6xl font-playfair font-black text-premium-cream tracking-tighter">Command Intelligence</h1>
+            <h1 className="text-6xl noto-serif font-black text-premium-cream tracking-tighter">Command Intelligence</h1>
             <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.6em] mt-4 flex items-center gap-4">
                 <FiShield className="animate-pulse" /> Real-time Global Asset Surveillance & Control
             </p>
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
             </div>
             <div className="relative z-10 space-y-1">
                 <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em]">{stat.title}</p>
-                <h3 className="text-5xl font-playfair font-black text-premium-cream tracking-tighter">{stat.value}</h3>
+                <h3 className="text-5xl noto-serif font-black text-premium-cream tracking-tighter">{stat.value}</h3>
                 <p className="text-[8px] text-white/10 font-bold uppercase tracking-[0.2em] pt-3">{stat.desc}</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
           <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-white/5 pb-8 gap-6 relative z-10">
             <div>
-              <h3 className="text-2xl font-playfair font-black text-premium-cream">Revenue Velocity</h3>
+              <h3 className="text-2xl noto-serif font-black text-premium-cream">Revenue Velocity</h3>
               <p className="text-[9px] text-premium-gold/50 font-black uppercase tracking-[0.4em] mt-1">Cross-sectional performance matrix</p>
             </div>
             <div className="flex bg-black/40 p-1 border border-white/10">
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
         {/* System Intelligence Feed */}
         <div className="space-y-10">
             <div className="bg-[#1A1A1A] p-12 border border-white/5 shadow-2xl relative overflow-hidden">
-                <h3 className="text-xl font-playfair font-black text-premium-cream mb-10 border-b border-white/5 pb-8 flex items-center gap-4">
+                <h3 className="text-xl noto-serif font-black text-premium-cream mb-10 border-b border-white/5 pb-8 flex items-center gap-4">
                     <FiCpu className="text-premium-gold" /> System State
                 </h3>
                 <div className="space-y-10">
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
 
             <div className="bg-[#1A1A1A] p-10 border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex justify-between items-center mb-8">
-                     <h3 className="text-lg font-playfair font-black text-premium-cream">Order Magnitude</h3>
+                     <h3 className="text-lg noto-serif font-black text-premium-cream">Order Magnitude</h3>
                      <FiLayers className="text-white/20" />
                 </div>
                 <div className="w-full h-[200px]">
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
       <div className="bg-[#1A1A1A] border border-white/5 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative overflow-hidden">
         <div className="p-12 border-b border-white/5 flex justify-between items-center bg-gradient-to-r from-premium-gold/[0.03] to-transparent">
           <div>
-            <h3 className="text-3xl font-playfair font-black text-white tracking-tight">Transaction Nexus</h3>
+            <h3 className="text-3xl noto-serif font-black text-white tracking-tight">Transaction Nexus</h3>
             <p className="text-[9px] text-premium-gold/50 font-black uppercase tracking-[0.4em] mt-2">Latest commercial acquisitions across the network.</p>
           </div>
           <Link 

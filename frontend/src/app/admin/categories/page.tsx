@@ -113,15 +113,15 @@ export default function AdminCategoriesPage() {
         <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-premium-gold/20 pb-8">
                 <div>
-                    <h1 className="text-4xl font-playfair font-black text-premium-cream mb-2 tracking-tight">Taxonomy Architecture</h1>
-                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em]">Design the navigational framework and strategic landing indices.</p>
+                    <h1 className="text-4xl noto-serif font-black text-premium-cream mb-2 tracking-tight">Taxonomy Architecture</h1>
+                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em] font-manrope">Design the navigational framework and strategic landing indices.</p>
                 </div>
                 <button
                     onClick={() => {
                         if (showForm) resetForm();
                         else setShowForm(!showForm);
                     }}
-                    className={`flex items-center gap-3 px-8 py-4 font-black text-[10px] uppercase tracking-widest transition-all duration-300 shadow-xl border ${showForm ? 'bg-[#1A1A1A] text-white/50 border-white/10 hover:border-premium-gold' : 'bg-premium-black text-premium-gold border-premium-gold/30 hover:bg-premium-gold hover:text-white hover:scale-105 active:scale-95'
+                    className={`flex items-center gap-3 px-8 py-4 font-black text-[10px] uppercase tracking-widest font-manrope transition-all duration-300 shadow-xl border ${showForm ? 'bg-[#1A1A1A] text-white/50 border-white/10 hover:border-premium-gold' : 'bg-premium-black text-premium-gold border-premium-gold/30 hover:bg-premium-gold hover:text-white hover:scale-105 active:scale-95'
                         }`}
                 >
                     {showForm ? <><FiX size={16} /> Discard Blueprint</> : <><FiPlus size={16} /> Mint New Sector</>}
@@ -131,7 +131,7 @@ export default function AdminCategoriesPage() {
             {showForm && (
                 <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 relative">
                     <div className="bg-premium-gold/5 px-10 py-6 border-b border-premium-gold/10 flex items-center justify-between">
-                        <h2 className="text-xl font-playfair font-black text-premium-cream tracking-wide">{editingId ? 'Recalibrate Sector Node' : 'Initialize Sector Matrix'}</h2>
+                        <h2 className="text-xl noto-serif font-black text-premium-cream tracking-wide">{editingId ? 'Recalibrate Sector Node' : 'Initialize Sector Matrix'}</h2>
                         <div className="flex gap-2">
                             {[
                                 { id: 'general', label: 'Hierarchy Identity', icon: <FiFolder /> },
@@ -140,7 +140,7 @@ export default function AdminCategoriesPage() {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-3 px-6 py-2 border font-black text-[9px] uppercase tracking-[0.2em] transition-all ${activeTab === tab.id ? 'bg-premium-black text-premium-gold border-premium-gold/30' : 'bg-transparent text-white/30 border-transparent hover:text-white/80'
+                                    className={`flex items-center gap-3 px-6 py-2 border font-black text-[9px] uppercase tracking-[0.2em] font-manrope transition-all ${activeTab === tab.id ? 'bg-premium-black text-premium-gold border-premium-gold/30' : 'bg-transparent text-white/30 border-transparent hover:text-white/80'
                                         }`}
                                 >
                                     {tab.icon}
@@ -157,7 +157,7 @@ export default function AdminCategoriesPage() {
                                     <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Sector Notation</label>
                                     <input
                                         type="text"
-                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all font-playfair text-xl italic"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all noto-serif text-xl italic"
                                         placeholder="Dominion of Velvet..."
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -167,7 +167,7 @@ export default function AdminCategoriesPage() {
                                 <div className="md:col-span-2">
                                     <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Inheritance Anchor</label>
                                     <select
-                                        className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all appearance-none cursor-pointer"
+                                        className="w-full px-6 py-4 bg-[#1A1A1A] border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all appearance-none cursor-pointer font-manrope"
                                         value={formData.parent_id}
                                         onChange={(e) => setFormData({ ...formData, parent_id: e.target.value })}
                                     >
@@ -180,7 +180,7 @@ export default function AdminCategoriesPage() {
                                 <div className="md:col-span-2">
                                     <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Thematic Narrative</label>
                                     <textarea
-                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white/80 focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-medium"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white/80 focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-manrope"
                                         rows={3}
                                         placeholder="The tale woven through these articles..."
                                         value={formData.description}
@@ -200,7 +200,7 @@ export default function AdminCategoriesPage() {
                                         </div>
                                         <input
                                             type="url"
-                                            className="flex-grow px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-mono"
+                                            className="flex-grow px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all text-sm font-manrope"
                                             placeholder="https://content.asset/.../banner.jpg"
                                             value={formData.banner_url}
                                             onChange={(e) => setFormData({ ...formData, banner_url: e.target.value })}
@@ -211,7 +211,7 @@ export default function AdminCategoriesPage() {
                                     <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Network Directory Title</label>
                                     <input
                                         type="text"
-                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm font-manrope"
                                         placeholder="Optimized sector title..."
                                         value={formData.meta_title}
                                         onChange={(e) => setFormData({ ...formData, meta_title: e.target.value })}
@@ -220,7 +220,7 @@ export default function AdminCategoriesPage() {
                                 <div>
                                     <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Metadata Inscription</label>
                                     <textarea
-                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm font-medium"
+                                        className="w-full px-6 py-4 bg-white/5 border border-white/10 text-white focus:border-premium-gold/50 outline-none transition-all text-sm font-manrope"
                                         rows={2}
                                         placeholder="Global dispatch script..."
                                         value={formData.meta_description}
@@ -231,11 +231,11 @@ export default function AdminCategoriesPage() {
                         )}
 
                         <div className="mt-12 pt-8 border-t border-white/10 flex gap-4">
-                            <button type="submit" className="flex-1 bg-premium-black border border-premium-gold/30 text-premium-gold py-5 font-black uppercase text-[10px] tracking-widest hover:bg-premium-gold hover:text-white transition-all shadow-xl">
+                            <button type="submit" className="flex-1 bg-premium-black border border-premium-gold/30 text-premium-gold py-5 font-black uppercase text-[10px] tracking-widest font-manrope hover:bg-premium-gold hover:text-white transition-all shadow-xl">
                                 {editingId ? 'Commit Structural Axiom' : 'Instantiate Neural Sector'}
                             </button>
                             {editingId && (
-                                <button type="button" onClick={resetForm} className="px-12 bg-white/5 border border-white/10 text-white/50 py-5 font-black uppercase text-[10px] tracking-widest hover:bg-white/10 hover:text-white transition-all">
+                                <button type="button" onClick={resetForm} className="px-12 bg-white/5 border border-white/10 text-white/50 py-5 font-black uppercase text-[10px] tracking-widest font-manrope hover:bg-white/10 hover:text-white transition-all">
                                     Void Edits
                                 </button>
                             )}
@@ -248,11 +248,11 @@ export default function AdminCategoriesPage() {
                 <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden relative self-start">
                     <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 pointer-events-none"></div>
                     <div className="p-10 border-b border-white/5 relative z-10">
-                        <h3 className="text-2xl font-playfair font-black text-premium-cream">Sector Topography</h3>
+                        <h3 className="text-2xl noto-serif font-black text-premium-cream">Sector Topography</h3>
                     </div>
                     <div className="p-6 space-y-3 relative z-10">
                         {categories.length === 0 ? (
-                            <p className="p-10 text-center text-white/30 font-playfair italic text-xl">The taxonomy remains void.</p>
+                            <p className="p-10 text-center text-white/30 noto-serif italic text-xl">The taxonomy remains void.</p>
                         ) : categories.map(cat => (
                             <div key={cat.id} className="group relative">
                                 <div className={`p-6 border transition-all flex items-center justify-between ${editingId === cat.id ? 'bg-premium-gold/5 border-premium-gold shadow-inner' : 'bg-black/40 border-white/5 hover:border-premium-gold/50 hover:bg-white/5'
@@ -262,9 +262,9 @@ export default function AdminCategoriesPage() {
                                             <FiFolder size={20} />
                                         </div>
                                         <div>
-                                            <h4 className="font-playfair font-black text-lg text-premium-cream tracking-wide">{cat.name}</h4>
+                                            <h4 className="noto-serif font-black text-lg text-premium-cream tracking-wide">{cat.name}</h4>
                                             {cat.parent_id && (
-                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/30 mt-1">
+                                                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/30 mt-1 font-manrope">
                                                     <span>Origin Anchor</span>
                                                     <FiChevronRight size={10} className="text-premium-gold/50" />
                                                     <span className="text-premium-gold/80">{getParentName(cat.parent_id)}</span>
@@ -284,8 +284,8 @@ export default function AdminCategoriesPage() {
 
                 <div className="hidden lg:block bg-premium-black border border-premium-gold/20 p-12 shadow-2xl relative overflow-hidden self-start">
                     <div className="relative z-10">
-                        <h3 className="text-4xl font-playfair font-black text-premium-cream mb-8 tracking-tight">System<br /><span className="text-premium-gold italic font-light">Elegance</span></h3>
-                        <p className="text-white/60 font-medium leading-relaxed mb-10 text-sm">
+                        <h3 className="text-4xl noto-serif font-black text-premium-cream mb-8 tracking-tight">System<br /><span className="text-premium-gold italic font-light">Elegance</span></h3>
+                        <p className="text-white/60 font-manrope leading-relaxed mb-10 text-sm">
                             Forging nested sequences permits the construction of vast, elegant navigations. Interlink grand sectors ("Spring '28 Premiere") with localized chapters ("Nocturnal Essences") to guide the patron's eye.
                         </p>
                         <div className="space-y-6">
@@ -293,14 +293,14 @@ export default function AdminCategoriesPage() {
                                 <FiGlobe className="text-3xl text-premium-gold" />
                                 <div>
                                     <p className="font-black text-[10px] tracking-[0.2em] text-white uppercase mb-2">Omnipresent Discovery</p>
-                                    <p className="text-xs text-white/50 leading-relaxed font-medium">Each sector autonomously instantiates an indexed portal to captivate global search telemetry.</p>
+                                    <p className="text-xs text-white/50 leading-relaxed font-manrope">Each sector autonomously instantiates an indexed portal to captivate global search telemetry.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-6 bg-white/5 border border-white/10 p-6 shadow-inner">
                                 <FiImage className="text-3xl text-premium-gold" />
                                 <div>
-                                    <p className="font-black text-[10px] tracking-[0.2em] text-white uppercase mb-2">Visual Supremacy</p>
-                                    <p className="text-xs text-white/50 leading-relaxed font-medium">Inject tailored master assets to dominate the aesthetic narrative of individual departments.</p>
+                                    <p className="font-black text-[10px] tracking-[0.2em] text-white uppercase mb-2 font-manrope">Visual Supremacy</p>
+                                    <p className="text-xs text-white/50 leading-relaxed font-manrope">Inject tailored master assets to dominate the aesthetic narrative of individual departments.</p>
                                 </div>
                             </div>
                         </div>

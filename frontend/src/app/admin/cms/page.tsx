@@ -128,8 +128,8 @@ export default function CMSPage() {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-premium-gold/20 pb-12 gap-8">
                 <div>
-                    <h1 className="text-6xl font-playfair font-black text-premium-cream tracking-tighter">The Atelier</h1>
-                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.6em] mt-4 flex items-center gap-4">
+                    <h1 className="text-6xl noto-serif font-black text-premium-cream tracking-tighter">The Atelier</h1>
+                    <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.6em] mt-4 flex items-center gap-4 font-manrope">
                         <FiGlobe className="animate-spin-slow" /> Global Aesthetic & Content Sovereignty
                     </p>
                 </div>
@@ -181,7 +181,7 @@ export default function CMSPage() {
                                         <label className="block text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4 group-focus-within:text-premium-gold transition-colors">Maison Denomination</label>
                                         <input
                                             type="text"
-                                            className="w-full px-8 py-6 bg-premium-black border border-white/5 focus:border-premium-gold/50 outline-none font-playfair italic text-3xl text-premium-cream transition-all shadow-inner placeholder:text-white/10"
+                                            className="w-full px-8 py-6 bg-premium-black border border-white/5 focus:border-premium-gold/50 outline-none noto-serif italic text-3xl text-premium-cream transition-all shadow-inner placeholder:text-white/10"
                                             value={settings.branding?.name || ''}
                                             onChange={e => setSettings({ ...settings, branding: { ...settings.branding, name: e.target.value } })}
                                         />
@@ -327,7 +327,7 @@ export default function CMSPage() {
                     <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Visual Theatre</h3>
+                                <h3 className="text-3xl noto-serif font-black text-premium-cream tracking-tight">The Visual Theatre</h3>
                                 <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Curate the primary narrative visual experience.</p>
                             </div>
                             <button className="bg-premium-black text-premium-gold px-12 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 border border-premium-gold/30 hover:bg-premium-gold hover:text-white transition-all shadow-xl">
@@ -348,13 +348,13 @@ export default function CMSPage() {
                                         </div>
                                         <div className="absolute bottom-10 left-10 text-left">
                                             <p className="text-[9px] font-black text-premium-gold uppercase tracking-[0.5em] mb-3">{banner.subtitle || `EXPERIENCE 0${idx + 1}`}</p>
-                                            <p className="text-3xl font-playfair font-black text-premium-cream tracking-tight max-w-[300px] leading-none">{banner.title || 'Exquisite Narrative'}</p>
+                                            <p className="text-3xl noto-serif font-black text-premium-cream tracking-tight max-w-[300px] leading-none">{banner.title || 'Exquisite Narrative'}</p>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                             {banners.length === 0 && (
-                                <div className="col-span-2 py-48 text-center bg-black/40 border-2 border-dashed border-white/5 text-white/20 font-playfair italic text-2xl tracking-wide">
+                                <div className="col-span-2 py-48 text-center bg-black/40 border-2 border-dashed border-white/5 text-white/20 noto-serif italic text-2xl tracking-wide">
                                     No visual acts have been provisioned for the main stage.
                                 </div>
                             )}
@@ -366,7 +366,7 @@ export default function CMSPage() {
                     <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Library of Manuscripts</h3>
+                                <h3 className="text-3xl noto-serif font-black text-premium-cream tracking-tight">The Library of Manuscripts</h3>
                                 <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Static Chapters, Core Ethos, and Legal Mandates.</p>
                             </div>
                             <button className="bg-premium-black text-premium-gold px-12 py-5 font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 border border-premium-gold/30 hover:bg-premium-gold hover:text-white transition-all shadow-xl">
@@ -378,11 +378,11 @@ export default function CMSPage() {
                                 <div key={page.id} className="flex flex-col md:flex-row items-center justify-between p-10 bg-[#1A1A1A] border border-white/5 hover:border-premium-gold/40 hover:bg-premium-black transition-all duration-500 group relative">
                                     <div className="absolute inset-y-0 left-0 w-1 bg-premium-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     <div className="flex items-center gap-12 w-full md:w-auto">
-                                        <div className="w-20 h-20 bg-black border border-white/5 flex items-center justify-center text-premium-gold font-playfair italic text-4xl group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] transition-all duration-700">
+                                        <div className="w-20 h-20 bg-black border border-white/5 flex items-center justify-center text-premium-gold noto-serif italic text-4xl group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(234,179,8,0.2)] transition-all duration-700">
                                             {page.title.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="font-playfair font-black text-premium-cream text-3xl tracking-tight group-hover:text-premium-gold transition-colors">{page.title}</p>
+                                            <p className="noto-serif font-black text-premium-cream text-3xl tracking-tight group-hover:text-premium-gold transition-colors">{page.title}</p>
                                             <div className="flex items-center gap-6 mt-4">
                                                 <p className="text-[9px] text-white/30 font-mono tracking-widest uppercase italic">PATH: /{page.slug}</p>
                                                 <div className="w-1 h-1 bg-white/10 rounded-full"></div>
@@ -408,7 +408,7 @@ export default function CMSPage() {
                     <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div>
-                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Asset Sanctuary</h3>
+                                <h3 className="text-3xl noto-serif font-black text-premium-cream tracking-tight">The Asset Sanctuary</h3>
                                 <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Encrypted Cloud Storage for Global Visual Nodes.</p>
                             </div>
                             <div className="relative">
@@ -469,7 +469,7 @@ export default function CMSPage() {
                                 <div className="w-24 h-24 bg-white/5 border border-white/10 shadow-2xl mx-auto flex items-center justify-center text-premium-gold/20 mb-10 rotate-12 group-hover:rotate-0 transition-transform duration-700 group-hover:text-premium-gold">
                                     <FiImage size={40} />
                                 </div>
-                                <h4 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">The Sanctuary Observes Persistence</h4>
+                                <h4 className="text-3xl noto-serif font-black text-premium-cream tracking-tight">The Sanctuary Observes Persistence</h4>
                                 <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mt-6">Ingest global assets to facilitate site-wide distribution.</p>
                             </div>
                         )}
@@ -480,7 +480,7 @@ export default function CMSPage() {
                     <div className="space-y-16 animate-in fade-in duration-700 relative z-10">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8 bg-black/40 p-10 border-l-8 border-premium-gold border-y border-white/5">
                             <div className="flex-1">
-                                <h3 className="text-3xl font-playfair font-black text-premium-cream tracking-tight">Modular Control Terminal</h3>
+                                <h3 className="text-3xl noto-serif font-black text-premium-cream tracking-tight">Modular Control Terminal</h3>
                                 <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em] mt-3">Direct Manipulation of Inline Dynamic Variables.</p>
                             </div>
                             <div className="w-full md:w-1/3 group relative">
@@ -560,7 +560,7 @@ export default function CMSPage() {
                                             })}
                                         {editorialKeys.filter(k => k.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
                                             <tr>
-                                                <td colSpan={4} className="py-48 text-center text-white/10 font-playfair italic text-2xl tracking-[0.2em]">
+                                                <td colSpan={4} className="py-48 text-center text-white/10 noto-serif italic text-2xl tracking-[0.2em]">
                                                     Zero intelligence nodes detected within filter parameters.
                                                 </td>
                                             </tr>

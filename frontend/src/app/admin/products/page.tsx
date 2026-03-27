@@ -149,7 +149,7 @@ export default function AdminProductsPage() {
     <div className="space-y-10 pb-20 max-w-[1600px] mx-auto px-4 md:px-0">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-premium-gold/20 pb-8">
         <div>
-          <h1 className="text-4xl font-playfair font-black text-premium-cream mb-2 tracking-tight">Product Catalog</h1>
+          <h1 className="text-4xl noto-serif font-black text-premium-cream mb-2 tracking-tight">Product Catalog</h1>
           <p className="text-premium-gold font-bold uppercase text-[10px] tracking-[0.3em]">Manage your premium boutique inventory and SEO metadata with precision.</p>
         </div>
         <button
@@ -167,7 +167,7 @@ export default function AdminProductsPage() {
       {showForm && (
         <div className="bg-[#1A1A1A] shadow-2xl border border-white/5 overflow-hidden animate-in fade-in slide-in-from-top-4 duration-300 relative">
           <div className="bg-premium-gold/5 px-10 py-6 border-b border-premium-gold/10 flex items-center justify-between">
-            <h2 className="text-xl font-playfair font-black text-premium-cream tracking-wide">{editingId ? 'Edit Masterpiece' : 'Configure New Listing'}</h2>
+            <h2 className="text-xl noto-serif font-black text-premium-cream tracking-wide">{editingId ? 'Edit Masterpiece' : 'Configure New Listing'}</h2>
             <div className="flex gap-2">
               {[
                 { id: 'general', label: 'General', icon: <FiBox /> },
@@ -195,7 +195,7 @@ export default function AdminProductsPage() {
                   <label className="block text-[9px] font-black text-white/40 mb-3 uppercase tracking-[0.3em]">Masterpiece Title</label>
                   <input
                     type="text"
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all font-playfair text-xl italic"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 text-premium-cream focus:border-premium-gold/50 focus:bg-white/10 outline-none transition-all noto-serif text-xl italic"
                     placeholder="Signature Oud"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -456,7 +456,7 @@ export default function AdminProductsPage() {
                         {product.image_url ? <img src={product.image_url} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" /> : <FiBox size={24} />}
                       </div>
                       <div>
-                        <p className="font-playfair font-black text-lg text-premium-cream group-hover:text-premium-gold transition-colors">{product.name}</p>
+                        <p className="noto-serif font-black text-lg text-premium-cream group-hover:text-premium-gold transition-colors">{product.name}</p>
                         <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest mt-1">ID: {product.sku || product.id?.slice(0, 8) || 'N/A'}</p>
                       </div>
                     </div>

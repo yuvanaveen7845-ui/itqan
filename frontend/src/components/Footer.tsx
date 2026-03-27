@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="lg:col-span-2 space-y-12">
             <Link href="/" className="group flex flex-col items-start gap-2 relative">
               <Editable id="footer_logo_main" fallback={(branding.name || 'iqtan').split(' ')[0]}>
-                <span className="text-4xl sm:text-5xl imperial-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-1000 uppercase">
+                <span className="text-4xl sm:text-5xl noto-serif text-white tracking-[0.8rem] group-hover:gold-luxury-text transition-all duration-1000 uppercase">
                   {(branding.name || 'iqtan').split(' ')[0]}
                 </span>
               </Editable>
@@ -40,7 +40,7 @@ export default function Footer() {
             
             <div className="space-y-6">
                <Editable id="footer_about" fallback="Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.">
-                 <p className="imperial-body text-sm leading-[2] max-w-sm">
+                 <p className="font-manrope text-sm leading-[2] max-w-sm text-white/60">
                    "{footer.about_text || 'Experience the pinnacle of fragrance craftsmanship with our exclusive collections, where every scent is a journey of heritage and luxury.'}"
                  </p>
                </Editable>
@@ -62,13 +62,13 @@ export default function Footer() {
           {/* Navigation Vaults */}
           <div className="space-y-10">
             <Editable id="footer_collections_header" fallback="The Archive">
-              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">The Archive</h3>
+              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-manrope">The Archive</h3>
             </Editable>
             <ul className="space-y-6">
               {['Private Reserve', 'Oud Masters', 'Floral Bloom', 'The Classics'].map((item, idx) => (
                 <li key={item} className="group">
                   <Editable id={`footer_collections_link_${idx}`} fallback={item}>
-                    <Link href="/products" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-inter flex items-center gap-3">
+                    <Link href="/products" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-manrope flex items-center gap-3">
                       <span className="w-0 group-hover:w-4 h-px bg-premium-gold transition-all"></span>
                       {item}
                     </Link>
@@ -80,13 +80,13 @@ export default function Footer() {
 
           <div className="space-y-10">
             <Editable id="footer_maison_header" fallback="Maison">
-              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">Maison</h3>
+              <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-manrope">Maison</h3>
             </Editable>
             <ul className="space-y-6">
               {['Our Heritage', 'Scent Discovery', 'Private Atelier', 'Legal Notice'].map((item, idx) => (
                 <li key={item} className="group">
                   <Editable id={`footer_maison_link_${idx}`} fallback={item}>
-                    <Link href="/about" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-inter flex items-center gap-3">
+                    <Link href="/about" className="text-[11px] font-black text-white/40 hover:text-premium-gold transition-all uppercase tracking-widest font-manrope flex items-center gap-3">
                       <span className="w-0 group-hover:w-4 h-px bg-premium-gold transition-all"></span>
                       {item}
                     </Link>
@@ -100,7 +100,7 @@ export default function Footer() {
           <div className="space-y-12">
             <div className="space-y-10">
               <Editable id="footer_contact_header" fallback="Concierge">
-                <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-inter">Concierge</h3>
+                <h3 className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.8em] font-manrope">Concierge</h3>
               </Editable>
               <div className="space-y-6">
                 <div className="flex items-center gap-4 group cursor-pointer relative">
@@ -125,7 +125,7 @@ export default function Footer() {
             <Editable id="footer_backtotop" fallback="Ascend to Apex">
               <button
                 onClick={scrollToTop}
-                className="group flex items-center gap-4 text-[9px] font-black text-premium-gold p-4 border border-premium-gold/10 hover:border-premium-gold/100 uppercase tracking-[0.6em] font-inter transition-all duration-700 signature-shimmer"
+                className="group flex items-center gap-4 text-[9px] font-black text-premium-gold p-4 border border-premium-gold/10 hover:border-premium-gold/100 uppercase tracking-[0.6em] font-manrope transition-all duration-700 signature-shimmer"
               >
                 Ascend to Apex <FiArrowUp className="group-hover:-translate-y-2 transition-transform duration-700" size={12} />
               </button>
@@ -140,7 +140,7 @@ export default function Footer() {
           
           <div className="flex flex-col gap-4 text-center md:text-left">
               <Editable id="footer_copyright" fallback="All rights reserved.">
-                <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] font-inter">
+                <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] font-manrope">
                   &copy; {new Date().getFullYear()} {branding.name}. ALL RIGHTS RESERVED.
                 </p>
               </Editable>

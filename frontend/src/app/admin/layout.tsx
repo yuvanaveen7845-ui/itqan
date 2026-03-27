@@ -74,9 +74,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <Link href="/" className="flex flex-col items-start gap-1 group">
                         <div className="flex items-center gap-4">
                             <FiCpu className="text-premium-gold animate-pulse" size={20} />
-                            <span className="text-2xl imperial-serif text-white tracking-widest group-hover:gold-luxury-text transition-all duration-700">Command</span>
+                            <span className="text-2xl noto-serif text-white tracking-widest group-hover:gold-luxury-text transition-all duration-700">Command</span>
                         </div>
-                        <p className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.5rem] mt-4 ml-1">Executive Core</p>
+                        <p className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.5rem] mt-4 ml-1 font-manrope">Executive Core</p>
                     </Link>
                 </div>
 
@@ -96,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     <span className={`text-xl transition-all duration-700 ${isActive ? 'text-premium-gold scale-110' : 'group-hover:text-premium-gold group-hover:scale-110'}`}>
                                         {item.icon}
                                     </span>
-                                    <span className={`text-[11px] font-black uppercase tracking-[0.3em] ${isActive ? 'text-white' : ''}`}>{item.name}</span>
+                                    <span className={`text-[11px] font-black uppercase tracking-[0.3em] font-manrope ${isActive ? 'text-white' : ''}`}>{item.name}</span>
                                 </div>
                                 {isActive && (
                                     <div className="flex gap-1">
@@ -112,14 +112,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="p-8 border-t border-white/5 relative">
                     <div className="liquid-gold-divider absolute top-0 left-0 opacity-20 rotate-180"></div>
                     <div className="arabesque-border glass-panel p-8 mb-8 group hover:border-premium-gold/40 transition-all duration-1000">
-                        <p className="text-[9px] font-black text-premium-gold/30 uppercase tracking-[0.6em] mb-6">Operative</p>
+                        <p className="text-[9px] font-black text-premium-gold/30 uppercase tracking-[0.6em] mb-6 font-manrope">Operative</p>
                         <div className="flex items-center gap-5">
-                            <div className="w-14 h-14 bg-zinc-900 border border-premium-gold/20 flex items-center justify-center text-premium-gold imperial-serif text-2xl group-hover:border-premium-gold transition-colors">
+                            <div className="w-14 h-14 bg-zinc-900 border border-premium-gold/20 flex items-center justify-center text-premium-gold noto-serif text-2xl group-hover:border-premium-gold transition-colors">
                                 {(user?.name || 'A').charAt(0)}
                             </div>
                             <div className="overflow-hidden">
-                                <p className="imperial-serif text-white truncate text-lg group-hover:gold-luxury-text transition-all">{user?.name || 'Administrator'}</p>
-                                <p className="text-[10px] text-premium-gold/40 font-black tracking-widest uppercase truncate mt-1">{(user?.role || 'admin').replace('_', ' ')}</p>
+                                <p className="noto-serif text-white truncate text-lg group-hover:gold-luxury-text transition-all">{user?.name || 'Administrator'}</p>
+                                <p className="text-[10px] text-premium-gold/40 font-black tracking-widest uppercase truncate mt-1 font-manrope">{(user?.role || 'admin').replace('_', ' ')}</p>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             logout();
                             router.push('/');
                         }}
-                        className="w-full flex items-center justify-center gap-4 py-5 bg-transparent border border-rose-500/20 text-rose-500/60 font-black text-[10px] uppercase tracking-[0.4em] hover:bg-rose-500/10 hover:text-rose-500 hover:border-rose-500 transition-all duration-700"
+                        className="w-full flex items-center justify-center gap-4 py-5 bg-transparent border border-rose-500/20 text-rose-500/60 font-black text-[10px] uppercase tracking-[0.4em] font-manrope hover:bg-rose-500/10 hover:text-rose-500 hover:border-rose-500 transition-all duration-700"
                     >
                         <FiLogOut size={16} />
                         <span>Sever Session</span>
