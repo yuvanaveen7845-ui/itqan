@@ -86,7 +86,7 @@ function LoginContent() {
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">Private Gateway</span>
                   </Editable>
                   <Editable id="login_title" fallback="Welcome Back">
-                      <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Welcome <span className="gold-luxury-text italic font-normal">Back</span></h1>
+                      <h1 className="text-6xl md:text-8xl noto-serif text-white lowercase">Welcome <span className="gold-luxury-text italic font-normal">Back</span></h1>
                   </Editable>
               </div>
           </div>
@@ -107,7 +107,7 @@ function LoginContent() {
                 </Editable>
                 <input
                   type="email"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl noto-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                   placeholder="master@atelier.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}

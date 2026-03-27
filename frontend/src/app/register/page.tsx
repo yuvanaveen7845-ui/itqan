@@ -102,7 +102,7 @@ export default function RegisterPage() {
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block">New Archive</span>
                   </Editable>
                   <Editable id="register_title" fallback="Join the Atelier">
-                      <h1 className="text-6xl md:text-8xl imperial-serif text-white lowercase">Join the <span className="gold-luxury-text italic font-normal">Atelier</span></h1>
+                      <h1 className="text-6xl md:text-8xl noto-serif text-white lowercase">Join the <span className="gold-luxury-text italic font-normal">Atelier</span></h1>
                   </Editable>
               </div>
           </div>
@@ -123,7 +123,7 @@ export default function RegisterPage() {
                 </Editable>
                 <input
                   type="text"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl noto-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                   placeholder="Your Name..."
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -137,7 +137,7 @@ export default function RegisterPage() {
                 </Editable>
                 <input
                   type="email"
-                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl imperial-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
+                  className="w-full bg-transparent border-b border-premium-gold/20 py-4 text-lg sm:text-2xl noto-serif italic text-white focus:outline-none focus:border-premium-gold transition-colors placeholder:text-white/30"
                   placeholder="master@atelier.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}

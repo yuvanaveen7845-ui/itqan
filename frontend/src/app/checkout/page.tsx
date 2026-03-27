@@ -188,7 +188,7 @@ export default function CheckoutPage() {
                       <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1rem] block animate-reveal">Secure Portal</span>
                   </Editable>
                   <Editable id="checkout_title" fallback="The Final Step">
-                      <h1 className="text-6xl md:text-9xl imperial-serif text-white animate-reveal lowercase" style={{ animationDelay: '0.2s' }}>
+                      <h1 className="text-6xl md:text-9xl noto-serif text-white animate-reveal lowercase" style={{ animationDelay: '0.2s' }}>
                           The <span className="gold-luxury-text italic font-normal">Final Step</span>
                       </h1>
                   </Editable>
@@ -201,9 +201,9 @@ export default function CheckoutPage() {
           {/* Form Side */}
           <div className="lg:col-span-7 space-y-16">
             <div className="flex items-center gap-8 border-b border-premium-gold/10 pb-8">
-               <span className="text-4xl imperial-serif italic text-premium-gold">01</span>
+               <span className="text-4xl noto-serif italic text-premium-gold">01</span>
                <Editable id="checkout_section_1_title" fallback="Delivery Sanctuary">
-                 <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Delivery Sanctuary</h2>
+                 <h2 className="text-2xl sm:text-3xl noto-serif text-white lowercase">Delivery Sanctuary</h2>
                </Editable>
             </div>
 
@@ -284,9 +284,9 @@ export default function CheckoutPage() {
           {/* Detailed Summary Side */}
           <div className="lg:col-span-5 lg:sticky lg:top-40 space-y-12 sm:space-y-16 lg:pl-8">
             <div className="flex items-center gap-6 sm:gap-8 border-b border-premium-gold/10 pb-8">
-               <span className="text-4xl imperial-serif italic text-premium-gold">02</span>
+               <span className="text-4xl noto-serif italic text-premium-gold">02</span>
                <Editable id="checkout_section_2_title" fallback="Acquisition Ledger">
-                 <h2 className="text-2xl sm:text-3xl imperial-serif text-white lowercase">Acquisition Ledger</h2>
+                 <h2 className="text-2xl sm:text-3xl noto-serif text-white lowercase">Acquisition Ledger</h2>
                </Editable>
             </div>
 
@@ -347,11 +347,11 @@ export default function CheckoutPage() {
                     <span>-₹{discountAmount.toLocaleString()}</span>
                  </div>
                )}
-               <div className="flex justify-between items-center pt-8 border-t border-premium-gold">
+               <div className="flex justify-between items-center pt-8 border-t border-premium-gold/30">
                   <Editable id="checkout_summary_total" fallback="Investment">
                     <span className="text-[11px] font-black text-premium-gold uppercase tracking-[0.4em]">Investment</span>
                   </Editable>
-                  <span className="text-3xl sm:text-5xl imperial-serif text-white">
+                  <span className="text-3xl sm:text-5xl noto-serif text-white font-normal">
                     ₹{(confirmedTotal ?? (getTotal() + shippingCost - discountAmount)).toLocaleString()}
                   </span>
                </div>
