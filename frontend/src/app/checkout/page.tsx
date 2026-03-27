@@ -30,6 +30,10 @@ export default function CheckoutPage() {
   const [error, setError] = useState('');
   const [shippingCost, setShippingCost] = useState(0);
   const [confirmedTotal, setConfirmedTotal] = useState<number | null>(null);
+  const [couponCode, setCouponCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
 
   useEffect(() => {
     if (formData.zipcode.length === 6) {
@@ -156,11 +160,6 @@ export default function CheckoutPage() {
       setLoading(false);
     }
   };
-
-  const [couponCode, setCouponCode] = useState('');
-  const [discountAmount, setDiscountAmount] = useState(0);
-  const [couponLoading, setCouponLoading] = useState(false);
-  const [couponApplied, setCouponApplied] = useState(false);
 
   const applyCoupon = async () => {
     if (!couponCode) return;

@@ -49,9 +49,9 @@ export default function HomePage() {
           />
           {/* Main Fitted Image */}
           <div className="relative z-10 w-full h-full">
-            <Editable id="hero_image" type="image" fallback="/images/exotic/hero.png" className="w-full h-full">
+            <Editable id="hero_image" type="image" fallback="https://images.unsplash.com/photo-1600711578344-3bf4a4c94d3e?auto=format&fit=crop&q=80&w=2500" className="w-full h-full">
               <img
-                src="/images/exotic/hero.png"
+                src="https://images.unsplash.com/photo-1600711578344-3bf4a4c94d3e?auto=format&fit=crop&q=80&w=2500"
                 alt="Luxury Perfume"
                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[3s]"
               />
@@ -186,8 +186,8 @@ export default function HomePage() {
       <section className="py-40 bg-premium-black overflow-hidden px-6 sm:px-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/5">
           <div className="relative group min-h-[600px] bg-zinc-900 overflow-hidden">
-            <Editable id="ingredient_1_img" type="image" fallback="/images/exotic/oud_gold.png">
-              <img src="/images/exotic/oud_gold.png" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Rare Oud" />
+            <Editable id="ingredient_1_img" type="image" fallback="https://images.unsplash.com/photo-1595501764895-f5eedcea23f0?auto=format&fit=crop&q=80&w=1200">
+              <img src="https://images.unsplash.com/photo-1595501764895-f5eedcea23f0?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Rare Oud" />
             </Editable>
             <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black to-transparent">
               <Editable id="ingredient_1_title" fallback="Madagascan Vanilla">
@@ -199,8 +199,8 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative group min-h-[600px] bg-zinc-900 overflow-hidden border-l border-white/5">
-            <Editable id="ingredient_2_img" type="image" fallback="/images/exotic/rose_gold.png">
-              <img src="/images/exotic/rose_gold.png" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Damask Rose" />
+            <Editable id="ingredient_2_img" type="image" fallback="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=1200">
+              <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-[5s]" alt="Damask Rose" />
             </Editable>
             <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black to-transparent">
               <Editable id="ingredient_2_title" fallback="Taif Rose">
@@ -265,8 +265,8 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 h-auto lg:h-[900px] border-y border-white/5">
           <Link href="/products?category=Oud" className="relative group overflow-hidden flex items-end justify-center p-16 text-center border-r border-white/5 min-h-[600px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_oud_image" type="image" fallback="/images/exotic/oud_gold.png">
-                <img src="/images/exotic/oud_gold.png" alt="Oud Smoke Gold" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_oud_image" type="image" fallback="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&q=80&w=1200">
+                <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&q=80&w=1200" alt="Oud Smoke Gold" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
@@ -285,8 +285,8 @@ export default function HomePage() {
 
           <Link href="/products?category=Floral" className="relative group overflow-hidden flex items-end justify-center p-16 text-center border-r border-white/5 min-h-[600px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_floral_image" type="image" fallback="/images/exotic/rose_gold.png">
-                <img src="/images/exotic/rose_gold.png" alt="Rose Gold Dew" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_floral_image" type="image" fallback="https://images.unsplash.com/photo-1490750967868-88df5691cc3e?auto=format&fit=crop&q=80&w=1200">
+                <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc3e?auto=format&fit=crop&q=80&w=1200" alt="Rose Gold Dew" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
@@ -305,8 +305,8 @@ export default function HomePage() {
 
           <Link href="/products?category=Spicy" className="relative group overflow-hidden flex items-end justify-center p-16 text-center min-h-[600px]">
             <div className="absolute inset-0 z-0">
-              <Editable id="gallery_spicy_image" type="image" fallback="/images/exotic/saffron_gold.png">
-                <img src="/images/exotic/saffron_gold.png" alt="Spicy" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
+              <Editable id="gallery_spicy_image" type="image" fallback="https://images.unsplash.com/photo-1506905925346-21bda4e3d0e4?auto=format&fit=crop&q=80&w=1200">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4e3d0e4?auto=format&fit=crop&q=80&w=1200" alt="Spicy" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-[4s]" />
               </Editable>
               <div className="absolute inset-0 bg-premium-black/40 group-hover:bg-premium-black/10 transition-colors duration-1000"></div>
             </div>
