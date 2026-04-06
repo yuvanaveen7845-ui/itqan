@@ -1,27 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Row, Col, Select, Drawer, Badge, Button, Input } from 'antd';
+import { ShoppingOutlined, SearchOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { productAPI, cmsAPI } from '@/lib/api';
+import { productAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
-import { useCMSStore } from '@/store/cms';
-import Editable from '@/components/Editable';
-import MistBackground from '@/components/MistBackground';
+import { useCartStore } from '@/store/cart';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const heroImageUrl = useCMSStore((state) => state.inlineContent['hero_image']) || "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=2500"; 
-  // Perfume bottle hero
+  const [searchOpen, setSearchOpen] = useState(false);
+  
+  // Cart Drawer
+  const [cartVisible, setCartVisible] = useState(false);
+  const { items: cartItems, getTotal, removeItem } = useCartStore();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [productsRes] = await Promise.all([
-          productAPI.getAll({ limit: 4 })
-        ]);
-        setFeaturedProducts(productsRes.data.products || []);
+        const { data } = await productAPI.getAll({ limit: 4 });
+        setFeaturedProducts(data.products || []);
       } catch (error) {
         console.error('Failed to fetch homepage data:', error);
       } finally {
@@ -31,244 +32,220 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
-    <div className="bg-premium-black min-h-screen selection:bg-premium-gold selection:text-black font-manrope">
-      {/* Global Scent Mist */}
-      <MistBackground />
-
-      {/* Hero 2.0: The Liquid Veil */}
-      <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="bg-white min-h-screen text-gray-900" style={{ fontFamily: "'Poppins', sans-serif" }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        .ant-drawer-title { font-weight: 700; letter-spacing: 0.05em; font-size: 1.1rem; }
+      `}} />
+      
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 py-5 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+        <div className="flex items-center gap-4 md:hidden">
+            <MenuOutlined className="text-2xl cursor-pointer text-gray-800" />
+        </div>
         
-        {/* Animated Liquid Blob Behind Hero Text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-premium-gold/20 to-transparent blur-3xl opacity-50 animate-pulse mix-blend-screen pointer-events-none rounded-[40%_60%_70%_30%/40%_50%_60%_50%]"></div>
-
-        <div className="absolute inset-0 z-0 scale-105 animate-slow-zoom">
-          <Editable id="hero_image" type="image" fallback={heroImageUrl} className="w-full h-full">
-            <img
-              src={heroImageUrl}
-              alt="Liquid Gold Perfume"
-              className="w-full h-full object-cover opacity-60"
-            />
-          </Editable>
-          <div className="absolute inset-0 bg-gradient-to-b from-premium-black/40 via-transparent to-premium-black"></div>
+        {/* Desktop Menu Left */}
+        <div className="hidden md:flex items-center gap-8 text-[13px] uppercase font-semibold tracking-wider text-gray-600">
+            <Link href="/" className="text-black border-b-2 border-[#C8A165] pb-1">Home</Link>
+            <Link href="/products" className="hover:text-[#C8A165] transition-colors">Shop All</Link>
+            <Link href="#" className="hover:text-[#C8A165] transition-colors">Bestsellers</Link>
+            <Link href="#" className="hover:text-[#C8A165] transition-colors">Perfumes</Link>
         </div>
 
-        <div className="relative z-20 text-center px-4 mt-20">
-          <Editable id="hero_eyebrow" fallback="L'Extrait de Parfum">
-            <span className="text-[10px] font-black text-premium-gold uppercase tracking-[1.5em] mb-12 block drop-shadow-2xl animate-reveal opacity-80">
-              L'Extrait de Parfum
-            </span>
-          </Editable>
-
-          {/* Extreme Editorial Typography */}
-          <Editable id="hero_title" fallback="The Scent of the Sublime">
-            <h1 className="text-7xl sm:text-9xl md:text-[180px] lg:text-[220px] noto-serif text-white leading-[0.85] tracking-tighter mb-16 animate-reveal drop-shadow-2xl" style={{ animationDelay: '0.2s' }}>
-              <span className="block ml-[-10vw] italic text-white/90 font-light">Scent</span> 
-              <span className="block mr-[-10vw] gold-luxury-text">Sublime</span>
-            </h1>
-          </Editable>
-
-          <Editable id="hero_cta" fallback="Inhale the Collection">
-             <Link href="/products" className="inline-block mt-8 group relative px-16 py-6 border border-premium-gold/30 text-[10px] font-black uppercase tracking-[0.8em] text-white overflow-hidden glass-refraction">
-                <span className="relative z-10 group-hover:text-black transition-colors duration-700">Inhale the Collection</span>
-                <div className="absolute inset-0 bg-premium-gold translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"></div>
-             </Link>
-          </Editable>
+        {/* Logo Center */}
+        <div className="text-2xl md:text-[28px] font-black uppercase tracking-[0.2em] text-center flex-1 md:flex-none text-black">
+            BELLAVITA
         </div>
-      </section>
 
-      {/* The Extraction Process - Cinematic Split Scroll */}
-      <section className="py-40 relative z-20">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-12">
-          
-          <div className="mb-32 text-center">
-             <Editable id="alchemy_title" fallback="The Alchemy">
-               <h2 className="text-4xl md:text-8xl noto-serif text-white"><span className="italic gold-luxury-text pr-4">The</span> Alchemy</h2>
-             </Editable>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden arabesque-border shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
-            {/* Visual Side */}
-            <div className="relative h-[600px] lg:h-[800px] group bg-zinc-900 border-r border-premium-gold/10">
-              <Editable id="alchemy_image" type="image" fallback="https://images.unsplash.com/photo-1615634260167-98cbce11bc0e?auto=format&fit=crop&q=80&w=1200">
-                <img src="https://images.unsplash.com/photo-1615634260167-98cbce11bc0e?auto=format&fit=crop&q=80&w=1200" alt="Amber Resin Liquid" className="w-full h-full object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-[7s] opacity-80" />
-              </Editable>
+        {/* Desktop Menu Right + Icons */}
+        <div className="flex items-center gap-6 justify-end">
+            <div className="hidden lg:flex items-center gap-8 text-[13px] uppercase font-semibold tracking-wider text-gray-600 mr-4">
+                <Link href="#" className="hover:text-[#C8A165] transition-colors">Bath & Body</Link>
+                <Link href="#" className="hover:text-[#C8A165] transition-colors">Skincare</Link>
+                <Link href="#" className="hover:text-[#C8A165] transition-colors">Gifting</Link>
             </div>
-            {/* Text Side */}
-            <div className="bg-premium-black/80 backdrop-blur-xl p-16 lg:p-32 flex flex-col justify-center relative">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-premium-gold/5 blur-3xl rounded-full"></div>
-               <span className="text-[9px] font-black uppercase tracking-[0.8em] text-premium-gold mb-8 block">Extract & Age</span>
-               <h3 className="text-5xl lg:text-7xl imperial-serif text-white mb-12">From Resin <br/>to <span className="italic gold-luxury-text">Aura</span></h3>
-               <p className="text-xl text-white/50 leading-relaxed font-manrope mb-16">
-                 We do not blend; we age. Our essences are matured in pitch-black cedar-lined chambers for a minimum of thirty-six months. The result is a sillage so dense, it leaves a shadow in the air.
+            
+            <div className="flex items-center gap-5 text-2xl text-gray-800">
+                {searchOpen ? (
+                   <Input 
+                     autoFocus
+                     placeholder="Search..." 
+                     className="w-48 rounded-full border-gray-300 font-poppins"
+                     onBlur={() => setSearchOpen(false)}
+                     prefix={<SearchOutlined />}
+                   />
+                ) : (
+                   <SearchOutlined className="cursor-pointer hover:text-[#C8A165] transition-colors" onClick={() => setSearchOpen(true)} />
+                )}
+                <UserOutlined className="cursor-pointer hover:text-[#C8A165] transition-colors hidden sm:block" />
+                <Badge count={cartItemCount} color="#C8A165" offset={[-2, 4]} size="small">
+                    <ShoppingOutlined className="cursor-pointer hover:text-[#C8A165] transition-colors text-2xl" onClick={() => setCartVisible(true)} />
+                </Badge>
+            </div>
+        </div>
+      </header>
+
+      {/* Cart Drawer */}
+      <Drawer
+        title="YOUR CART"
+        placement="right"
+        onClose={() => setCartVisible(false)}
+        open={cartVisible}
+        width={400}
+        drawerStyle={{ backgroundColor: '#fff', fontFamily: "'Poppins', sans-serif" }}
+        headerStyle={{ borderBottom: '1px solid #f0f0f0', padding: '24px' }}
+        bodyStyle={{ display: 'flex', flexDirection: 'column', padding: '0' }}
+      >
+        {cartItems.length === 0 ? (
+            <div className="text-center py-32 px-8 flex flex-col items-center">
+                <ShoppingOutlined className="text-6xl text-gray-200 mb-6" />
+                <p className="text-gray-500 font-medium mb-8">Your cart is currently empty.</p>
+                <Button type="primary" onClick={() => setCartVisible(false)} className="bg-black hover:bg-gray-800 border-none h-12 uppercase tracking-wide font-semibold px-8 rounded-md">
+                    Continue Shopping
+                </Button>
+            </div>
+        ) : (
+            <div className="flex flex-col h-full">
+                <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
+                    {cartItems.map((item) => (
+                        <div key={item.product_id} className="flex gap-5 border-b border-gray-100 pb-6">
+                           <div className="w-24 h-24 bg-[#f8f8f8] rounded-md flex items-center justify-center p-2 flex-shrink-0">
+                               <img src={item.image} alt={item.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                           </div>
+                           <div className="flex-1 flex flex-col pt-1">
+                               <h4 className="text-[13px] font-semibold text-gray-900 leading-snug mb-2 line-clamp-2">{item.name}</h4>
+                               <p className="text-gray-500 text-[11px] uppercase tracking-wider mb-auto">Qty: {item.quantity}</p>
+                               <div className="flex justify-between items-center mt-3">
+                                   <span className="font-bold text-[15px]">₹{item.price}</span>
+                                   <button onClick={() => removeItem(item.product_id)} className="text-[11px] uppercase tracking-wide text-gray-400 hover:text-black transition-colors font-semibold">Remove</button>
+                               </div>
+                           </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="border-t border-gray-100 p-6 bg-gray-50 mt-auto">
+                    <div className="flex justify-between items-center mb-6 text-lg font-bold text-gray-900">
+                        <span>Subtotal</span>
+                        <span>₹{getTotal()}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 text-center mb-6">Taxes and shipping calculated at checkout</p>
+                    <Link href="/checkout">
+                      <Button type="primary" block className="bg-black hover:bg-gray-800 border-none h-[52px] uppercase tracking-[0.1em] font-semibold text-[13px] rounded-lg">
+                          Proceed to Checkout
+                      </Button>
+                    </Link>
+                </div>
+            </div>
+        )}
+      </Drawer>
+
+      {/* Hero Banner Section */}
+      <section className="relative w-full h-[85vh] bg-[#fafafa]">
+        <img 
+            src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=2500" 
+            alt="Luxury Perfume" 
+            className="w-full h-full object-cover object-center opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent flex items-center">
+            <div className="px-8 md:px-24">
+               <h2 className="text-[#C8A165] font-bold uppercase tracking-[0.25em] text-sm md:text-md mb-6">New Arrivals</h2>
+               <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight max-w-2xl">
+                 Crafted for the <br/>Senses.
+               </h1>
+               <p className="text-white/80 text-lg md:text-xl font-light mb-10 max-w-lg">
+                 Experience our new collection of luxury Eau de Parfums designed to leave a lasting impression.
                </p>
-               
-               <div className="grid grid-cols-2 gap-8 pt-12 border-t border-white/5">
-                 <div>
-                   <span className="text-3xl text-premium-gold imperial-serif block mb-2">36 Mo.</span>
-                   <span className="text-[9px] uppercase tracking-widest text-white/40">Dark Maturation</span>
-                 </div>
-                 <div>
-                   <span className="text-3xl text-premium-gold imperial-serif block mb-2">0%</span>
-                   <span className="text-[9px] uppercase tracking-widest text-white/40">Synthetic Filler</span>
-                 </div>
-               </div>
+               <Link href="/products">
+                 <Button type="primary" size="large" className="bg-white hover:bg-gray-100 text-black uppercase tracking-[0.15em] font-semibold px-12 border-none h-14 rounded-full text-sm shadow-xl">
+                    Shop The Collection
+                 </Button>
+               </Link>
             </div>
-          </div>
         </div>
       </section>
 
-      {/* Floating Ingredient Dossier - Replaces Generic Grids */}
-      <section className="py-40 relative border-y border-white/5 bg-[#0a0a0a]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.03)_0%,transparent_100%)]"></div>
-        
-        <div className="max-w-[1800px] mx-auto px-4 sm:px-12 text-center mb-32 relative z-10">
-          <Editable id="ingredients_eyebrow" fallback="Raw Anatomy">
-             <p className="text-premium-gold text-[10px] uppercase tracking-[1em] mb-8">Raw Anatomy</p>
-          </Editable>
-          <Editable id="ingredients_title" fallback="The Source Material">
-             <h2 className="text-6xl md:text-9xl noto-serif text-white">The <span className="italic gold-luxury-text">Source</span> Material</h2>
-          </Editable>
-        </div>
-
-        {/* Masonry-style overlapping layout for ingredients */}
-        <div className="relative h-auto lg:h-[1000px] max-w-[1600px] mx-auto px-4 sm:px-12">
-           
-           {/* Oud Element */}
-           <div className="lg:absolute top-10 left-10 w-full lg:w-[45%] h-[500px] group mb-12 lg:mb-0">
-              <div className="w-full h-full relative overflow-hidden arabesque-border glass-refraction">
-                <Editable id="ing_oud_img" type="image" fallback="https://images.unsplash.com/photo-1608528577891-eb05fcdbfcf2?auto=format&fit=crop&q=80&w=1200">
-                  <img src="https://images.unsplash.com/photo-1608528577891-eb05fcdbfcf2?auto=format&fit=crop&q=80&w=1200" alt="Agarwood Smoke" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[5s] opacity-60" />
-                </Editable>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-12 flex flex-col justify-end">
-                  <span className="text-[9px] text-premium-gold uppercase tracking-[0.5em] mb-4">Base Note</span>
-                  <h3 className="text-5xl imperial-serif text-white">Cambodian <span className="italic gold-luxury-text">Oud</span></h3>
-                </div>
-              </div>
-           </div>
-
-           {/* Rose Element */}
-           <div className="lg:absolute bottom-10 right-10 w-full lg:w-[50%] h-[600px] group mb-12 lg:mb-0 z-20">
-              <div className="w-full h-full relative overflow-hidden arabesque-border glass-refraction shadow-[0_30px_60px_rgba(0,0,0,0.8)]">
-                <Editable id="ing_rose_img" type="image" fallback="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=1200">
-                  <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=1200" alt="Crushed Rose Petals" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[5s] opacity-70" />
-                </Editable>
-                <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent p-16 flex flex-col justify-end">
-                  <span className="text-[9px] text-premium-gold uppercase tracking-[0.5em] mb-4">Heart Note</span>
-                  <h3 className="text-6xl imperial-serif text-white">Damask <span className="italic gold-luxury-text">Rose</span></h3>
-                  <p className="text-sm text-white/50 mt-6 max-w-sm">Distilled immediately at dawn to capture the volatile green compounds missing from inferior absolute.</p>
-                </div>
-              </div>
-           </div>
-
-           {/* Saffron Element - Parallax Overlay */}
-           <div className="lg:absolute top-[20%] right-[40%] w-full lg:w-[35%] h-[400px] group z-10 hidden lg:block">
-              <div className="w-full h-full relative overflow-hidden border border-white/5 opacity-80 hover:opacity-100 transition-opacity duration-1000 glass-panel">
-                <Editable id="ing_saffron_img" type="image" fallback="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=800">
-                  <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=800" alt="Saffron Threads" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[5s] saturate-0 group-hover:saturate-100" />
-                </Editable>
-                <div className="absolute inset-0 bg-black/50 p-8 flex flex-col items-center justify-center text-center">
-                  <h3 className="text-4xl imperial-serif text-white">Red <span className="italic gold-luxury-text">Gold</span></h3>
-                  <span className="text-[8px] text-white/40 uppercase tracking-[0.5em] mt-4">Top Note • Kashmir</span>
-                </div>
-              </div>
-           </div>
-
-        </div>
-      </section>
-
-      {/* The Extrait Collection - Carousel Alternative */}
-      <section className="py-40 bg-premium-black relative">
-        <div className="max-w-[1800px] mx-auto px-4 sm:px-12 mb-20 flex flex-col md:flex-row justify-between items-end gap-12 border-b border-white/10 pb-16">
-          <div>
-            <Editable id="collection_eyebrow" fallback="The Vault">
-              <p className="text-premium-gold text-[11px] font-black uppercase tracking-[0.8em] mb-6">The Vault</p>
-            </Editable>
-            <Editable id="collection_title" fallback="Bottled Masterpieces">
-              <h2 className="text-5xl md:text-8xl noto-serif text-white">Bottled <span className="gold-luxury-text italic">Masterpieces</span></h2>
-            </Editable>
-          </div>
-          <Link href="/products" className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 hover:text-premium-gold transition-colors pb-2 border-b border-premium-gold/0 hover:border-premium-gold">
-            Enter The Vault →
-          </Link>
+      {/* Bestsellers Section */}
+      <section className="max-w-[1400px] mx-auto px-5 md:px-10 py-24">
+        <div className="flex justify-between items-end mb-12 border-b border-gray-100 pb-6">
+            <div>
+               <h3 className="text-[#a68249] font-bold uppercase tracking-[0.2em] text-xs mb-3">Our Signature Range</h3>
+               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">Bestsellers</h2>
+            </div>
+            <Link href="/products" className="text-sm font-semibold uppercase tracking-wider text-gray-500 hover:text-black transition-colors hidden sm:block">
+                View All →
+            </Link>
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center h-96">
-            <div className="w-12 h-12 border border-premium-gold border-t-transparent rounded-full animate-spin"></div>
-          </div>
+            <div className="flex justify-center py-24">
+                <div className="w-12 h-12 border-4 border-gray-100 border-t-[#C8A165] rounded-full animate-spin"></div>
+            </div>
         ) : (
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-24 px-4 sm:px-12 ${featuredProducts.length < 4 ? 'justify-items-center' : ''}`}>
-             {featuredProducts.length > 0 ? (
-                featuredProducts.map((product) => (
-                  <div key={product.id} className="group cursor-pointer">
-                    {/* Simplified, hyper-elegant product display */}
-                    <Link href={`/products/${product.id}`} className="block">
-                      <div className="relative aspect-[3/4] overflow-hidden bg-[#0a0a0a] glass-refraction border border-white/5 group-hover:border-premium-gold/30 transition-colors duration-700 mb-8">
-                         <img 
-                           src={product.attributes?.find((a: any) => a.name === 'image_url')?.value || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800'} 
-                           alt={product.title}
-                           className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
-                         />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
-                         
-                         {/* Sillage Indicator Overlay */}
-                         <div className="absolute bottom-6 left-6 right-6 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
-                            <span className="text-[8px] uppercase tracking-[0.3em] text-white/60">Sillage</span>
-                            <div className="flex-1 h-px bg-white/20 relative">
-                               <div className="absolute top-0 left-0 h-full bg-premium-gold w-[80%] shadow-[0_0_10px_rgba(197,160,89,0.8)]"></div>
-                            </div>
-                         </div>
-                      </div>
-                      <div className="text-center px-4">
-                         <p className="text-[9px] text-premium-gold uppercase tracking-[0.4em] mb-3">{product.category?.name || 'Extrait'}</p>
-                         <h4 className="text-2xl imperial-serif text-white group-hover:gold-luxury-text transition-colors duration-500 mb-2">{product.title}</h4>
-                      </div>
-                    </Link>
-                  </div>
-                ))
-              ) : (
-                <Editable id="home_products_empty" fallback="Our masterpieces are currently maturing in the vault.">
-                  <div className="col-span-full text-center py-20 text-premium-charcoal/40 font-bold uppercase tracking-widest">
-                    Our masterpieces are currently maturing in the vault.
-                  </div>
-                </Editable>
-              )}
-          </div>
+            <Row gutter={[24, 48]}>
+                {featuredProducts.length > 0 ? (
+                    featuredProducts.map((product, index) => (
+                        <Col xs={24} sm={12} lg={6} key={product.id}>
+                            <ProductCard product={product} badge={index % 2 === 0 ? "Bestseller" : "New"} />
+                        </Col>
+                    ))
+                ) : (
+                    <div className="w-full text-center py-20 text-gray-400 font-semibold tracking-wider uppercase">
+                        No products available.
+                    </div>
+                )}
+            </Row>
         )}
       </section>
 
-      {/* The Society of Scent - Newsletter */}
-      <section className="py-40 bg-zinc-950 text-center relative overflow-hidden border-t border-white/5 pt-60 pb-60">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-gradient-to-b from-premium-gold/10 to-transparent blur-3xl rounded-full pointer-events-none opacity-20"></div>
-        
-        <div className="max-w-3xl mx-auto px-4 relative z-20 space-y-16">
-          <div>
-            <Editable id="society_eyebrow" fallback="By Invitation Only">
-              <p className="text-premium-gold text-[9px] font-black uppercase tracking-[1rem] mb-8">By Invitation Only</p>
-            </Editable>
-            <Editable id="society_title" fallback="The Scent Society">
-              <h2 className="text-6xl sm:text-8xl md:text-[100px] noto-serif text-white leading-none">The Scent <span className="italic gold-luxury-text block mt-4">Society</span></h2>
-            </Editable>
-            <p className="mt-8 text-white/40 text-sm uppercase tracking-widest max-w-lg mx-auto leading-loose">
-              Receive privileged access to private olfactory commissions and unreleased vintage extraits.
-            </p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-0 max-w-xl mx-auto border border-premium-gold/30 bg-black/50 p-2 glass-refraction">
-            <input
-              type="email"
-              placeholder="ENTER YOUR DETAILS"
-              className="flex-1 bg-transparent px-8 py-6 text-[10px] font-black uppercase tracking-widest outline-none transition-all placeholder:text-white/20 text-white text-center sm:text-left"
-            />
-            <button className="bg-white/5 hover:bg-premium-gold text-premium-gold hover:text-black px-12 py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all duration-700">
-               <Editable id="society_btn" fallback="Subscribe">
-                 <span>Subscribe</span>
-               </Editable>
-            </button>
-          </div>
-        </div>
+      {/* Categories Banner Section */}
+      <section className="py-24 bg-[#fdfaf6]">
+         <div className="max-w-[1400px] mx-auto px-5 md:px-10 text-center">
+             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mb-16">Shop by Category</h2>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div className="relative aspect-[4/5] overflow-hidden group cursor-pointer bg-black/5 rounded-2xl">
+                    <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=800" alt="For Her" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
+                        <h3 className="text-2xl font-bold text-white mb-2">For Her</h3>
+                        <p className="text-white/70 text-sm font-medium">Discover elegant florals</p>
+                    </div>
+                 </div>
+                 <div className="relative aspect-[4/5] overflow-hidden group cursor-pointer bg-black/5 rounded-2xl">
+                    <img src="https://images.unsplash.com/photo-1615634260167-98cbce11bc0e?auto=format&fit=crop&q=80&w=800" alt="For Him" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
+                        <h3 className="text-2xl font-bold text-white mb-2">For Him</h3>
+                        <p className="text-white/70 text-sm font-medium">Explore woody & spicy notes</p>
+                    </div>
+                 </div>
+                 <div className="relative aspect-[4/5] overflow-hidden group cursor-pointer bg-black/5 rounded-2xl">
+                    <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&q=80&w=800" alt="Unisex" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
+                        <h3 className="text-2xl font-bold text-white mb-2">Unisex</h3>
+                        <p className="text-white/70 text-sm font-medium">A blend of universal appeal</p>
+                    </div>
+                 </div>
+             </div>
+         </div>
       </section>
+
+      {/* Brand Story Footer */}
+      <footer className="bg-black text-white pt-24 pb-12 px-6 md:px-12 text-center">
+         <h2 className="text-[#C8A165] text-xl font-bold tracking-[0.2em] mb-4 uppercase">BELLAVITA</h2>
+         <p className="max-w-2xl mx-auto text-gray-400 font-light leading-relaxed mb-16">
+            We believe that a scent is the most intimate branding you can wear. 
+            Crafted with the finest ingredients, our perfumes are designed to evoke memories and leave an unforgettable signature.
+         </p>
+         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold tracking-wider text-gray-500 uppercase">
+             <span>© 2026 BELLAVITA PERFUMES. ALL RIGHTS RESERVED.</span>
+             <div className="flex gap-6">
+                 <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+                 <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+                 <Link href="#" className="hover:text-white transition-colors">Contact</Link>
+             </div>
+         </div>
+      </footer>
     </div>
   );
 }
