@@ -41,9 +41,19 @@ module.exports = {
             transform: 'translateY(0)',
           },
         },
+        'reveal': {
+          '0%': { opacity: '0', transform: 'translateY(40px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'slow-zoom': {
+          '0%': { transform: 'scale(1.05)' },
+          '100%': { transform: 'scale(1)' },
+        }
       },
       animation: {
         'fade-in-up': 'fade-in-up 1s ease-out forwards',
+        'reveal': 'reveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards',
+        'slow-zoom': 'slow-zoom 10s ease-out forwards',
       },
     },
   },

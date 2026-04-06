@@ -1,4 +1,3 @@
-// Imperial Scent UI Deploy: Phase 14 - Exotic Gold Products Overhaul
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,7 +5,7 @@ import Editable from '@/components/Editable';
 import Link from 'next/link';
 import { productAPI } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
-import { FiSliders, FiX, FiCheck } from 'react-icons/fi';
+import { FiSliders, FiX, FiCheck, FiSearch } from 'react-icons/fi';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -46,134 +45,122 @@ export default function ProductsPage() {
     });
 
   return (
-    <div className="min-h-screen bg-premium-black selection:bg-premium-gold selection:text-black">
-      {/* Exotic Boutique Header Section */}
-      <section className="bg-premium-black pt-36 sm:pt-60 pb-20 sm:pb-40 px-4 sm:px-12 md:px-24 boutique-layout border-b border-white/5 gold-dust-overlay relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-premium-black z-10"></div>
-        <div className="flex flex-col items-center text-center space-y-12 relative z-20">
-          <Editable id="products_eyebrow" type="text" fallback="Curated Artisan Scents">
-            <span className="text-premium-gold text-[10px] font-black uppercase tracking-[1.2rem] block animate-reveal">Collections</span>
-          </Editable>
-          <Editable id="products_title" type="richtext" fallback="Specialist Editions">
-            <h1 className="text-5xl sm:text-6xl md:text-[100px] lg:text-[140px] imperial-serif text-white animate-reveal leading-none" style={{ animationDelay: '0.2s' }}>
-              Specialist <br />
-              <span className="gold-luxury-text italic lowercase font-normal">Editions</span>
-            </h1>
-          </Editable>
-          <div className="w-32 h-px bg-gradient-to-r from-transparent via-premium-gold to-transparent animate-reveal" style={{ animationDelay: '0.4s' }}></div>
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+      {/* Simple Header */}
+      <section className="bg-white pt-24 sm:pt-32 pb-6 px-4 border-b border-gray-200">
+        <div className="max-w-[1400px] mx-auto text-center">
+            <Editable id="products_title" type="text" fallback="All Perfumes">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-2 font-inter">
+                All Perfumes
+              </h1>
+            </Editable>
         </div>
       </section>
 
-      <div className="liquid-gold-divider opacity-30"></div>
+      <div className="max-w-[1400px] mx-auto px-4 w-full py-6">
+        {/* Top Controls Bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-sm font-semibold uppercase tracking-wider text-gray-700 hover:bg-gray-50 transition-colors rounded-sm"
+          >
+            <FiSliders size={16} />
+            {isFilterOpen ? 'Hide Filters' : 'Filter'}
+          </button>
 
-      <div className="max-w-[1800px] mx-auto px-4 sm:px-8 md:px-12 py-12">
-        <div className="flex flex-col lg:flex-row justify-between items-center mb-16 gap-6 border-b border-white/5 pb-12">
-          <div className="flex items-center gap-12">
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-white hover:text-premium-gold transition-all"
-            >
-              <div className={`p-3 rounded-full border transition-all ${isFilterOpen ? 'bg-premium-gold border-premium-gold text-black' : 'border-white/10 group-hover:border-premium-gold'}`}>
-                {isFilterOpen ? <FiX size={14} /> : <FiSliders size={14} />}
-              </div>
-              {isFilterOpen ? 'Close Filters' : 'Filter Selection'}
-            </button>
-            <Editable id="products_count_label" fallback="SIGNATURES">
-              <span className="text-[10px] text-premium-gold/40 font-black uppercase tracking-[0.6em]">{filteredAndSortedProducts.length} Signatures Found</span>
-            </Editable>
-          </div>
+          <Editable id="products_count_label" type="text" fallback="Products">
+            <div className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+              {filteredAndSortedProducts.length} Products
+            </div>
+          </Editable>
 
-          <div className="flex items-center gap-8">
-            <span className="text-[10px] font-black text-premium-gold/30 uppercase tracking-[0.4em]">Chronological Order</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider hidden sm:block">Sort By:</span>
             <div className="relative group">
               <select
-                className="bg-zinc-900 border border-white/10 rounded-none px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white focus:border-premium-gold outline-none cursor-pointer appearance-none min-w-[200px]"
+                className="bg-white border border-gray-300 rounded-sm px-4 py-2 pr-10 text-sm font-semibold uppercase tracking-wider text-gray-700 focus:border-black outline-none cursor-pointer appearance-none"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
-                <option value="latest">Newest Arrivals</option>
+                <option value="latest">Featured</option>
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
-                <option value="name_asc">Alphabetical</option>
+                <option value="name_asc">Alphabetically, A-Z</option>
               </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-premium-gold/50">
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                 <FiSliders size={12} className="rotate-90" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 relative">
-          {/* Filters Sidebar - Exotic Glass */}
-          <div className={`${isFilterOpen ? 'block' : 'hidden'} lg:col-span-1 sticky top-32 h-fit mb-12`}>
-            <div className="space-y-16 p-10 arabesque-border glass-panel">
+        <div className="flex flex-col lg:flex-row gap-8 relative items-start">
+          {/* Filters Sidebar */}
+          <div className={`${isFilterOpen ? 'block' : 'hidden'} lg:block lg:w-64 flex-shrink-0 bg-white p-6 border border-gray-200 rounded-sm lg:sticky lg:top-24 mb-6 lg:mb-0 w-full`}>
+            <div className="space-y-8">
               <div>
-                <h3 className="text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] mb-10 pb-4 border-b border-white/5">Olfactive Search</h3>
+                <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Search</h3>
                 <div className="relative group">
                   <input
                     type="text"
-                    placeholder="Search essences..."
-                    className="w-full bg-white/5 border border-white/5 px-6 py-5 text-[10px] font-black uppercase tracking-widest text-white focus:bg-white/10 focus:border-premium-gold transition-all placeholder:text-white/20"
+                    placeholder="Search products..."
+                    className="w-full bg-gray-50 border border-gray-200 px-4 py-3 text-sm focus:bg-white focus:border-black transition-all rounded-sm"
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                   />
+                  <FiSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 </div>
               </div>
 
               <div>
-                <Editable id="products_filter_family_header" fallback="Fragrance Families">
-                  <h3 className="text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] mb-10 pb-4 border-b border-white/5">Fragrance Families</h3>
+                <Editable id="products_filter_family_header" fallback="Category">
+                  <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Category</h3>
                 </Editable>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   {['Oud', 'Floral', 'Spicy', 'Oriental', 'Fresh'].map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilters({ ...filters, Fragrance_type: filters.Fragrance_type === cat ? '' : cat })}
-                      className={`group flex items-center justify-between text-[10px] font-black uppercase tracking-[0.3em] py-5 px-6 transition-all border ${filters.Fragrance_type === cat ? 'bg-premium-gold border-premium-gold text-premium-black' : 'border-white/5 bg-white/0 hover:bg-white/5 hover:border-premium-gold/30 text-white/40 hover:text-white'
-                        }`}
-                    >
-                      <span>{cat}</span>
-                      {filters.Fragrance_type === cat ? <FiCheck size={14} /> : <div className="w-1 h-1 bg-premium-gold/40 rounded-full group-hover:scale-150 transition-transform"></div>}
-                    </button>
+                    <label key={cat} className="flex items-center gap-3 cursor-pointer group py-1">
+                      <input 
+                        type="checkbox"
+                        checked={filters.Fragrance_type === cat}
+                        onChange={() => setFilters({ ...filters, Fragrance_type: filters.Fragrance_type === cat ? '' : cat })}
+                        className="w-4 h-4 rounded-sm border-gray-300 text-black focus:ring-black cursor-pointer"
+                      />
+                      <span className="text-sm text-gray-600 group-hover:text-black transition-colors">{cat}</span>
+                    </label>
                   ))}
                 </div>
               </div>
 
               <div>
-                <Editable id="products_filter_price_header" fallback="Price Reserve">
-                  <h3 className="text-[11px] font-black text-premium-gold uppercase tracking-[0.6em] mb-10 pb-4 border-b border-white/5">Price Reserve</h3>
+                <Editable id="products_filter_price_header" fallback="Price Range">
+                  <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Price Range</h3>
                 </Editable>
-                <div className="flex flex-col gap-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-3">
-                      <span className="text-[8px] font-black text-premium-gold/30 uppercase tracking-[0.3em] block">Floor (₹)</span>
-                      <input
-                        type="number"
-                        className="w-full bg-white/5 border border-white/5 p-4 text-[10px] font-bold text-white focus:border-premium-gold"
-                        value={filters.price_min}
-                        onChange={(e) => setFilters({ ...filters, price_min: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-3">
-                      <span className="text-[8px] font-black text-premium-gold/30 uppercase tracking-[0.3em] block">Ceiling (₹)</span>
-                      <input
-                        type="number"
-                        className="w-full bg-white/5 border border-white/5 p-4 text-[10px] font-bold text-white focus:border-premium-gold"
-                        value={filters.price_max}
-                        onChange={(e) => setFilters({ ...filters, price_max: e.target.value })}
-                      />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    className="w-full bg-gray-50 border border-gray-200 p-2 text-sm focus:border-black rounded-sm"
+                    value={filters.price_min}
+                    onChange={(e) => setFilters({ ...filters, price_min: e.target.value })}
+                  />
+                  <span className="text-gray-400">-</span>
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    className="w-full bg-gray-50 border border-gray-200 p-2 text-sm focus:border-black rounded-sm"
+                    value={filters.price_max}
+                    onChange={(e) => setFilters({ ...filters, price_max: e.target.value })}
+                  />
                 </div>
               </div>
 
-              <div className="pt-10">
-                <Editable id="products_filter_clear_btn" fallback="Clear Selection">
+              <div className="pt-4">
+                <Editable id="products_filter_clear_btn" fallback="Clear Filters">
                   <button
                     onClick={() => setFilters({ Fragrance_type: '', price_min: '', price_max: '', search: '' })}
-                    className="w-full py-6 bg-premium-black border border-premium-gold/20 text-premium-gold text-[9px] font-black uppercase tracking-[0.5em] hover:bg-premium-gold hover:text-black transition-all duration-700 signature-shimmer"
+                    className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold uppercase tracking-wider transition-colors rounded-sm"
                   >
-                    Reset Archive
+                    Clear Filters
                   </button>
                 </Editable>
               </div>
@@ -181,39 +168,87 @@ export default function ProductsPage() {
           </div>
 
           {/* Products Grid */}
-          <div className={`${isFilterOpen ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
+          <div className="flex-1 w-full relative">
             {loading ? (
-              <div className="flex flex-col items-center justify-center py-60 gap-10">
-                <div className="relative">
-                  <div className="w-24 h-24 border-2 border-premium-gold/5 rounded-full"></div>
-                  <div className="absolute inset-0 w-24 h-24 border-2 border-premium-gold border-t-transparent rounded-full animate-spin"></div>
-                  <div className="absolute inset-4 border border-premium-gold/10 rounded-full animate-pulse"></div>
-                </div>
-                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[1rem] animate-pulse">Distilling Essence...</p>
+              <div className="flex flex-col items-center justify-center py-40">
+                <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
               </div>
             ) : filteredAndSortedProducts.length === 0 ? (
-              <div className="text-center py-60 border border-white/5 bg-white/[0.01] arabesque-border">
-                <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-12 border border-white/10">
-                  <FiX className="text-premium-gold/50 w-8 h-8" />
+              <div className="text-center py-40 bg-white border border-gray-200 rounded-sm">
+                <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <FiX className="text-gray-400 w-6 h-6" />
                 </div>
-                <Editable id="products_empty_state_title" fallback="No matching signatures discovered">
-                  <h3 className="text-4xl imperial-serif text-white mb-6">No matching <br/> signatures discovered</h3>
+                <Editable id="products_empty_state_title" fallback="No products found">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">No products found</h3>
                 </Editable>
-                <Editable id="products_empty_state_desc" fallback="Refine your search parameters">
-                  <p className="text-[10px] font-black text-premium-gold/40 uppercase tracking-[0.6em]">The archive remains silent</p>
+                <Editable id="products_empty_state_desc" fallback="Try removing some filters.">
+                  <p className="text-gray-500">Try removing some filters.</p>
                 </Editable>
               </div>
             ) : (
-              <div className={`grid grid-cols-1 md:grid-cols-2 ${isFilterOpen ? 'xl:grid-cols-3' : 'xl:grid-cols-4'} gap-x-10 gap-y-20 animate-in fade-in duration-1000`}>
-                {filteredAndSortedProducts.map((product: any) => (
-                  <div key={product.id} className="arabesque-border group">
-                    <ProductCard product={product} />
-                  </div>
-                ))}
+              <div className={`grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-6`}>
+                {filteredAndSortedProducts.map((product: any, index: number) => {
+                  const elements = [
+                    <div key={product.id}>
+                        <ProductCard product={product} />
+                    </div>
+                  ];
+
+                  // Promotional Banner Injection after every 9th item (to mimic fragrance finder banner)
+                  if (index === 8) {
+                     elements.push(
+                       <div key={`promo-banner-${index}`} className="col-span-2 md:col-span-2 lg:col-span-3 xl:col-span-3 bg-[#fdf3e7] p-8 md:p-12 my-2 flex flex-col md:flex-row items-center justify-between text-center md:text-left rounded-sm border border-[#e2a868]/20 shadow-sm gap-6">
+                           <div className="flex-1">
+                               <h2 className="text-[#e2a868] text-2xl md:text-3xl font-black uppercase tracking-[0.1em] mb-2 font-inter">FRAGRANCE FINDER</h2>
+                               <p className="text-gray-800 font-medium text-sm md:text-base">Discover your new favourite scents! Match your personality.</p>
+                           </div>
+                           <button className="bg-[#e2a868] hover:bg-[#c9955c] text-white px-8 py-3 text-sm font-bold uppercase tracking-wider transition-colors whitespace-nowrap shadow-md">
+                               SHOP SALE →
+                           </button>
+                       </div>
+                     );
+                  }
+                  return elements;
+                })}
               </div>
             )}
           </div>
         </div>
+        
+        {/* FAQs Section */}
+        <div className="mt-24 border-t border-gray-200 pt-16 pb-24">
+            <Editable id="products_faq_title" type="text" fallback="FAQs">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 font-inter">FAQs</h2>
+            </Editable>
+            
+            <div className="space-y-6 max-w-4xl text-left">
+              <div>
+                 <Editable id="products_faq_1_q" fallback="Where are the products made?">
+                    <h4 className="font-bold text-gray-900 mb-2 text-sm uppercase tracking-wide">Where are the products made?</h4>
+                 </Editable>
+                 <Editable id="products_faq_1_a" type="richtext" fallback="All our products are proudly manufactured using premium ingredients ensuring the best quality.">
+                    <p className="text-gray-600 text-sm leading-relaxed">All our products are proudly manufactured using premium ingredients ensuring the best quality.</p>
+                 </Editable>
+              </div>
+              <div>
+                 <Editable id="products_faq_2_q" fallback="Are your products cruelty-free?">
+                    <h4 className="font-bold text-gray-900 mb-2 text-sm uppercase tracking-wide">Are your products cruelty-free?</h4>
+                 </Editable>
+                 <Editable id="products_faq_2_a" type="richtext" fallback="Yes, we are a 100% cruelty-free brand. We do not test any of our products on animals.">
+                    <p className="text-gray-600 text-sm leading-relaxed">Yes, we are a 100% cruelty-free brand. We do not test any of our products on animals.</p>
+                 </Editable>
+              </div>
+              <div>
+                 <Editable id="products_faq_3_q" fallback="How long do the perfumes last?">
+                    <h4 className="font-bold text-gray-900 mb-2 text-sm uppercase tracking-wide">How long do the perfumes last?</h4>
+                 </Editable>
+                 <Editable id="products_faq_3_a" type="richtext" fallback="Our perfumes usually last up to 6-8 hours depending on your body chemistry and environment.">
+                    <p className="text-gray-600 text-sm leading-relaxed">Our perfumes usually last up to 6-8 hours depending on your body chemistry and environment.</p>
+                 </Editable>
+              </div>
+            </div>
+        </div>
+
       </div>
     </div>
   );
