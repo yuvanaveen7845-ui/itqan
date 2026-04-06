@@ -5,7 +5,11 @@ import Link from 'next/link';
 import { useCMSStore } from '@/store/cms';
 import { FiInstagram, FiFacebook, FiTwitter, FiYoutube } from 'react-icons/fi';
 
+import { usePathname } from 'next/navigation';
+
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith('/admin')) return null;
   const branding = useCMSStore((state) => state.branding);
 
   return (

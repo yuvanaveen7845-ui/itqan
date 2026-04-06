@@ -43,7 +43,7 @@ export default function HomePage() {
       {/* Hero Banner Section */}
       <section className="relative w-full h-[85vh] bg-[#fafafa]">
         <img 
-            src="/hero-collage-new.jpg" 
+            src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=2500" 
             alt="Luxury Perfume" 
             className="w-full h-full object-cover object-center opacity-90"
         />

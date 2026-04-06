@@ -8,7 +8,11 @@ import Link from 'next/link';
 import { useCartStore } from '@/store/cart';
 import { useAuthStore } from '@/store/auth';
 
+import { usePathname } from 'next/navigation';
+
 export default function Header() {
+  const pathname = usePathname();
+  if (pathname.startsWith('/admin')) return null;
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
   
