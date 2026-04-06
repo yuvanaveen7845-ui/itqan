@@ -52,12 +52,12 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         .ant-select-selector { border-color: #f0f0f0 !important; border-radius: 6px !important; }
         .ant-select-selection-item { font-weight: 500; }
         .ant-drawer-title { font-weight: 700; letter-spacing: 0.05em; font-size: 1.1rem; }
-      `}</style>
+      `}} />
       
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 py-5 px-6 md:px-12 flex justify-between items-center">
@@ -196,8 +196,8 @@ export default function ProductsPage() {
                     size="large"
                 >
                     <Option value="featured">Featured Relevance</Option>
-                    <Option value="price_asc">Price: Low to High</option>
-                    <Option value="price_desc">Price: High to Low</option>
+                    <Option value="price_asc">Price: Low to High</Option>
+                    <Option value="price_desc">Price: High to Low</Option>
                     <Option value="popularity">Best Selling</Option>
                 </Select>
             </div>
